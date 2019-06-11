@@ -1,0 +1,132 @@
+#!/usr/bin/env bash
+
+usage() {
+    cat <<EOF
+
+git-infer: Commit your changes with an auto-generated message
+
+usage: git infer [-a] [-A] [-h]
+
+       -a    Include all tracked files
+       -A    Include all files, even the untracked
+       -h    See this help message
+
+EOF
+}
+
+while getopts ":aAh" opt; do
+  case $opt in
+    a)
+      git add -u
+      ;;
+    A)
+      git add .
+      ;;
+    h)
+      usage
+      exit
+      ;;
+  esac
+done
+
+STATUS=$(git status --porcelain | grep -v '^ ' | grep -v '^?')
+
+COMMIT_MSG=$(awk '
+BEGIN {
+  updatedCount = 0;
+  addedCount = 0;
+  deletedCount = 0;
+}
+$1 == "M" {
+  updated[updatedCount] = substr($0, 4);
+  updatedCount += 1
+}
+$1 == "A" || $1 == "??" {
+  added[addedCount] = substr($0, 4);
+  addedCount += 1
+}
+$1 == "D" {
+  deleted[deletedCount] = substr($0, 4);
+  deletedCount += 1
+}
+END {
+  if (updatedCount > 0) {
+    updatedMsg = "";
+    for (i = 0; i + 1 < updatedCount; i++) {
+      updatedMsg = updatedMsg updated[i] ", "
+    };
+    updatedMsg = updatedMsg updated[updatedCount - 1]
+    updatedMsg = "Update " updatedMsg
+  }
+
+  if (addedCount > 0) {
+    addedMsg = "";
+    for (i = 0; i + 1 < addedCount; i++) {
+      addedMsg = addedMsg added[i] ", "
+    };
+    addedMsg = addedMsg added[addedCount - 1]
+    addedMsg = "Add " addedMsg
+  }
+
+  if (deletedCount > 0) {
+    deletedMsg = "";
+    for (i = 0; i + 1 < deletedCount; i++) {
+      deletedMsg = deletedMsg deleted[i] ", "
+    };
+    deletedMsg = deletedMsg deleted[deletedCount - 1]
+    deletedMsg = "Delete " deletedMsg
+  }
+
+  changesCount = 0;
+
+  if (updatedCount > 0) {
+    changesCount += 1
+  }
+
+  if (addedCount > 0) {
+    changesCount += 1
+  }
+
+  if (deletedCount > 0) {
+    changesCount += 1
+  }
+
+  if (changesCount > 1) {
+    printf "Several changes\n\n"
+
+    if (updatedCount > 0) {
+      print updatedMsg
+    }
+
+    if (addedCount > 0) {
+      print addedMsg
+    }
+
+    if (deletedCount > 0) {
+      print deletedMsg
+    }
+  }
+
+  if (changesCount == 1) {
+    if (updatedCount > 0) {
+      print updatedMsg
+    }
+
+    if (addedCount > 0) {
+      print addedMsg
+    }
+
+    if (deletedCount > 0) {
+      print deletedMsg
+    }
+  }
+}
+' <<< "$STATUS")
+
+if [ -z "${COMMIT_MSG}" ]
+then
+  echo "git-infer: Nothing added, updated or deleted"
+  exit 1
+fi
+
+git commit -m "${COMMIT_MSG}"
