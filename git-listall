@@ -1,0 +1,43 @@
+#!/usr/bin/env bash
+set -Eeuxo pipefail
+
+usage() {
+    cat <<EOF
+
+git-la: lists four commits from each of list of branches, or from all branches
+
+USAGE:
+    git la
+        List the most recent four commits from every branch in the repository
+
+    git la br1 br2 br3
+        List the most recent four commits for branches br1, br2, br3
+
+EOF
+}
+
+git diff-index --quiet HEAD --
+was_clear=$?
+
+if [ ! was_clear ]; then
+    git stash
+fi
+
+if [[ $1 ]] ; then
+    branches=$@
+else
+    branches=`git branch | sed -e 's/*//' | xargs echo`
+fi
+
+original_branch=`git symbolic-ref --short HEAD`
+
+for branch in $branches ; do
+    git checkout $branch 1> /dev/null \
+      && git --no-pager log --oneline -4 --date=human \
+      && echo
+done
+
+git checkout $original_branch
+if [ ! was_clear ]; then
+    git stash pop > /dev/null
+fi

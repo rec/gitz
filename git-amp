@@ -1,0 +1,34 @@
+#!/usr/bin/env/bash
+set -Eeuxo pipefail
+
+usage() {
+    cat <<EOF
+
+git-amp: AMend only the last commit message and force-Push
+
+    Excellent for fixing a spelling mistake you just made and pushed to
+    a private branch.
+
+    For your protection, git amp will fail with a message if there are any
+    changes in your workspace which would get accidentally mixed into the
+    previous commit.
+
+    git-amp rewrites history.
+    Do not use on any production, public or shared branch.
+
+USAGE:
+    git amp Your new commit message here
+    git amp "It's a commit message (fix #12)"
+
+(You only need quotes if the message includes special characters like
+#, ', ", *, ?)
+
+EOF
+}
+
+if git diff-index --quiet HEAD -- ; then
+    git commit --amend -m "$*" \
+    && git push --force-with-lease
+else
+    echo "ERROR: Changes in your workspace would be overwritten."
+fi
