@@ -1,5 +1,5 @@
-#!/usr/bin/env/bash
-set -Eeuxo pipefail
+#!/usr/bin/env bash
+set -Eeo pipefail
 
 usage() {
     cat <<EOF
@@ -17,24 +17,23 @@ environment variable _GITZ_REMOTE
 EOF
 }
 
+while getopts ":h" opt; do
+  case $opt in
+    h)
+      usage ; exit ; ;;
+  esac
+done
+
 if [[ -z "$1" ]] ; then
     echo "Usage: gmove <to-branch>"
     exit 1
 fi
 
 remote=${_GITZ_REMOTE:-origin}
-branch=`git symbolic-ref --short HEAD`
-
-if [[ "$2" ]] ; then
-    from=$1
-    to=$2
-else
-    from=$branch
-    to=$1
-fi
+from=`git symbolic-ref --short HEAD`
+to=$1
 
 git pull
 git branch -m $from $to
 git push --set-upstream $remote $to
-
 git push $remote :$from

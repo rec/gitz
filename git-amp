@@ -1,5 +1,5 @@
-#!/usr/bin/env/bash
-set -Eeuxo pipefail
+#!/usr/bin/env bash
+set -Eeuo pipefail
 
 usage() {
     cat <<EOF
@@ -18,13 +18,20 @@ git-amp: AMend the last commit message and force-Push
 
 USAGE:
     git amp Your new commit message here
-    git amp "It's a commit message (fix #12)"
+    git amp "It's a commit message! (fix #12?)"
 
-(You only need quotes if the message includes special characters like
-#, ', ", *, ?)
+(You need quotes if the message includes special shell characters like
+#, ', ", *, ?, !)
 
 EOF
 }
+
+while getopts ":h" opt; do
+  case $opt in
+    h)
+      usage ; exit ; ;;
+  esac
+done
 
 if ! git diff-index --quiet HEAD -- ; then
     echo "ERROR: Changes in your workspace would be overwritten."
