@@ -1,43 +1,67 @@
-#!/usr/bin/env bash
-set -Eeuxo pipefail
+#!/usr/bin/env python3
 
-usage() {
-    cat <<EOF
+import argparse
+import subprocess
+import sys
 
-git-la: lists four commits from each of list of branches, or from all branches
+USAGE = """
+git-listall: lists recent commits from some or all branches
 
-USAGE:
-    git la
-        List the most recent four commits from every branch in the repository
+Examples:
+    git listall
+        List the four most recent commits from every branch in the repository
 
-    git la br1 br2 br3
+    git listall br1 br2 br3
         List the most recent four commits for branches br1, br2, br3
 
-EOF
-}
+    git listall -1
+    git listall -c 1
+    git listall --commit-count=1
+        List the most recent commit from every branch in the repository
+"""
 
-git diff-index --quiet HEAD --
-was_clear=$?
+def _git(*cmd, **kwds):
+    out = subprocess.check_output(('git',) + cmd, **kwds)
+    lines = out.decode('utf-8').splitlines()
+    return (i for i in lines if i.strip())
 
-if [ ! was_clear ]; then
-    git stash
-fi
 
-if [[ $1 ]] ; then
-    branches=$@
-else
-    branches=`git branch | sed -e 's/*//' | xargs echo`
-fi
+if '-h' in sys.argv:
+    print(USAGE)
+    print()
 
-original_branch=`git symbolic-ref --short HEAD`
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    '-c',
+    '--commit-count',
+    default=4,
+    help='Number of commits per branch to show',
+    type=int,
+)
+parser.add_argument(
+    'branch',
+    nargs='*',
+    help='Branches to list if non-empty, otherwise list all branches',
+)
 
-for branch in $branches ; do
-    git checkout $branch 1> /dev/null \
-      && git --no-pager log --oneline -4 --date=human \
-      && echo
-done
+# Special case to handle -# arguments
+argv = []
+for i in sys.argv[1:]:
+    if i.startswith('-') and i[1:].isnumeric():
+        argv.extend(('-c', i[1:]))
+    else:
+        argv.append(i)
 
-git checkout $original_branch
-if [ ! was_clear ]; then
-    git stash pop > /dev/null
-fi
+args = parser.parse_args(argv)
+
+if args.branch:
+    branches = args.branch
+else:
+    branches = [b.strip().replace('* ', '') for b in _git('branch')]
+
+cc_flag = '-%d' % args.commit_count
+for branch in branches:
+    print(branch + ':')
+    for commit in _git('log', '--oneline', cc_flag, branch):
+        print(' ', commit)
+    print()

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 
 import os
-import sys
 import subprocess
+import sys
 import traceback
 
 USAGE = """
@@ -25,7 +25,9 @@ Tip:
 """
 
 def git(*cmd, **kwds):
-    return subprocess.check_output(('git',) + cmd, **kwds)
+    out = subprocess.check_output(('git',) + cmd, **kwds)
+    lines = out.decode('utf-8').splitlines()
+    return (i for i in lines if i.strip())
 
 
 def main():
@@ -38,12 +40,7 @@ def main():
     splits = 0
     lines = git('status', '--porcelain')
 
-    try:
-        lines = lines.decode()
-    except:
-        pass
-
-    for line in lines.splitlines():
+    for line in lines:
         mode, filename = line.split(None, 1)
 
         # Renaming is a special case with two files on a line
@@ -58,7 +55,6 @@ def main():
         except:
             print('ERROR: couldn\'t commit filename %s.' % filename)
             traceback.print_exc()
-            print('ERROR:')
 
     print('%d commit%s generated' % (splits, '' if splits == 1 else 's'))
 

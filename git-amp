@@ -4,7 +4,7 @@ set -Eeuxo pipefail
 usage() {
     cat <<EOF
 
-git-amp: AMend only the last commit message and force-Push
+git-amp: AMend the last commit message and force-Push
 
     Excellent for fixing a spelling mistake you just made and pushed to
     a private branch.
@@ -26,9 +26,10 @@ USAGE:
 EOF
 }
 
-if git diff-index --quiet HEAD -- ; then
-    git commit --amend -m "$*" \
-    && git push --force-with-lease
-else
+if ! git diff-index --quiet HEAD -- ; then
     echo "ERROR: Changes in your workspace would be overwritten."
+    exit 1
 fi
+
+git commit --amend -m "$*"
+git push --force-with-lease
