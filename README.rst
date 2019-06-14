@@ -1,11 +1,13 @@
 🗜 gitz - tiny useful git commands, some dangerous 🗜
 -------------------------------------------------------------------
 
-This is a collection of eight little git utilities, each of which does one
+This is a collection of nine little git utilities, each of which does one
 useful thing well.
 
-Three of them come from scattered open source repositories which I grabbed,
-and the other five only exist here.
+* Five only exist here
+* Two come from other git repos
+* One came from a chat on Reddit
+* One of them I don't know where it came from
 
 Three of them use Python 3, the rest use Bash.
 
@@ -24,6 +26,10 @@ Commands that don't rewrite history.
   Commit changes with an auto-generated message
   (from https://github.com/moondewio/git-infer)
 
+``git-ls``
+  Like ``ls`` but shows git info, with good use of color
+  (from ??)
+
 ``git-listall``
   List recent commits for multiple branches (Python)
 
@@ -38,8 +44,8 @@ Commands that don't rewrite history.
 Dangerous commands
 ====================
 
-These commands rewrite history extensively and are intended for rapid
-development on at on private branches only.
+These commands rewrite history and are intended for rapid development on private
+branches.
 
 ``git-amp``
   AMend the last commit message and force-Push, somewhat safely
