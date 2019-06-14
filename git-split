@@ -6,23 +6,22 @@ import sys
 import traceback
 
 USAGE = """
-git-split:
+git-split:  Split a range of commits into many single-file commits
 
-    Split the staging area into individual changes.
-
-    Creates a series of commits - one for each new, modified, renamed or
-    deleted file. Great for splitting up a larger commit before rebasing it
-    down into smaller commits.
+`git-split` squashes together a range of commits and the staging area, then
+splits out a sequence of individual commits, one for each file changed.
 
 Usage:
     git-split
+        Splits the staging area if it's not empty, otherwise HEAD
 
-Tip:
+    git-split HEAD
+        Splits the squash of the staging area and HEAD
 
-    git reset --soft HEAD~ && git split
-
- will split your most recent commit into individual file changes.
+    git-split HEAD~
+        Splits the squash of the staging area, HEAD and HEAD~
 """
+
 
 def git(*cmd, **kwds):
     out = subprocess.check_output(('git',) + cmd, **kwds)
@@ -30,12 +29,28 @@ def git(*cmd, **kwds):
     return (i for i in lines if i.strip())
 
 
-def main():
+def cd_git_root():
     while not os.path.isdir('.git'):
         parent = os.path.dirname(os.getcwd())
         if parent == os.getcwd():
             raise ValueError('Not in a git directory')
         os.chdir(parent)
+
+
+def clean_workspace():
+    try:
+        return git('diff-index', '--quiet', 'HEAD', '--') or True
+    except Exception:
+        return False
+
+
+def main(commit=None):
+    cd_git_root()
+
+    if commit is not None:
+        git('reset', commit + '~')
+    elif clean_workspace():
+        git('reset', 'HEAD~')
 
     splits = 0
     lines = git('status', '--porcelain')
@@ -52,7 +67,7 @@ def main():
             git('commit', '-m', '[split] %s' % filenames[0], *filenames)
             splits += 1
 
-        except:
+        except Exception:
             print('ERROR: couldn\'t commit filename %s.' % filename)
             traceback.print_exc()
 
@@ -62,4 +77,4 @@ def main():
 if any(h in sys.argv for h in ('-h', '--help')):
     print(USAGE)
 else:
-    main()
+    main(*sys.argv[1:])
