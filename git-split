@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-import os
-import subprocess
+from common import git, cd_git_root, clean_workspace
 import sys
 import traceback
 
@@ -21,27 +20,6 @@ Usage:
     git-split HEAD~
         Splits the squash of the staging area, HEAD and HEAD~
 """
-
-
-def git(*cmd, **kwds):
-    out = subprocess.check_output(('git',) + cmd, **kwds)
-    lines = out.decode('utf-8').splitlines()
-    return (i for i in lines if i.strip())
-
-
-def cd_git_root():
-    while not os.path.isdir('.git'):
-        parent = os.path.dirname(os.getcwd())
-        if parent == os.getcwd():
-            raise ValueError('Not in a git directory')
-        os.chdir(parent)
-
-
-def clean_workspace():
-    try:
-        return git('diff-index', '--quiet', 'HEAD', '--') or True
-    except Exception:
-        return False
 
 
 def main(commit=None):

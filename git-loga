@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
-
-import argparse
-import subprocess
-import sys
+from common import git
+from common import run
 
 USAGE = """
 git-loga: Log recent commits from some or all branches
@@ -21,48 +19,26 @@ Examples:
 """
 
 
-def _git(*cmd, **kwds):
-    out = subprocess.check_output(('git',) + cmd, **kwds)
-    lines = out.decode('utf-8').splitlines()
-    return (i for i in lines if i.strip())
+def add_arguments(parser):
+    parser.add_argument(
+        'branch',
+        nargs='*',
+        help='Branches to list if non-empty, otherwise list all branches',
+    )
 
 
-if '-h' in sys.argv:
-    print(USAGE)
-    print()
-
-parser = argparse.ArgumentParser()
-parser.add_argument(
-    '-c',
-    '--commit-count',
-    default=4,
-    help='Number of commits per branch to show',
-    type=int,
-)
-parser.add_argument(
-    'branch',
-    nargs='*',
-    help='Branches to list if non-empty, otherwise list all branches',
-)
-
-# Special case to handle -# arguments
-argv = []
-for i in sys.argv[1:]:
-    if i.startswith('-') and i[1:].isnumeric():
-        argv.extend(('-c', i[1:]))
+def main(args):
+    if args.branch:
+        branches = args.branch
     else:
-        argv.append(i)
+        branches = [b.strip().replace('* ', '') for b in git('branch')]
 
-args = parser.parse_args(argv)
+    cc_flag = '-%d' % args.commit_count
+    for branch in branches:
+        print(branch + ':')
+        for commit in git('log', '--oneline', cc_flag, branch):
+            print(' ', commit)
+        print()
 
-if args.branch:
-    branches = args.branch
-else:
-    branches = [b.strip().replace('* ', '') for b in _git('branch')]
 
-cc_flag = '-%d' % args.commit_count
-for branch in branches:
-    print(branch + ':')
-    for commit in _git('log', '--oneline', cc_flag, branch):
-        print(' ', commit)
-    print()
+run(USAGE, add_arguments, main)
