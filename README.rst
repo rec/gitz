@@ -1,10 +1,10 @@
 🗜 gitz - tiny useful git commands, some dangerous 🗜
 -------------------------------------------------------------------
 
-This is a collection of ten little git utilities, each of which does one
+This is a collection of eleven little git utilities, each of which does one
 useful thing well.
 
-* Six only exist here
+* Seven only exist here
 * Two come from other git repos
 * One came from a chat on Reddit
 * One of them I don't know where it came from
@@ -30,8 +30,11 @@ Commands that don't rewrite history.
   Like ``ls`` but shows git info, with good use of color
   (from ??)
 
-``git-listall``
-  List recent commits for multiple branches (Python)
+``git-loga``
+  List recent commits for multiple branches
+
+``git-logr``
+  List recent commits for multiple repositories
 
 ``git-open``
   Opens the GitHub page for a repo/branch in your browser
@@ -57,7 +60,7 @@ branches.
   Renames a git branch _and_ its remote branch
 
 ``git-snip``
-  Delete one or more commits by commit id or position (Python)
+  Delete one or more commits by commit id or position
 
 ``git-split``
-  Split a commit into individual changes, one per file (Python)
+  Split a commit into individual changes, one per file

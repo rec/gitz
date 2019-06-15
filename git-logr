@@ -7,9 +7,15 @@ git-logr: Log recent commits from multiple repositories
 
     git logr repo [..repo]
 
+If the -a/--all-branches flag is set, list all branches for
+each repository
+
 Examples:
     git logr r1 r2
         List the four most recent commits from r1 and r2
+
+    git logr r1 r2 -a
+        List the four most recent commits for each branch from r1 and r2
 
     git logr -1 r1 r2
     git logr -c 1  r1 r2
@@ -20,6 +26,12 @@ Examples:
 
 def add_arguments(parser):
     parser.add_argument('repo', nargs='+', help='Repos to list')
+    parser.add_argument(
+        '-a',
+        '--all-branches',
+        action='store_true',
+        help='List commits for all buffers in all repos',
+    )
 
 
 def git_logr(args):
@@ -29,10 +41,18 @@ def git_logr(args):
         os.chdir(repo)
         try:
             _gitz.cd_git_root()
-            print('%s: (%s)' % (repo, _gitz.current_branch()))
-            for commit in _gitz.git('log', '--oneline', cc_flag):
-                print(' ', commit)
-            print()
+            if args.all_branches:
+                print('%s:' % repo)
+                for branch in _gitz.branches():
+                    print('  (%s)' % branch)
+                    for commit in _gitz.git('log', '--oneline', cc_flag, branch):
+                        print('   ', commit)
+                    print()
+            else:
+                print('%s: (%s)' % (repo, _gitz.current_branch()))
+                for commit in _gitz.git('log', '--oneline', cc_flag):
+                    print(' ', commit)
+                print()
 
         finally:
             os.chdir(cwd)
