@@ -29,6 +29,4 @@ def git_rot(delta='1'):
     _gitz.git('checkout', branches[pos % len(branches)])
 
 
-argv = _gitz.get_argv()
-if not _gitz.get_help(argv, USAGE):
-    git_rot(*argv)
+_gitz.run_argv(USAGE, git_rot)

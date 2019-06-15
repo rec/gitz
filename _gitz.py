@@ -12,10 +12,12 @@ def git(*cmd, **kwds):
 
 
 def cd_git_root():
+    cwd = os.getcwd()
     while not os.path.isdir('.git'):
         parent = os.path.dirname(os.getcwd())
         if parent == os.getcwd():
-            raise ValueError('Not in a git directory')
+            os.chdir(cwd)
+            raise ValueError('Not a git directory: %s' % cwd)
         os.chdir(parent)
 
 
@@ -24,6 +26,14 @@ def clean_workspace():
         return git('diff-index', '--quiet', 'HEAD', '--') or True
     except Exception:
         return False
+
+
+def branches():
+    return [b.strip().replace('* ', '') for b in git('branch')]
+
+
+def current_branch():
+    return next(git('symbolic-ref', '--short', 'HEAD')).strip()
 
 
 def get_argv():
@@ -65,9 +75,7 @@ def commit_count(add_arguments, usage=None, commit_count=4):
     return args
 
 
-def branches():
-    return [b.strip().replace('* ', '') for b in git('branch')]
-
-
-def current_branch():
-    return next(git('symbolic-ref', '--short', 'HEAD')).strip()
+def run_argv(usage, main):
+    argv = get_argv()
+    if not get_help(argv, USAGE):
+        main(*argv)

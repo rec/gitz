@@ -1,10 +1,10 @@
 🗜 gitz - tiny useful git commands, some dangerous 🗜
 -------------------------------------------------------------------
 
-This is a collection of nine little git utilities, each of which does one
+This is a collection of ten little git utilities, each of which does one
 useful thing well.
 
-* Five only exist here
+* Six only exist here
 * Two come from other git repos
 * One came from a chat on Reddit
 * One of them I don't know where it came from
@@ -36,6 +36,9 @@ Commands that don't rewrite history.
 ``git-open``
   Opens the GitHub page for a repo/branch in your browser
   (from https://github.com/paulirish/git-open)
+
+``git-rot``
+  Rotates forward or backward in the branch list
 
 ``git-st``
   Pretty, compact alternative to ``git-status`` (from

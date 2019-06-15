@@ -21,7 +21,7 @@ Usage:
 """
 
 
-def main(commit=None):
+def git_split(commit=None):
     _gitz.cd_git_root()
 
     if commit is not None:
@@ -51,6 +51,4 @@ def main(commit=None):
     print('%d commit%s generated' % (splits, '' if splits == 1 else 's'))
 
 
-argv = _gitz.get_argv()
-if not _gitz.get_help(argv, USAGE):
-    main(*argv)
+_gitz.run_argv(USAGE, git_split)
