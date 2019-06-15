@@ -5,20 +5,21 @@ import subprocess
 import sys
 
 USAGE = """
-git-listall: lists recent commits from some or all branches
+git-loga: Log recent commits from some or all branches
 
 Examples:
-    git listall
+    git loga
         List the four most recent commits from every branch in the repository
 
-    git listall br1 br2 br3
+    git loga br1 br2 br3
         List the most recent four commits for branches br1, br2, br3
 
-    git listall -1
-    git listall -c 1
-    git listall --commit-count=1
+    git loga -1
+    git loga -c 1
+    git loga --commit-count=1
         List the most recent commit from every branch in the repository
 """
+
 
 def _git(*cmd, **kwds):
     out = subprocess.check_output(('git',) + cmd, **kwds)
