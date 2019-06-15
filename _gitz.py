@@ -26,28 +26,48 @@ def clean_workspace():
         return False
 
 
-def run(usage, add_arguments, main):
-    if '-h' in sys.argv:
-        print(USAGE)
+def get_argv():
+    return ['-h' if i == '--help' else i for i in sys.argv[1:]]
+
+
+def get_help(argv, usage=None):
+    argv[:] = ['-h' if i == '--help' else i for i in argv]
+    if '-h' in argv:
+        usage and print(usage)
         print()
+        return True
+
+
+def numeric_flags(argv, flag):
+    for i in argv:
+        if i.startswith('-') and i[1:].isnumeric():
+            yield flag
+            yield i[1:]
+        else:
+            yield i
+
+
+def commit_count(add_arguments, usage=None, commit_count=4):
+    argv = get_argv()
+    get_help(argv, usage)
 
     parser = argparse.ArgumentParser()
     add_arguments(parser)
     parser.add_argument(
         '-c',
         '--commit-count',
-        default=4,
+        default=commit_count,
         help='Number of commits per branch to show',
         type=int,
     )
 
-    # Special case to handle -# arguments
-    argv = []
-    for i in sys.argv[1:]:
-        if i.startswith('-') and i[1:].isnumeric():
-            argv.extend(('-c', i[1:]))
-        else:
-            argv.append(i)
+    args = parser.parse_args(list(numeric_flags(argv, '-c')))
+    return args
 
-    args = parser.parse_args(argv)
-    main(args)
+
+def branches():
+    return [b.strip().replace('* ', '') for b in git('branch')]
+
+
+def current_branch():
+    return next(git('symbolic-ref', '--short', 'HEAD')).strip()
