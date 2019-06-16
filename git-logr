@@ -45,7 +45,8 @@ def git_logr(args):
                 print('%s:' % repo)
                 for branch in _gitz.branches():
                     print('  (%s)' % branch)
-                    for commit in _gitz.git('log', '--oneline', cc_flag, branch):
+                    commits = _gitz.git('log', '--oneline', cc_flag, branch)
+                    for commit in commits:
                         print('   ', commit)
                     print()
             else:

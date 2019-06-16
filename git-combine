@@ -1,0 +1,91 @@
+#!/usr/bin/env python3
+import _gitz
+
+USAGE = """
+git-combine: Combines multiple commit IDs together using cherry picking
+
+Usage:
+    git-combine <base-commit> [<additional-commit> ...<additional-commit>]
+        [--force-push | -f] [--preserve-conflict | -p] [--stash | -s]
+
+
+Hard-resets to <base-commit> then successively cherry-picks the additional
+commit IDs on top
+
+If the --force-push / -f flag is set, on successful completion the branch is
+force-pushed using --force-with-lease.
+
+If there are any uncommitted changes in the workspace ``git-combine`` will
+fail, unless the --stash / -s flag is set, when uncommited changes are stashed.
+
+By default, if there is an error in the cherry-picking, it is reported,
+and then the branch gets reverted to where it was before ``git-combine``
+started before the script errors... unless the --preserve-conflict / -p flag
+is set, in which case the branch stays right at the broken cherry-pick.
+
+Examples:
+    git chp master d2dfe0c a2833bc
+        Goes to the commit in `master` and then cherry picks the two commits
+        d2dfe0c and a2833bc on top of it.
+
+    git chp --force-push master d2dfe0c a2833bc
+    git chp -f master d2dfe0c a2833bc
+        The same, but force-push the result over the current branch
+        (not master).
+
+    git chp -p HEAD x-branch
+    git chp --preserve-conflict HEAD x-branch
+        Basically the same as ``git cherry-pick x-branch``
+
+    git chp -s HEAD x-branch
+        Something like ``git stash; git cherry-pick x-branch`` except that
+        any changes are stashed, and if the cherry-pick fails, the state is
+        reverted including the stash popped
+
+"""
+
+UNCOMMITTED_ERROR = """
+Uncommitted changes would be overwritten.
+
+(Use git combine --stash or -s to stash changes automatically)
+"""
+
+
+def git_chp(args):
+    _gitz.VERBOSE = args.verbose
+    commit_id = _gitz.current_commit_id()
+    stash = not _gitz.clean_workspace()
+    if stash:
+        if not args.stash:
+            raise ValueError(UNCOMMITTED_ERROR)
+        _gitz.pgit('stash')
+    try:
+        _gitz.pgit('reset', '--hard', args.base[0])
+        for id in args.commit_id:
+            _gitz.pgit('cherry-pick', id)
+        if args.force_push:
+            _gitz.pgit('push', '--force-with-lease')
+    except Exception:
+        if not args.preserve_conflict:
+            _gitz.pgit('reset', '--hard', commit_id)
+            if stash:
+                _gitz.pgit('stash', 'pop')
+        raise
+
+
+def add_arguments(parser):
+    add_arg = parser.add_argument
+    add_arg('base', nargs=1, help='Base commit to combine from')
+    add_arg('commit_id', nargs='+', help='List of commit IDs to cherry pick')
+
+    boolean_flags = (
+        ('force-push', 'Force push on success'),
+        ('preserve-conflict', 'Do not revert the workspace on failure'),
+        ('stash', 'Automatically stash any changes'),
+        ('verbose', 'Report all git messages'),
+    )
+    for flag, help in boolean_flags:
+        add_arg('-' + flag[0], '--' + flag, action='store_true', help=help)
+
+
+_gitz.run_argparse(add_arguments, USAGE, git_chp)

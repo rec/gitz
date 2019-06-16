@@ -4,11 +4,22 @@ import os
 import subprocess
 import sys
 
+VERBOSE = False
+
 
 def git(*cmd, **kwds):
+    cmd = ('git',) + cmd
+    if VERBOSE:
+        print('$', *cmd)
     out = subprocess.check_output(('git',) + cmd, **kwds)
     lines = out.decode('utf-8').splitlines()
     return (i for i in lines if i.strip())
+
+
+def pgit(*cmd, **kwds):
+    for line in git(*cmd, **kwds):
+        if VERBOSE:
+            print(line)
 
 
 def cd_git_root():
@@ -34,6 +45,10 @@ def branches():
 
 def current_branch():
     return next(git('symbolic-ref', '--short', 'HEAD')).strip()
+
+
+def current_commit_id():
+    return next(git('rev-parse', 'HEAD')).strip()
 
 
 def get_argv():
@@ -71,11 +86,20 @@ def commit_count(add_arguments, usage=None, commit_count=4):
         type=int,
     )
 
-    args = parser.parse_args(list(numeric_flags(argv, '-c')))
-    return args
+    return parser.parse_args(list(numeric_flags(argv, '-c')))
+
+
+def run_argparse(add_arguments, usage, main):
+    argv = get_argv()
+    get_help(argv, usage)
+
+    parser = argparse.ArgumentParser()
+    add_arguments(parser)
+
+    main(parser.parse_args(list(argv)))
 
 
 def run_argv(usage, main):
     argv = get_argv()
-    if not get_help(argv, USAGE):
+    if not get_help(argv, usage):
         main(*argv)
