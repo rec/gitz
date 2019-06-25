@@ -9,7 +9,7 @@ import sys
 
 COMMANDS = 'list', 'write'
 PYTHON_HASH_BANG = '#!/usr/bin/env python'
-BASE = Path('single_file/')
+BASE = Path('single_files/')
 EXECUTABLE = stat.S_IXUSR | stat.S_IXGRP | stat.S_IXOTH
 TIMESTAMP_FORMAT = ' at %H:%M:%S'
 AUTOGEN = """
