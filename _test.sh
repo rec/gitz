@@ -2,7 +2,7 @@
 
 set -Eeuo pipefail
 
-FILES=`python3 single_file/_single_file.py list`
+FILES=`./_make_single_files list`
 
 black -l 79 -S _gitz.py $FILES
 flake8 _gitz.py $FILES
