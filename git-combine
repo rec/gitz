@@ -30,20 +30,20 @@ started before the script errors... unless the --preserve-conflict / -p flag
 is set, in which case the branch stays right at the broken cherry-pick.
 
 Examples:
-    git chp master d2dfe0c a2833bc
+    git combine master d2dfe0c a2833bc
         Goes to the commit in `master` and then cherry picks the two commits
         d2dfe0c and a2833bc on top of it.
 
-    git chp --force-push master d2dfe0c a2833bc
-    git chp -f master d2dfe0c a2833bc
+    git combine --force-push master d2dfe0c a2833bc
+    git combine -f master d2dfe0c a2833bc
         The same, but force-push the result over the current branch
         (not master).
 
-    git chp -p HEAD x-branch
-    git chp --preserve-conflict HEAD x-branch
+    git combine -p HEAD x-branch
+    git combine --preserve-conflict HEAD x-branch
         Basically the same as ``git cherry-pick x-branch``
 
-    git chp -s HEAD x-branch
+    git combine -s HEAD x-branch
         Something like ``git stash; git cherry-pick x-branch`` except that
         any changes are stashed, and if the cherry-pick fails, the state is
         reverted including the stash popped

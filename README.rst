@@ -56,6 +56,9 @@ branches.
 ``git-amp``
   AMend the last commit message and force-Push, somewhat safely
 
+``git-combine``
+  Combines multiple commit IDs together using cherry picking
+
 ``git-rename``
   Renames a git branch _and_ its remote branch
 
