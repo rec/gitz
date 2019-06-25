@@ -17,10 +17,17 @@ There's a summary of what each command does below - for more details use
 
     git <command> -h
 
-Safe commands
-===============
+How to install
+================
 
-Commands that don't rewrite history.
+Download and unzip
+`this directory
+<https://github.com/rec/gitz/archive/master.zip>`_,
+then put that directory's path into the ``PATH`` environment variable.
+
+
+Safe commands (that don't rewrite history)
+=============================================
 
 ``git-loga``
   List recent commits for multiple branches
@@ -47,14 +54,14 @@ Commands that don't rewrite history.
   Pretty, compact alternative to ``git-status``
   (from https://www.reddit.com/user/ex1c)
 
-Dangerous commands
-====================
+Dangerous commands (that do rewrite history)
+==============================================
 
-These commands rewrite history and are intended for rapid development on private
-branches.
+These commands are not intended for use on a shared or production branch,
+but can significantly speed up rapid development on private branches.
 
 ``git-amp``
-  AMend the last commit message and force-Push, somewhat safely
+  AMend just the last commit message and force-Push, somewhat safely
 
 ``git-combine``
   Combines multiple commit IDs together using cherry picking
@@ -67,16 +74,3 @@ branches.
 
 ``git-split``
   Split a commit into individual changes, one per file
-
-
-How to install
------------------
-
-Start by downloading and unzipping this directory.
-
-If you want to install all the gitz tools, simply put the directory into your
-``PATH``.
-
-If you just want to install a few tools, open the directory named
-``single_file/``, drag just the tools you want somewhere into your ``PATH``,
-throw away the rest, and you're ready to go.
