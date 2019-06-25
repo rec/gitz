@@ -41,4 +41,5 @@ def git_snip(*args):
         _gitz.git('rebase', 'HEAD~%d' % i, '--onto', 'HEAD~%d' % (i + 1))
 
 
-_gitz.run_argv(USAGE, git_snip)
+if __name__ == '__main__':
+    _gitz.run_argv(USAGE, git_snip)

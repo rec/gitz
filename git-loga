@@ -35,5 +35,6 @@ def main(args):
         print()
 
 
-args = _gitz.commit_count(add_arguments, USAGE)
-main(args)
+if __name__ == '__main__':
+    args = _gitz.commit_count(add_arguments, USAGE)
+    main(args)

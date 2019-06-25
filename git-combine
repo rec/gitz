@@ -88,4 +88,5 @@ def add_arguments(parser):
         add_arg('-' + flag[0], '--' + flag, action='store_true', help=help)
 
 
-_gitz.run_argparse(add_arguments, USAGE, git_chp)
+if __name__ == '__main__':
+    _gitz.run_argparse(add_arguments, USAGE, git_chp)

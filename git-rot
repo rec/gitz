@@ -29,4 +29,5 @@ def git_rot(delta='1'):
     _gitz.git('checkout', branches[pos % len(branches)])
 
 
-_gitz.run_argv(USAGE, git_rot)
+if __name__ == '__main__':
+    _gitz.run_argv(USAGE, git_rot)

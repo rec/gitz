@@ -51,4 +51,5 @@ def git_split(commit=None):
     print('%d commit%s generated' % (splits, '' if splits == 1 else 's'))
 
 
-_gitz.run_argv(USAGE, git_split)
+if __name__ == '__main__':
+    _gitz.run_argv(USAGE, git_split)
