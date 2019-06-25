@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
-from _gitz import branches
-from _gitz import cd_git_root
-from _gitz import commit_count
-from _gitz import current_branch
-from _gitz import git
-from _gitz import os
+import _gitz
+import os
 
 USAGE = """
 git-logr: Log recent commits from multiple repositories
@@ -44,18 +40,18 @@ def git_logr(args):
     for repo in args.repo:
         os.chdir(repo)
         try:
-            cd_git_root()
+            _gitz.cd_git_root()
             if args.all_branches:
                 print('%s:' % repo)
-                for branch in branches():
+                for branch in _gitz.branches():
                     print('  (%s)' % branch)
-                    commits = git('log', '--oneline', cc_flag, branch)
+                    commits = _gitz.git('log', '--oneline', cc_flag, branch)
                     for commit in commits:
                         print('   ', commit)
                     print()
             else:
-                print('%s: (%s)' % (repo, current_branch()))
-                for commit in git('log', '--oneline', cc_flag):
+                print('%s: (%s)' % (repo, _gitz.current_branch()))
+                for commit in _gitz.git('log', '--oneline', cc_flag):
                     print(' ', commit)
                 print()
 
@@ -64,5 +60,5 @@ def git_logr(args):
 
 
 if __name__ == '__main__':
-    args = commit_count(add_arguments, USAGE)
+    args = _gitz.commit_count(add_arguments, USAGE)
     git_logr(args)

@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
-from _gitz import argparse
-from _gitz import clean_workspace
-from _gitz import get_argv
-from _gitz import git
-from _gitz import print_help
-from _gitz import verbose
+import _gitz
+import argparse
 
 
 USAGE = """
@@ -60,7 +56,7 @@ Uncommitted changes would be overwritten.
 def git_combine():
     args = _parse_args()
     commit_id = _current_commit_id()
-    stash = not clean_workspace()
+    stash = not _gitz.clean_workspace()
     if stash:
         if not args.stash:
             raise ValueError(UNCOMMITTED_ERROR)
@@ -95,18 +91,18 @@ def _add_arguments(parser):
 
 
 def _current_commit_id():
-    return next(git('rev-parse', 'HEAD')).strip()
+    return next(_gitz.git('rev-parse', 'HEAD')).strip()
 
 
 def _git(*cmd, **kwds):
-    for line in git(*cmd, **kwds):
-        if verbose():
+    for line in _gitz.git(*cmd, **kwds):
+        if _gitz.verbose():
             print(line)
 
 
 def _parse_args():
-    argv = get_argv()
-    print_help(argv, USAGE)
+    argv = _gitz.get_argv()
+    _gitz.print_help(argv, USAGE)
 
     parser = argparse.ArgumentParser()
     _add_arguments(parser)
