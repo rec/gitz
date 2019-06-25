@@ -1,13 +1,13 @@
 🗜 gitz - tiny useful git commands, some dangerous 🗜
 -------------------------------------------------------------------
 
-This is a collection of eleven little git utilities, each of which does one
+This is a collection of a dozen little git utilities, each of which does one
 useful thing well.
 
-* Seven only exist here
+* Eight only exist here
 * Two come from other git repos
 * One came from a chat on Reddit
-* One of them I don't know where it came from
+* I don't know where one of them came from
 
 Three of them use Python 3, the rest use Bash.
 
@@ -41,11 +41,11 @@ Commands that don't rewrite history.
   (from https://github.com/paulirish/git-open)
 
 ``git-rot``
-  Rotates forward or backward in the branch list
+  Changes the current branch by rotating forward or backward in the branch list
 
 ``git-st``
-  Pretty, compact alternative to ``git-status`` (from
-  https://www.reddit.com/user/ex1c)
+  Pretty, compact alternative to ``git-status``
+  (from https://www.reddit.com/user/ex1c)
 
 Dangerous commands
 ====================
