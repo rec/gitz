@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
-
-import _gitz
 import traceback
+from _gitz import cd_git_root
+from _gitz import clean_workspace
+from _gitz import git
+from _gitz import run_argv
 
 USAGE = """
 git-split:  Split a range of commits into many single-file commits
@@ -22,15 +24,15 @@ Usage:
 
 
 def git_split(commit=None):
-    _gitz.cd_git_root()
+    cd_git_root()
 
     if commit is not None:
-        _gitz.git('reset', commit + '~')
-    elif _gitz.clean_workspace():
-        _gitz.git('reset', 'HEAD~')
+        git('reset', commit + '~')
+    elif clean_workspace():
+        git('reset', 'HEAD~')
 
     splits = 0
-    lines = _gitz.git('status', '--porcelain')
+    lines = git('status', '--porcelain')
 
     for line in lines:
         mode, filename = line.split(None, 1)
@@ -40,8 +42,8 @@ def git_split(commit=None):
         filenames = filename.split(' -> ')
         try:
             if mode == '??':
-                _gitz.git('add', *filenames)
-            _gitz.git('commit', '-m', '[split] %s' % filenames[0], *filenames)
+                git('add', *filenames)
+            git('commit', '-m', '[split] %s' % filenames[0], *filenames)
             splits += 1
 
         except Exception:
@@ -52,4 +54,4 @@ def git_split(commit=None):
 
 
 if __name__ == '__main__':
-    _gitz.run_argv(USAGE, git_split)
+    run_argv(USAGE, git_split)

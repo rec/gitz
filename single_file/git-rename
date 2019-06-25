@@ -1,0 +1,39 @@
+#!/usr/bin/env bash
+set -Eeo pipefail
+
+usage() {
+    cat <<EOF
+
+git-rename: Renames a git branch _and_ its remote branch.
+
+USAGE:
+    git rename <to-branch>
+
+Rename the current branch to <to-branch>
+
+By default, the remote is 'origin'.  To change this, set the
+environment variable _GITZ_REMOTE
+
+EOF
+}
+
+while getopts ":h" opt; do
+  case $opt in
+    h)
+      usage ; exit ; ;;
+  esac
+done
+
+if [[ -z "$1" ]] ; then
+    echo "Usage: gmove <to-branch>"
+    exit 1
+fi
+
+remote=${_GITZ_REMOTE:-origin}
+from=`git symbolic-ref --short HEAD`
+to=$1
+
+git pull
+git branch -m $from $to
+git push --set-upstream $remote $to
+git push $remote :$from

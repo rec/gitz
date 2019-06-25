@@ -1,1 +1,0 @@
-git-combine git-loga git-logr git-rot git-snip git-split

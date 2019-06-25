@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-import _gitz
+from _gitz import branches
+from _gitz import git
+from _gitz import commit_count
 
 USAGE = """
 git-loga: Log recent commits from some or all branches
@@ -28,13 +30,13 @@ def add_arguments(parser):
 
 def main(args):
     cc_flag = '-%d' % args.commit_count
-    for branch in args.branch or _gitz.branches():
+    for branch in args.branch or branches():
         print(branch + ':')
-        for commit in _gitz.git('log', '--oneline', cc_flag, branch):
+        for commit in git('log', '--oneline', cc_flag, branch):
             print(' ', commit)
         print()
 
 
 if __name__ == '__main__':
-    args = _gitz.commit_count(add_arguments, USAGE)
+    args = commit_count(add_arguments, USAGE)
     main(args)

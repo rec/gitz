@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import argparse
 import os
 import subprocess
@@ -84,3 +85,65 @@ def run_argv(usage, main):
     argv = get_argv()
     if not print_help(argv, usage):
         main(*argv)
+
+
+USAGE = """
+git-logr: Log recent commits from multiple repositories
+
+    git logr repo [..repo]
+
+If the -a/--all-branches flag is set, list all branches for
+each repository
+
+Examples:
+    git logr r1 r2
+        List the four most recent commits from r1 and r2
+
+    git logr r1 r2 -a
+        List the four most recent commits for each branch from r1 and r2
+
+    git logr -1 r1 r2
+    git logr -c 1  r1 r2
+    git logr --commit-count=1  r1 r2
+        List the most recent one commit from r1 and r2
+"""
+
+
+def add_arguments(parser):
+    parser.add_argument('repo', nargs='+', help='Repos to list')
+    parser.add_argument(
+        '-a',
+        '--all-branches',
+        action='store_true',
+        help='List commits for all buffers in all repos',
+    )
+
+
+def git_logr(args):
+    cc_flag = '-%d' % args.commit_count
+    cwd = os.getcwd()
+    for repo in args.repo:
+        os.chdir(repo)
+        try:
+            cd_git_root()
+            if args.all_branches:
+                print('%s:' % repo)
+                for branch in branches():
+                    print('  (%s)' % branch)
+                    commits = git('log', '--oneline', cc_flag, branch)
+                    for commit in commits:
+                        print('   ', commit)
+                    print()
+            else:
+                print('%s: (%s)' % (repo, current_branch()))
+                for commit in git('log', '--oneline', cc_flag):
+                    print(' ', commit)
+                print()
+
+        finally:
+            os.chdir(cwd)
+
+
+if __name__ == '__main__':
+    args = commit_count(add_arguments, USAGE)
+    git_logr(args)

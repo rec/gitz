@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 import argparse
 import os
 import subprocess
@@ -84,3 +85,42 @@ def run_argv(usage, main):
     argv = get_argv()
     if not print_help(argv, usage):
         main(*argv)
+
+
+USAGE = """
+git-loga: Log recent commits from some or all branches
+
+Examples:
+    git loga
+        List the four most recent commits from every branch in the repository
+
+    git loga br1 br2 br3
+        List the most recent four commits for branches br1, br2, br3
+
+    git loga -1
+    git loga -c 1
+    git loga --commit-count=1
+        List the most recent commit from every branch in the repository
+"""
+
+
+def add_arguments(parser):
+    parser.add_argument(
+        'branch',
+        nargs='*',
+        help='Branches to list if non-empty, otherwise list all branches',
+    )
+
+
+def main(args):
+    cc_flag = '-%d' % args.commit_count
+    for branch in args.branch or branches():
+        print(branch + ':')
+        for commit in git('log', '--oneline', cc_flag, branch):
+            print(' ', commit)
+        print()
+
+
+if __name__ == '__main__':
+    args = commit_count(add_arguments, USAGE)
+    main(args)
