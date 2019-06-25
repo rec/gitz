@@ -22,26 +22,26 @@ Safe commands
 
 Commands that don't rewrite history.
 
-``git-infer``
-  Commit changes with an auto-generated message
-  (from https://github.com/moondewio/git-infer)
-
-``git-ls``
-  Like ``ls`` but shows git info, with good use of color
-  (from ??)
-
 ``git-loga``
   List recent commits for multiple branches
 
 ``git-logr``
   List recent commits for multiple repositories
 
+``git-rot``
+  Changes the current branch by rotating forward or backward in the branch list
+
+``git-ls``
+  Like ``ls`` but shows git info, with good use of color
+  (from an unknown source)
+
+``git-infer``
+  Commit changes with an auto-generated message
+  (from https://github.com/moondewio/git-infer)
+
 ``git-open``
   Opens the GitHub page for a repo/branch in your browser
   (from https://github.com/paulirish/git-open)
-
-``git-rot``
-  Changes the current branch by rotating forward or backward in the branch list
 
 ``git-st``
   Pretty, compact alternative to ``git-status``
@@ -67,3 +67,16 @@ branches.
 
 ``git-split``
   Split a commit into individual changes, one per file
+
+
+How to install
+-----------------
+
+Start by downloading and unzipping this directory.
+
+If you want to install all the gitz tools, simply put the directory into your
+``PATH``.
+
+If you just want to install a few tools, open the directory named
+``single_file/``, drag just the tools you want somewhere into your ``PATH``,
+throw away the rest, and you're ready to go.
