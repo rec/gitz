@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-import _gitz
 from pathlib import Path
 import sys
+import _gitz
+GIT = _gitz.GIT
 
 USAGE = """
 git-all: Perform a command on each of multiple branches or directories
@@ -30,27 +31,26 @@ def git_all(argv):
     with EXIT.on_exception('No command found after - in arguments'):
         command, *args = argv[dash_index + 1:]
 
-    if _gitz.find_git_root(Path()):
-        if not _gitz.clean_workspace():
+    if GIT.find_git_root(Path()):
+        if GIT.is_workspace_d():
             EXIT.exit('Your local changes would be overwritten')
-        branch, branches = _gitz.current_branch(), _gitz.branches()
+        branch, branches = GIT.current_branch(), GIT.branches()
     else:
         branch, branches = None, []
 
     cwd = Path().absolute()
     for name in names or branches:
         if name in branches:
-            _gitz.git('checkout', name)
+            GIT.checkout(name)
             try:
                 pass
             finally:
-                _gitz.git('checkout', branch)
+                GIT.checkout(branch)
 
         else:
             directory = Path(name)
             if not directory.is_dir():
                 EXIT.exit(directory, 'is neither a branch nor a git repository')
-
 
 
 if __name__ == '__main__':

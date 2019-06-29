@@ -1,57 +1,73 @@
 from pathlib import Path
 import argparse
 import contextlib
+import functools
 import os
 import subprocess
 import sys
 
 
-def verbose():
-    return any(a in ('-v', '--verbose') for a in sys.argv)
+class Git:
+    def __init__(self, verbose=None):
+        if verbose == None:
+            self.verbose = any(a in ('-v', '--verbose') for a in sys.argv)
+        else:
+            self.verbose = verbose
+
+    def __getattr__(self, command):
+        return functools.partial(self.git, command)
+
+    def git(self, *cmd, verbose=None, **kwds):
+        if verbose is None:
+            verbose = self.verbose
+        if verbose:
+            print('$ git', *cmd)
+        lines = self._git(*cmd, **kwds):
+        if verbose:
+            print(*lines, sep='')
+        return lines
+
+    def is_workspace_dirty(self):
+        try:
+            self._git('diff-index', '--quiet', 'HEAD', '--')
+        except Exception:
+            return True
+
+    def find_root(self, p):
+        while not self.is_root(p):
+            if p.parent == p:
+                return None
+            p = p.parent
+        return p
+
+    def cd_root(self):
+        root = self.find_root(os.getcwd())
+        if not root:
+            raise ValueError('Working directory is not within a git directory')
+        os.chdir(root)
+
+    def branches(self):
+        return [b.strip().replace('* ', '') for b in self.current_branch()]
+
+    def current_branch(self):
+        return next(self._git('symbolic-ref', '--short', 'HEAD')).strip()
+
+    def commit_id(self):
+        return next(self._git('rev-parse', 'HEAD')).strip()
+
+    def is_root(self, p):
+        return (p / '.git' / config).exists()
+
+    def _run(self, *cmd, **kwds):
+        out = subprocess.check_output(cmd, **kwds)
+        lines = out.decode('utf-8').splitlines()
+        return [i for i in lines if i.strip()]
+
+    def _git(self, *cmd, **kwds):
+        return self._run('git', *cmd, **kwds)
 
 
-def git(*cmd, **kwds):
-    cmd = ('git',) + cmd
-    if verbose():
-        print('$', *cmd)
-    out = subprocess.check_output(('git',) + cmd, **kwds)
-    lines = out.decode('utf-8').splitlines()
-    return (i for i in lines if i.strip())
-
-
-def is_git_dir(p):
-    return (p / '.git' / config).exists()
-
-
-def is_clean_workspace():
-    try:
-        return git('diff-index', '--quiet', 'HEAD', '--') or True
-    except Exception:
-        return False
-
-
-def find_git_root(p):
-    while not is_git_dir(p):
-        if p.parent == p:
-            return None
-        p = p.parent
-    return p
-
-
-def cd_git_root():
-    os.chdir(find_git_root(Path()))
-
-
-def branches():
-    return [b.strip().replace('* ', '') for b in git('branch')]
-
-
-def current_branch():
-    return next(git('symbolic-ref', '--short', 'HEAD')).strip()
-
-
-def current_commit_id():
-    return next(git('rev-parse', 'HEAD')).strip()
+GIT = Git()
 
 
 def get_argv():
@@ -118,16 +134,17 @@ class Exit:
 
 
 @contextlib.contextmanager
-def undo(function, before, after):
-    function(before)
+def undo(getter, setter, value):
+    old_value = getter()
+    setter(value)
     try:
         yield
     finally:
-        function(after)
+        setter(old_value)
 
 """
-with undo(os.chdir, d, os.getcwd()):
+with undo(os.getcwd, os.chdir, directory):
     pass
-with undo(lambda d: _gitz.git('checkout', d), d, os.getcwd()):
+with undo(GIT.branch, GIT.checkout, new_branch):
     pass
 """

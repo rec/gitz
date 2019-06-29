@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
-import _gitz
 import argparse
+import _gitz
+GIT = _gitz.GIT
 
 
 USAGE = """
@@ -55,8 +56,8 @@ Uncommitted changes would be overwritten.
 
 def git_combine():
     args = _parse_args()
-    commit_id = _gitz.current_commit_id()
-    stash = not _gitz.is_clean_workspace()
+    commit_id = GIT.commit_id()
+    stash = GIT.is_workspace_dirty()
     if stash:
         if not args.stash:
             raise ValueError(UNCOMMITTED_ERROR)
@@ -91,8 +92,8 @@ def _add_arguments(parser):
 
 
 def _git(*cmd, **kwds):
-    for line in _gitz.git(*cmd, **kwds):
-        if _gitz.verbose():
+    for line in GIT.git(*cmd, **kwds):
+        if GIT.verbose():
             print(line)
 
 
