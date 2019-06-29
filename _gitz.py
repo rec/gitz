@@ -1,4 +1,6 @@
+from pathlib import Path
 import argparse
+import contextlib
 import os
 import subprocess
 import sys
@@ -17,21 +19,27 @@ def git(*cmd, **kwds):
     return (i for i in lines if i.strip())
 
 
-def cd_git_root():
-    cwd = os.getcwd()
-    while not os.path.isdir('.git'):
-        parent = os.path.dirname(os.getcwd())
-        if parent == os.getcwd():
-            os.chdir(cwd)
-            raise ValueError('Not a git directory: %s' % cwd)
-        os.chdir(parent)
+def is_git_dir(p):
+    return (p / '.git' / config).exists()
 
 
-def clean_workspace():
+def is_clean_workspace():
     try:
         return git('diff-index', '--quiet', 'HEAD', '--') or True
     except Exception:
         return False
+
+
+def find_git_root(p):
+    while not is_git_dir(p):
+        if p.parent == p:
+            return None
+        p = p.parent
+    return p
+
+
+def cd_git_root():
+    os.chdir(find_git_root(Path()))
 
 
 def branches():
@@ -40,6 +48,10 @@ def branches():
 
 def current_branch():
     return next(git('symbolic-ref', '--short', 'HEAD')).strip()
+
+
+def current_commit_id():
+    return next(git('rev-parse', 'HEAD')).strip()
 
 
 def get_argv():
@@ -76,7 +88,6 @@ def commit_count(add_arguments, usage=None, commit_count=4):
         help='Number of commits per branch to show',
         type=int,
     )
-
     return parser.parse_args(list(numeric_flags(argv, '-c')))
 
 
@@ -84,3 +95,39 @@ def run_argv(usage, main):
     argv = get_argv()
     if not print_help(argv, usage):
         main(*argv)
+
+
+class Exit:
+    def __init__(self, usage=None, code=-1):
+        self.usage = usage
+        self.code = code
+
+    def exit(self, *messages):
+        executable = Path(sys.argv[0]).name
+        print('ERROR:', executable + ':', *messages, file=sys.stderr)
+        if self.usage:
+            print(self.usage, file=sys.stderr)
+        sys.exit(self.code)
+
+    @contextlib.contextmanager
+    def on_exception(self, message):
+        try:
+            yield
+        except Exception as exception:
+            self.exit(message.format(**locals()))
+
+
+@contextlib.contextmanager
+def undo(function, before, after):
+    function(before)
+    try:
+        yield
+    finally:
+        function(after)
+
+"""
+with undo(os.chdir, d, os.getcwd()):
+    pass
+with undo(lambda d: _gitz.git('checkout', d), d, os.getcwd()):
+    pass
+"""

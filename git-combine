@@ -55,8 +55,8 @@ Uncommitted changes would be overwritten.
 
 def git_combine():
     args = _parse_args()
-    commit_id = _current_commit_id()
-    stash = not _gitz.clean_workspace()
+    commit_id = _gitz.current_commit_id()
+    stash = not _gitz.is_clean_workspace()
     if stash:
         if not args.stash:
             raise ValueError(UNCOMMITTED_ERROR)
@@ -88,10 +88,6 @@ def _add_arguments(parser):
     )
     for flag, help in boolean_flags:
         add_arg('-' + flag[0], '--' + flag, action='store_true', help=help)
-
-
-def _current_commit_id():
-    return next(_gitz.git('rev-parse', 'HEAD')).strip()
 
 
 def _git(*cmd, **kwds):

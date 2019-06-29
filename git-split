@@ -25,7 +25,7 @@ def git_split(commit=None):
 
     if commit is not None:
         _gitz.git('reset', commit + '~')
-    elif _gitz.clean_workspace():
+    elif _gitz.is_clean_workspace():
         _gitz.git('reset', 'HEAD~')
 
     splits = 0
