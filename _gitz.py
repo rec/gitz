@@ -33,7 +33,7 @@ class Git:
         except Exception:
             return True
 
-    def find_root(self, p):
+    def find_root(self, p=Path()):!
         while not self.is_root(p):
             if p.parent == p:
                 return None
@@ -41,7 +41,7 @@ class Git:
         return p
 
     def cd_root(self):
-        root = self.find_root(os.getcwd())
+        root = self.find_root()
         if not root:
             raise ValueError('Working directory is not within a git directory')
         os.chdir(root)
@@ -67,8 +67,7 @@ GIT = Git()
 
 def run(*cmd, **kwds):
     out = subprocess.check_output(cmd, **kwds)
-    lines = out.decode('utf-8').splitlines()
-    return [i for i in lines if i.strip()]
+    return out.decode('utf-8').splitlines()
 
 
 def get_argv():
@@ -115,9 +114,14 @@ def run_argv(usage, main):
 
 
 class Exit:
-    def __init__(self, usage=None, code=-1):
+    def __init__(self, usage='', code=-1):
         self.usage = usage
         self.code = code
+
+    def exit_on_help(self):
+        if any(a in ('-h', '--help') for a in sys.argv[1:]):
+            print(self.usage or '(no help available)', file=sys.stderr)
+            sys.exit(0)
 
     def exit(self, *messages):
         executable = Path(sys.argv[0]).name
@@ -150,14 +154,5 @@ class SetAndRevert:
             self.setter(old_value)
 
 
-SetAndRevertDirectory = SetAndRevert(os.getcwd, os.chdir)
-SetAndRevertBranch = SetAndRevert(GIT.current_branch, GIT.checkout)
-
-
-"""
-
-with undo(os.getcwd, os.chdir, directory):
-    pass
-with undo(GIT.branch, GIT.checkout, new_branch):
-    pass
-"""
+SetAndRevert.BRANCH = SetAndRevert(GIT.current_branch, GIT.checkout)
+SetAndRevert.DIRECTORY = SetAndRevert(os.getcwd, os.chdir)

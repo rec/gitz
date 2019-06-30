@@ -2,9 +2,9 @@
 from pathlib import Path
 import sys
 import _gitz
-GIT = _gitz.GIT
 
-USAGE = """
+GIT = _gitz.GIT
+EXIT = _gitz.Exit("""
 git-all: Perform a command on each of multiple branches or directories
 
 USAGE:
@@ -18,12 +18,13 @@ EXAMPLES:
     git all - git log --online -5
     git all * - git all - git log --online -5
 
-"""
-
-EXIT = _gitz.Exit(USAGE)
+""")
 
 
-def git_all(argv):
+def git_all():
+    EXIT.exit_on_help()
+    argv = sys.argv[1:]
+
     with EXIT.on_exception('No - found in arguments'):
         dash_index = argv.index('-')
     names = argv[:dash_index]
@@ -31,29 +32,18 @@ def git_all(argv):
     with EXIT.on_exception('No command found after - in arguments'):
         command, *args = argv[dash_index + 1:]
 
-    branches = GIT.branches() if GIT.find_root(Path()) else []
+    branches = GIT.branches() if GIT.find_root() else []
     if branches and GIT.is_workspace_dirty():
         EXIT.exit('Your local changes would be overwritten')
+    names = names or branches
 
-    items, errors = [], []
-    for name in names or branches:
-        if name in branches:
-            items.append((name, _gitz.SetAndRevertBranch))
-        elif Path(name).is_dir():
-            items.append((name, _gitz.SetAndRevertDirectory))
-        else:
-            errors.append(name)
-
+    errors = [n for n in names if not (n in branches or Path(n).is_dir())]
     if errors:
         errors = '"%s"' % '", "'.join(errors)
         verb = 'are' if len(errors) > 1 else 'is'
         EXIT.exit(errors, verb, 'neither a branch nor a git repository')
 
-    for name, set_and_revert in items:
-        with set_and_revert(name):
+    set_and_revert = _gitz.SetAndRevert.DIRECTORY, _gitz.SetAndRevert.BRANCH
+    for name in names:
+        with set_and_revert[name in branches](name):
             _gitz.run(command, *args)
-
-
-
-if __name__ == '__main__':
-    git_all(sys.argv[1:])
