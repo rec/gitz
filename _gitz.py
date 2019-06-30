@@ -58,16 +58,17 @@ class Git:
     def is_root(self, p):
         return (p / '.git' / config).exists()
 
-    def _run(self, *cmd, **kwds):
-        out = subprocess.check_output(cmd, **kwds)
-        lines = out.decode('utf-8').splitlines()
-        return [i for i in lines if i.strip()]
-
     def _git(self, *cmd, **kwds):
-        return self._run('git', *cmd, **kwds)
+        return run('git', *cmd, **kwds)
 
 
 GIT = Git()
+
+
+def run(*cmd, **kwds):
+    out = subprocess.check_output(cmd, **kwds)
+    lines = out.decode('utf-8').splitlines()
+    return [i for i in lines if i.strip()]
 
 
 def get_argv():
@@ -133,16 +134,28 @@ class Exit:
             self.exit(message.format(**locals()))
 
 
-@contextlib.contextmanager
-def undo(getter, setter, value):
-    old_value = getter()
-    setter(value)
-    try:
-        yield
-    finally:
-        setter(old_value)
+class SetAndRevert:
+    """Set a value, yield, then revert to its original value"""
+    def __init__(self, getter, setter):
+        self.getter = getter
+        self.setter = setter
+
+    @contextlib.contextmanager
+    def __call__(self, value):
+        old_value = self.getter()
+        self.setter(value)
+        try:
+            yield
+        finally:
+            self.setter(old_value)
+
+
+SetAndRevertDirectory = SetAndRevert(os.getcwd, os.chdir)
+SetAndRevertBranch = SetAndRevert(GIT.current_branch, GIT.checkout)
+
 
 """
+
 with undo(os.getcwd, os.chdir, directory):
     pass
 with undo(GIT.branch, GIT.checkout, new_branch):

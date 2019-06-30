@@ -31,26 +31,28 @@ def git_all(argv):
     with EXIT.on_exception('No command found after - in arguments'):
         command, *args = argv[dash_index + 1:]
 
-    if GIT.find_git_root(Path()):
-        if GIT.is_workspace_d():
-            EXIT.exit('Your local changes would be overwritten')
-        branch, branches = GIT.current_branch(), GIT.branches()
-    else:
-        branch, branches = None, []
+    branches = GIT.branches() if GIT.find_root(Path()) else []
+    if branches and GIT.is_workspace_dirty():
+        EXIT.exit('Your local changes would be overwritten')
 
-    cwd = Path().absolute()
+    items, errors = [], []
     for name in names or branches:
         if name in branches:
-            GIT.checkout(name)
-            try:
-                pass
-            finally:
-                GIT.checkout(branch)
-
+            items.append((name, _gitz.SetAndRevertBranch))
+        elif Path(name).is_dir():
+            items.append((name, _gitz.SetAndRevertDirectory))
         else:
-            directory = Path(name)
-            if not directory.is_dir():
-                EXIT.exit(directory, 'is neither a branch nor a git repository')
+            errors.append(name)
+
+    if errors:
+        errors = '"%s"' % '", "'.join(errors)
+        verb = 'are' if len(errors) > 1 else 'is'
+        EXIT.exit(errors, verb, 'neither a branch nor a git repository')
+
+    for name, set_and_revert in items:
+        with set_and_revert(name):
+            _gitz.run(command, *args)
+
 
 
 if __name__ == '__main__':
