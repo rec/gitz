@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import _gitz
+
 GIT = _gitz.GIT
 
 USAGE = """
