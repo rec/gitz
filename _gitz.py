@@ -160,39 +160,3 @@ class Exit:
                 self.error(msg)
             else:
                 self.exit(msg)
-
-
-class SetAndRevert:
-    """Set a value within a context, then reverts it at the end.
-
-    Example:
-        data = {'a': 'A'}
-
-        getter = lambda: data['a']
-        setter = lambda x: data['a'] = x
-
-        set_and_revert = SetAndRevert(getter, setter)
-
-        print(data['a'])     # A
-        with set_and_revert('B'):
-           print(data['a'])  # B
-        print(data['a'])     # A
-
-    """
-
-    def __init__(self, getter, setter):
-        self.getter = getter
-        self.setter = setter
-
-    @contextlib.contextmanager
-    def __call__(self, value):
-        old_value = self.getter()
-        self.setter(value)
-        try:
-            yield
-        finally:
-            self.setter(old_value)
-
-
-SetAndRevert.BRANCH = SetAndRevert(GIT.current_branch, GIT.checkout)
-SetAndRevert.DIRECTORY = SetAndRevert(os.getcwd, chdir)
