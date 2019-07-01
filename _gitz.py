@@ -3,6 +3,7 @@ import argparse
 import contextlib
 import functools
 import os
+import shlex
 import subprocess
 import sys
 
@@ -47,13 +48,16 @@ class Git:
         os.chdir(root)
 
     def branches(self):
-        return [b.strip().replace('* ', '') for b in self.current_branch()]
+        return [b.strip().replace('* ', '') for b in self.branch()]
+
+    def checkout(self, *args):
+        return self._git('checkout', '-q', *args)
 
     def current_branch(self):
-        return next(self._git('symbolic-ref', '--short', 'HEAD')).strip()
+        return self._git('symbolic-ref', '--short', 'HEAD')[0].strip()
 
     def commit_id(self):
-        return next(self._git('rev-parse', 'HEAD')).strip()
+        return self._git('rev-parse', 'HEAD')[0].strip()
 
     def is_root(self, p):
         return (p / '.git' / 'config').exists()
@@ -65,16 +69,16 @@ class Git:
 GIT = Git()
 
 _SUBPROCESS_KWDS = {
-    'check': True,
     'encoding': 'utf-8',
     'shell': True,
-    'stdout': subprocess.PIPE,
 }
 
 
 def run(*cmd, **kwds):
     kwds = dict(_SUBPROCESS_KWDS, **kwds)
-    return subprocess.run(cmd, **kwds).splitlines()
+    if kwds['shell']:
+        cmd = ' '.join(cmd)
+    return subprocess.check_output(cmd, **kwds).splitlines()
 
 
 def normalize(f):
@@ -140,23 +144,13 @@ class Exit:
             print(self.usage or '(no help available)', file=sys.stderr)
             sys.exit(0)
 
-    def exit(self, *messages):
-        self.error(*messages)
-        if self.usage:
+    def exit(self, *messages, print_usage=True):
+        if messages:
+            self.error(*messages)
+        if print_usage and self.usage:
             print(self.usage, file=sys.stderr)
         sys.exit(self.code)
 
     def error(self, *messages):
         executable = Path(sys.argv[0]).name
         print('ERROR:', executable + ':', *messages, file=sys.stderr)
-
-    @contextlib.contextmanager
-    def on_exception(self, message, catch=False):
-        try:
-            yield
-        except Exception as exception:  # noqa: F841
-            msg = message.format(**locals())
-            if catch:
-                self.error(msg)
-            else:
-                self.exit(msg)
