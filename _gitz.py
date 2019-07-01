@@ -101,31 +101,6 @@ def print_help(argv, usage=None):
         return True
 
 
-def numeric_flags(argv, flag):
-    for i in argv:
-        if i.startswith('-') and i[1:].isnumeric():
-            yield flag
-            yield i[1:]
-        else:
-            yield i
-
-
-def commit_count(add_arguments, usage=None, commit_count=4):
-    argv = get_argv()
-    print_help(argv, usage)
-
-    parser = argparse.ArgumentParser()
-    add_arguments(parser)
-    parser.add_argument(
-        '-c',
-        '--commit-count',
-        default=commit_count,
-        help='Number of commits per branch to show',
-        type=int,
-    )
-    return parser.parse_args(list(numeric_flags(argv, '-c')))
-
-
 def run_argv(usage, main):
     argv = get_argv()
     if not print_help(argv, usage):

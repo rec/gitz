@@ -29,11 +29,8 @@ then put that directory's path into the ``PATH`` environment variable.
 Safe commands (that don't rewrite history)
 =============================================
 
-``git-loga``
-  List recent commits for multiple branches
-
-``git-logr``
-  List recent commits for multiple repositories
+``git-all``
+  Perform a command on each of multiple branches or directories.
 
 ``git-rot``
   Changes the current branch by rotating forward or backward in the branch list
