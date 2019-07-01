@@ -9,7 +9,7 @@ import sys
 
 class Git:
     def __init__(self, verbose=None):
-        if verbose == None:
+        if verbose is None:
             self.verbose = any(a in ('-v', '--verbose') for a in sys.argv)
         else:
             self.verbose = verbose
@@ -22,7 +22,7 @@ class Git:
             verbose = self.verbose
         if verbose:
             print('$ git', *cmd)
-        lines = self._git(*cmd, **kwds):
+        lines = self._git(*cmd, **kwds)
         if verbose:
             print(*lines, sep='')
         return lines
@@ -33,7 +33,7 @@ class Git:
         except Exception:
             return True
 
-    def find_root(self, p=Path()):!
+    def find_root(self, p=Path()):
         while not self.is_root(p):
             if p.parent == p:
                 return None
@@ -56,7 +56,7 @@ class Git:
         return next(self._git('rev-parse', 'HEAD')).strip()
 
     def is_root(self, p):
-        return (p / '.git' / config).exists()
+        return (p / '.git' / 'config').exists()
 
     def _git(self, *cmd, **kwds):
         return run('git', *cmd, **kwds)
@@ -64,10 +64,25 @@ class Git:
 
 GIT = Git()
 
+_SUBPROCESS_KWDS = {
+    'check': True,
+    'encoding': 'utf-8',
+    'shell': True,
+    'stdout': subprocess.PIPE,
+}
+
 
 def run(*cmd, **kwds):
-    out = subprocess.check_output(cmd, **kwds)
-    return out.decode('utf-8').splitlines()
+    kwds = dict(_SUBPROCESS_KWDS, **kwds)
+    return subprocess.run(cmd, **kwds).splitlines()
+
+
+def normalize(f):
+    return os.path.expandvars(os.path.expanduser(f))
+
+
+def chdir(f):
+    os.chdir(normalize(f))
 
 
 def get_argv():
@@ -118,28 +133,53 @@ class Exit:
         self.usage = usage
         self.code = code
 
-    def exit_on_help(self):
-        if any(a in ('-h', '--help') for a in sys.argv[1:]):
+    def exit_if_help(self, argv=None):
+        if argv is None:
+            argv = sys.argv[1:]
+        if any(a in ('-h', '--help') for a in argv):
             print(self.usage or '(no help available)', file=sys.stderr)
             sys.exit(0)
 
     def exit(self, *messages):
-        executable = Path(sys.argv[0]).name
-        print('ERROR:', executable + ':', *messages, file=sys.stderr)
+        self.error(*messages)
         if self.usage:
             print(self.usage, file=sys.stderr)
         sys.exit(self.code)
 
+    def error(self, *messages):
+        executable = Path(sys.argv[0]).name
+        print('ERROR:', executable + ':', *messages, file=sys.stderr)
+
     @contextlib.contextmanager
-    def on_exception(self, message):
+    def on_exception(self, message, catch=False):
         try:
             yield
-        except Exception as exception:
-            self.exit(message.format(**locals()))
+        except Exception as exception:  # noqa: F841
+            msg = message.format(**locals())
+            if catch:
+                self.error(msg)
+            else:
+                self.exit(msg)
 
 
 class SetAndRevert:
-    """Set a value, yield, then revert to its original value"""
+    """Set a value within a context, then reverts it at the end.
+
+    Example:
+        data = {'a': 'A'}
+
+        getter = lambda: data['a']
+        setter = lambda x: data['a'] = x
+
+        set_and_revert = SetAndRevert(getter, setter)
+
+        print(data['a'])     # A
+        with set_and_revert('B'):
+           print(data['a'])  # B
+        print(data['a'])     # A
+
+    """
+
     def __init__(self, getter, setter):
         self.getter = getter
         self.setter = setter
@@ -155,4 +195,4 @@ class SetAndRevert:
 
 
 SetAndRevert.BRANCH = SetAndRevert(GIT.current_branch, GIT.checkout)
-SetAndRevert.DIRECTORY = SetAndRevert(os.getcwd, os.chdir)
+SetAndRevert.DIRECTORY = SetAndRevert(os.getcwd, chdir)

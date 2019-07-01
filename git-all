@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 from pathlib import Path
+import argparse
 import sys
 import _gitz
 
-GIT = _gitz.GIT
-EXIT = _gitz.Exit("""
+USAGE = """
 git-all: Perform a command on each of multiple branches or directories
 
 USAGE:
@@ -13,37 +13,73 @@ USAGE:
 Performs <command> [argument ...] for each `name`, or over all branches if no
 `name` is given.
 
-
 EXAMPLES:
     git all - git log --online -5
     git all * - git all - git log --online -5
 
-""")
+"""
+
+GIT = _gitz.GIT
+EXIT = _gitz.Exit(USAGE)
 
 
 def git_all():
-    EXIT.exit_on_help()
     argv = sys.argv[1:]
 
-    with EXIT.on_exception('No - found in arguments'):
-        dash_index = argv.index('-')
-    names = argv[:dash_index]
+    try:
+        dash = argv.index('-')
+    except ValueError:
+        EXIT.exit_if_help(argv)
+        EXIT.exit('No - found in arguments')
 
-    with EXIT.on_exception('No command found after - in arguments'):
-        command, *args = argv[dash_index + 1:]
+    argv, command = argv[:dash], argv[dash + 1 :]
+    EXIT.exit_if_help(argv)
+    if not command:
+        EXIT.exit('No command found after - in arguments')
+
+    args = _parse_args(argv)
 
     branches = GIT.branches() if GIT.find_root() else []
-    if branches and GIT.is_workspace_dirty():
+    names = args.name or branches
+    assert not names or isinstance(names[0], str), str(names)
+
+    if set(branches).intersection(names) and GIT.is_workspace_dirty():
         EXIT.exit('Your local changes would be overwritten')
-    names = names or branches
 
     errors = [n for n in names if not (n in branches or Path(n).is_dir())]
     if errors:
         errors = '"%s"' % '", "'.join(errors)
         verb = 'are' if len(errors) > 1 else 'is'
-        EXIT.exit(errors, verb, 'neither a branch nor a git repository')
+        EXIT.exit(errors, verb, 'neither branch nor git repository')
 
-    set_and_revert = _gitz.SetAndRevert.DIRECTORY, _gitz.SetAndRevert.BRANCH
     for name in names:
-        with set_and_revert[name in branches](name):
-            _gitz.run(command, *args)
+        with EXIT.on_exception('{exception} for name ' + name, args.catch):
+            if name in branches:
+                saved_branch = GIT.current_branch()
+                GIT.checkout(name)
+                try:
+                    lines = _gitz.run(*command)
+                finally:
+                    GIT.checkout(saved_branch)
+            else:
+                lines = _gitz.run(*command, cwd=name)
+
+        indent = ' ' * args.indent
+        for line in lines:
+            print(indent, line, sep='')
+
+
+def _parse_args(argv):
+    parser = argparse.ArgumentParser(description=USAGE)
+    add = parser.add_argument
+
+    add('name', nargs='*', help=_NAME_HELP)
+    add('-i', '--indent', default=2, type='int', help=_INDENT_HELP)
+    add('-c', '--catch', action='store_true', help=_CATCH_HELP)
+
+    return parser.parse_args(argv)
+
+
+_NAME_HELP = 'Names of branches or directories to iterate over'
+_INDENT_HELP = 'Number of columns to indent output of commands'
+_CATCH_HELP = 'Instead of failing, catch and report errors, then continue'
