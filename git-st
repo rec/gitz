@@ -1,7 +1,28 @@
 #!/usr/bin/env bash
 
-# Written by https://www.reddit.com/user/ex1c
+# Originally written by https://www.reddit.com/user/ex1c
 # See https://www.reddit.com/r/git/comments/avv34g/nicer_gitstatus/
+
+usage() {
+    cat <<EOF
+
+git-st: A compact and elegant git status using color
+
+USAGE:
+    git st
+
+EOF
+}
+
+
+while getopts ":h" opt; do
+  case $opt in
+    h)
+      usage
+      exit
+      ;;
+  esac
+done
 
 gawk -vOFS='' '
     NR==FNR {
