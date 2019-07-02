@@ -30,74 +30,89 @@ EXIT = _gitz.Exit(USAGE)
 def git_all():
     argv = sys.argv[1:]
 
-    try:
-        dash = argv.index('-')
-    except ValueError:
-        EXIT.exit_if_help(argv)
-        EXIT.exit('No - found in arguments')
-
-    argv, command = argv[:dash], argv[dash + 1 :]
-    if not command:
-        EXIT.exit('No command found after - in arguments')
-
+    dash = argv.index('-') if '-' in argv else len(argv)
+    argv, command = argv[:dash], argv[dash + 1:]
     args = _parse_args(argv)
+
+    if not command:
+         EXIT.error_and_exit(_ERROR_MISSING_COMMAND)
+
+    if args.verbose:
+        if args.quiet:
+            args.verbose = False
+            print('--quiet overrides --verbose', file=sys.stderr)
+        else:
+            GIT.verbose = True
 
     branches = GIT.branches() if GIT.find_root() else []
     names = args.name or branches
-    assert not names or isinstance(names[0], str), str(names)
 
     if not args.dotfiles:
         names = [n for n in names if not n.startswith('.')]
 
     if set(branches).intersection(names) and GIT.is_workspace_dirty():
-        EXIT.exit('Your local changes would be overwritten')
+        EXIT.error_and_exit(_ERROR_LOCAL_CHANGES)
 
     errors = [n for n in names if not (n in branches or Path(n).is_dir())]
     if errors:
         errors = '"%s"' % '", "'.join(errors)
-        EXIT.exit(errors + ':', 'neither branch nor git repository')
+        EXIT.error_and_exit(_ERROR_BAD_NAME % errors)
 
     for name in names:
         try:
-            if name in branches:
-                print('Branch', name)
-                saved_branch = GIT.current_branch()
-                GIT.checkout('-q', name)
-                try:
-                    lines = _gitz.run(*command)
-                finally:
-                    GIT.checkout('-q', saved_branch)
-            else:
-                print('Directory', name)
-                lines = _gitz.run(*command, cwd=name)
-            indent = ' ' * args.indent
-            for line in lines:
-                print(indent, line, sep='')
-            print()
-
+            _run_command(args, name, branches, command)
         except Exception as e:
-            EXIT.error('Exception', e, 'for name', name)
+            EXIT.print_error('Exception', e, 'for name', name)
             if not args.catch:
-                EXIT.exit(print_usage=False)
+                EXIT.exit()
+
+
+def _run_command(args, name, branches, command):
+    if name in branches:
+        if not args.quiet:
+            print('Branch', name)
+        saved_branch = GIT.current_branch()
+        GIT.checkout('-q', name)
+        try:
+            lines = _gitz.run(*command)
+        finally:
+            GIT.checkout('-q', saved_branch)
+    else:
+        if not args.quiet:
+            print('Directory', name)
+
+        lines = _gitz.run(*command, cwd=name)
+    indent = ' ' * args.indent
+    for line in lines:
+        print(indent, line, sep='')
+    if not args.quiet:
+        print()
 
 
 def _parse_args(argv):
     parser = argparse.ArgumentParser(description=USAGE)
     add = parser.add_argument
 
-    add('name', nargs='*', help=_NAME_HELP)
-    add('-d', '--dotfiles', action='store_true', help=_DOTFILES_HELP)
-    add('-c', '--catch', action='store_true', help=_CATCH_HELP)
-    add('-i', '--indent', default=2, type=int, help=_INDENT_HELP)
+    add('name', nargs='*', help=_HELP_NAME)
+    add('-c', '--catch', action='store_true', help=_HELP_CATCH)
+    add('-d', '--dotfiles', action='store_true', help=_HELP_DOTFILES)
+    add('-i', '--indent', default=2, type=int, help=_HELP_INDENT)
+    add('-q', '--quiet', action='store_true', help=_HELP_QUIET)
+    add('-v', '--verbose', action='store_true', help=_HELP_VERBOSE)
 
     return parser.parse_args(['-h' if a == '--help' else a for a in argv])
 
 
-_DOTFILES_HELP = 'Don\'t exclude dotfiles'
-_CATCH_HELP = 'Instead of failing, catch and report errors, then continue'
-_INDENT_HELP = 'Number of columns to indent output of commands'
-_NAME_HELP = 'Names of branches or directories to iterate over'
+_ERROR_BAD_NAME = '%s: neither branch nor git repository'
+_ERROR_LOCAL_CHANGES = 'Your local changes would be overwritten'
+_ERROR_MISSING_COMMAND = 'No command found'
 
+_HELP_CATCH = 'Instead of failing, catch and report errors, then continue'
+_HELP_DOTFILES = 'Don\'t exclude dotfiles'
+_HELP_INDENT = 'Number of columns to indent output of commands'
+_HELP_NAME = 'Names of branches or directories to iterate over'
+_HELP_QUIET = 'Print only command output and errors, no git or git-all output'
+_HELP_VERBOSE = 'Echo all git commands and their responses'
 
 if __name__ == '__main__':
     git_all()

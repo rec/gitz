@@ -118,13 +118,18 @@ class Exit:
             print(self.usage or '(no help available)', file=sys.stderr)
             sys.exit(0)
 
-    def exit(self, *messages, print_usage=True):
-        if messages:
-            self.error(*messages)
-        if print_usage and self.usage:
-            print(self.usage, file=sys.stderr)
+    def error_and_exit(self, *messages):
+        self.print_error(*messages)
+        self.print_usage()
+        self.exit()
+
+    def exit(self):
         sys.exit(self.code)
 
-    def error(self, *messages):
+    def print_usage(self):
+        if self.usage:
+            print(self.usage, file=sys.stderr)
+
+    def print_error(self, *messages):
         executable = Path(sys.argv[0]).name
         print('ERROR:', executable + ':', *messages, file=sys.stderr)
