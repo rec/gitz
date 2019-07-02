@@ -111,13 +111,6 @@ class Exit:
         self.usage = usage
         self.code = code
 
-    def exit_if_help(self, argv=None):
-        if argv is None:
-            argv = sys.argv[1:]
-        if any(a in ('-h', '--help') for a in argv):
-            print(self.usage or '(no help available)', file=sys.stderr)
-            sys.exit(0)
-
     def error_and_exit(self, *messages):
         self.print_error(*messages)
         self.print_usage()
