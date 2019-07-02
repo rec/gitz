@@ -14,8 +14,12 @@ Performs <command> [argument ...] for each `name`, or over all branches if no
 `name` is given.
 
 EXAMPLES:
-    git all - git log --online -5
-    git all * - git all - git log --online -5
+    git all - git log --oneline -5
+        Performs git log --oneline -5 for each branch in this repo
+
+    git all * - git all - git log --oneline -5
+        Performs git log --oneline -5 for each branch in each directory in
+        the current directory
 
 """
 
@@ -33,7 +37,6 @@ def git_all():
         EXIT.exit('No - found in arguments')
 
     argv, command = argv[:dash], argv[dash + 1 :]
-    EXIT.exit_if_help(argv)
     if not command:
         EXIT.exit('No command found after - in arguments')
 
@@ -42,6 +45,9 @@ def git_all():
     branches = GIT.branches() if GIT.find_root() else []
     names = args.name or branches
     assert not names or isinstance(names[0], str), str(names)
+
+    if not args.dotfiles:
+        names = [n for n in names if not n.startswith('.')]
 
     if set(branches).intersection(names) and GIT.is_workspace_dirty():
         EXIT.exit('Your local changes would be overwritten')
@@ -56,23 +62,23 @@ def git_all():
             if name in branches:
                 print('Branch', name)
                 saved_branch = GIT.current_branch()
-                GIT.checkout(name)
+                GIT.checkout('-q', name)
                 try:
                     lines = _gitz.run(*command)
                 finally:
-                    GIT.checkout(saved_branch)
+                    GIT.checkout('-q', saved_branch)
             else:
                 print('Directory', name)
                 lines = _gitz.run(*command, cwd=name)
+            indent = ' ' * args.indent
+            for line in lines:
+                print(indent, line, sep='')
+            print()
+
         except Exception as e:
             EXIT.error('Exception', e, 'for name', name)
             if not args.catch:
                 EXIT.exit(print_usage=False)
-
-        indent = ' ' * args.indent
-        for line in lines:
-            print(indent, line, sep='')
-        print()
 
 
 def _parse_args(argv):
@@ -80,12 +86,14 @@ def _parse_args(argv):
     add = parser.add_argument
 
     add('name', nargs='*', help=_NAME_HELP)
+    add('-d', '--dotfiles', action='store_true', help=_DOTFILES_HELP)
     add('-c', '--catch', action='store_true', help=_CATCH_HELP)
     add('-i', '--indent', default=2, type=int, help=_INDENT_HELP)
 
-    return parser.parse_args(argv)
+    return parser.parse_args(['-h' if a == '--help' else a for a in argv])
 
 
+_DOTFILES_HELP = 'Don\'t exclude dotfiles'
 _CATCH_HELP = 'Instead of failing, catch and report errors, then continue'
 _INDENT_HELP = 'Number of columns to indent output of commands'
 _NAME_HELP = 'Names of branches or directories to iterate over'

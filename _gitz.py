@@ -18,19 +18,12 @@ class Git:
     def __getattr__(self, command):
         return functools.partial(self.git, command)
 
-    def git(self, *cmd, verbose=None, **kwds):
-        if verbose is None:
-            verbose = self.verbose
-        if verbose:
-            print('$ git', *cmd)
-        lines = self._git(*cmd, **kwds)
-        if verbose:
-            print(*lines, sep='')
-        return lines
+    def git(self, *cmd, **kwds):
+        return git(*cmd, verbose=self.verbose, **kwds)
 
     def is_workspace_dirty(self):
         try:
-            self._git('diff-index', '--quiet', 'HEAD', '--')
+            git('diff-index', '--quiet', 'HEAD', '--')
         except Exception:
             return True
 
@@ -50,14 +43,11 @@ class Git:
     def branches(self):
         return [b.strip().replace('* ', '') for b in self.branch()]
 
-    def checkout(self, *args):
-        return self._git('checkout', '-q', *args)
-
     def current_branch(self):
-        return self._git('symbolic-ref', '--short', 'HEAD')[0].strip()
+        return git('symbolic-ref', '--short', 'HEAD')[0].strip()
 
     def commit_id(self):
-        return self._git('rev-parse', 'HEAD')[0].strip()
+        return git('rev-parse', 'HEAD')[0].strip()
 
     def is_root(self, p):
         return (p / '.git' / 'config').exists()
@@ -74,10 +64,19 @@ _SUBPROCESS_KWDS = {
 }
 
 
+def git(*cmd, verbose=False, **kwds):
+    if verbose:
+        print('$ git', *cmd)
+    lines = git(*cmd, **kwds)
+    if verbose:
+        print(*lines, sep='')
+    return lines
+
+
 def run(*cmd, **kwds):
     kwds = dict(_SUBPROCESS_KWDS, **kwds)
-    if kwds['shell']:
-        cmd = ' '.join(cmd)
+    if kwds.get('shell'):
+        cmd = ' '.join(shlex.quote(c) for c in cmd)
     return subprocess.check_output(cmd, **kwds).splitlines()
 
 
