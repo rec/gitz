@@ -31,7 +31,7 @@ def git_all():
     argv = sys.argv[1:]
 
     dash = argv.index('-') if '-' in argv else len(argv)
-    argv, command = argv[:dash], argv[dash + 1:]
+    argv, command = argv[:dash], argv[dash + 1 :]
 
     if '-h' in argv or '--h' in argv:
         EXIT.print_usage()
@@ -39,7 +39,7 @@ def git_all():
     args = _parse_args(argv)
 
     if not command:
-         EXIT.error_and_exit(_ERROR_MISSING_COMMAND)
+        EXIT.error_and_exit(_ERROR_MISSING_COMMAND)
 
     if args.verbose:
         if args.quiet:
@@ -66,7 +66,7 @@ def git_all():
         try:
             _run_command(args, name, branches, command)
         except Exception as e:
-            EXIT.print_error('Exception', e, 'for name', name)
+            EXIT.error('Exception', e, 'for name', name)
             if not args.catch:
                 EXIT.exit()
 

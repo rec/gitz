@@ -11,6 +11,11 @@ git-split:  Split a range of commits into many single-file commits
 splits out a sequence of individual commits, one for each file changed.
 
 Usage:
+
+    git-split [<pathspec>]
+
+Examples:
+
     git-split
         Splits the staging area if it's not empty, otherwise HEAD
 

@@ -11,11 +11,13 @@ useful thing well.
 
 Three of them use Python 3, the rest use Bash.
 
-There's a summary of what each command does below - for more details use
+There's a summary of what each command does below - for more details use the
+``-h`` flag like this:
 
 .. code-block:: bash
 
-    git <command> -h
+    git add -h
+    git
 
 How to install
 ================

@@ -18,13 +18,17 @@ class Git:
     def __getattr__(self, command):
         return functools.partial(self.git, command)
 
-    def git(self, *cmd, **kwds):
+    def __call__(self, *cmd, **kwds):
         return git(*cmd, verbose=self.verbose, **kwds)
+
+    def git(self, *cmd, **kwds):
+        return self(*cmd, **kwds)
 
     def is_workspace_dirty(self):
         try:
             git('diff-index', '--quiet', 'HEAD', '--')
         except Exception:
+            # Also returns true if the workspace is broken for some other reason
             return True
 
     def find_root(self, p=Path()):
@@ -46,8 +50,8 @@ class Git:
     def current_branch(self):
         return git('symbolic-ref', '--short', 'HEAD')[0].strip()
 
-    def commit_id(self):
-        return git('rev-parse', 'HEAD')[0].strip()
+    def commit_id(self, name='HEAD', **kwds):
+        return git('rev-parse', name, **kwds)[0].strip()
 
     def is_root(self, p):
         return (p / '.git' / 'config').exists()
@@ -58,16 +62,13 @@ class Git:
 
 GIT = Git()
 
-_SUBPROCESS_KWDS = {
-    'encoding': 'utf-8',
-    'shell': True,
-}
+_SUBPROCESS_KWDS = {'encoding': 'utf-8', 'shell': True}
 
 
 def git(*cmd, verbose=False, **kwds):
     if verbose:
         print('$ git', *cmd)
-    lines = git(*cmd, **kwds)
+    lines = run('git', *cmd, **kwds)
     if verbose:
         print(*lines, sep='')
     return lines
@@ -112,7 +113,7 @@ class Exit:
         self.code = code
 
     def error_and_exit(self, *messages):
-        self.print_error(*messages)
+        self.error(*messages)
         self.print_usage()
         self.exit()
 
@@ -123,6 +124,29 @@ class Exit:
         if self.usage:
             print(self.usage, file=sys.stderr)
 
-    def print_error(self, *messages):
+    def error(self, *messages):
         executable = Path(sys.argv[0]).name
         print('ERROR:', executable + ':', *messages, file=sys.stderr)
+
+
+class CommitIndexer:
+    COMMIT_ID_LENGTH = 6
+
+    def __init__(self):
+        self.commit_ids = [GIT.commit_id()]
+
+    def index(self, commit_id):
+        if commit_id.isnumeric() and len(commit_id) < self.COMMIT_ID_LENGTH:
+            commit_id = 'HEAD~' + commit_id
+
+        commit_id = GIT.commit_id(commit_id, stderr=subprocess.PIPE)
+        for i, id in enumerate(self.commit_ids):
+            if id.startswith(commit_id) or commit_id.startswith(id):
+                return i
+
+        commits = '%s~..%s~' % (commit_id, self.commit_ids[-1])
+        for line in GIT.log('--oneline', commits, stderr=subprocess.PIPE):
+            if line.strip():
+                commit, *_ = line.split(maxsplit=1)
+                self.commit_ids.append(commit.lower())
+        return len(self.commit_ids) - 1
