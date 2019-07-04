@@ -3,7 +3,7 @@ import argparse
 import _gitz
 
 GIT = _gitz.GIT
-
+GIT_SILENT = _gitz.GIT_SILENT
 
 USAGE = """
 git-combine: Combines multiple commit IDs together using cherry picking
@@ -47,6 +47,7 @@ Examples:
         reverted including the stash popped
 
 """
+EXIT = _gitz.Exit(USAGE)
 
 UNCOMMITTED_ERROR = """
 Uncommitted changes would be overwritten.
@@ -58,23 +59,35 @@ Uncommitted changes would be overwritten.
 def git_combine():
     args = _parse_args()
     commit_id = GIT.commit_id()
-    stash = GIT.is_workspace_dirty()
+    ids, errors = [], []
+    for id in (args.base[0], *args.commit_id):
+        try:
+            ids.append(GIT_SILENT.commit_id(id))
+        except Exception:
+            errors.append(id)
+
+    if errors:
+        EXIT.error_and_exit('Not commit IDs:', *errors)
+
+    stash = GIT_SILENT.is_workspace_dirty()
     if stash:
         if not args.stash:
-            raise ValueError(UNCOMMITTED_ERROR)
+            EXIT.error(UNCOMMITTED_ERROR)
+            EXIT.exit()
         _git('stash')
     try:
-        _git('reset', '--hard', args.base[0])
-        for id in args.commit_id:
+        base, *commits = ids
+        _git('reset', '--hard', base)
+        for id in commits:
             _git('cherry-pick', id)
         if args.force_push:
             _git('push', '--force-with-lease')
-    except Exception:
+    except Exception as e:
         if not args.preserve_conflict:
             _git('reset', '--hard', commit_id)
             if stash:
                 _git('stash', 'pop')
-        raise
+        EXIT.error_and_exit('In git:', e)
 
 
 def _add_arguments(parser):
@@ -94,7 +107,7 @@ def _add_arguments(parser):
 
 def _git(*cmd, **kwds):
     for line in GIT.git(*cmd, **kwds):
-        if GIT.verbose():
+        if GIT.verbose:
             print(line)
 
 

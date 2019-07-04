@@ -1,7 +1,6 @@
-from . import repo_maker
+from . import repo
 import unittest
-import _gitz
-GIT = _gitz.GIT
+GIT = repo.GIT
 
 
 class GitAllTest(unittest.TestCase):
@@ -9,19 +8,18 @@ class GitAllTest(unittest.TestCase):
         actual = GIT.all('test/data/*', '-', 'ls', '-1')
         self.assertEqual(actual, _DIRECTORIES.split('\n'))
 
-    @repo_maker.repo_method
+    @repo.method
     def test_branches(self):
-        self.assertEqual('8c0a320', repo_maker.make_commit('one.txt'))
+        self.assertEqual('8c0a320', repo.make_commit('one.txt'))
         current = GIT.current_branch()
         GIT.checkout('-b', 'foo')
-        self.assertEqual(repo_maker.make_commit('two.txt'), 'd150342')
+        self.assertEqual(repo.make_commit('two.txt'), 'd150342')
         GIT.checkout(current)
         GIT.checkout('-b', 'bar')
-        self.assertEqual(repo_maker.make_commit('three.txt'), '79f4dec')
+        self.assertEqual(repo.make_commit('three.txt'), '79f4dec')
         actual = GIT.all('-', 'git', 'log', '--oneline')
         print(*actual, sep='\n')
         self.assertEqual(actual, _BRANCHES.split('\n'))
-
 
 
 _DIRECTORIES = """\

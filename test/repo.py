@@ -11,7 +11,7 @@ AUTHOR = '--author="Unit Test <unit@test.com>"'
 
 
 @contextlib.contextmanager
-def git_repo():
+def contextmanager():
     original_dir = os.getcwd()
     try:
         with tempfile.TemporaryDirectory() as root:
@@ -32,10 +32,10 @@ def git_repo():
         os.chdir(original_dir)
 
 
-def repo_method(f):
+def method(f):
     @functools.wraps(f)
     def wrapper(*args, **kwds):
-        with git_repo():
+        with contextmanager():
             f(*args, **kwds)
 
     return wrapper
