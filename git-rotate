@@ -4,25 +4,25 @@ import _gitz
 GIT = _gitz.GIT
 
 USAGE = """
-git-rot: Rotate to the next or previous branch
+git-rotate: Rotate to the next or previous branch
 
-The rotation is circular.  The order of branches is the same as that in
+The rotateation is circular.  The order of branches is the same as that in
 ``git branch``
 
 Examples:
-    git rot
+    git rotate
         Rotate to the next branch
 
-    git rot 3
+    git rotate 3
         Rotate 3 branches ahead
 
-    git rot -1
-    git rot -
+    git rotate -1
+    git rotate -
         Rotate 1 branch backward
 """
 
 
-def git_rot(delta='1'):
+def git_rotate(delta='1'):
     delta = -1 if delta == '-' else int(delta)
 
     branches = GIT.branches()
@@ -31,4 +31,4 @@ def git_rot(delta='1'):
 
 
 if __name__ == '__main__':
-    _gitz.run_argv(USAGE, git_rot)
+    _gitz.run_argv(USAGE, git_rotate)
