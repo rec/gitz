@@ -28,19 +28,24 @@ def git_snip(*argv):
     for a in argv:
         try:
             index = indexer.index(a)
-            (indexes, dupes)[index in indexes].append((a, index))
+            if index in indexes:
+                dupes.append(a)
+            else:
+                indexes.append(index)
         except Exception:
             errors.append(a)
 
     if errors:
         EXIT.error('Not commit IDs:', *errors)
     if dupes:
-        EXIT.error('Duplicate IDs:', *(a for (a, i) in dupes))
+        EXIT.error('Duplicate IDs:', *dupes)
     if errors or dupes:
         EXIT.exit()
 
+    indexes
     for i in reversed(sorted(indexes)):
-        GIT.rebase('HEAD~%d' % i, '--onto', 'HEAD~%d' % (i + 1))
+        'HEAD~%s' % i
+        GIT.rebase(('HEAD~%s' % i), '--onto', 'HEAD~%s' % (i + 1))
 
 
 if __name__ == '__main__':
