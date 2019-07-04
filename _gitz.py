@@ -1,34 +1,33 @@
 from pathlib import Path
-import argparse
-import contextlib
 import functools
 import os
 import shlex
 import subprocess
 import sys
 
+COMMIT_ID_LENGTH = 7
+
 
 class Git:
-    def __init__(self, verbose=None):
+    def __init__(self, verbose=None, **kwds):
         if verbose is None:
             self.verbose = any(a in ('-v', '--verbose') for a in sys.argv)
         else:
             self.verbose = verbose
+        self.kwds = kwds
 
     def __getattr__(self, command):
         return functools.partial(self.git, command)
 
-    def __call__(self, *cmd, **kwds):
-        return git(*cmd, verbose=self.verbose, **kwds)
-
     def git(self, *cmd, **kwds):
-        return self(*cmd, **kwds)
+        kwds = dict(self.kwds, **kwds) if self.kwds else kwds
+        return git(*cmd, verbose=self.verbose, **kwds)
 
     def is_workspace_dirty(self):
         try:
             git('diff-index', '--quiet', 'HEAD', '--')
         except Exception:
-            # Also returns true if the workspace is broken for some other reason
+            # Also returns true if workspace is broken for some other reason
             return True
 
     def find_root(self, p=Path()):
@@ -61,7 +60,7 @@ class Git:
 
 
 GIT = Git()
-
+GIT_SILENT = Git(verbose=False, stderr=subprocess.PIPE)
 _SUBPROCESS_KWDS = {'encoding': 'utf-8', 'shell': True}
 
 
@@ -130,22 +129,20 @@ class Exit:
 
 
 class CommitIndexer:
-    COMMIT_ID_LENGTH = 6
-
     def __init__(self):
-        self.commit_ids = [GIT.commit_id()]
+        self.commit_ids = [GIT_SILENT.commit_id()]
 
     def index(self, commit_id):
-        if commit_id.isnumeric() and len(commit_id) < self.COMMIT_ID_LENGTH:
+        if commit_id.isnumeric() and len(commit_id) < COMMIT_ID_LENGTH:
             commit_id = 'HEAD~' + commit_id
 
-        commit_id = GIT.commit_id(commit_id, stderr=subprocess.PIPE)
+        commit_id = GIT_SILENT.commit_id(commit_id)
         for i, id in enumerate(self.commit_ids):
             if id.startswith(commit_id) or commit_id.startswith(id):
                 return i
 
         commits = '%s~..%s~' % (commit_id, self.commit_ids[-1])
-        for line in GIT.log('--oneline', commits, stderr=subprocess.PIPE):
+        for line in GIT_SILENT.log('--oneline', commits):
             if line.strip():
                 commit, *_ = line.split(maxsplit=1)
                 self.commit_ids.append(commit.lower())

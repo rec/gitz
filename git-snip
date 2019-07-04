@@ -2,7 +2,6 @@
 
 # See https://www.reddit.com/r/git/comments/ah1euu
 import _gitz
-import subprocess
 
 USAGE = """
 git-snip:
