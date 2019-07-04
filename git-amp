@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-set -Eeuo pipefail
+set -Eeo pipefail
 
 usage() {
     cat <<EOF
 
 git-amp: AMend the last commit message and force-Push
 
-    Excellent for fixing a spelling mistake you just made and pushed to
+    Intended for fixing a spelling mistake you just made and pushed to
     a private branch.
 
     For your protection, git amp will fail with a message if there are any
@@ -19,9 +19,12 @@ git-amp: AMend the last commit message and force-Push
 USAGE:
     git amp Your new commit message here
     git amp "It's a commit message! (fix #12?)"
+        Commit, amend and push with a new message.
+        (You need quotes if the message includes special shell characters like
+        #, ', ", *, ?, !)
 
-(You need quotes if the message includes special shell characters like
-#, ', ", *, ?, !)
+    git amp
+        Bring up an editor for a new message, then amend and push
 
 EOF
 }
@@ -38,5 +41,8 @@ if ! git diff-index --quiet HEAD -- ; then
     exit 1
 fi
 
-git commit --amend -m "$*"
-git push --force-with-lease
+if [ "$1" == "" ]; then
+    git commit --amend
+else
+    git commit --amend -m "$*"
+fi
