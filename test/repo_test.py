@@ -3,11 +3,10 @@ from . import repo_maker
 
 
 class RepoTest(unittest.TestCase):
+    @repo_maker.repo_method
     def test_repo(self):
-        with repo_maker.git_repo():
-            c1 = repo_maker.make_commit('one.txt')
-            with self.assertRaises(Exception):
-                repo_maker.make_commit('one.txt')
-            c2 = repo_maker.make_commit('two.txt')
-            self.assertEqual(c1, '8c0a320')
-            self.assertEqual(c2, 'd150342')
+        self.assertEqual('8c0a320', repo_maker.make_commit('one.txt'))
+        with self.assertRaises(Exception):
+            repo_maker.make_commit('one.txt')
+
+        self.assertEqual('d150342', repo_maker.make_commit('two.txt'))

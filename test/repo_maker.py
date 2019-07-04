@@ -1,4 +1,5 @@
 import contextlib
+import functools
 import os
 import tempfile
 import _gitz
@@ -29,6 +30,15 @@ def git_repo():
                         os.environ[f] = original[f]
     finally:
         os.chdir(original_dir)
+
+
+def repo_method(f):
+    @functools.wraps(f)
+    def wrapper(*args, **kwds):
+        with git_repo():
+            f(*args, **kwds)
+
+    return wrapper
 
 
 def make_commit(name):

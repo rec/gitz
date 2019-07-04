@@ -73,10 +73,12 @@ def git(*cmd, verbose=False, **kwds):
     return lines
 
 
-def run(*cmd, **kwds):
+def run(*cmd, use_shlex=False, **kwds):
     kwds = dict(_SUBPROCESS_KWDS, **kwds)
     if kwds.get('shell'):
-        cmd = ' '.join(shlex.quote(c) for c in cmd)
+        if use_shlex:
+            cmd = (shlex.quote(c) for c in cmd)
+        cmd = ' '.join(cmd)
     return subprocess.check_output(cmd, **kwds).splitlines()
 
 

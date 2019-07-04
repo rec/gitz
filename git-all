@@ -74,7 +74,7 @@ def git_all():
 def _run_command(args, name, branches, command):
     if name in branches:
         if not args.quiet:
-            print('Branch', name)
+            print('Branch %s:' % name)
         saved_branch = GIT.current_branch()
         GIT.checkout('-q', name)
         try:
@@ -83,7 +83,7 @@ def _run_command(args, name, branches, command):
             GIT.checkout('-q', saved_branch)
     else:
         if not args.quiet:
-            print('Directory', name)
+            print('Directory %s:' % name)
 
         lines = _gitz.run(*command, cwd=name)
     indent = ' ' * args.indent
