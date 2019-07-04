@@ -37,6 +37,7 @@ BEGIN {
   updatedCount = 0;
   addedCount = 0;
   deletedCount = 0;
+  renamedCount = 0;
 }
 $1 == "M" {
   updated[updatedCount] = substr($0, 4);
@@ -49,6 +50,10 @@ $1 == "A" || $1 == "??" {
 $1 == "D" {
   deleted[deletedCount] = substr($0, 4);
   deletedCount += 1
+}
+$1 == "R" {
+  renamed[renamedCount] = substr($0, 4);
+  renamedCount += 1
 }
 END {
   if (updatedCount > 0) {
@@ -78,6 +83,15 @@ END {
     deletedMsg = "Delete " deletedMsg
   }
 
+  if (renamedCount > 0) {
+    renamedMsg = "";
+    for (i = 0; i + 1 < renamedCount; i++) {
+      renamedMsg = renamedMsg renamed[i] ", "
+    };
+    renamedMsg = renamedMsg renamed[renamedCount - 1]
+    renamedMsg = "Rename " renamedMsg
+  }
+
   changesCount = 0;
 
   if (updatedCount > 0) {
@@ -89,6 +103,10 @@ END {
   }
 
   if (deletedCount > 0) {
+    changesCount += 1
+  }
+
+  if (renamedCount > 0) {
     changesCount += 1
   }
 
@@ -106,6 +124,10 @@ END {
     if (deletedCount > 0) {
       print deletedMsg
     }
+
+    if (renamedCount > 0) {
+      print renamedMsg
+    }
   }
 
   if (changesCount == 1) {
@@ -120,13 +142,17 @@ END {
     if (deletedCount > 0) {
       print deletedMsg
     }
+
+    if (renamedCount > 0) {
+      print renamedMsg
+    }
   }
 }
 ' <<< "$STATUS")
 
 if [ -z "${COMMIT_MSG}" ]
 then
-  echo "git-infer: Nothing added, updated or deleted"
+  echo "git-infer: Nothing added, updated, deleted or renamed"
   exit 1
 fi
 
