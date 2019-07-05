@@ -5,6 +5,7 @@ import tempfile
 import _gitz
 
 GIT = _gitz.GIT
+GIT_SILENT = _gitz.GIT_SILENT
 DATE = 'Wed 26 Jun 2019 17:00:05 CEST'
 FIELDS = 'GIT_AUTHOR_DATE', 'GIT_COMMITTER_DATE'
 AUTHOR = '--author="Unit Test <unit@test.com>"'
@@ -41,10 +42,12 @@ def method(f):
     return wrapper
 
 
-def make_commit(name):
-    with open(name, 'w') as fp:
-        fp.write(name)
-        fp.write('\n')
-    GIT.add(name)
-    GIT.commit(name, '-m', name, AUTHOR)
+def make_commit(*names):
+    for n in names:
+        with open(n, 'w') as fp:
+            fp.write(n)
+            fp.write('\n')
+        GIT.add(n)
+    name = '_'.join(names)
+    GIT.commit('-m', name, AUTHOR)
     return GIT.commit_id()[:_gitz.COMMIT_ID_LENGTH]

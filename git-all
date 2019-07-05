@@ -54,8 +54,8 @@ def git_all():
     if not args.dotfiles:
         names = [n for n in names if not n.startswith('.')]
 
-    if set(branches).intersection(names) and GIT.is_workspace_dirty():
-        EXIT.error_and_exit(_ERROR_LOCAL_CHANGES)
+    if set(branches).intersection(names):
+        EXIT.require_clean_workspace()
 
     errors = [n for n in names if not (n in branches or Path(n).is_dir())]
     if errors:
@@ -108,7 +108,6 @@ def _parse_args(argv):
 
 
 _ERROR_BAD_NAME = '%s: neither branch nor git repository'
-_ERROR_LOCAL_CHANGES = 'Your local changes would be overwritten'
 _ERROR_MISSING_COMMAND = 'No command found'
 
 _HELP_CATCH = 'Instead of failing, catch and report errors, then continue'

@@ -24,6 +24,8 @@ class Git:
         return git(*cmd, verbose=self.verbose, **kwds)
 
     def is_workspace_dirty(self):
+        if not self.find_root():
+            return False
         try:
             git('diff-index', '--quiet', 'HEAD', '--')
         except Exception:
@@ -128,6 +130,11 @@ class Exit:
     def error(self, *messages):
         executable = Path(sys.argv[0]).name
         print('ERROR:', executable + ':', *messages, file=sys.stderr)
+
+    def require_clean_workspace(self):
+        if GIT.is_workspace_dirty():
+            self.error('Your local changes would be overwritten')
+            self.exit()
 
 
 class CommitIndexer:

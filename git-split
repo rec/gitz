@@ -17,45 +17,55 @@ Usage:
 Examples:
 
     git-split
-        Splits the staging area if it's not empty, otherwise HEAD
-
     git-split HEAD
-        Splits the squash of the staging area and HEAD
+        Splits HEAD
 
     git-split HEAD~
-        Splits the squash of the staging area, HEAD and HEAD~
+        Splits the squash of HEAD and HEAD~
+
+    git-split HEAD~~
+        Splits the squash of HEAD, HEAD~ and HEAD~~
 """
+EXIT = _gitz.Exit(USAGE)
 
 
-def git_split(commit=None):
-    GIT.cd_root()
+def git_split(commit='HEAD'):
+    try:
+        GIT.cd_root()
+    except ValueError:
+        EXIT.error_and_exit('Not in a git directory')
 
-    if commit is not None:
-        GIT.reset(commit + '~')
-    elif not GIT.is_workspace_dirty():
-        GIT.reset('HEAD~')
-
-    splits = 0
+    EXIT.require_clean_workspace()
+    commit = GIT.commit_id(commit + '~')
+    GIT.reset('--soft', commit)
     lines = GIT.status('--porcelain')
 
+    GIT.reset(commit)
+    commit_count = 0
+
     for line in lines:
-        mode, filename = line.split(None, 1)
+        mode, filename = line.split(maxsplit=1)
+        mode = mode.strip()
+        mode_name = NAMES[mode]
 
         # Renaming is a special case with two files on a line
         # separated by -> and with mode = '??'
         filenames = filename.split(' -> ')
         try:
-            if mode == '??':
-                GIT.add(*filenames)
-            GIT.commit('-m', '[split] %s' % filenames[0], *filenames)
-            splits += 1
+            GIT.add(*filenames)
+            GIT.commit('-m', '"[split] %s %s"' % (mode_name, filename))
+            commit_count += 1
 
         except Exception:
-            print('ERROR: couldn\'t commit filename %s.' % filename)
-            traceback.print_exc()
+            EXIT.error("couldn't commit filename ", filename)
 
-    print('%d commit%s generated' % (splits, '' if splits == 1 else 's'))
+    s = '' if commit_count == 1 else 's'
+    print('%d commit%s generated' % (commit_count, s))
 
+
+NAMES = 'Added', 'Deleted', 'Modified', 'Renamed'
+NAMES = {name[0]: name for name in NAMES}
+NAMES['??'] = NAMES['R']
 
 if __name__ == '__main__':
     _gitz.run_argv(USAGE, git_split)
