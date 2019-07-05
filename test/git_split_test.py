@@ -1,10 +1,12 @@
 from . import repo
 import unittest
+
 GIT = repo.GIT
 GIT_SILENT = repo.GIT_SILENT
 
+
 def psp():
-    print(*GIT.status('--porcelain'), sep-'\n')
+    print(*GIT.status('--porcelain'), sep - '\n')
 
 
 class GitSplitTest(unittest.TestCase):
