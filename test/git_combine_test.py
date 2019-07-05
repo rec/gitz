@@ -18,4 +18,4 @@ class GitCombineTest(unittest.TestCase):
 
         GIT.git('combine', zero, three, 'HEAD~')
         files = [i for i in os.listdir() if not i.startswith('.')]
-        self.assertEqual(files, ['0', '3', '5'])
+        self.assertEqual(sorted(files), ['0', '3', '5'])

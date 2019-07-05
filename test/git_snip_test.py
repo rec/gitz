@@ -18,4 +18,4 @@ class GitSnipTest(unittest.TestCase):
 
         GIT.git('snip', one, three, 'HEAD~')
         files = [i for i in os.listdir() if not i.startswith('.')]
-        self.assertEqual(files, ['0', '2', '4', '6'])
+        self.assertEqual(sorted(files), ['0', '2', '4', '6'])

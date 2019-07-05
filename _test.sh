@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-set -Eeuo pipefail
+set -Eeo pipefail
 
 FILES=`grep -l python3 git-* | xargs echo`
 

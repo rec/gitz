@@ -11,13 +11,13 @@ class GitAllTest(unittest.TestCase):
 
     @repo.method
     def test_branches(self):
-        self.assertEqual('8c0a320', repo.make_commit('one.txt'))
+        self.assertEqual('047f436', repo.make_commit('one.txt'))
         current = GIT.current_branch()
         GIT.checkout('-b', 'foo')
-        self.assertEqual(repo.make_commit('two.txt'), 'd150342')
+        self.assertEqual(repo.make_commit('two.txt'), '33bb2c0')
         GIT.checkout(current)
         GIT.checkout('-b', 'bar')
-        self.assertEqual(repo.make_commit('three.txt'), '79f4dec')
+        self.assertEqual(repo.make_commit('three.txt'), '79715f1')
         actual = GIT.all('-', 'git', 'log', '--oneline')
         print(*actual, sep='\n')
         self.assertEqual(actual, _BRANCHES.split('\n'))
@@ -34,13 +34,13 @@ Directory test/data/foo:
 
 _BRANCHES = """\
 Branch bar:
-  79f4dec three.txt
-  8c0a320 one.txt
+  79715f1 three.txt
+  047f436 one.txt
 
 Branch foo:
-  d150342 two.txt
-  8c0a320 one.txt
+  33bb2c0 two.txt
+  047f436 one.txt
 
 Branch master:
-  8c0a320 one.txt
+  047f436 one.txt
 """
