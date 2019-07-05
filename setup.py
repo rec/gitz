@@ -1,7 +1,7 @@
 import os
 import setuptools
 
-VERSION = '0.9.0'
+VERSION = '0.9.1'
 
 setuptools.setup(
     name='gitz',
