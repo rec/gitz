@@ -58,11 +58,11 @@ class Git:
         return (p / '.git' / 'config').exists()
 
     def _git(self, *cmd, **kwds):
-        return run('git', *cmd, **kwds)
+        return run('git', *cmd, verbose=self.verbose, **kwds)
 
 
 GIT = Git()
-GIT_SILENT = Git(verbose=False, stderr=subprocess.PIPE)
+GIT_SILENT = Git(stderr=subprocess.PIPE)
 _SUBPROCESS_KWDS = {'encoding': 'utf-8', 'shell': True}
 
 
