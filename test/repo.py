@@ -50,4 +50,4 @@ def make_commit(*names):
         GIT.add(n)
     name = '_'.join(names)
     GIT.commit('-m', name, AUTHOR)
-    return GIT.commit_id()[:_gitz.COMMIT_ID_LENGTH]
+    return GIT.commit_id()[: _gitz.COMMIT_ID_LENGTH]

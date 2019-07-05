@@ -2,7 +2,6 @@ import os
 import setuptools
 
 VERSION = '0.9.0'
-print('!!', [f for f in os.listdir('.') if f.startswith('git-')])
 
 setuptools.setup(
     name='gitz',
@@ -24,4 +23,5 @@ setuptools.setup(
     ],
     keywords=['git'],
     scripts=[f for f in os.listdir('.') if f.startswith('git-')],
+    py_modules=['_gitz'],
 )

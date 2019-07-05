@@ -1,6 +1,7 @@
 from . import repo
 import os
 import unittest
+
 GIT = repo.GIT
 
 
@@ -82,6 +83,6 @@ class GitInferTest(unittest.TestCase):
             '[master 5276702] Several changes',
             ' 3 files changed, 2 insertions(+), 1 deletion(-)',
             ' rename 0 => 3 (100%)',
-            ' create mode 100644 4'
+            ' create mode 100644 4',
         ]
         self.assertEqual(actual, expected)
