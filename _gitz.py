@@ -107,16 +107,17 @@ class Program:
             self.exit()
 
     def parse_args(self, add_arguments):
-        self._print_help()
+        if self._print_help():
+            print()
+            print('Full ', end='')
         parser = argparse.ArgumentParser()
         add_arguments(parser)
         return parser.parse_args(self.argv)
 
     def _print_help(self):
         if '-h' in self.argv or '--h' in self.argv:
-            print(self.usage)
-            print()
-            print(self.help)
+            print(self.usage.rstrip())
+            print(self.help.rstrip())
             return True
 
 

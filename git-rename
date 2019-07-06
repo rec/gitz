@@ -3,7 +3,6 @@ set -Eeo pipefail
 
 usage() {
     cat <<EOF
-
 git-rename: Renames a git branch _and_ its remote branch.
 
 USAGE:
@@ -13,7 +12,6 @@ Rename the current branch to <to-branch>
 
 By default, the remote is 'origin'.  To change this, set the
 environment variable _GITZ_REMOTE
-
 EOF
 }
 
@@ -25,7 +23,7 @@ while getopts ":h" opt; do
 done
 
 if [[ -z "$1" ]] ; then
-    echo "Usage: gmove <to-branch>"
+    echo "USAGE: git rename <to-branch>"
     exit 1
 fi
 

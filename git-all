@@ -3,24 +3,22 @@ from pathlib import Path
 import sys
 import _gitz
 
-USAGE = """
+USAGE = """\
 git-all: Perform a command on each of multiple branches or directories
 
-Usage:
-    git all [name ...] - <command> [argument ...]
-"""
+USAGE:
+    git all [name ...] - <command> [argument ...]"""
 HELP = """
-Performs <command> [argument ...] for each `name`, or over all branches if no
-`name` is given.
+Performs <command> [argument ...] for each `name`, or over all
+branches if no `name` is given.
 
-Examples:
+EXAMPLES:
     git all - git log --oneline -5
         Performs git log --oneline -5 for each branch in this repo
 
     git all * - git all - git log --oneline -5
-        Performs git log --oneline -5 for each branch in each directory in
-        the current directory
-
+        Performs git log --oneline -5 for each branch in each
+        directory in athe current directory
 """
 
 GIT = _gitz.GIT
@@ -31,11 +29,9 @@ def git_all():
     argv = PROGRAM.argv
     dash = argv.index('-') if '-' in argv else len(argv)
     PROGRAM.argv, command = argv[:dash], argv[dash + 1 :]
-
+    args = PROGRAM.parse_args(_add_arguments)
     if not command:
         PROGRAM.error_and_exit(_ERROR_MISSING_COMMAND)
-
-    args = PROGRAM.parse_args(_add_arguments)
     if args.verbose:
         if args.quiet:
             args.verbose = False

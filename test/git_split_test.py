@@ -66,6 +66,6 @@ class GitSplitTest(unittest.TestCase):
             '21f80f5 [split] Deleted 0',
             '043df1f 2',
             'a03c0f8 1',
-            'c0d1dbb 0'
-            ]
+            'c0d1dbb 0',
+        ]
         self.assertEqual(actual, expected)
