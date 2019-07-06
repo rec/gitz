@@ -49,4 +49,5 @@ def git_snip(*argv):
 
 
 if __name__ == '__main__':
-    PROGRAM.help_or_run(git_snip)
+    PROGRAM.exit_on_help()
+    git_snip(*PROGRAM.argv)
