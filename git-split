@@ -6,12 +6,15 @@ GIT = _gitz.GIT
 USAGE = """
 git-split:  Split a range of commits into many single-file commits
 
-`git-split` squashes together a range of commits and the staging area, then
-splits out a sequence of individual commits, one for each file changed.
-
 Usage:
 
     git-split [<pathspec>]
+
+"""
+HELP = """
+
+`git-split` squashes together a range of commits and the staging area, then
+splits out a sequence of individual commits, one for each file changed.
 
 Examples:
 
@@ -25,7 +28,7 @@ Examples:
     git-split HEAD~~
         Splits the squash of HEAD, HEAD~ and HEAD~~
 """
-EXIT = _gitz.Exit(USAGE)
+EXIT = _gitz.Exit(USAGE, HELP)
 
 
 def git_split(commit='HEAD'):
@@ -67,4 +70,4 @@ NAMES = {name[0]: name for name in NAMES}
 NAMES['??'] = NAMES['R']
 
 if __name__ == '__main__':
-    _gitz.run_argv(USAGE, git_split)
+    EXIT.help_or_run(git_split)

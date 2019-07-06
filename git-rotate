@@ -4,9 +4,15 @@ import _gitz
 GIT = _gitz.GIT
 
 USAGE = """
-git-rotate: Rotate to the next or previous branch
+git-rotate: Rotate through all branches
 
-The rotation is circular, in alphabetic order
+Usage:
+    git rotate [<number-of-positions>]
+"""
+
+HELP = """
+Change the current branch by rotating through all the branches for this repo
+in the order given by the `git branch` command
 
 Examples:
     git rotate
@@ -19,15 +25,16 @@ Examples:
     git rotate -
         Rotate 1 branch backward
 """
+EXIT = _gitz.Exit(USAGE, HELP)
 
 
 def git_rotate(delta='1'):
     delta = -1 if delta == '-' else int(delta)
 
-    branches = sorted(GIT.branches())
+    branches = GIT.branches()
     pos = branches.index(GIT.current_branch()) + delta
     GIT.checkout(branches[pos % len(branches)])
 
 
 if __name__ == '__main__':
-    _gitz.run_argv(USAGE, git_rotate)
+    EXIT.help_or_run(git_rotate)
