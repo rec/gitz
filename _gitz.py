@@ -115,6 +115,7 @@ class Program:
     def _print_help(self):
         if '-h' in self.argv or '--h' in self.argv:
             print(self.usage)
+            print()
             print(self.help)
             return True
 

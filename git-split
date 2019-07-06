@@ -3,42 +3,47 @@ import _gitz
 
 GIT = _gitz.GIT
 
+
 USAGE = """
 git-split:  Split a range of commits into many single-file commits
 
 Usage:
 
     git-split [<pathspec>]
-
 """
-HELP = """
 
+HELP = """
 `git-split` squashes together a range of commits and the staging area, then
 splits out a sequence of individual commits, one for each file changed.
 
 Examples:
 
     git-split
+        Splits the staging area if it's not empty, otherwise HEAD
+
     git-split HEAD
-        Splits HEAD
+        Splits the squash of the staging area and HEAD
 
     git-split HEAD~
-        Splits the squash of HEAD and HEAD~
-
-    git-split HEAD~~
-        Splits the squash of HEAD, HEAD~ and HEAD~~
+        Splits the squash of the staging area, HEAD and HEAD~
 """
 PROGRAM = _gitz.Program(USAGE, HELP)
 
 
-def git_split(commit='HEAD'):
+def git_split(commit=None):
     try:
         GIT.cd_root()
     except ValueError:
         PROGRAM.error_and_exit('Not in a git directory')
 
-    PROGRAM.require_clean_workspace()
-    commit = GIT.commit_id(commit + '~')
+    if commit is not None:
+        commit += '~'
+    elif GIT.is_workspace_dirty():
+        commit = 'HEAD'
+    else:
+        commit = 'HEAD~'
+
+    commit = GIT.commit_id(commit)
     GIT.reset('--soft', commit)
     lines = GIT.status('--porcelain')
 
@@ -46,20 +51,22 @@ def git_split(commit='HEAD'):
     commit_count = 0
 
     for line in lines:
-        mode, filename = line.split(maxsplit=1)
+        mode, filenames = line.split(maxsplit=1)
+        filenames_split = filenames.split(' -> ')
         mode = mode.strip()
+        if mode == '??':
+            mode = 'R' if len(filenames_split) > 1 else 'A'
         mode_name = NAMES[mode]
 
         # Renaming is a special case with two files on a line
         # separated by -> and with mode = '??'
-        filenames = filename.split(' -> ')
         try:
-            GIT.add(*filenames)
-            GIT.commit('-m', '"[split] %s %s"' % (mode_name, filename))
+            GIT.add(*filenames_split)
+            GIT.commit('-m', '"[split] %s %s"' % (mode_name, filenames))
             commit_count += 1
 
         except Exception:
-            PROGRAM.error("couldn't commit filename ", filename)
+            PROGRAM.error("couldn't commit filenames", filenames)
 
     s = '' if commit_count == 1 else 's'
     print('%d commit%s generated' % (commit_count, s))
@@ -67,7 +74,6 @@ def git_split(commit='HEAD'):
 
 NAMES = 'Added', 'Deleted', 'Modified', 'Renamed'
 NAMES = {name[0]: name for name in NAMES}
-NAMES['??'] = NAMES['R']
 
 if __name__ == '__main__':
     PROGRAM.exit_on_help()

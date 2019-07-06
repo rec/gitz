@@ -50,12 +50,20 @@ def method(f):
     return wrapper
 
 
-def make_commit(*names):
-    for n in names:
-        with open(n, 'w') as fp:
-            fp.write(n)
+def write_files(*names):
+    for name in names:
+        with open(name, 'w') as fp:
+            fp.write(name)
             fp.write('\n')
-        GIT.add(n)
-    name = '_'.join(names)
-    GIT.commit('-m', name)
+
+
+def add_files(*names):
+    for name in names:
+        GIT.add(name)
+
+
+def make_commit(*names):
+    write_files(*names)
+    add_files(*names)
+    GIT.commit('-m', '_'.join(names))
     return GIT.commit_id()[: _gitz.COMMIT_ID_LENGTH]
