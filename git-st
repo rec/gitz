@@ -5,12 +5,10 @@
 
 usage() {
     cat <<EOF
-
 git-st: A compact and elegant git status using color
 
 USAGE:
     git st
-
 EOF
 }
 

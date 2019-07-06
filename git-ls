@@ -1,5 +1,21 @@
 #!/bin/bash
 
+usage() {
+    cat <<EOF
+git-ls: List each file with its most recent commit
+
+USAGE:
+    git ls [-a] [directory]
+EOF
+}
+
+while getopts ":h" opt; do
+  case $opt in
+    h)
+      usage ; exit ; ;;
+  esac
+done
+
 dotfiles=0
 
 if [ "$1" = "-a" -o "$1" = "-A" ]
@@ -12,7 +28,7 @@ if [ "$#" -ne 0 ]
 then
     if [ ! -d "$1" ]
     then
-        >&2 echo "Usage: git ls [-a] [directory]"
+        >&2 echo ""
         exit 1
     fi
     cd "$1"

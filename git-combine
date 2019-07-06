@@ -4,15 +4,14 @@ import _gitz
 GIT = _gitz.GIT
 GIT_SILENT = _gitz.GIT_SILENT
 
-USAGE = """
+USAGE = """\
 git-combine: Combines multiple commit IDs together using cherry picking
 
-Usage:
+USAGE:
     git-combine <base-commit> [<additional-commit> ...<additional-commit>]
         [--force-push | -f] [--preserve-conflict | -p] [--stash | -s]
 """
 HELP = """
-
 Hard-resets to <base-commit> then successively cherry-picks the additional
 commit IDs on top
 
@@ -27,7 +26,7 @@ and then the branch gets reverted to where it was before ``git-combine``
 started before the script errors... unless the --preserve-conflict / -p flag
 is set, in which case the branch stays right at the broken cherry-pick.
 
-Examples:
+EXAMPLES:
     git combine master d2dfe0c a2833bc
         Goes to the commit in `master` and then cherry picks the two commits
         d2dfe0c and a2833bc on top of it.

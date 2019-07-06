@@ -3,20 +3,17 @@ import _gitz
 
 GIT = _gitz.GIT
 
-
-USAGE = """
+USAGE = """\
 git-split:  Split a range of commits into many single-file commits
 
-Usage:
-
+USAGE:
     git-split [<pathspec>]
 """
-
 HELP = """
 `git-split` squashes together a range of commits and the staging area, then
 splits out a sequence of individual commits, one for each file changed.
 
-Examples:
+EXAMPLES:
 
     git-split
         Splits the staging area if it's not empty, otherwise HEAD

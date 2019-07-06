@@ -3,15 +3,14 @@ set -Eeuo pipefail
 
 usage() {
     cat <<EOF
-
 git-infer: Commit your changes with an auto-generated message
 
-usage: git infer [-a] [-A] [-h]
+USAGE:
+    git infer [-a] [-A] [-h]
 
        -a    Include all tracked files
        -A    Include all files, even the untracked
        -h    See this help message
-
 EOF
 }
 

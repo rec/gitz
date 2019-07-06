@@ -3,10 +3,10 @@ import _gitz
 
 GIT = _gitz.GIT
 
-USAGE = """
+USAGE = """\
 git-rotate: Rotate through all branches
 
-Usage:
+USAGE:
     git rotate [<number-of-positions>]
 """
 
@@ -14,7 +14,7 @@ HELP = """
 Change the current branch by rotating through all the branches for this repo
 in the order given by the `git branch` command
 
-Examples:
+EXAMPLES:
     git rotate
         Rotate to the next branch
 
