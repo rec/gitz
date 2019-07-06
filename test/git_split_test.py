@@ -47,3 +47,25 @@ class GitSplitTest(unittest.TestCase):
             '19deae6 0_1_2',
         ]
         self.assertEqual(actual, expected)
+
+    @repo.method
+    def test_staging_area(self):
+        repo.make_commit('0')
+        repo.make_commit('1')
+        repo.make_commit('2')
+        repo.write_files('3', '4')
+        repo.add_files('3')
+        GIT.mv('1', '5')
+        GIT.rm('0')
+        GIT.split()
+        actual = GIT.log('--oneline', '-10')
+        expected = [
+            'cea714a [split] Added 4',
+            '05ecff4 [split] Renamed 1 -> 5',
+            'e6b7f89 [split] Added 3',
+            '21f80f5 [split] Deleted 0',
+            '043df1f 2',
+            'a03c0f8 1',
+            'c0d1dbb 0'
+            ]
+        self.assertEqual(actual, expected)
