@@ -1,4 +1,5 @@
 from pathlib import Path
+import argparse
 import functools
 import os
 import shlex
@@ -84,15 +85,7 @@ def run(*cmd, use_shlex=False, **kwds):
     return subprocess.check_output(cmd, **kwds).splitlines()
 
 
-def normalize(f):
-    return os.path.expandvars(os.path.expanduser(f))
-
-
-def chdir(f):
-    os.chdir(normalize(f))
-
-
-class Exit:
+class Program:
     def __init__(self, usage='', help='', code=-1):
         self.usage = usage
         self.help = help
@@ -129,6 +122,12 @@ class Exit:
         if GIT.is_workspace_dirty():
             self.error('Your local changes would be overwritten')
             self.exit()
+
+    def parse_args(self, add_arguments):
+        self.print_help()
+        parser = argparse.ArgumentParser()
+        add_arguments(parser)
+        return parser.parse_args(self.argv)
 
 
 class CommitIndexer:

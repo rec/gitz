@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 from pathlib import Path
-import argparse
 import sys
 import _gitz
 
@@ -25,24 +24,18 @@ Examples:
 """
 
 GIT = _gitz.GIT
-EXIT = _gitz.Exit(USAGE, HELP)
+PROGRAM = _gitz.Program(USAGE, HELP)
 
 
 def git_all():
     argv = sys.argv[1:]
 
     dash = argv.index('-') if '-' in argv else len(argv)
-    argv, command = argv[:dash], argv[dash + 1 :]
-
-    if '-h' in argv or '--h' in argv:
-        EXIT.print_usage()
-        EXIT.print_help()
-
-    args = _parse_args(argv)
-
+    PROGRAM.argv, command = argv[:dash], argv[dash + 1 :]
     if not command:
-        EXIT.error_and_exit(_ERROR_MISSING_COMMAND)
+        PROGRAM.error_and_exit(_ERROR_MISSING_COMMAND)
 
+    args = PROGRAM.parse_args(_add_arguments)
     if args.verbose:
         if args.quiet:
             args.verbose = False
@@ -57,20 +50,20 @@ def git_all():
         names = [n for n in names if not n.startswith('.')]
 
     if set(branches).intersection(names):
-        EXIT.require_clean_workspace()
+        PROGRAM.require_clean_workspace()
 
     errors = [n for n in names if not (n in branches or Path(n).is_dir())]
     if errors:
         errors = '"%s"' % '", "'.join(errors)
-        EXIT.error_and_exit(_ERROR_BAD_NAME % errors)
+        PROGRAM.error_and_exit(_ERROR_BAD_NAME % errors)
 
     for name in names:
         try:
             _run_command(args, name, branches, command)
         except Exception as e:
-            EXIT.error('Exception', e, 'for name', name)
+            PROGRAM.error('Exception', e, 'for name', name)
             if not args.catch:
-                EXIT.exit()
+                PROGRAM.exit()
 
 
 def _run_command(args, name, branches, command):
@@ -95,18 +88,14 @@ def _run_command(args, name, branches, command):
         print()
 
 
-def _parse_args(argv):
-    parser = argparse.ArgumentParser()
+def _add_arguments(parser):
     add = parser.add_argument
-
     add('name', nargs='*', help=_HELP_NAME)
     add('-c', '--catch', action='store_true', help=_HELP_CATCH)
     add('-d', '--dotfiles', action='store_true', help=_HELP_DOTFILES)
     add('-i', '--indent', default=2, type=int, help=_HELP_INDENT)
     add('-q', '--quiet', action='store_true', help=_HELP_QUIET)
     add('-v', '--verbose', action='store_true', help=_HELP_VERBOSE)
-
-    return parser.parse_args(['-h' if a == '--help' else a for a in argv])
 
 
 _ERROR_BAD_NAME = '%s: neither branch nor git repository'

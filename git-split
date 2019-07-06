@@ -28,16 +28,16 @@ Examples:
     git-split HEAD~~
         Splits the squash of HEAD, HEAD~ and HEAD~~
 """
-EXIT = _gitz.Exit(USAGE, HELP)
+PROGRAM = _gitz.Program(USAGE, HELP)
 
 
 def git_split(commit='HEAD'):
     try:
         GIT.cd_root()
     except ValueError:
-        EXIT.error_and_exit('Not in a git directory')
+        PROGRAM.error_and_exit('Not in a git directory')
 
-    EXIT.require_clean_workspace()
+    PROGRAM.require_clean_workspace()
     commit = GIT.commit_id(commit + '~')
     GIT.reset('--soft', commit)
     lines = GIT.status('--porcelain')
@@ -59,7 +59,7 @@ def git_split(commit='HEAD'):
             commit_count += 1
 
         except Exception:
-            EXIT.error("couldn't commit filename ", filename)
+            PROGRAM.error("couldn't commit filename ", filename)
 
     s = '' if commit_count == 1 else 's'
     print('%d commit%s generated' % (commit_count, s))
@@ -70,4 +70,4 @@ NAMES = {name[0]: name for name in NAMES}
 NAMES['??'] = NAMES['R']
 
 if __name__ == '__main__':
-    EXIT.help_or_run(git_split)
+    PROGRAM.help_or_run(git_split)
