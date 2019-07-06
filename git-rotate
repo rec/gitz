@@ -6,8 +6,7 @@ GIT = _gitz.GIT
 USAGE = """
 git-rotate: Rotate to the next or previous branch
 
-The rotateation is circular.  The order of branches is the same as that in
-``git branch``
+The rotation is circular, in alphabetic order
 
 Examples:
     git rotate
@@ -25,7 +24,7 @@ Examples:
 def git_rotate(delta='1'):
     delta = -1 if delta == '-' else int(delta)
 
-    branches = GIT.branches()
+    branches = sorted(GIT.branches())
     pos = branches.index(GIT.current_branch()) + delta
     GIT.checkout(branches[pos % len(branches)])
 
