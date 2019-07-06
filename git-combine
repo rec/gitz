@@ -1,6 +1,5 @@
 #!/usr/bin/env python3
 import argparse
-import sys
 import _gitz
 
 GIT = _gitz.GIT
@@ -114,12 +113,10 @@ def _git(*cmd, **kwds):
 
 
 def _parse_args():
-    argv = sys.argv[1:]
-    _gitz.print_help(argv, USAGE)
-
+    EXIT.print_help()
     parser = argparse.ArgumentParser()
     _add_arguments(parser)
-    return parser.parse_args(argv)
+    return parser.parse_args(EXIT.argv)
 
 
 if __name__ == '__main__':
