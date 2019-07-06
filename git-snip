@@ -6,17 +6,18 @@ import _gitz
 USAGE = """
 git-snip:
 
+Usage:
+    git-snip <id> [<id> ...]
+"""
+HELP = """"
     Delete one or more commits IDs from the current branch.
     IDs 0, 1, 2, 3... are short for HEAD~0, HEAD~1, HEAD~2, HEAD~3...
 
     This command rewrites history.
 
-Usage:
-    git-snip <id> [<id> ...]
-
 """
 GIT = _gitz.GIT
-EXIT = _gitz.Exit(USAGE)
+EXIT = _gitz.Exit(USAGE, HELP)
 
 
 def git_snip(*argv):
@@ -42,11 +43,10 @@ def git_snip(*argv):
     if errors or dupes:
         EXIT.exit()
 
-    indexes
     for i in reversed(sorted(indexes)):
         'HEAD~%s' % i
         GIT.rebase(('HEAD~%s' % i), '--onto', 'HEAD~%s' % (i + 1))
 
 
 if __name__ == '__main__':
-    _gitz.run_argv(USAGE, git_snip)
+    EXIT.help_or_run(git_snip)
