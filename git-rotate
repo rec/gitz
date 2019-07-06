@@ -25,7 +25,7 @@ Examples:
     git rotate -
         Rotate 1 branch backward
 """
-EXIT = _gitz.Exit(USAGE, HELP)
+PROGRAM = _gitz.Program(USAGE, HELP)
 
 
 def git_rotate(delta='1'):
@@ -37,4 +37,4 @@ def git_rotate(delta='1'):
 
 
 if __name__ == '__main__':
-    EXIT.help_or_run(git_rotate)
+    PROGRAM.help_or_run(git_rotate)

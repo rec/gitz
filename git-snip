@@ -17,7 +17,7 @@ HELP = """"
 
 """
 GIT = _gitz.GIT
-EXIT = _gitz.Exit(USAGE, HELP)
+PROGRAM = _gitz.Program(USAGE, HELP)
 
 
 def git_snip(*argv):
@@ -37,11 +37,11 @@ def git_snip(*argv):
             errors.append(a)
 
     if errors:
-        EXIT.error('Not commit IDs:', *errors)
+        PROGRAM.error('Not commit IDs:', *errors)
     if dupes:
-        EXIT.error('Duplicate IDs:', *dupes)
+        PROGRAM.error('Duplicate IDs:', *dupes)
     if errors or dupes:
-        EXIT.exit()
+        PROGRAM.exit()
 
     for i in reversed(sorted(indexes)):
         'HEAD~%s' % i
@@ -49,4 +49,4 @@ def git_snip(*argv):
 
 
 if __name__ == '__main__':
-    EXIT.help_or_run(git_snip)
+    PROGRAM.help_or_run(git_snip)
