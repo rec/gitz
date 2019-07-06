@@ -9,7 +9,8 @@ git-all: Perform a command on each of multiple branches or directories
 
 Usage:
     git all [name ...] - <command> [argument ...]
-
+"""
+HELP = """
 Performs <command> [argument ...] for each `name`, or over all branches if no
 `name` is given.
 
@@ -24,7 +25,7 @@ Examples:
 """
 
 GIT = _gitz.GIT
-EXIT = _gitz.Exit(USAGE)
+EXIT = _gitz.Exit(USAGE, HELP)
 
 
 def git_all():
@@ -35,6 +36,7 @@ def git_all():
 
     if '-h' in argv or '--h' in argv:
         EXIT.print_usage()
+        EXIT.print_help()
 
     args = _parse_args(argv)
 

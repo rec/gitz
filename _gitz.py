@@ -92,10 +92,6 @@ def chdir(f):
     os.chdir(normalize(f))
 
 
-def get_argv():
-    return ['-h' if i == '--help' else i for i in sys.argv[1:]]
-
-
 def print_help(argv, usage=None):
     argv[:] = ['-h' if i == '--help' else i for i in argv]
     if '-h' in argv:
@@ -105,14 +101,15 @@ def print_help(argv, usage=None):
 
 
 def run_argv(usage, main):
-    argv = get_argv()
+    argv = sys.argv[1:]
     if not print_help(argv, usage):
         main(*argv)
 
 
 class Exit:
-    def __init__(self, usage='', code=-1):
+    def __init__(self, usage='', help='', code=-1):
         self.usage = usage
+        self.help = help
         self.code = code
 
     def error_and_exit(self, *messages):
@@ -126,6 +123,10 @@ class Exit:
     def print_usage(self):
         if self.usage:
             print(self.usage, file=sys.stderr)
+
+    def print_help(self):
+        if self.help:
+            print(self.help, file=sys.stderr)
 
     def error(self, *messages):
         executable = Path(sys.argv[0]).name

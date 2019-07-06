@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import argparse
+import sys
 import _gitz
 
 GIT = _gitz.GIT
@@ -11,7 +12,8 @@ git-combine: Combines multiple commit IDs together using cherry picking
 Usage:
     git-combine <base-commit> [<additional-commit> ...<additional-commit>]
         [--force-push | -f] [--preserve-conflict | -p] [--stash | -s]
-
+"""
+HELP = """
 
 Hard-resets to <base-commit> then successively cherry-picks the additional
 commit IDs on top
@@ -47,7 +49,7 @@ Examples:
         reverted including the stash popped
 
 """
-EXIT = _gitz.Exit(USAGE)
+EXIT = _gitz.Exit(USAGE, HELP)
 
 UNCOMMITTED_ERROR = """
 Uncommitted changes would be overwritten.
@@ -112,7 +114,7 @@ def _git(*cmd, **kwds):
 
 
 def _parse_args():
-    argv = _gitz.get_argv()
+    argv = sys.argv[1:]
     _gitz.print_help(argv, USAGE)
 
     parser = argparse.ArgumentParser()
