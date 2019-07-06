@@ -37,4 +37,5 @@ def git_rotate(delta='1'):
 
 
 if __name__ == '__main__':
-    PROGRAM.help_or_run(git_rotate)
+    PROGRAM.exit_on_help()
+    git_rotate(*PROGRAM.argv)

@@ -22,13 +22,13 @@ class Git:
 
     def git(self, *cmd, **kwds):
         kwds = dict(self.kwds, **kwds) if self.kwds else kwds
-        return git(*cmd, verbose=self.verbose, **kwds)
+        return run('git', *cmd, verbose=self.verbose, **kwds)
 
     def is_workspace_dirty(self):
         if not self.find_root():
             return False
         try:
-            git('diff-index', '--quiet', 'HEAD', '--')
+            run('git', 'diff-index', '--quiet', 'HEAD', '--')
         except Exception:
             # Also returns true if workspace is broken for some other reason
             return True
@@ -50,16 +50,13 @@ class Git:
         return [b.strip().replace('* ', '') for b in self.branch()]
 
     def current_branch(self):
-        return git('symbolic-ref', '--short', 'HEAD')[0].strip()
+        return run('git', 'symbolic-ref', '--short', 'HEAD')[0].strip()
 
     def commit_id(self, name='HEAD', **kwds):
-        return git('rev-parse', name, **kwds)[0].strip()
+        return run('git', 'rev-parse', name, **kwds)[0].strip()
 
     def is_root(self, p):
         return (p / '.git' / 'config').exists()
-
-    def _git(self, *cmd, **kwds):
-        return run('git', *cmd, verbose=self.verbose, **kwds)
 
 
 GIT = Git()
@@ -67,53 +64,39 @@ GIT_SILENT = Git(stderr=subprocess.PIPE)
 _SUBPROCESS_KWDS = {'encoding': 'utf-8', 'shell': True}
 
 
-def git(*cmd, verbose=False, **kwds):
+def run(*cmd, use_shlex=False, verbose=False, **kwds):
     if verbose:
-        print('$ git', *cmd)
-    lines = run('git', *cmd, **kwds)
-    if verbose:
-        print(*lines, sep='')
-    return lines
-
-
-def run(*cmd, use_shlex=False, **kwds):
+        print('$', *cmd)
     kwds = dict(_SUBPROCESS_KWDS, **kwds)
     if kwds.get('shell'):
         if use_shlex:
             cmd = (shlex.quote(c) for c in cmd)
         cmd = ' '.join(cmd)
-    return subprocess.check_output(cmd, **kwds).splitlines()
+    lines = subprocess.check_output(cmd, **kwds).splitlines()
+    if verbose:
+        print(*lines, sep='')
+    return lines
 
 
 class Program:
-    def __init__(self, usage='', help='', code=-1):
+    def __init__(self, usage, help, code=-1):
         self.usage = usage
         self.help = help
         self.code = code
         self.program = Path(sys.argv[0]).name
         self.argv = sys.argv[1:]
 
-    def print_help(self):
-        if '-h' in self.argv or '--h' in self.argv:
-            print(self.usage)
-            print(self.help)
-            return True
-
-    def help_or_run(self, main):
-        if not self.print_help():
-            main(*self.argv)
+    def exit_on_help(self):
+        if self._print_help():
+            sys.exit(0)
 
     def error_and_exit(self, *messages):
         self.error(*messages)
-        self.print_usage()
+        print(self.usage, file=sys.stderr)
         self.exit()
 
     def exit(self):
         sys.exit(self.code)
-
-    def print_usage(self):
-        if self.usage:
-            print(self.usage, file=sys.stderr)
 
     def error(self, *messages):
         print('ERROR:', self.program + ':', *messages, file=sys.stderr)
@@ -124,10 +107,16 @@ class Program:
             self.exit()
 
     def parse_args(self, add_arguments):
-        self.print_help()
+        self._print_help()
         parser = argparse.ArgumentParser()
         add_arguments(parser)
         return parser.parse_args(self.argv)
+
+    def _print_help(self):
+        if '-h' in self.argv or '--h' in self.argv:
+            print(self.usage)
+            print(self.help)
+            return True
 
 
 class CommitIndexer:

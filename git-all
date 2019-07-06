@@ -28,10 +28,10 @@ PROGRAM = _gitz.Program(USAGE, HELP)
 
 
 def git_all():
-    argv = sys.argv[1:]
-
+    argv = PROGRAM.argv
     dash = argv.index('-') if '-' in argv else len(argv)
     PROGRAM.argv, command = argv[:dash], argv[dash + 1 :]
+
     if not command:
         PROGRAM.error_and_exit(_ERROR_MISSING_COMMAND)
 

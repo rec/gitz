@@ -70,4 +70,5 @@ NAMES = {name[0]: name for name in NAMES}
 NAMES['??'] = NAMES['R']
 
 if __name__ == '__main__':
-    PROGRAM.help_or_run(git_split)
+    PROGRAM.exit_on_help()
+    git_split(*PROGRAM.argv)
