@@ -22,7 +22,13 @@ There's a summary of what each command does below - for more details use the
 How to install
 ================
 
-Download and unzip
+If you have ``pip`` installed
+
+.. code-block:: bash
+
+    pip3 install gitz
+
+Otherwise, download and unzip
 `this directory
 <https://github.com/rec/gitz/archive/master.zip>`_,
 then put that directory's path into the ``PATH`` environment variable.
