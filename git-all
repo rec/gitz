@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-from pathlib import Path
 import sys
 import _gitz
 
@@ -48,7 +47,16 @@ def git_all():
     if set(branches).intersection(names):
         PROGRAM.require_clean_workspace()
 
-    errors = [n for n in names if not (n in branches or Path(n).is_dir())]
+    errors, names = [], []
+    for name in args.name or branches:
+        p = _gitz.expand_path(name)
+        if name in branches:
+            names.append(name)
+        elif not p.is_dir():
+            errors.append(str(p))
+        elif not p.name.startswith('.') and (args.all or GIT.find_root(p)):
+            names.append(str(p))
+
     if errors:
         errors = '"%s"' % '", "'.join(errors)
         PROGRAM.error_and_exit(_ERROR_BAD_NAME % errors)
@@ -73,10 +81,12 @@ def _run_command(args, name, branches, command):
         finally:
             GIT.checkout('-q', saved_branch)
     else:
+        name = _gitz.expand_path(name)
+        if name.name.startswith('.') or not (args.all or GIT.find_root(name)):
+            return
         if not args.quiet:
             print('Directory %s:' % name)
-
-        lines = _gitz.run(*command, cwd=name)
+        lines = _gitz.run(*command, cwd=str(name))
     indent = ' ' * args.indent
     for line in lines:
         print(indent, line, sep='')
@@ -89,6 +99,7 @@ def _add_arguments(parser):
     add('name', nargs='*', help=_HELP_NAME)
     add('-c', '--catch', action='store_true', help=_HELP_CATCH)
     add('-d', '--dotfiles', action='store_true', help=_HELP_DOTFILES)
+    add('-a', '--all', action='store_true', help=_HELP_ALL)
     add('-i', '--indent', default=2, type=int, help=_HELP_INDENT)
     add('-q', '--quiet', action='store_true', help=_HELP_QUIET)
     add('-v', '--verbose', action='store_true', help=_HELP_VERBOSE)
@@ -97,8 +108,10 @@ def _add_arguments(parser):
 _ERROR_BAD_NAME = '%s: neither branch nor git repository'
 _ERROR_MISSING_COMMAND = 'No command found'
 
+_HELP_ALL = 'Visit non-git directories'
 _HELP_CATCH = 'Instead of failing, catch and report errors, then continue'
 _HELP_DOTFILES = 'Don\'t exclude dotfiles'
+_HELP_FAIL = 'Fail immediately if any git-all command fails'
 _HELP_INDENT = 'Number of columns to indent output of commands'
 _HELP_NAME = 'Names of branches or directories to iterate over'
 _HELP_QUIET = 'Print only command output and errors, no git or git-all output'

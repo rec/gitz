@@ -1,4 +1,5 @@
 from . import repo
+from pathlib import Path
 import unittest
 
 GIT = repo.GIT
@@ -24,13 +25,15 @@ class GitAllTest(unittest.TestCase):
 
 
 _DIRECTORIES = """\
-Directory test/data/bar:
+Directory {0}/data/bar:
   one.txt
   two.txt
 
-Directory test/data/foo:
+Directory {0}/data/foo:
   three.txt
-"""
+""".format(
+    str(Path(__file__).parent)
+)
 
 _BRANCHES = """\
 Branch bar:

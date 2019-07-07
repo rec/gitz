@@ -1,6 +1,7 @@
 from pathlib import Path
 import argparse
 import functools
+import os
 import shlex
 import subprocess
 import sys
@@ -32,7 +33,8 @@ class Git:
             # Also returns true if workspace is broken for some other reason
             return True
 
-    def find_root(self, p=Path()):
+    def find_root(self, p='.'):
+        p = Path(p)
         while not self.is_root(p):
             if p.parent == p:
                 return None
@@ -73,6 +75,10 @@ def run(*cmd, use_shlex=False, verbose=False, **kwds):
     if verbose:
         print(*lines, sep='')
     return lines
+
+
+def expand_path(s):
+    return Path(os.path.expandvars(s)).expanduser().resolve()
 
 
 class Program:
