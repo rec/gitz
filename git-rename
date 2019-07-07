@@ -4,10 +4,10 @@ import _gitz
 GIT = _gitz.GIT
 
 USAGE = """\
-git-rename: Renames a local git branch and one or more remote branches
+git-rename: Renames the current git branch and one or more remote branches
 
 USAGE:
-    git rename [<from-branch>] <to-branch>[:remote :remote...]
+    git rename to-branch [remote remote...]
 """
 
 HELP = """
@@ -17,12 +17,37 @@ Rename the current branch to <to-branch>
 PROGRAM = _gitz.GitProgram(USAGE, HELP)
 
 
-def git_rename(source, target=None):
+def git_rename(target=None, *remotes):
     PROGRAM.check_help_and_git()
-
     if not target:
-        target = source
-        source = _gitz.current_branch()
+        PROGRAM.error_and_exit('No target specified')
+
+    source = GIT.current_branch()
+
+    actual_remotes = GIT.remote()
+    if not remotes:
+        if len(actual_remotes) == 1:
+            remotes = actual_remotes
+        elif 'origin' in actual_remotes:
+            remotes = ['origin']
+        else:
+            PROGRAM.error_and_exit('No remote repository specified')
+
+    bad_remotes = set(remotes).difference(actual_remotes)
+    if bad_remotes:
+        s = '' if len(bad_remotes) == 1 else 's'
+        PROGRAM.error_exit('Bad remote%s:' % s, *bad_remotes)
+
+    GIT.branch('-m', source, target)
+    print('Moved /%s to /%s' % (source, target))
+    for remote in reversed(remotes):
+        GIT.push('--set-upstream', remote, target)
+        print('Copied {0}/{1} to {0}/{2}'.format(remote, source, target))
+        try:
+            GIT.push(remote, ':' + source)
+            print('Deleted {0}/{1}'.format(remote, source))
+        except Exception:
+            print('WARNING: Unabled to delete {0}/{1}'.format(remote, source))
 
 
 if __name__ == '__main__':
