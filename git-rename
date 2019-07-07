@@ -14,15 +14,16 @@ HELP = """
 
 Rename the current branch to <to-branch>
 """
-PROGRAM = _gitz.Program(USAGE, HELP)
+PROGRAM = _gitz.GitProgram(USAGE, HELP)
 
 
 def git_rename(source, target=None):
+    PROGRAM.check_help_and_git()
+
     if not target:
         target = source
         source = _gitz.current_branch()
 
 
 if __name__ == '__main__':
-    PROGRAM.exit_on_help()
     git_rename(*PROGRAM.argv)

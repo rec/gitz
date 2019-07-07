@@ -46,7 +46,7 @@ EXAMPLES:
         reverted including the stash popped
 
 """
-PROGRAM = _gitz.Program(USAGE, HELP)
+PROGRAM = _gitz.GitProgram(USAGE, HELP)
 
 UNCOMMITTED_ERROR = """
 Uncommitted changes would be overwritten.
@@ -56,6 +56,8 @@ Uncommitted changes would be overwritten.
 
 
 def git_combine():
+    PROGRAM.require_git()
+
     args = PROGRAM.parse_args(_add_arguments)
     commit_id = GIT.commit_id()
     ids, errors = [], []

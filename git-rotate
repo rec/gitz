@@ -25,10 +25,12 @@ EXAMPLES:
     git rotate -
         Rotate 1 branch backward
 """
-PROGRAM = _gitz.Program(USAGE, HELP)
+PROGRAM = _gitz.GitProgram(USAGE, HELP)
 
 
 def git_rotate(delta='1'):
+    PROGRAM.check_help_and_git()
+
     delta = -1 if delta == '-' else int(delta)
 
     branches = GIT.branches()
@@ -37,5 +39,4 @@ def git_rotate(delta='1'):
 
 
 if __name__ == '__main__':
-    PROGRAM.exit_on_help()
     git_rotate(*PROGRAM.argv)

@@ -22,7 +22,7 @@ EXAMPLES:
 """
 
 GIT = _gitz.GIT
-PROGRAM = _gitz.Program(USAGE, HELP)
+PROGRAM = _gitz.GitProgram(USAGE, HELP)
 
 
 def git_all():

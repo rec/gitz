@@ -18,10 +18,12 @@ branches.
 
 """
 GIT = _gitz.GIT
-PROGRAM = _gitz.Program(USAGE, HELP)
+PROGRAM = _gitz.GitProgram(USAGE, HELP)
 
 
 def git_snip(*argv):
+    PROGRAM.check_help_and_git()
+
     indexes = []
     errors = []
     dupes = []
@@ -50,5 +52,4 @@ def git_snip(*argv):
 
 
 if __name__ == '__main__':
-    PROGRAM.exit_on_help()
     git_snip(*PROGRAM.argv)

@@ -1,7 +1,6 @@
 from pathlib import Path
 import argparse
 import functools
-import os
 import shlex
 import subprocess
 import sys
@@ -40,12 +39,6 @@ class Git:
             p = p.parent
         return p
 
-    def cd_root(self):
-        root = self.find_root()
-        if not root:
-            raise ValueError('Working directory is not within a git directory')
-        os.chdir(root)
-
     def branches(self):
         return [b.strip().replace('* ', '') for b in self.branch()]
 
@@ -62,6 +55,10 @@ class Git:
 GIT = Git()
 GIT_SILENT = Git(stderr=subprocess.PIPE)
 _SUBPROCESS_KWDS = {'encoding': 'utf-8', 'shell': True}
+_ERROR_CHANGES_OVERWRITTEN = 'Your local changes would be overwritten'
+_ERROR_NOT_GIT_REPOSITORY = (
+    'fatal: not a git repository (or any of the parent directories): .git'
+)
 
 
 def run(*cmd, use_shlex=False, verbose=False, **kwds):
@@ -86,7 +83,8 @@ class Program:
         self.program = Path(sys.argv[0]).name
         self.argv = sys.argv[1:]
 
-    def exit_on_help(self):
+    def check_help(self):
+        """If help requested, print it and exit"""
         if self._print_help():
             sys.exit(0)
 
@@ -101,11 +99,6 @@ class Program:
     def error(self, *messages):
         print('ERROR:', self.program + ':', *messages, file=sys.stderr)
 
-    def require_clean_workspace(self):
-        if GIT.is_workspace_dirty():
-            self.error('Your local changes would be overwritten')
-            self.exit()
-
     def parse_args(self, add_arguments):
         if self._print_help():
             print()
@@ -119,6 +112,23 @@ class Program:
             print(self.usage.rstrip())
             print(self.help.rstrip())
             return True
+
+
+class GitProgram(Program):
+    def check_help_and_git(self):
+        """Also check if we are in a git hierarchy"""
+        self.check_help()
+        self.require_git()
+
+    def require_git(self):
+        if not GIT.find_root():
+            self.error(_ERROR_NOT_GIT_REPOSITORY)
+            self.exit()
+
+    def require_clean_workspace(self):
+        if GIT.is_workspace_dirty():
+            self.error(_ERROR_CHANGES_OVERWRITTEN)
+            self.exit()
 
 
 class CommitIndexer:

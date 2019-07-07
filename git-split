@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+import os
 import _gitz
 
 GIT = _gitz.GIT
@@ -24,14 +25,13 @@ EXAMPLES:
     git-split HEAD~
         Splits the squash of the staging area, HEAD and HEAD~
 """
-PROGRAM = _gitz.Program(USAGE, HELP)
+PROGRAM = _gitz.GitProgram(USAGE, HELP)
 
 
 def git_split(commit=None):
-    try:
-        GIT.cd_root()
-    except ValueError:
-        PROGRAM.error_and_exit('Not in a git directory')
+    PROGRAM.check_help_and_git()
+
+    os.chdir(GIT.find_root())
 
     if commit is not None:
         commit += '~'
@@ -73,5 +73,4 @@ NAMES = 'Added', 'Deleted', 'Modified', 'Renamed'
 NAMES = {name[0]: name for name in NAMES}
 
 if __name__ == '__main__':
-    PROGRAM.exit_on_help()
     git_split(*PROGRAM.argv)
