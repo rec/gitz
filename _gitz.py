@@ -42,7 +42,7 @@ class Git:
         return p
 
     def branches(self):
-        return [b.strip().replace('* ', '') for b in self.branch()]
+        return self.branch("--format='%(refname:short)'")
 
     def current_branch(self):
         return run('git', 'symbolic-ref', '--short', 'HEAD')[0].strip()
