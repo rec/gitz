@@ -4,27 +4,59 @@ import _gitz
 GIT = _gitz.GIT
 
 USAGE = """\
-git-rename: Renames the current git branch and one or more remote branches
+git-rename:
+    Renames the current git branch and one or more remote branches
 
 USAGE:
-    git rename to-branch [remote remote...]
+    git rename [<from-branch>] <to-branch> [/<remote> :<remote>...]
 """
 
 HELP = """
+Renames one branch to another, both locally and in remote
+branches.
 
-Rename the current branch to <to-branch>
+EXAMPLES:
+
+    git rename eror error/origin
+        Rename the branch "eror" to "error" on both the local
+        repository and the remote named "origin"
+
+    git rename eror error/upstream:backup
+        Rename the branch "eror" to "error" on the local
+        repository, and the remotes named "upstream" and "backup".
+
+    git rename eror error
+        Renames the local branch, and tries to guess one remote.
+
+        If there is one remote, it uses that.
+        Otherwise, if "origin" is a remote, it uses that.
+        Otherwise, the program terminates.
+
+(Use `git branch -m <from-branch> <to-branch> if you don't need
+to move any remote branches.)
 """
 PROGRAM = _gitz.GitProgram(USAGE, HELP)
 
 
-def git_rename(target=None, *remotes):
+def git_rename(source=None, target=None):
     PROGRAM.check_help_and_git()
-    if not target:
+    PROGRAM.require_clean_workspace()
+    if not source:
         PROGRAM.error_and_exit('No target specified')
 
-    source = GIT.current_branch()
+    if not target:
+        target = source
+        source = GIT.current_branch()
+
+    target, *rest = target.split('/', 1)
+    remotes = rest and rest[0].split(':')
 
     actual_remotes = GIT.remote()
+    bad_remotes = set(remotes).difference(actual_remotes)
+    if bad_remotes:
+        s = '' if len(bad_remotes) == 1 else 's'
+        PROGRAM.error_exit('Bad remote%s:' % s, *bad_remotes)
+
     if not remotes:
         if len(actual_remotes) == 1:
             remotes = actual_remotes
@@ -33,21 +65,13 @@ def git_rename(target=None, *remotes):
         else:
             PROGRAM.error_and_exit('No remote repository specified')
 
-    bad_remotes = set(remotes).difference(actual_remotes)
-    if bad_remotes:
-        s = '' if len(bad_remotes) == 1 else 's'
-        PROGRAM.error_exit('Bad remote%s:' % s, *bad_remotes)
-
     GIT.branch('-m', source, target)
     print('Moved /%s to /%s' % (source, target))
     for remote in reversed(remotes):
         GIT.push('--set-upstream', remote, target)
         print('Copied {0}/{1} to {0}/{2}'.format(remote, source, target))
-        try:
-            GIT.push(remote, ':' + source)
-            print('Deleted {0}/{1}'.format(remote, source))
-        except Exception:
-            print('WARNING: Unabled to delete {0}/{1}'.format(remote, source))
+        GIT.push(remote, ':' + source)
+        print('Deleted {0}/{1}'.format(remote, source))
 
 
 if __name__ == '__main__':
