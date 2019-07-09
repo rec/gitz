@@ -4,16 +4,17 @@
 import _gitz
 
 USAGE = """\
-git-snip: Delete one or more commits IDs from the current branch
+git-snip: Edit one or more commits out of history
 
 USAGE:
     git-snip <id> [<id> ...]
 """
 HELP = """"
-Delete one or more commits IDs from the current branch.
+Edit one or more commits IDs out of the current branch.
+
 IDs 0, 1, 2, 3... are short for HEAD~0, HEAD~1, HEAD~2, HEAD~3...
 
-This command rewrites history - only intended for use on private
+This command rewrites history and is only intended for use on private
 branches.
 
 """

@@ -41,7 +41,7 @@ Safe commands (that don't rewrite history)
   Perform a command on each of multiple branches or directories.
 
 ``git-rot``
-  Changes the current branch by rotating forward or backward in the branch list
+  Rotate the current branch forward or backward in the list of branches
 
 ``git-ls``
   Like ``ls`` but shows git info, with good use of color
@@ -69,13 +69,13 @@ but can significantly speed up rapid development on private branches.
   AMend just the last commit message and force-Push, somewhat safely
 
 ``git-combine``
-  Combines multiple commit IDs together using cherry picking
+  Combine multiple commits into one
 
 ``git-rename``
-  Renames a git branch _and_ its remote branch
+  Rename a git branch _and_ its remote branch
 
 ``git-snip``
-  Delete one or more commits by commit id or position
+  Edit one or more commits out of history
 
 ``git-split``
   Split a commit into individual changes, one per file
