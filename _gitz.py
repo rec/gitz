@@ -132,6 +132,7 @@ class GitProgram(Program):
             self.exit()
 
     def require_clean_workspace(self):
+        self.require_git()
         if GIT.is_workspace_dirty():
             self.error(_ERROR_CHANGES_OVERWRITTEN)
             self.exit()
