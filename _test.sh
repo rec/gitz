@@ -8,7 +8,6 @@ echo "Testing files $FILES"
 
 flake8
 flake8 $FILES
-
 black -l 79 -S *.py test/*.py $FILES
 export PATH=`pwd`:$PATH
 pytest

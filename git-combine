@@ -54,12 +54,12 @@ def git_combine():
 
     try:
         base, *commits = ids
-        _git('reset', '--hard', base)
+        GIT.reset('--hard', base)
         for id in commits:
-            _git('cherry-pick', id)
+            GIT.git('cherry-pick', id)
     except Exception as e:
         if not args.preserve_conflict:
-            _git('reset', '--hard', commit_id)
+            GIT.reset('--hard', commit_id)
         PROGRAM.error_and_exit('In git:', e)
 
 

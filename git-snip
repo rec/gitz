@@ -23,7 +23,8 @@ PROGRAM = _gitz.GitProgram(USAGE, HELP)
 
 
 def git_snip(*argv):
-    PROGRAM.check_help_and_git()
+    PROGRAM.check_help()
+    PROGRAM.require_git()
 
     indexes = []
     errors = []

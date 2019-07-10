@@ -6,6 +6,8 @@ import shlex
 import subprocess
 import sys
 
+PROTECTED_BRANCHES_ENV_VARIABLE_NAME = 'GITZ_PROTECTED_BRANCHES'
+PROTECTED_REMOTES_ENV_VARIABLE_NAME = 'GITZ_PROTECTED_REMOTES'
 COMMIT_ID_LENGTH = 7
 
 
@@ -41,8 +43,31 @@ class Git:
             p = p.parent
         return p
 
-    def branches(self):
-        return self.branch("--format='%(refname:short)'")
+    def protected_branches(self):
+        branches = os.environ.get(PROTECTED_BRANCHES_ENV_VARIABLE_NAME)
+        return (branches or _PROTECTED_BRANCHES).split(':')
+
+    def protected_remotes(self):
+        remotes = os.environ.get(PROTECTED_REMOTES_ENV_VARIABLE_NAME)
+        return (remotes or _PROTECTED_REMOTES).split(':')
+
+    def remote_branches(self, unprotected=True):
+        remotes = self.remotes()
+        if unprotected:
+            pr = self.protected_remotes()
+            remotes = [r for r in remotes if r in pr]
+        for remote in self.remotes:
+            self.fetch(remote)
+
+        result = {}
+        for rb in self.branches('r'):
+            remote, branch = rb.split('/')
+            if remote in remotes:
+                result.setdefault(remote, []).append(branch)
+        return result
+
+    def branches(self, *args):
+        return self.branch('--format="%(refname:short)"', *args)
 
     def current_branch(self):
         return run('git', 'symbolic-ref', '--short', 'HEAD')[0].strip()
@@ -54,6 +79,8 @@ class Git:
         return (p / '.git' / 'config').exists()
 
 
+_PROTECTED_BRANCHES = 'master:develop'
+_PROTECTED_REMOTES = 'upstream'
 GIT = Git()
 GIT_SILENT = Git(stderr=subprocess.PIPE)
 _SUBPROCESS_KWDS = {'encoding': 'utf-8', 'shell': True}
@@ -61,6 +88,7 @@ _ERROR_CHANGES_OVERWRITTEN = 'Your local changes would be overwritten'
 _ERROR_NOT_GIT_REPOSITORY = (
     'fatal: not a git repository (or any of the parent directories): .git'
 )
+_ERROR_PROTECTED_BRNACHES = 'The branches %s are protected'
 
 
 def run(*cmd, use_shlex=False, verbose=False, **kwds):
@@ -121,11 +149,6 @@ class Program:
 
 
 class GitProgram(Program):
-    def check_help_and_git(self):
-        """Also check if we are in a git hierarchy"""
-        self.check_help()
-        self.require_git()
-
     def require_git(self):
         if not GIT.find_root():
             self.error(_ERROR_NOT_GIT_REPOSITORY)
@@ -135,6 +158,12 @@ class GitProgram(Program):
         self.require_git()
         if GIT.is_workspace_dirty():
             self.error(_ERROR_CHANGES_OVERWRITTEN)
+            self.exit()
+
+    def require_unprotected_branches(self, *branches):
+        pb = GIT.protected_branches()
+        if set(pb).intersection(branches):
+            self.error(_ERROR_PROTECTED_BRNACHES % ':'.join(pb))
             self.exit()
 
 

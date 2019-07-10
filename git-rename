@@ -5,48 +5,66 @@ GIT = _gitz.GIT
 
 USAGE = """\
 git-rename:
-    Renames the current git branch and one or more remote branches
+    Renames a git branch locally and on all remotes
 
 USAGE:
-    git rename [<from-branch>] <to-branch> [/<remote> :<remote>...]
+    git rename [<source-branch>] <target-branch>
 """
 
 HELP = """
 Renames one branch to another, both locally and in remote
-branches.
+branches.  If no source branch is given, the current branch is
+used.
+
+By default, the branches master and develop are not allowed to be
+renamed.  This may be overridden by setting the environment
+variable GITZ_PROTECTED_BRANCHES to a list of branches separated by
+colons, or an empty string for no protected branches.
+
+By default, any remote named upstream is skipped. This may be
+overridden by setting the environment variable GITZ_PROTECTED_REMOTES
+to a list of remotes separated by colons, or an empty string for no
+protected remotes.
 
 EXAMPLES:
 
-    git rename eror error/origin
-        Rename the branch "eror" to "error" on both the local
-        repository and the remote named "origin"
-
-    git rename eror error/upstream:backup
-        Rename the branch "eror" to "error" on the local
-        repository, and the remotes named "upstream" and "backup".
-
     git rename eror error
-        Renames the local branch, and tries to guess one remote.
-
-        If there is one remote, it uses that.
-        Otherwise, if "origin" is a remote, it uses that.
-        Otherwise, the program terminates.
-
-(Use `git branch -m <from-branch> <to-branch> if you don't need
-to move any remote branches.)
+        Rename the branch "eror" to "error" on both the local
+        repository and any remote repositories where it appears
 """
 PROGRAM = _gitz.GitProgram(USAGE, HELP)
+_HELP_CREATE = 'Create remote branch if it does not exist'
+_HELP_FORCE = 'Destructive rename over existing brances'
 
 
-def git_rename(source=None, target=None):
-    PROGRAM.check_help_and_git()
+def _add_arguments(parser):
+    add_arg = parser.add_argument
+    add_arg('source', nargs=1)
+    add_arg('target', nargs=1, default='')
+    add_arg('-c', '--create', action='store_true', help=_HELP_CREATE)
+    add_arg('-f', '--force', action='store_true', help=_HELP_FORCE)
+
+
+def git_rename():
+    args = PROGRAM.parse_args(_add_arguments)
     PROGRAM.require_clean_workspace()
-    if not source:
-        PROGRAM.error_and_exit('No target specified')
 
-    if not target:
-        target = source
-        source = GIT.current_branch()
+    source = args.source if args.target else GIT.current_branch()
+    target = args.target or args.source
+
+    # branches = GIT.branches()
+
+    PROGRAM.require_unprotected_branches(source, target)
+
+    remotes = GIT.unprotected_remotes()
+    for remote in remotes:
+        GIT.fetch(remote)
+
+    remote_branches = {}
+    for rb in GIT.remote_branches().items():
+        remote, branch = rb.split('/')
+        if remote in remotes:
+            remote_branches.setdefault(remote, []).append(branch)
 
     target, *rest = target.split('/', 1)
     remotes = rest and rest[0].split(':')
@@ -75,4 +93,4 @@ def git_rename(source=None, target=None):
 
 
 if __name__ == '__main__':
-    git_rename(*PROGRAM.argv)
+    git_rename()

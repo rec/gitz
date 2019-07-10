@@ -29,7 +29,8 @@ PROGRAM = _gitz.GitProgram(USAGE, HELP)
 
 
 def git_split(commit=None):
-    PROGRAM.check_help_and_git()
+    PROGRAM.check_help()
+    PROGRAM.require_git()
 
     os.chdir(GIT.find_root())
 
