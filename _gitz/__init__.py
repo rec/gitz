@@ -1,6 +1,10 @@
-from .commit_indexer import CommitIndexer  # noqa: F401
-from .commit_indexer import COMMIT_ID_LENGTH  # noqa: F401
-from .git import GIT, GIT_SILENT  # noqa: F401
-from .util import expand_path  # noqa: F401
-from .util import run  # noqa: F401
-from .git_program import GitProgram  # noqa: F401
+# flake8: noqa
+
+from .commit_indexer import CommitIndexer
+from .env import ENV
+from .git import COMMIT_ID_LENGTH
+from .git import GIT
+from .git import GIT_SILENT
+from .util import expand_path
+from .util import run
+from .git_program import GitProgram

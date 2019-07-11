@@ -31,12 +31,6 @@ EXAMPLES:
 """
 PROGRAM = _gitz.GitProgram(USAGE, HELP)
 
-UNCOMMITTED_ERROR = """
-Uncommitted changes would be overwritten.
-
-(Use git combine --stash or -s to stash changes automatically)
-"""
-
 
 def git_combine():
     args = PROGRAM.parse_args(_add_arguments)

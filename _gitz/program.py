@@ -10,6 +10,7 @@ class Program:
         self.code = code
         self.program = Path(sys.argv[0]).name
         self.argv = sys.argv[1:]
+        self.error_called = False
 
     def check_help(self):
         """If help requested, print it and exit"""
@@ -25,6 +26,7 @@ class Program:
         sys.exit(self.code)
 
     def error(self, *messages):
+        self.error_called = True
         print('ERROR:', self.program + ':', *messages, file=sys.stderr)
 
     def parse_args(self, add_arguments):

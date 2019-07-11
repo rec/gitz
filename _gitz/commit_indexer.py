@@ -1,6 +1,5 @@
+from .git import COMMIT_ID_LENGTH
 from .git import GIT_SILENT
-
-COMMIT_ID_LENGTH = 7
 
 
 class CommitIndexer:

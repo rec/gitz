@@ -2,6 +2,7 @@
 import _gitz
 
 GIT = _gitz.GIT
+ENV = _gitz.ENV
 
 USAGE = """\
 git-rename:
@@ -33,8 +34,60 @@ EXAMPLES:
         repository and any remote repositories where it appears
 """
 PROGRAM = _gitz.GitProgram(USAGE, HELP)
-_HELP_CREATE = 'Create remote branch if it does not exist'
-_HELP_FORCE = 'Destructive rename over existing brances'
+
+
+def git_rename():
+    args = PROGRAM.parse_args(_add_arguments)
+    PROGRAM.require_clean_workspace()
+
+    source = args.source if args.target else GIT.current_branch()
+    target = args.target or args.source
+    PROGRAM.require_unprotected_branches(source, target)
+
+    protected = ENV.protected_remotes()
+    existing, new = [], []
+    for remote, branches in GIT.remote_branches().items():
+        if remote not in protected:
+            if target in branches and not args.force:
+                if remote == GIT.LOCAL:
+                    branch = target
+                else:
+                    branch = remote + '/' + target
+                PROGRAM.error(_ERROR_TARGET_EXISTS % branch)
+            elif source in branches:
+                existing.append(remote)
+            elif remote == GIT.LOCAL:
+                PROGRAM.error(_ERROR_LOCAL_REPO, source)
+            elif args.create:
+                new.append(remote)
+
+    if not args.force:
+        commits = [GIT.commit_id('%s/%s' % (r, source)) for r in existing]
+        if len(set(commits)) > 1:
+            commits = [c[: _gitz.COMMIT_ID_LENGTH] for c in commits]
+            clist = ' '.join('='.join(rc) for rc in zip(remote, commits))
+            PROGRAM.error(_ERROR_INCONSISTENT_COMMITS, clist)
+
+    if PROGRAM.error_called:
+        PROGRAM.exit()
+
+    current = GIT.current_branch()
+    force = ['--force-with-lease'] if args.force else []
+    GIT.branch(*force, '-m', source, target)
+    print('Moved /%s to /%s' % (source, target))
+    GIT.checkout(target)
+
+    for remote in existing + new:
+        GIT.push(*force, remote, target)
+
+    for remote in existing:
+        try:
+            GIT.push(remote, ':' + source)
+        except Exception:
+            PROGRAM.error(_ERROR_CANNOT_DELETE, remote)
+
+    if current != source:
+        GIT.checkout(current)
 
 
 def _add_arguments(parser):
@@ -45,51 +98,12 @@ def _add_arguments(parser):
     add_arg('-f', '--force', action='store_true', help=_HELP_FORCE)
 
 
-def git_rename():
-    args = PROGRAM.parse_args(_add_arguments)
-    PROGRAM.require_clean_workspace()
-
-    source = args.source if args.target else GIT.current_branch()
-    target = args.target or args.source
-
-    # branches = GIT.branches()
-
-    PROGRAM.require_unprotected_branches(source, target)
-
-    remotes = GIT.unprotected_remotes()
-    for remote in remotes:
-        GIT.fetch(remote)
-
-    remote_branches = {}
-    for rb in GIT.remote_branches().items():
-        remote, branch = rb.split('/')
-        if remote in remotes:
-            remote_branches.setdefault(remote, []).append(branch)
-
-    target, *rest = target.split('/', 1)
-    remotes = rest and rest[0].split(':')
-
-    actual_remotes = GIT.remote()
-    bad_remotes = set(remotes).difference(actual_remotes)
-    if bad_remotes:
-        s = '' if len(bad_remotes) == 1 else 's'
-        PROGRAM.error_exit('Bad remote%s:' % s, *bad_remotes)
-
-    if not remotes:
-        if len(actual_remotes) == 1:
-            remotes = actual_remotes
-        elif 'origin' in actual_remotes:
-            remotes = ['origin']
-        else:
-            PROGRAM.error_and_exit('No remote repository specified')
-
-    GIT.branch('-m', source, target)
-    print('Moved /%s to /%s' % (source, target))
-    for remote in reversed(remotes):
-        GIT.push('--set-upstream', remote, target)
-        print('Copied {0}/{1} to {0}/{2}'.format(remote, source, target))
-        GIT.push(remote, ':' + source)
-        print('Deleted {0}/{1}'.format(remote, source))
+_ERROR_CANNOT_DELETE = 'Cannot delete remote'
+_ERROR_INCONSISTENT_COMMITS = 'Inconsistent commits IDs'
+_ERROR_LOCAL_REPO = 'Branch %s does not exists in the local repository'
+_ERROR_TARGET_EXISTS = 'Branch %s already exists'
+_HELP_CREATE = 'Create remote branch if it does not exist'
+_HELP_FORCE = 'Force rename over existing branches'
 
 
 if __name__ == '__main__':

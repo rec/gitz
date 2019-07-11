@@ -22,3 +22,12 @@ def run(*cmd, use_shlex=False, verbose=False, **kwds):
 
 def expand_path(s):
     return Path(os.path.expandvars(s)).expanduser().resolve()
+
+
+def find_git_root(p='.'):
+    p = Path(p)
+    while not (p / '.git' / 'config').exists():
+        if p.parent == p:
+            return None
+        p = p.parent
+    return p
