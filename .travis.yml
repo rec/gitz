@@ -10,7 +10,7 @@ python:
 #       dist: xenial
 
 install:
-- pip install -r test_requirements.txt
+- pip install -r test/test_requirements.txt
 
 script:
-- source _test.sh
+- source test/_test.sh

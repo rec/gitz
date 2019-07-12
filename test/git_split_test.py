@@ -2,7 +2,6 @@ from . import repo
 import unittest
 
 GIT = repo.GIT
-GIT_SILENT = repo.GIT_SILENT
 
 
 def psp():
