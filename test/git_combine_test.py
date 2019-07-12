@@ -16,6 +16,6 @@ class GitCombineTest(unittest.TestCase):
         repo.make_commit('5')
         repo.make_commit('6')
 
-        GIT.git('combine', zero, three, 'HEAD~')
+        GIT.combine(zero, three, 'HEAD~')
         files = [i for i in os.listdir() if not i.startswith('.')]
         self.assertEqual(sorted(files), ['0', '3', '5'])
