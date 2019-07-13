@@ -50,7 +50,7 @@ class Git:
         return util.run('git', 'symbolic-ref', '--short', name)[0].strip()
 
     def commit_id(self, name='HEAD'):
-        return util.run('git', 'rev-parse', name)[0].strip()
+        return util.run('git', 'rev-parse', name)[0].strip()[:COMMIT_ID_LENGTH]
 
     find_root = staticmethod(util.find_git_root)
 
