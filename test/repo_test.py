@@ -13,12 +13,12 @@ class RepoTest(unittest.TestCase):
         self.assertEqual('33bb2c0', repo.make_commit('two.txt'))
 
     @repo.method
-    def test_clones(self):
+    def test_clone(self):
         self.assertEqual('047f436', repo.make_commit('one.txt'))
         self.assertEqual('33bb2c0', repo.make_commit('two.txt'))
         GIT.checkout('-b', 'working')
 
-        with repo.clones('foo', 'bar'):
+        with repo.clone('foo', 'bar'):
             self.assertEqual(sorted(GIT.remote()), ['bar', 'foo'])
             GIT.fetch('foo')
             GIT.fetch('bar')

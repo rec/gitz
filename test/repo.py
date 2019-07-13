@@ -34,7 +34,7 @@ def contextmanager():
             original_env = {f: os.environ.get(f, none) for f in ENV_VARIABLES}
             os.environ.update(ENV_VARIABLES)
             try:
-                yield
+                yield root
             finally:
                 for f in ENV_VARIABLES:
                     if original_env[f] is none:
@@ -46,7 +46,7 @@ def contextmanager():
 
 
 @contextlib.contextmanager
-def clones(*names):
+def clone(*names):
     clones = []
     with contextlib.ExitStack() as stack:
         for name in names:
@@ -55,6 +55,13 @@ def clones(*names):
             GIT.remote('add', name, 'file://' + clones[-1])
 
         yield clones
+
+
+@contextlib.contextmanager
+def environment():
+    with contextmanager() as root:
+        with clone('master', 'develop') as clones:
+            yield root, clones
 
 
 def method(f):
