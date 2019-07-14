@@ -36,7 +36,7 @@ def git_split(commit=None):
 
     if commit is not None:
         commit += '~'
-    elif GIT.is_workspace_dirty():
+    elif _gitz.is_workspace_dirty():
         commit = 'HEAD'
     else:
         commit = 'HEAD~'

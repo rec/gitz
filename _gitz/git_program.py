@@ -1,6 +1,6 @@
 from . import util
 from .env import ENV
-from .git import GIT
+from . import git
 from .program import Program
 
 _ERROR_CHANGES_OVERWRITTEN = 'Your local changes would be overwritten'
@@ -18,7 +18,7 @@ class GitProgram(Program):
 
     def require_clean_workspace(self):
         self.require_git()
-        if GIT.is_workspace_dirty():
+        if git.is_workspace_dirty():
             self.error(_ERROR_CHANGES_OVERWRITTEN)
             self.exit()
 

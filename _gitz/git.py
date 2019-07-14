@@ -1,7 +1,7 @@
+from . import util
 import functools
 import subprocess
 import sys
-from . import util
 
 
 class Git:
@@ -21,15 +21,6 @@ class Git:
     def git(self, *cmd, **kwds):
         kwds = dict(self.kwds, **kwds) if self.kwds else kwds
         return util.run('git', *cmd, verbose=self.verbose, **kwds)
-
-    def is_workspace_dirty(self):
-        if not util.find_git_root():
-            return False
-        try:
-            util.run('git', 'diff-index', '--quiet', 'HEAD', '--')
-        except Exception:
-            # Also returns true if workspace is broken for some other reason
-            return True
 
     def all_branches(self, fetch=True):
         remotes = self.remotes()
@@ -51,6 +42,16 @@ class Git:
 
     def commit_id(self, name='HEAD'):
         return util.run('git', 'rev-parse', name)[0].strip()[:COMMIT_ID_LENGTH]
+
+
+def is_workspace_dirty():
+    if not util.find_git_root():
+        return False
+    try:
+        util.run('git', 'diff-index', '--quiet', 'HEAD', '--')
+    except Exception:
+        # Also returns true if workspace is broken for some other reason
+        return True
 
 
 GIT = Git()
