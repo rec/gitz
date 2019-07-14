@@ -3,6 +3,8 @@ import functools
 import subprocess
 import sys
 
+COMMIT_ID_LENGTH = 7
+
 
 class Git:
     LOCAL = '/'
@@ -22,14 +24,17 @@ class Git:
         kwds = dict(self.kwds, **kwds) if self.kwds else kwds
         return util.run('git', *cmd, verbose=self.verbose, **kwds)
 
-    def branches(self, *args):
-        return self.branch('--format="%(refname:short)"', *args)
 
-    def current_branch(self, name='HEAD'):
-        return util.run('git', 'symbolic-ref', '--short', name)[0].strip()
+GIT = Git()
+GIT_SILENT = Git(stderr=subprocess.PIPE)
 
-    def commit_id(self, name='HEAD'):
-        return util.run('git', 'rev-parse', name)[0].strip()[:COMMIT_ID_LENGTH]
+
+def commit_id(name='HEAD'):
+    return util.run('git', 'rev-parse', name)[0].strip()[:COMMIT_ID_LENGTH]
+
+
+def current_branch(name='HEAD'):
+    return util.run('git', 'symbolic-ref', '--short', name)[0].strip()
 
 
 def is_workspace_dirty():
@@ -42,20 +47,19 @@ def is_workspace_dirty():
         return True
 
 
-GIT = Git()
-GIT_SILENT = Git(stderr=subprocess.PIPE)
-COMMIT_ID_LENGTH = 7
+def branches(*args, git=GIT):
+    return git.branch('--format="%(refname:short)"', *args)
 
 
-def all_branches(git=GIT, fetch=True):
+def all_branches(fetch=True, git=GIT):
     # Currently unused
     remotes = git.remotes()
     if fetch:
         for remote in remotes:
             git.fetch(remote)
     result = {}
-    for rb in git.branches('r'):
+    for rb in branches('r', git=git):
         remote, branch = rb.split('/')
         result.setdefault(remote, []).append(branch)
-    result[git.LOCAL] = git.branches()
+    result[git.LOCAL] = branches(git=git)
     return result

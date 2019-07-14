@@ -34,8 +34,8 @@ def git_rotate(delta='1'):
 
     delta = -1 if delta == '-' else int(delta)
 
-    branches = GIT.branches()
-    pos = branches.index(GIT.current_branch()) + delta
+    branches = _gitz.branches()
+    pos = branches.index(_gitz.current_branch()) + delta
     GIT.checkout(branches[pos % len(branches)])
 
 

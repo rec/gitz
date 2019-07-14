@@ -41,7 +41,7 @@ def git_split(commit=None):
     else:
         commit = 'HEAD~'
 
-    commit = GIT.commit_id(commit)
+    commit = _gitz.commit_id(commit)
     GIT.reset('--soft', commit)
     lines = GIT.status('--porcelain')
 

@@ -35,11 +35,11 @@ PROGRAM = _gitz.GitProgram(USAGE, HELP)
 def git_combine():
     args = PROGRAM.parse_args(_add_arguments)
     PROGRAM.require_clean_workspace()
-    commit_id = GIT.commit_id()
+    commit_id = _gitz.commit_id()
     ids, errors = [], []
     for id in (args.base[0], *args.commit_id):
         try:
-            ids.append(GIT_SILENT.commit_id(id))
+            ids.append(_gitz.commit_id(id))
         except Exception:
             errors.append(id)
 

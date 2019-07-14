@@ -90,4 +90,4 @@ def make_commit(*names):
     write_files(*names)
     add_files(*names)
     GIT.commit('-m', '_'.join(names))
-    return GIT.commit_id()[: _gitz.COMMIT_ID_LENGTH]
+    return _gitz.commit_id()[: _gitz.COMMIT_ID_LENGTH]

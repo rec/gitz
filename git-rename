@@ -40,7 +40,7 @@ def git_rename():
     args = PROGRAM.parse_args(_add_arguments)
     PROGRAM.require_clean_workspace()
 
-    source = args.source if args.target else GIT.current_branch()
+    source = args.source if args.target else _gitz.current_branch()
     target = args.target or args.source
     PROGRAM.require_unprotected_branches(source, target)
 
@@ -62,7 +62,7 @@ def git_rename():
                 new.append(remote)
 
     if not args.force:
-        commits = [GIT.commit_id('%s/%s' % (r, source)) for r in existing]
+        commits = [_gitz.commit_id('%s/%s' % (r, source)) for r in existing]
         if len(set(commits)) > 1:
             commits = [c[: _gitz.COMMIT_ID_LENGTH] for c in commits]
             clist = ' '.join('='.join(rc) for rc in zip(remote, commits))
@@ -71,7 +71,7 @@ def git_rename():
     if PROGRAM.error_called:
         PROGRAM.exit()
 
-    current = GIT.current_branch()
+    current = _gitz.current_branch()
     force = ['--force-with-lease'] if args.force else []
     GIT.branch(*force, '-m', source, target)
     print('Moved /%s to /%s' % (source, target))

@@ -1,6 +1,8 @@
 import unittest
+import _gitz
 from . import repo
-from _gitz import GIT
+
+GIT = _gitz.GIT
 
 
 class RepoTest(unittest.TestCase):
@@ -23,7 +25,7 @@ class RepoTest(unittest.TestCase):
             self.assertEqual(sorted(GIT.remote()), expected)
             GIT.fetch('foo')
             GIT.fetch('bar')
-            actual = GIT.branches('-r')
+            actual = _gitz.branches('-r')
             expected = [
                 'bar/master',
                 'bar/working',
@@ -33,5 +35,5 @@ class RepoTest(unittest.TestCase):
             self.assertEqual(actual, expected)
             self.assertEqual('efc4ce6', repo.make_commit('three.txt'))
             GIT.push('foo', 'HEAD:working')
-            self.assertEqual(GIT.commit_id('bar/working'), '393ad1c')
-            self.assertEqual(GIT.commit_id('foo/working'), 'efc4ce6')
+            self.assertEqual(_gitz.commit_id('bar/working'), '393ad1c')
+            self.assertEqual(_gitz.commit_id('foo/working'), 'efc4ce6')

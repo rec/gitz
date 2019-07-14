@@ -1,5 +1,6 @@
 from . import repo
 from pathlib import Path
+import _gitz
 import unittest
 
 GIT = repo.GIT
@@ -13,7 +14,7 @@ class GitAllTest(unittest.TestCase):
     @repo.method
     def test_branches(self):
         self.assertEqual('44dac6b', repo.make_commit('one.txt'))
-        current = GIT.current_branch()
+        current = _gitz.current_branch()
         GIT.checkout('-b', 'foo')
         self.assertEqual(repo.make_commit('two.txt'), '393ad1c')
         GIT.checkout(current)
