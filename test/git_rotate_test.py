@@ -1,8 +1,7 @@
 from . import repo
+from gitz.git import GIT
 import unittest
 from gitz import git
-
-GIT = repo.GIT
 
 
 class GitRotateTest(unittest.TestCase):

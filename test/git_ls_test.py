@@ -1,7 +1,6 @@
 from . import repo
+from gitz.git import GIT
 import unittest
-
-GIT = repo.GIT
 
 
 class GitLsTest(unittest.TestCase):

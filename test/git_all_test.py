@@ -1,9 +1,8 @@
 from . import repo
 from pathlib import Path
 from gitz import git
+from gitz.git import GIT
 import unittest
-
-GIT = repo.GIT
 
 
 class GitAllTest(unittest.TestCase):

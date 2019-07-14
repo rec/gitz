@@ -1,8 +1,7 @@
 from . import repo
+from gitz.git import GIT
 import os
 import unittest
-
-GIT = repo.GIT
 
 
 class GitSnipTest(unittest.TestCase):

@@ -1,8 +1,7 @@
 from . import repo
+from gitz.git import GIT
 from gitz import git
 import unittest
-
-GIT = git.GIT
 
 
 class RepoTest(unittest.TestCase):

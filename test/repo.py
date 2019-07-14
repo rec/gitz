@@ -1,11 +1,9 @@
 from gitz import git
+from gitz.git import GIT
 from tempfile import TemporaryDirectory
 import contextlib
 import functools
 import os
-
-GIT = git.GIT
-GIT_SILENT = git.GIT_SILENT
 
 # Generate deterministic commit IDs using fixed data.  See
 # https://blog.thoughtram.io/git/2014/11/18/the-anatomy-of-a-git-commit.html

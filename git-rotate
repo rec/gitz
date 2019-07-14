@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 from gitz import git
 from gitz import program
-
-GIT = git.GIT
+from gitz.git import GIT
 
 USAGE = """\
 git-rotate: Rotate through all branches

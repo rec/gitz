@@ -2,6 +2,7 @@
 from gitz import git
 from gitz import program
 from gitz import util
+from gitz.git import GIT
 import sys
 
 USAGE = """\
@@ -22,7 +23,6 @@ EXAMPLES:
         directory in athe current directory
 """
 
-GIT = git.GIT
 PROGRAM = program.Program(USAGE, HELP)
 
 
