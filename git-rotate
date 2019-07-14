@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from _gitz import git
-from _gitz import program
+from gitz import git
+from gitz import program
 
 GIT = git.GIT
 

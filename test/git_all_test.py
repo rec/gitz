@@ -1,6 +1,6 @@
 from . import repo
 from pathlib import Path
-from _gitz import git
+from gitz import git
 import unittest
 
 GIT = repo.GIT

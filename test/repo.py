@@ -1,4 +1,4 @@
-from _gitz import git
+from gitz import git
 from tempfile import TemporaryDirectory
 import contextlib
 import functools

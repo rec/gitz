@@ -1,4 +1,4 @@
-from _gitz import git
+from gitz import git
 
 
 class CommitIndexer:

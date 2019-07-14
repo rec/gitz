@@ -23,5 +23,5 @@ setuptools.setup(
     ],
     keywords=['git'],
     scripts=[f for f in os.listdir('.') if f.startswith('git-')],
-    py_modules=['_gitz'],
+    py_modules=['gitz'],
 )

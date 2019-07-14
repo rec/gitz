@@ -1,6 +1,6 @@
 from . import repo
 import unittest
-from _gitz import git
+from gitz import git
 
 GIT = repo.GIT
 
