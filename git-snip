@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 # See https://www.reddit.com/r/git/comments/ah1euu
+from _gitz.commit_indexer import CommitIndexer
+
 import _gitz
 
 USAGE = """\
@@ -29,7 +31,7 @@ def git_snip(*argv):
     indexes = []
     errors = []
     dupes = []
-    indexer = _gitz.CommitIndexer()
+    indexer = CommitIndexer()
 
     for a in argv:
         try:

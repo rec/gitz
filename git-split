@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from _gitz import git
+from _gitz import util
 import os
 import _gitz
 
@@ -32,16 +34,16 @@ def git_split(commit=None):
     PROGRAM.check_help()
     PROGRAM.require_git()
 
-    os.chdir(_gitz.find_git_root())
+    os.chdir(util.find_git_root())
 
     if commit is not None:
         commit += '~'
-    elif _gitz.is_workspace_dirty():
+    elif git.is_workspace_dirty():
         commit = 'HEAD'
     else:
         commit = 'HEAD~'
 
-    commit = _gitz.commit_id(commit)
+    commit = git.commit_id(commit)
     GIT.reset('--soft', commit)
     lines = GIT.status('--porcelain')
 

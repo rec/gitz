@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
+from _gitz import env
+from _gitz import git
 import _gitz
 
 GIT = _gitz.GIT
-ENV = _gitz.ENV
 
 USAGE = """\
 git-rename:
@@ -40,11 +41,11 @@ def git_rename():
     args = PROGRAM.parse_args(_add_arguments)
     PROGRAM.require_clean_workspace()
 
-    source = args.source if args.target else _gitz.current_branch()
+    source = args.source if args.target else git.current_branch()
     target = args.target or args.source
     PROGRAM.require_unprotected_branches(source, target)
 
-    protected = ENV.protected_remotes()
+    protected = env.ENV.protected_remotes()
     existing, new = [], []
     for remote, branches in GIT.remote_branches().items():
         if remote not in protected:
@@ -62,16 +63,16 @@ def git_rename():
                 new.append(remote)
 
     if not args.force:
-        commits = [_gitz.commit_id('%s/%s' % (r, source)) for r in existing]
+        commits = [git.commit_id('%s/%s' % (r, source)) for r in existing]
         if len(set(commits)) > 1:
-            commits = [c[: _gitz.COMMIT_ID_LENGTH] for c in commits]
+            commits = [c[: git.COMMIT_ID_LENGTH] for c in commits]
             clist = ' '.join('='.join(rc) for rc in zip(remote, commits))
             PROGRAM.error(_ERROR_INCONSISTENT_COMMITS, clist)
 
     if PROGRAM.error_called:
         PROGRAM.exit()
 
-    current = _gitz.current_branch()
+    current = git.current_branch()
     force = ['--force-with-lease'] if args.force else []
     GIT.branch(*force, '-m', source, target)
     print('Moved /%s to /%s' % (source, target))

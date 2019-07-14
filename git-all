@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
-import sys
+from _gitz import git
+from _gitz import util
 import _gitz
+import sys
 
 USAGE = """\
 git-all: Perform a command on each of multiple branches or directories
@@ -40,7 +42,7 @@ def git_all():
             GIT.verbose = True
 
     PROGRAM.require_git()
-    branches = _gitz.branches() if _gitz.find_git_root() else []
+    branches = git.branches() if util.find_git_root() else []
     names = args.name or branches
 
     if not args.dotfiles:
@@ -51,13 +53,13 @@ def git_all():
 
     errors, names = [], []
     for name in args.name or branches:
-        p = _gitz.expand_path(name)
+        p = util.expand_path(name)
         if name in branches:
             names.append(name)
         elif not p.is_dir():
             errors.append(str(p))
         elif not p.name.startswith('.'):
-            if args.all or _gitz.find_git_root(p):
+            if args.all or util.find_git_root(p):
                 names.append(str(p))
 
     if errors:
@@ -77,21 +79,21 @@ def _run_command(args, name, branches, command):
     if name in branches:
         if not args.quiet:
             print('Branch %s:' % name)
-        saved_branch = _gitz.current_branch()
+        saved_branch = git.current_branch()
         GIT.checkout('-q', name)
         try:
-            lines = _gitz.run(*command)
+            lines = util.run(*command)
         finally:
             GIT.checkout('-q', saved_branch)
     else:
-        name = _gitz.expand_path(name)
+        name = util.expand_path(name)
         if name.name.startswith('.'):
             return
-        if not (args.all or _gitz.find_git_root(name)):
+        if not (args.all or util.find_git_root(name)):
             return
         if not args.quiet:
             print('Directory %s:' % name)
-        lines = _gitz.run(*command, cwd=str(name))
+        lines = util.run(*command, cwd=str(name))
     indent = ' ' * args.indent
     for line in lines:
         print(indent, line, sep='')

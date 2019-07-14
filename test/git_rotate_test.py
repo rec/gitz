@@ -1,6 +1,6 @@
 from . import repo
 import unittest
-import _gitz
+from _gitz import git
 
 GIT = repo.GIT
 
@@ -16,25 +16,25 @@ class GitRotateTest(unittest.TestCase):
 
         GIT.checkout('-b', 'C')
         repo.make_commit('3')
-        self.assertEqual(_gitz.current_branch(), 'C')
+        self.assertEqual(git.current_branch(), 'C')
 
         GIT.rotate('0')
-        self.assertEqual(_gitz.current_branch(), 'C')
+        self.assertEqual(git.current_branch(), 'C')
 
         GIT.rotate()
-        self.assertEqual(_gitz.current_branch(), 'master')
+        self.assertEqual(git.current_branch(), 'master')
 
         GIT.rotate()
-        self.assertEqual(_gitz.current_branch(), 'A')
+        self.assertEqual(git.current_branch(), 'A')
 
         GIT.rotate('2')
-        self.assertEqual(_gitz.current_branch(), 'C')
+        self.assertEqual(git.current_branch(), 'C')
 
         GIT.rotate('-1')
-        self.assertEqual(_gitz.current_branch(), 'B')
+        self.assertEqual(git.current_branch(), 'B')
 
         GIT.rotate('-')
-        self.assertEqual(_gitz.current_branch(), 'A')
+        self.assertEqual(git.current_branch(), 'A')
 
         GIT.rotate('-2')
-        self.assertEqual(_gitz.current_branch(), 'C')
+        self.assertEqual(git.current_branch(), 'C')

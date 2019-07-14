@@ -1,6 +1,6 @@
+from . import git
 from . import util
 from .env import ENV
-from . import git
 from .program import Program
 
 _ERROR_CHANGES_OVERWRITTEN = 'Your local changes would be overwritten'

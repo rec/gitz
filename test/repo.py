@@ -1,8 +1,9 @@
+from _gitz import git
 from tempfile import TemporaryDirectory
+import _gitz
 import contextlib
 import functools
 import os
-import _gitz
 
 GIT = _gitz.GIT
 GIT_SILENT = _gitz.GIT_SILENT
@@ -90,4 +91,4 @@ def make_commit(*names):
     write_files(*names)
     add_files(*names)
     GIT.commit('-m', '_'.join(names))
-    return _gitz.commit_id()[: _gitz.COMMIT_ID_LENGTH]
+    return git.commit_id()[: git.COMMIT_ID_LENGTH]
