@@ -7,8 +7,6 @@ GIT = repo.GIT
 class GitRotateTest(unittest.TestCase):
     @repo.method
     def test_change(self):
-        repo.make_commit('0')
-
         GIT.checkout('-b', 'A')
         repo.make_commit('1')
 

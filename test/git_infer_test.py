@@ -8,7 +8,6 @@ GIT = repo.GIT
 class GitInferTest(unittest.TestCase):
     @repo.method
     def test_change(self):
-        repo.make_commit('0')
         with self.assertRaises(Exception):
             GIT.infer()
 
@@ -26,7 +25,6 @@ class GitInferTest(unittest.TestCase):
 
     @repo.method
     def test_add(self):
-        repo.make_commit('0')
         with open('1', 'w') as fp:
             fp.write('1\n')
         GIT.add('1')
@@ -40,7 +38,6 @@ class GitInferTest(unittest.TestCase):
 
     @repo.method
     def test_remove(self):
-        repo.make_commit('0')
         repo.make_commit('1')
         os.remove('0')
         actual = GIT.infer('-a')
@@ -53,7 +50,6 @@ class GitInferTest(unittest.TestCase):
 
     @repo.method
     def test_rename(self):
-        repo.make_commit('0')
         GIT.mv('0', '1')
         actual = GIT.infer()
         expected = [
@@ -65,7 +61,6 @@ class GitInferTest(unittest.TestCase):
 
     @repo.method
     def test_multiple(self):
-        repo.make_commit('0')
         repo.make_commit('1')
         repo.make_commit('2')
         GIT.mv('0', '3')

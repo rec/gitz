@@ -60,14 +60,15 @@ def clone(*names):
 @contextlib.contextmanager
 def environment():
     with contextmanager() as root:
-        with clone('master', 'develop') as clones:
+        make_commit('0')
+        with clone('origin', 'upstream') as clones:
             yield root, clones
 
 
 def method(f):
     @functools.wraps(f)
     def wrapper(*args, **kwds):
-        with contextmanager():
+        with environment():
             f(*args, **kwds)
 
     return wrapper

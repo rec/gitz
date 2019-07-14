@@ -8,7 +8,6 @@ GIT = repo.GIT
 class GitSnipTest(unittest.TestCase):
     @repo.method
     def test_simple(self):
-        repo.make_commit('0')
         one = repo.make_commit('1')
         repo.make_commit('2')
         three = repo.make_commit('3')

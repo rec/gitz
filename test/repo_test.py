@@ -6,20 +6,21 @@ from _gitz import GIT
 class RepoTest(unittest.TestCase):
     @repo.method
     def test_repo(self):
-        self.assertEqual('047f436', repo.make_commit('one.txt'))
+        self.assertEqual('44dac6b', repo.make_commit('one.txt'))
         with self.assertRaises(Exception):
             repo.make_commit('one.txt')
 
-        self.assertEqual('33bb2c0', repo.make_commit('two.txt'))
+        self.assertEqual('393ad1c', repo.make_commit('two.txt'))
 
     @repo.method
     def test_clone(self):
-        self.assertEqual('047f436', repo.make_commit('one.txt'))
-        self.assertEqual('33bb2c0', repo.make_commit('two.txt'))
+        self.assertEqual('44dac6b', repo.make_commit('one.txt'))
+        self.assertEqual('393ad1c', repo.make_commit('two.txt'))
         GIT.checkout('-b', 'working')
 
         with repo.clone('foo', 'bar'):
-            self.assertEqual(sorted(GIT.remote()), ['bar', 'foo'])
+            expected = ['bar', 'foo', 'origin', 'upstream']
+            self.assertEqual(sorted(GIT.remote()), expected)
             GIT.fetch('foo')
             GIT.fetch('bar')
             actual = GIT.branches('-r')
@@ -30,7 +31,7 @@ class RepoTest(unittest.TestCase):
                 'foo/working',
             ]
             self.assertEqual(actual, expected)
-            self.assertEqual('435d066', repo.make_commit('three.txt'))
+            self.assertEqual('efc4ce6', repo.make_commit('three.txt'))
             GIT.push('foo', 'HEAD:working')
-            self.assertEqual(GIT.commit_id('bar/working'), '33bb2c0')
-            self.assertEqual(GIT.commit_id('foo/working'), '435d066')
+            self.assertEqual(GIT.commit_id('bar/working'), '393ad1c')
+            self.assertEqual(GIT.commit_id('foo/working'), 'efc4ce6')

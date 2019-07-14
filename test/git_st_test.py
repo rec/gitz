@@ -8,7 +8,7 @@ GIT = repo.GIT
 class GitStTest(unittest.TestCase):
     @repo.method
     def test_simple(self):
-        repo.make_commit('0', '1', '2')
+        repo.make_commit('1', '2')
         with open('3', 'w') as fp:
             fp.write('3\n')
         GIT.add('3')
