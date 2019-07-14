@@ -1,3 +1,4 @@
+from . import util
 from .env import ENV
 from .git import GIT
 from .program import Program
@@ -11,7 +12,7 @@ _ERROR_PROTECTED_BRANCHES = 'The branches %s are protected'
 
 class GitProgram(Program):
     def require_git(self):
-        if not GIT.find_root():
+        if not util.find_git_root():
             self.error(_ERROR_NOT_GIT_REPOSITORY)
             self.exit()
 

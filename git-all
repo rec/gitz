@@ -40,7 +40,7 @@ def git_all():
             GIT.verbose = True
 
     PROGRAM.require_git()
-    branches = GIT.branches() if GIT.find_root() else []
+    branches = GIT.branches() if _gitz.find_git_root() else []
     names = args.name or branches
 
     if not args.dotfiles:
@@ -56,8 +56,9 @@ def git_all():
             names.append(name)
         elif not p.is_dir():
             errors.append(str(p))
-        elif not p.name.startswith('.') and (args.all or GIT.find_root(p)):
-            names.append(str(p))
+        elif not p.name.startswith('.'):
+            if args.all or _gitz.find_git_root(p):
+                names.append(str(p))
 
     if errors:
         errors = '"%s"' % '", "'.join(errors)
@@ -84,7 +85,9 @@ def _run_command(args, name, branches, command):
             GIT.checkout('-q', saved_branch)
     else:
         name = _gitz.expand_path(name)
-        if name.name.startswith('.') or not (args.all or GIT.find_root(name)):
+        if name.name.startswith('.'):
+            return
+        if not (args.all or _gitz.find_git_root(name)):
             return
         if not args.quiet:
             print('Directory %s:' % name)

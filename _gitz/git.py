@@ -23,7 +23,7 @@ class Git:
         return util.run('git', *cmd, verbose=self.verbose, **kwds)
 
     def is_workspace_dirty(self):
-        if not self.find_root():
+        if not util.find_git_root():
             return False
         try:
             util.run('git', 'diff-index', '--quiet', 'HEAD', '--')
@@ -51,8 +51,6 @@ class Git:
 
     def commit_id(self, name='HEAD'):
         return util.run('git', 'rev-parse', name)[0].strip()[:COMMIT_ID_LENGTH]
-
-    find_root = staticmethod(util.find_git_root)
 
 
 GIT = Git()
