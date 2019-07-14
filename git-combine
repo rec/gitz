@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
-import _gitz
 from _gitz import git
 from _gitz import program
 
-GIT = _gitz.GIT
-GIT_SILENT = _gitz.GIT_SILENT
+GIT = git.GIT
+GIT_SILENT = git.GIT_SILENT
 
 USAGE = """\
 git-combine: Combine multiple commits into one

@@ -1,9 +1,8 @@
 from . import repo
 from _gitz import git
-import _gitz
 import unittest
 
-GIT = _gitz.GIT
+GIT = git.GIT
 
 
 class RepoTest(unittest.TestCase):

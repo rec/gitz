@@ -2,9 +2,8 @@
 from _gitz import env
 from _gitz import git
 from _gitz import program
-import _gitz
 
-GIT = _gitz.GIT
+GIT = git.GIT
 
 USAGE = """\
 git-rename:

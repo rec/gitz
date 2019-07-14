@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 
-from _gitz.commit_indexer import CommitIndexer
+from _gitz import git
 from _gitz import program
-
-import _gitz
+from _gitz.commit_indexer import CommitIndexer
 
 USAGE = """\
 git-snip: Edit one or more commits out of history
@@ -20,7 +19,7 @@ This command rewrites history and is only intended for use on private
 branches.
 
 """
-GIT = _gitz.GIT
+GIT = git.GIT
 PROGRAM = program.Program(USAGE, HELP)
 
 

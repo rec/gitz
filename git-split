@@ -3,9 +3,8 @@ from _gitz import git
 from _gitz import program
 from _gitz import util
 import os
-import _gitz
 
-GIT = _gitz.GIT
+GIT = git.GIT
 
 USAGE = """\
 git-split:  Split a range of commits into many single-file commits
