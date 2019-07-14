@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from _gitz import git
+from _gitz import program
 from _gitz import util
 import _gitz
 import sys
@@ -23,7 +24,7 @@ EXAMPLES:
 """
 
 GIT = _gitz.GIT
-PROGRAM = _gitz.GitProgram(USAGE, HELP)
+PROGRAM = program.Program(USAGE, HELP)
 
 
 def git_all():

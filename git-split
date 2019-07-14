@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from _gitz import git
+from _gitz import program
 from _gitz import util
 import os
 import _gitz
@@ -27,7 +28,7 @@ EXAMPLES:
     git-split HEAD~
         Splits the squash of the staging area, HEAD and HEAD~
 """
-PROGRAM = _gitz.GitProgram(USAGE, HELP)
+PROGRAM = program.Program(USAGE, HELP)
 
 
 def git_split(commit=None):

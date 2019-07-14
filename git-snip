@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-# See https://www.reddit.com/r/git/comments/ah1euu
 from _gitz.commit_indexer import CommitIndexer
+from _gitz import program
 
 import _gitz
 
@@ -21,7 +21,7 @@ branches.
 
 """
 GIT = _gitz.GIT
-PROGRAM = _gitz.GitProgram(USAGE, HELP)
+PROGRAM = program.Program(USAGE, HELP)
 
 
 def git_snip(*argv):
