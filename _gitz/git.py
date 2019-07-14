@@ -22,18 +22,6 @@ class Git:
         kwds = dict(self.kwds, **kwds) if self.kwds else kwds
         return util.run('git', *cmd, verbose=self.verbose, **kwds)
 
-    def all_branches(self, fetch=True):
-        remotes = self.remotes()
-        if fetch:
-            for remote in remotes:
-                self.fetch(remote)
-        result = {}
-        for rb in self.branches('r'):
-            remote, branch = rb.split('/')
-            result.setdefault(remote, []).append(branch)
-        result[self.LOCAL] = self.branches()
-        return result
-
     def branches(self, *args):
         return self.branch('--format="%(refname:short)"', *args)
 
@@ -57,3 +45,17 @@ def is_workspace_dirty():
 GIT = Git()
 GIT_SILENT = Git(stderr=subprocess.PIPE)
 COMMIT_ID_LENGTH = 7
+
+
+def all_branches(git=GIT, fetch=True):
+    # Currently unused
+    remotes = git.remotes()
+    if fetch:
+        for remote in remotes:
+            git.fetch(remote)
+    result = {}
+    for rb in git.branches('r'):
+        remote, branch = rb.split('/')
+        result.setdefault(remote, []).append(branch)
+    result[git.LOCAL] = git.branches()
+    return result
