@@ -58,12 +58,12 @@ def branches(*args, git=GIT):
 
 
 def all_branches(fetch=True, git=GIT):
-    remotes = git.remotes()
+    remotes = git.remote()
     if fetch:
         for remote in remotes:
             git.fetch(remote)
     result = {}
-    for rb in branches('r', git=git):
+    for rb in branches('-r', git=git):
         remote, branch = rb.split('/')
         result.setdefault(remote, []).append(branch)
     return result

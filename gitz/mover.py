@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from gitz import git
 from gitz.env import ENV
+from gitz.git import GIT
 from gitz.program import Program
 
 
@@ -29,11 +30,11 @@ class Mover:
 
     def __call__(self):
         starting_branch = git.current_branch()
-
+        source = self.args.source[0]
         if self.args.target:
-            self.source, self.target = self.args.source, self.args.target
+            self.source, self.target = source, self.args.target
         else:
-            self.source, self.target = self.target, starting_branch
+            self.source, self.target = starting_branch, source
 
         self._get_remotes()
         self._check_branches()
@@ -51,23 +52,23 @@ class Mover:
     def _move_local(self):
         flag = '-c' if self.action == 'copy' else '-m'
         flag = flag.upper() if self.args.force else flag
-        git.branch(flag, self.source, self.target)
+        GIT.branch(flag, self.source, self.target)
         print(self.Root + 'd', self.source, 'to', self.target)
 
     def _move_remote(self):
-        git.checkout(self.target)
+        GIT.checkout(self.target)
         force = ['--force-with-lease'] if self.args.force else []
-        for remote in self.existing + self.new:
-            git.push(*force, remote, self.target)
+        for remote in self.old + self.new:
+            GIT.push(*force, remote, self.target)
 
         if self.action != 'copy':
-            for remote in self.existing:
-                git.push(remote, ':' + self.source)
+            for remote in self.old:
+                GIT.push(remote, ':' + self.source)
 
     def _add_arguments(self, parser):
         add_arg = parser.add_argument
         add_arg('source', nargs=1)
-        add_arg('target', nargs=1, default='')
+        add_arg('target', nargs='?', default='')
 
         for f, h in BOOLEAN_FLAGS.items():
             add_arg(f, f[1:3], action='store_true', help=h.format(self))
@@ -80,7 +81,7 @@ class Mover:
 
         branches = git.branches()
         if self.source not in branches:
-            self.error(_ERROR_LOCAL_REPO, self.source)
+            self.error(_ERROR_LOCAL_REPO % self.source)
 
         if not self.args.force and self.target in branches:
             self.error(_ERROR_TARGET_EXISTS % self.target)
@@ -88,7 +89,7 @@ class Mover:
     def _get_remotes(self):
         all_branches = git.all_branches()
         pr = () if self.args.all else ENV.protected_remotes()
-        all_branches = {k: v for k, v in all_branches if k not in pr}
+        all_branches = {k: v for k, v in all_branches.items() if k not in pr}
 
         self.old = []
         self.new = []
@@ -137,7 +138,7 @@ protected remotes.
 
 _ERROR_CANNOT_DELETE = 'Cannot delete remote'
 _ERROR_INCONSISTENT_COMMITS = 'Inconsistent commits IDs'
-_ERROR_LOCAL_REPO = 'Branch %s does not exists in the local repository'
+_ERROR_LOCAL_REPO = 'Branch %s does not exist in the local repository'
 _ERROR_PROTECTED_BRANCHES = 'These branches are protected: %s'
 _ERROR_TARGET_EXISTS = 'Branch %s already exists'
 
