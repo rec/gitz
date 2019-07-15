@@ -8,9 +8,11 @@ CONFIG_FILE = '.gitz.json'
 
 class Env:
     DEFAULTS = {
-        'PROTECTED_BRANCHES': 'master:develop',
+        'PROTECTED_BRANCHES': 'develop:master',
         'PROTECTED_REMOTES': 'upstream',
-        'FRESH_BRANCHES': 'develop:master',
+        'REFERENCE_BRANCHES': 'develop:master',
+        'ORIGIN': 'origin',
+        'UPSTREAM': 'upstream:origin',
     }
 
     def __getattr__(self, key):
@@ -27,14 +29,13 @@ class Env:
             return value
 
         root = util.find_git_root()
-        if not (root and (root / CONFIG_FILE).exists()):
-            return default
+        value = None
+        if root and (root / CONFIG_FILE).exists():
+            config = json.load(open(str(root / CONFIG_FILE)))
+            value = config.get(key, config.get(key.lower()))
 
-        config = json.load(open(str(root / CONFIG_FILE)))
-        value = config.get(key, config.get(key.lower()))
         if value is None:
             value = default
-
         return value.split(':')
 
 

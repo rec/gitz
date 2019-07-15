@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+from gitz import git
+from gitz import program
+from gitz.env import ENV
+from gitz.git import GIT
+
+USAGE = """\
+git-fresh: Create and push a fresh branch from a reference branch
+
+USAGE:
+    git fresh <new-branch-name>
+"""
+
+HELP = """
+
+"""
+PROGRAM = program.Program(USAGE, HELP)
+
+
+def git_fresh():
+    PROGRAM.check_help()
+
+    if not PROGRAM.argv:
+        PROGRAM.error_and_exit('No branch name')
+
+    if len(PROGRAM.argv) > 1:
+        PROGRAM.error_and_exit('Too many branch names')
+
+    PROGRAM.require_clean_workspace()
+
+    fresh_branch = PROGRAM.argv[0]
+    branches = git.branches()
+    if fresh_branch in branches:
+        PROGRAM.error('Branch name', fresh_branch, 'already exists')
+
+    remotes = GIT.remote()
+    if len(remotes) == 1:
+        origin = upstream = remotes[0]
+    else:
+        origin = ENV.origin()[0]
+        if origin not in remotes:
+            PROGRAM.error('Unknown origin', origin)
+
+        upstream = next((u for u in ENV.upstream() if u in remotes), None)
+        if upstream is None:
+            PROGRAM.error('No upstream found')
+
+    if PROGRAM.error_called:
+        PROGRAM.exit()
+
+    GIT.fetch(upstream)
+
+    for branch in ENV.reference_branches():
+        refspec = '%s/%s' % (upstream, branch)
+        if git.exists(refspec):
+            GIT.checkout('-b', fresh_branch, refspec)
+            GIT.push('-u', origin, fresh_branch)
+            return
+
+    PROGRAM.error_and_exit('No reference branch found')
+
+
+if __name__ == '__main__':
+    git_fresh()

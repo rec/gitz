@@ -19,6 +19,7 @@ ENV_VARIABLES = {
     'GIT_COMMITTER_EMAIL': EMAIL,
     'GIT_COMMITTER_NAME': NAME,
 }
+DEFAULT_ORIGINS = 'origin', 'upstream'
 
 
 @contextlib.contextmanager
@@ -59,7 +60,7 @@ def clone(*names):
 def environment():
     with contextmanager() as root:
         make_commit('0')
-        with clone('origin', 'upstream') as clones:
+        with clone(*DEFAULT_ORIGINS) as clones:
             yield root, clones
 
 

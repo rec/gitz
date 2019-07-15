@@ -29,7 +29,14 @@ GIT_SILENT = Git(stderr=subprocess.PIPE)
 
 
 def commit_id(name='HEAD'):
-    return util.run('git', 'rev-parse', name)[0].strip()[:COMMIT_ID_LENGTH]
+    return GIT_SILENT.git('rev-parse', name)[0].strip()[:COMMIT_ID_LENGTH]
+
+
+def exists(name):
+    try:
+        return commit_id(name)
+    except Exception:
+        return
 
 
 def current_branch(name='HEAD'):
