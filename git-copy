@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from gitz import mover
 
-git_rename = mover.Mover('rename')
+git_copy = mover.Mover('copy')
 
 
 if __name__ == '__main__':
-    git_rename()
+    git_copy()

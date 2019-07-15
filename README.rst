@@ -33,6 +33,14 @@ Otherwise, download and unzip
 <https://github.com/rec/gitz/archive/master.zip>`_,
 then put that directory's path into the ``PATH`` environment variable.
 
+Getting help
+==============
+
+Each command has detailed help available by calling it with the -f flag,
+like this: ``git all -h``.
+
+A summary of all the commands is below.
+
 
 Safe commands (that don't rewrite history)
 =============================================
@@ -59,7 +67,22 @@ Safe commands (that don't rewrite history)
   Pretty, compact alternative to ``git-status``
   (from https://www.reddit.com/user/ex1c)
 
-Dangerous commands (that do rewrite history)
+Slightly dangerous commands (that move branches around)
+=======================================================
+
+``git-copy``
+  Copy a branch locally and on every remote
+
+``git-rename``
+  Rename a branch locally and on every remote
+
+By default, the branches ``develop`` and ``master`` and the remote ``upstream``
+are not allowed to be copied or renamed to.  You can override these by setting
+the environment variables ``PROTECTED_BRANCHES`` or ``PROTECTED_REMOTES`` - see
+the
+
+
+More dangerous commands (that rewrite history)
 ==============================================
 
 These commands are not intended for use on a shared or production branch,
@@ -70,9 +93,6 @@ but can significantly speed up rapid development on private branches.
 
 ``git-combine``
   Combine multiple commits into one
-
-``git-rename``
-  Rename a git branch _and_ its remote branch
 
 ``git-snip``
   Edit one or more commits out of history

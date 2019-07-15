@@ -1,6 +1,5 @@
 from . import git
 from . import util
-from .env import ENV
 from pathlib import Path
 import argparse
 import sys
@@ -44,7 +43,8 @@ class Program:
             print('Full ', end='')
         parser = argparse.ArgumentParser()
         add_arguments(parser)
-        return parser.parse_args(self.argv)
+        self.args = parser.parse_args(self.argv)
+        return self.args
 
     def _print_help(self):
         if '-h' in self.argv or '--h' in self.argv:
@@ -61,10 +61,4 @@ class Program:
         self.require_git()
         if git.is_workspace_dirty():
             self.error(_ERROR_CHANGES_OVERWRITTEN)
-            self.exit()
-
-    def require_unprotected_branches(self, *branches):
-        pb = ENV.protected_branches()
-        if set(pb.split(':')).intersection(branches):
-            self.error(_ERROR_PROTECTED_BRANCHES % pb)
             self.exit()

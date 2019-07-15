@@ -7,7 +7,6 @@ COMMIT_ID_LENGTH = 7
 
 
 class Git:
-    LOCAL = '/'
     """Artificial origin for branches on the local repo"""
 
     def __init__(self, verbose=None, **kwds):
@@ -52,7 +51,6 @@ def branches(*args, git=GIT):
 
 
 def all_branches(fetch=True, git=GIT):
-    # Currently unused
     remotes = git.remotes()
     if fetch:
         for remote in remotes:
@@ -61,5 +59,4 @@ def all_branches(fetch=True, git=GIT):
     for rb in branches('r', git=git):
         remote, branch = rb.split('/')
         result.setdefault(remote, []).append(branch)
-    result[git.LOCAL] = branches(git=git)
     return result
