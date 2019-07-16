@@ -125,15 +125,17 @@ HELP = '''
 branches.  If no source branch is given, the current branch is
 used.
 
-By default, the branches master and develop are not allowed to be
-{0.root}ed {0.direction}.  This may be overridden by setting the environment
-variable GITZ_PROTECTED_BRANCHES to a list of branches separated by
-colons, or an empty string for no protected branches.
+By default, the branches `master` and `develop` and the remote
+`upstream` are protected, which means that they are not allowed
+to be {0.root}ed {0.direction}.
 
-By default, any remote named upstream is skipped. This may be
-overridden by setting the environment variable GITZ_PROTECTED_REMOTES
-to a list of remotes separated by colons, or an empty string for no
-protected remotes.
+Using the --all/-a flag allows protected branches and remotes
+to be {0.root}ed.
+
+It's also possible to override the protected branches or the
+protected remotes by setting one of the environment variables
+GITZ_PROTECTED_BRANCHES or GITZ_PROTECTED_REMOTES
+to a list separated by colons, or an empty string for no protection.
 '''
 
 _ERROR_CANNOT_DELETE = 'Cannot delete remote'
