@@ -26,7 +26,6 @@ string to turn off protection entirely.
 """
 PROGRAM = program.Program(USAGE, HELP)
 
-_HELP_FORCE = 'Delete branches that have not been merged to master'
 _HELP_ALL = 'Delete all, even protected remotes or branches'
 
 
@@ -43,21 +42,22 @@ def git_delete():
 
     remotes = GIT.remote()
     if not args.all:
-        protected = set(ENV.protected_branches()).intersect(args.target)
+        protected = set(ENV.protected_branches()).intersection(args.target)
         if protected:
             PROGRAM.error_and_exit('These branches are protected:', *protected)
         pr = ENV.protected_remotes()
         remotes = [r for r in remotes if r not in pr]
 
-    if branch not in branches:
+    if branch not in remaining_branches:
         for b in ENV.reference_branches():
-            if b in branches:
+            if b in remaining_branches:
                 GIT.checkout(b)
                 break
         else:
             GIT.checkout(sorted(remaining_branches)[0])
 
-    flag = '-D' if args.force else '-d'
+    flag = '-D'
+
     total_count = 0
     for target in args.target:
         count = 0
@@ -77,7 +77,6 @@ def git_delete():
 def _add_arguments(parser):
     parser.add_argument('target', nargs='+')
     parser.add_argument('-a', '--all', action='store_true', help=_HELP_ALL)
-    parser.add_argument('-f', '--force', action='store_true', help=_HELP_FORCE)
 
 
 if __name__ == '__main__':
