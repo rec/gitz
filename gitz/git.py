@@ -28,8 +28,8 @@ GIT = Git()
 GIT_SILENT = Git(stderr=subprocess.PIPE)
 
 
-def commit_id(name='HEAD'):
-    return GIT_SILENT.git('rev-parse', name)[0].strip()[:COMMIT_ID_LENGTH]
+def commit_id(name='HEAD', git=GIT_SILENT):
+    return git.git('rev-parse', name)[0].strip()[:COMMIT_ID_LENGTH]
 
 
 def exists(name):
@@ -39,25 +39,25 @@ def exists(name):
         return
 
 
-def current_branch(name='HEAD'):
-    return util.run('git', 'symbolic-ref', '--short', name)[0].strip()
+def current_branch(name='HEAD', git=GIT_SILENT):
+    return git.git('symbolic-ref', '--short', name)[0].strip()
 
 
-def is_workspace_dirty():
+def is_workspace_dirty(git=GIT_SILENT):
     if not util.find_git_root():
         return False
     try:
-        util.run('git', 'diff-index', '--quiet', 'HEAD', '--')
+        git.git('diff-index', '--quiet', 'HEAD', '--')
     except Exception:
         # Also returns true if workspace is broken for some other reason
         return True
 
 
-def branches(*args, git=GIT):
+def branches(*args, git=GIT_SILENT):
     return git.branch('--format="%(refname:short)"', *args)
 
 
-def all_branches(fetch=True, git=GIT):
+def all_branches(fetch=True, git=GIT_SILENT):
     remotes = git.remote()
     if fetch:
         for remote in remotes:
