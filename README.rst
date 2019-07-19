@@ -25,9 +25,9 @@ If you have ``pip`` installed
 
     pip3 install gitz
 
-Otherwise, download and unzip
+Otherwise, download and uncompress
 `this directory
-<https://github.com/rec/gitz/archive/master.zip>`_,
+<https://github.com/rec/gitz/archive/master.tar.gz>`_,
 then put that directory's path into the ``PATH`` environment variable.
 
 **Note for Mac OS users**
