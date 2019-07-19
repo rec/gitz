@@ -1,4 +1,4 @@
-🗜 gitz - tiny useful git commands, some dangerous 🗜XX
+🗜 gitz - tiny useful git commands, some dangerous
 -------------------------------------------------------------------
 
 This is a collection of fourteen little git utilities, each of which does one
