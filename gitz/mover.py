@@ -1,8 +1,8 @@
-#!/usr/bin/env python3
-from gitz import git
-from gitz.env import ENV
-from gitz.git import GIT
-from gitz.program import Program
+from . import git
+from . import git_functions
+from .env import ENV
+from .git import GIT
+from .program import Program
 
 
 class Mover:
@@ -29,7 +29,7 @@ class Mover:
         self.args = self.program.parse_args(self._add_arguments)
 
     def __call__(self):
-        starting_branch = git.current_branch()
+        starting_branch = git_functions.current_branch()
         source = self.args.source[0]
         if self.args.target:
             self.source, self.target = source, self.args.target
@@ -79,7 +79,7 @@ class Mover:
             self.error(_ERROR_PROTECTED_BRANCHES % ':'.join(pb))
             self.program.exit()
 
-        branches = git.branches()
+        branches = git_functions.branches()
         if self.source not in branches:
             self.error(_ERROR_LOCAL_REPO % self.source)
 
@@ -87,7 +87,7 @@ class Mover:
             self.error(_ERROR_TARGET_EXISTS % self.target)
 
     def _get_remotes(self):
-        all_branches = git.all_branches()
+        all_branches = git_functions.all_branches()
         pr = () if self.args.all else ENV.protected_remotes()
         all_branches = {k: v for k, v in all_branches.items() if k not in pr}
 
@@ -105,7 +105,8 @@ class Mover:
     def _check_consistent(self):
         if self.args.force:
             return
-        commits = [git.commit_id('%s/%s' % (r, self.source)) for r in self.old]
+        names = ('%s/%s' % (r, self.source) for r in self.old)
+        commits = [git_functions.commit_id(n) for n in names]
         if len(set(commits)) > 1:
             commits = [c[: git.COMMIT_ID_LENGTH] for c in commits]
             error = ' '.join('='.join(i) for i in zip(self.old, commits))

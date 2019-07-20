@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from gitz import git
+from gitz import git_functions
 from gitz import program
 from gitz.env import ENV
 from gitz.git import GIT
@@ -33,8 +33,8 @@ def git_delete():
     args = PROGRAM.parse_args(_add_arguments)
     PROGRAM.require_clean_workspace()
 
-    branch = git.current_branch()
-    branches = git.branches()
+    branch = git_functions.current_branch()
+    branches = git_functions.branches()
 
     remaining_branches = set(branches).difference(args.target)
     if not remaining_branches:
@@ -65,7 +65,7 @@ def git_delete():
             GIT.branch(flag, target)
             count += 1
         for remote in remotes:
-            if git.exists('%s/%s' % (remote, target)):
+            if git_functions.exists('%s/%s' % (remote, target)):
                 GIT.push(remote, '--delete', target)
                 count += 1
         if count:

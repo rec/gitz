@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from gitz import git
+from gitz import git_functions
 from gitz import program
 from gitz import util
 from gitz.git import GIT
@@ -42,7 +42,7 @@ def git_all():
             GIT.verbose = True
 
     PROGRAM.require_git()
-    branches = git.branches() if util.find_git_root() else []
+    branches = git_functions.branches() if util.find_git_root() else []
     names = args.name or branches
 
     if not args.dotfiles:
@@ -79,7 +79,7 @@ def _run_command(args, name, branches, command):
     if name in branches:
         if not args.quiet:
             print('Branch %s:' % name)
-        saved_branch = git.current_branch()
+        saved_branch = git_functions.current_branch()
         GIT.checkout('-q', name)
         try:
             lines = util.run(*command)

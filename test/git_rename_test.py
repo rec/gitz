@@ -1,5 +1,5 @@
 from . import repo
-from gitz import git
+from gitz import git_functions
 from gitz.git import GIT
 import unittest
 
@@ -11,4 +11,4 @@ class GitRenameTest(unittest.TestCase):
         GIT.fresh('one')
         GIT.rename('two')
         expected = {'origin': ['master', 'two'], 'upstream': ['master']}
-        self.assertEqual(git.all_branches(), expected)
+        self.assertEqual(git_functions.all_branches(), expected)

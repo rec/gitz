@@ -1,4 +1,4 @@
-from . import git
+from . import git_functions
 from . import util
 from pathlib import Path
 import argparse
@@ -59,6 +59,6 @@ class Program:
 
     def require_clean_workspace(self):
         self.require_git()
-        if git.is_workspace_dirty():
+        if git_functions.is_workspace_dirty():
             self.error(_ERROR_CHANGES_OVERWRITTEN)
             self.exit()

@@ -1,15 +1,16 @@
-from gitz import git
+from . import git
+from . import git_functions
 
 
 class CommitIndexer:
     def __init__(self):
-        self.commit_ids = [git.commit_id()]
+        self.commit_ids = [git_functions.commit_id()]
 
     def index(self, commit_id):
         if commit_id.isnumeric() and len(commit_id) < git.COMMIT_ID_LENGTH:
             commit_id = 'HEAD~' + commit_id
 
-        commit_id = git.commit_id(commit_id)
+        commit_id = git_functions.commit_id(commit_id)
         for i, id in enumerate(self.commit_ids):
             if id.startswith(commit_id) or commit_id.startswith(id):
                 return i

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from gitz import git
+from gitz import git_functions
 from gitz import program
 from gitz.git import GIT
 
@@ -34,11 +34,11 @@ PROGRAM = program.Program(USAGE, HELP)
 def git_combine():
     args = PROGRAM.parse_args(_add_arguments)
     PROGRAM.require_clean_workspace()
-    commit_id = git.commit_id()
+    commit_id = git_functions.commit_id()
     ids, errors = [], []
     for id in (args.base[0], *args.commit_id):
         try:
-            ids.append(git.commit_id(id))
+            ids.append(git_functions.commit_id(id))
         except Exception:
             errors.append(id)
 

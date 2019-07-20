@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from gitz import git
+from gitz import git_functions
 from gitz import program
 from gitz.env import ENV
 from gitz.git import GIT
@@ -29,7 +29,7 @@ def git_fresh():
     PROGRAM.require_clean_workspace()
 
     fresh_branch = PROGRAM.argv[0]
-    branches = git.branches()
+    branches = git_functions.branches()
     if fresh_branch in branches:
         PROGRAM.error('Branch name', fresh_branch, 'already exists')
 
@@ -52,7 +52,7 @@ def git_fresh():
 
     for branch in ENV.reference_branches():
         refspec = '%s/%s' % (upstream, branch)
-        if git.exists(refspec):
+        if git_functions.exists(refspec):
             GIT.checkout('-b', fresh_branch, refspec)
             GIT.push('-u', origin, fresh_branch)
             return

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from gitz import git
+from gitz import git_functions
 from gitz import program
 from gitz import util
 from gitz.git import GIT
@@ -37,12 +37,12 @@ def git_split(commit=None):
 
     if commit is not None:
         commit += '~'
-    elif git.is_workspace_dirty():
+    elif git_functions.is_workspace_dirty():
         commit = 'HEAD'
     else:
         commit = 'HEAD~'
 
-    commit = git.commit_id(commit)
+    commit = git_functions.commit_id(commit)
     GIT.reset('--soft', commit)
     lines = GIT.status('--porcelain')
 
