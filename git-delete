@@ -56,22 +56,7 @@ def git_delete():
         else:
             GIT.checkout(sorted(remaining_branches)[0])
 
-    flag = '-D'
-
-    total_count = 0
-    for target in args.target:
-        count = 0
-        if target in branches:
-            GIT.branch(flag, target)
-            count += 1
-        for remote in remotes:
-            if git_functions.exists('%s/%s' % (remote, target)):
-                GIT.push(remote, '--delete', target)
-                count += 1
-        if count:
-            total_count += count
-        else:
-            PROGRAM.error('Did not delete any branches for', target)
+    total_count = git_functions.delete(args.target, PROGRAM, remotes)
     if total_count:
         print('git-delete:', total_count, 'branches delete')
     else:

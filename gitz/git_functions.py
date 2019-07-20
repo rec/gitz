@@ -42,3 +42,29 @@ def all_branches(fetch=True, git=GIT_SILENT):
         remote, branch = rb.split('/')
         result.setdefault(remote, []).append(branch)
     return result
+
+
+def upstream_branch(git=GIT_SILENT):
+    # https://stackoverflow.com/a/9753364/43839
+    return git.git('rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}')
+
+
+def delete(to_delete, program, remotes, git=GIT_SILENT):
+    """Delete locally and on zero or more remotes"""
+    existing = branches()
+
+    remaining = set(existing).difference(to_delete)
+    if not remaining:
+        raise ValueError('This would delete all the branches')
+
+    count = 0
+    for target in to_delete:
+        if target in existing:
+            git.branch('-D', target)
+            count += 1
+        for remote in remotes:
+            if exists('%s/%s' % (remote, target)):
+                git.push(remote, '--delete', target)
+                count += 1
+
+    return count
