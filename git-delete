@@ -72,6 +72,10 @@ def git_delete():
             total_count += count
         else:
             PROGRAM.error('Did not delete any branches for', target)
+    if total_count:
+        print('git-delete:', total_count, 'branches delete')
+    else:
+        PROGRAM.error_and_exit('No branches deleted')
 
 
 def _add_arguments(parser):
