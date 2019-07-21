@@ -15,25 +15,25 @@ class GitRotateTest(unittest.TestCase):
 
         GIT.checkout('-b', 'C')
         repo.make_commit('3')
-        self.assertEqual(git_functions.current_branch(), 'C')
+        self.assertEqual(git_functions.branch_name(), 'C')
 
         GIT.rotate('0')
-        self.assertEqual(git_functions.current_branch(), 'C')
+        self.assertEqual(git_functions.branch_name(), 'C')
 
         GIT.rotate()
-        self.assertEqual(git_functions.current_branch(), 'master')
+        self.assertEqual(git_functions.branch_name(), 'master')
 
         GIT.rotate()
-        self.assertEqual(git_functions.current_branch(), 'A')
+        self.assertEqual(git_functions.branch_name(), 'A')
 
         GIT.rotate('2')
-        self.assertEqual(git_functions.current_branch(), 'C')
+        self.assertEqual(git_functions.branch_name(), 'C')
 
         GIT.rotate('-1')
-        self.assertEqual(git_functions.current_branch(), 'B')
+        self.assertEqual(git_functions.branch_name(), 'B')
 
         GIT.rotate('-')
-        self.assertEqual(git_functions.current_branch(), 'A')
+        self.assertEqual(git_functions.branch_name(), 'A')
 
         GIT.rotate('-2')
-        self.assertEqual(git_functions.current_branch(), 'C')
+        self.assertEqual(git_functions.branch_name(), 'C')

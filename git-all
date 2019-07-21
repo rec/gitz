@@ -79,7 +79,7 @@ def _run_command(args, name, branches, command):
     if name in branches:
         if not args.quiet:
             print('Branch %s:' % name)
-        saved_branch = git_functions.current_branch()
+        saved_branch = git_functions.branch_name()
         GIT.checkout('-q', name)
         try:
             lines = util.run(*command)

@@ -29,7 +29,7 @@ class Mover:
         self.args = self.program.parse_args(self._add_arguments)
 
     def __call__(self):
-        starting_branch = git_functions.current_branch()
+        starting_branch = git_functions.branch_name()
         source = self.args.source
         if self.args.target:
             self.source, self.target = source, self.args.target

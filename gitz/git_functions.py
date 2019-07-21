@@ -14,7 +14,14 @@ def exists(name, git=GIT_SILENT):
         return
 
 
-def current_branch(name='HEAD', git=GIT_SILENT):
+def check_commit_id(name, program, git=GIT_SILENT):
+    try:
+        return commit_id(name, git)
+    except Exception:
+        program.error_and_exit('Cannot resolve "%s" to a commit ID' % name)
+
+
+def branch_name(name='HEAD', git=GIT_SILENT):
     return git.git('symbolic-ref', '--short', name)[0].strip()
 
 
