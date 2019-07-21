@@ -21,10 +21,10 @@ def git_fresh():
     PROGRAM.check_help()
 
     if not PROGRAM.argv:
-        PROGRAM.error_and_exit('No branch name')
+        PROGRAM.error_and_usage_and_exit('No branch name')
 
     if len(PROGRAM.argv) > 1:
-        PROGRAM.error_and_exit('Too many branch names')
+        PROGRAM.error_and_usage_and_exit('Too many branch names')
 
     PROGRAM.require_clean_workspace()
 
@@ -57,7 +57,7 @@ def git_fresh():
             GIT.push('-u', origin, fresh_branch)
             return
 
-    PROGRAM.error_and_exit('No reference branch found')
+    PROGRAM.error_and_usage_and_exit('No reference branch found')
 
 
 if __name__ == '__main__':
