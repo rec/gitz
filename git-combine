@@ -36,7 +36,7 @@ def git_combine():
     PROGRAM.require_clean_workspace()
     commit_id = git_functions.commit_id()
     ids, errors = [], []
-    for id in (args.base[0], *args.commit_id):
+    for id in (args.base, *args.commit_id):
         try:
             ids.append(git_functions.commit_id(id))
         except Exception:
@@ -58,7 +58,7 @@ def git_combine():
 
 def _add_arguments(parser):
     add_arg = parser.add_argument
-    add_arg('base', nargs=1, help='Base commit to combine from')
+    add_arg('base', help='Base commit to combine from')
     add_arg('commit_id', nargs='+', help='List of commit IDs to cherry pick')
 
     boolean_flags = (

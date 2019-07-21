@@ -30,7 +30,7 @@ class Mover:
 
     def __call__(self):
         starting_branch = git_functions.current_branch()
-        source = self.args.source[0]
+        source = self.args.source
         if self.args.target:
             self.source, self.target = source, self.args.target
         else:
@@ -67,7 +67,7 @@ class Mover:
 
     def _add_arguments(self, parser):
         add_arg = parser.add_argument
-        add_arg('source', nargs=1)
+        add_arg('source')
         add_arg('target', nargs='?', default='')
 
         for f, h in BOOLEAN_FLAGS.items():
