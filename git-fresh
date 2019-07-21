@@ -57,7 +57,7 @@ def git_fresh():
             GIT.push('-u', origin, fresh_branch)
             return
 
-    PROGRAM.error_and_usage_and_exit('No reference branch found')
+    PROGRAM.error_and_exit('No reference branch found')
 
 
 if __name__ == '__main__':

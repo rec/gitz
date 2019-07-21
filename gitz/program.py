@@ -25,13 +25,17 @@ class Program:
         if self._print_help():
             sys.exit(0)
 
+    def exit(self):
+        sys.exit(self.code)
+
+    def error_and_exit(self, *messages):
+        self.error(*messages)
+        self.exit()
+
     def error_and_usage_and_exit(self, *messages):
         self.error(*messages)
         print(self.usage, file=sys.stderr)
         self.exit()
-
-    def exit(self):
-        sys.exit(self.code)
 
     def error(self, *messages):
         self._print(messages, 'error')

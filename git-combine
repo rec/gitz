@@ -43,7 +43,7 @@ def git_combine():
             errors.append(id)
 
     if errors:
-        PROGRAM.error_and_usage_and_exit('Not commit IDs:', *errors)
+        PROGRAM.error_and_exit('Not commit IDs:', *errors)
 
     try:
         base, *commits = ids
@@ -53,7 +53,7 @@ def git_combine():
     except Exception as e:
         if not args.preserve_conflict:
             GIT.reset('--hard', commit_id)
-        PROGRAM.error_and_usage_and_exit('In git:', e)
+        PROGRAM.error_and_exit('In git:', e)
 
 
 def _add_arguments(parser):
