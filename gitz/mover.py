@@ -40,7 +40,7 @@ class Mover:
         self._check_branches()
         self._check_consistent()
 
-        if self.program.error_called:
+        if self.program.called.get('error'):
             self.program.exit()
 
         self._move_local()

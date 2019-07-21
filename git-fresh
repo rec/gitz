@@ -45,7 +45,7 @@ def git_fresh():
         if upstream is None:
             PROGRAM.error('No upstream found')
 
-    if PROGRAM.error_called:
+    if PROGRAM.called.get('error'):
         PROGRAM.exit()
 
     GIT.fetch(upstream)
