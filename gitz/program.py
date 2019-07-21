@@ -70,13 +70,13 @@ class Program:
             print(self.help.rstrip())
             return True
 
-    def require_git(self):
+    def check_git(self):
         if not util.find_git_root():
             self.error(_ERROR_NOT_GIT_REPOSITORY)
             self.exit()
 
-    def require_clean_workspace(self):
-        self.require_git()
+    def check_clean_workspace(self):
+        self.check_git()
         if git_functions.is_workspace_dirty():
             self.error(_ERROR_CHANGES_OVERWRITTEN)
             self.exit()

@@ -30,7 +30,7 @@ PROGRAM = program.Program(USAGE, HELP)
 
 def git_rotate(delta='1'):
     PROGRAM.check_help()
-    PROGRAM.require_git()
+    PROGRAM.check_git()
 
     delta = -1 if delta == '-' else int(delta)
 

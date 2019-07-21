@@ -33,7 +33,7 @@ PROGRAM = program.Program(USAGE, HELP)
 
 def git_combine():
     args = PROGRAM.parse_args(_add_arguments)
-    PROGRAM.require_clean_workspace()
+    PROGRAM.check_clean_workspace()
     commit_id = git_functions.commit_id()
     ids, errors = [], []
     for id in (args.base, *args.commit_id):

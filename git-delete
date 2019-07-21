@@ -31,7 +31,7 @@ _HELP_ALL = 'Delete all, even protected remotes or branches'
 
 def git_delete():
     args = PROGRAM.parse_args(_add_arguments)
-    PROGRAM.require_clean_workspace()
+    PROGRAM.check_clean_workspace()
 
     branch = git_functions.current_branch()
     branches = git_functions.branches()

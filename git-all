@@ -41,7 +41,7 @@ def git_all():
         else:
             GIT.verbose = True
 
-    PROGRAM.require_git()
+    PROGRAM.check_git()
     branches = git_functions.branches() if util.find_git_root() else []
     names = args.name or branches
 
@@ -49,7 +49,7 @@ def git_all():
         names = [n for n in names if not n.startswith('.')]
 
     if set(branches).intersection(names):
-        PROGRAM.require_clean_workspace()
+        PROGRAM.check_clean_workspace()
 
     errors, names = [], []
     for name in args.name or branches:

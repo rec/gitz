@@ -31,7 +31,7 @@ PROGRAM = program.Program(USAGE, HELP)
 
 def git_split(commit=None):
     PROGRAM.check_help()
-    PROGRAM.require_git()
+    PROGRAM.check_git()
 
     os.chdir(util.find_git_root())
 

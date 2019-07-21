@@ -26,7 +26,7 @@ def git_fresh():
     if len(PROGRAM.argv) > 1:
         PROGRAM.error_and_usage_and_exit('Too many branch names')
 
-    PROGRAM.require_clean_workspace()
+    PROGRAM.check_clean_workspace()
 
     fresh_branch = PROGRAM.argv[0]
     branches = git_functions.branches()
