@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from gitz import delete
 from gitz import git_functions
 from gitz import program
 from gitz.env import ENV
@@ -56,10 +57,10 @@ def git_delete():
         else:
             GIT.checkout(sorted(remaining_branches)[0])
 
-    total_count = git_functions.delete(args.target, PROGRAM, remotes)
+    total_count = delete.delete(args.target, remotes)
     if total_count:
         s = '' if total_count == 1 else 'es'
-        print('git-delete:', total_count, 'branch%s delete' % s)
+        print('git-delete:', total_count, 'branch%s deleted' % s)
     else:
         PROGRAM.error_and_exit('No branches deleted')
 
