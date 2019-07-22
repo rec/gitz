@@ -30,10 +30,6 @@ Otherwise, download and uncompress
 <https://github.com/rec/gitz/archive/master.tar.gz>`_,
 then put that directory's path into the ``PATH`` environment variable.
 
-**Note for Mac OS users**
-
-+Mac users will also need to ``brew install gawk``
-
 Getting help
 ==============
 
@@ -69,7 +65,8 @@ Safe commands
 
 ``git-st``
   Pretty, compact alternative to ``git-status``
-  (from https://www.reddit.com/user/ex1c)
+  This version written by https://github.com/PlatyPew/, original
+  version by https://www.reddit.com/user/ex1c)
 
 .. image:: Screenshot.png
 

@@ -1,50 +1,44 @@
-#!/usr/bin/env bash
+#! /usr/bin/env bash
 
-# Originally written by https://www.reddit.com/user/ex1c
-# See https://www.reddit.com/r/git/comments/avv34g/nicer_gitstatus/
+IFS=
+status="$(git -c color.status=always status -sb)"
+if [ $? -ne 0 ]
+then
+    exit 1
+fi
 
-usage() {
-    cat <<EOF
-git-st: A compact and elegant git status using color
+diff="$(git diff --color --stat HEAD 2> /dev/null | sed '$d; s/^ //' | cut -d '|' -f 2)"
 
-USAGE:
-    git st
-EOF
-}
+IFS=$'\n' status=($status)
+IFS=$'\n' diff=($diff)
 
-
-while getopts ":h" opt; do
-  case $opt in
-    h)
-      usage
-      exit
-      ;;
-  esac
+len=-1
+for i in $(seq 1 $(( ${#status[@]} - 1)))
+do
+    if [ ${#status[i]} -gt $len ]
+    then
+        len=${#status[i]}
+    fi
 done
+(( len *= -1 ))
 
-gawk -vOFS='' '
-    NR==FNR {
-        all[i++] = $0;
-        difffiles[$1] = $0;
-        next;
-    }
-    ! ($2 in difffiles) {
-        print; next;
-    }
-    {
-        gsub($2, difffiles[$2]);
-        print;
-    }
-    END {
-        if (NR != FNR) {
-            # Had diff output
-            exit;
-        }
-        # Had no diff output, just print lines from git status -sb
-        for (i in all) {
-            print all[i];
-        }
-    }
-' \
-    <(git diff --color --stat=$(($(tput cols) - 3)) HEAD | sed '$d; s/^ //')\
-    <(git -c color.status=always status -sb)
+for i in $(seq 0 $(( ${#status[@]} - 1)))
+do
+    currStatus=${status[i]}
+    if [ $i -eq 0 ]
+    then
+        echo "${status[0]}" | cut -d ' ' -f 2-
+    else
+        if [ ! -z ${diff[i - 1]} ]
+        then
+            currDiff="|${diff[i - 1]}"
+        else
+            currDiff=""
+        fi
+        printf "%*s  %s\n" $len "${currStatus}" "${currDiff}"
+    fi
+done
+if [ $(( ${#status[@]} - 1)) -eq 0 ]
+then
+    printf "\033[93mNothing to commit, working tree clean\033[0m\n"
+fi

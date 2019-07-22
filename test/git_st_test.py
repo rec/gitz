@@ -19,10 +19,10 @@ class GitStTest(unittest.TestCase):
 
         actual = GIT.st()
         expected = [
-            '## \x1b[32mmaster\x1b[m',
-            ' \x1b[31mM\x1b[m 0 | 2 \x1b[32m+\x1b[m\x1b[31m-\x1b[m',
-            ' \x1b[31 | 1 \x1b[31m-\x1b[mmD\x1b[m 1 | 1 \x1b[31m-\x1b[m',
-            '\x1b[3 | 1 \x1b[32m+\x1b[m2mA\x1b[m  3 | 1 \x1b[32m+\x1b[m',
-            '\x1b[31m??\x1b[m 4',
+            '\x1b[32mmaster\x1b[m',
+            ' \x1b[31mM\x1b[m 0  | 2 \x1b[32m+\x1b[m\x1b[31m-\x1b[m',
+            ' \x1b[31mD\x1b[m 1  | 1 \x1b[31m-\x1b[m',
+            '\x1b[32mA\x1b[m  3  | 1 \x1b[32m+\x1b[m',
+            '\x1b[31m??\x1b[m 4  ',
         ]
         self.assertEqual(actual, expected)
