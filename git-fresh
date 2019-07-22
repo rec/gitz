@@ -8,7 +8,7 @@ USAGE = """\
 git-fresh: Create and push a fresh branch from a reference branch
 
 USAGE:
-    git fresh <new-branch-name>
+    git fresh <branch-name> [...<branch-name>]
 """
 
 HELP = """
@@ -23,12 +23,12 @@ def git_fresh():
     if not PROGRAM.argv:
         PROGRAM.error_and_usage_and_exit('No branch name')
 
-    if len(PROGRAM.argv) > 1:
-        PROGRAM.error_and_usage_and_exit('Too many branch names')
-
     PROGRAM.check_clean_workspace()
+    for branch in PROGRAM.argv:
+        _run_fresh(branch)
 
-    fresh_branch = PROGRAM.argv[0]
+
+def _run_fresh(fresh_branch):
     branches = git_functions.branches()
     if fresh_branch in branches:
         PROGRAM.error('Branch name', fresh_branch, 'already exists')
