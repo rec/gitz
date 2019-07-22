@@ -58,20 +58,24 @@ def upstream_branch(git=GIT_SILENT):
 
 def delete(to_delete, program, remotes, git=GIT_SILENT):
     """Delete locally and on zero or more remotes"""
-    existing = branches()
-
-    remaining = set(existing).difference(to_delete)
-    if not remaining:
+    br = branches()
+    local_delete = [b for b in to_delete if b in br]
+    if len(local_delete) == len(br):
         raise ValueError('This would delete all the branches')
 
-    count = 0
-    for target in to_delete:
-        if target in existing:
-            git.branch('-D', target)
-            count += 1
-        for remote in remotes:
-            if exists('%s/%s' % (remote, target)):
-                git.push(remote, '--delete', target)
-                count += 1
+    if branch_name() in local_delete:
+        git.checkout(next(b for b in br if b not in local_delete))
+
+    if local_delete:
+        git.branch('-D', *local_delete)
+
+    count = len(local_delete)
+    remote_branches = all_branches(git=git)
+
+    for remote in remotes:
+        remote_delete = [b for b in to_delete if b in remote_branches[remote]]
+        if remote_delete:
+            git.push(remote, '--delete', *remote_delete)
+            count += len(remote_delete)
 
     return count
