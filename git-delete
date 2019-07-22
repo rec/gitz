@@ -58,7 +58,8 @@ def git_delete():
 
     total_count = git_functions.delete(args.target, PROGRAM, remotes)
     if total_count:
-        print('git-delete:', total_count, 'branches delete')
+        s = '' if total_count == 1 else 'es'
+        print('git-delete:', total_count, 'branch%s delete' % s)
     else:
         PROGRAM.error_and_exit('No branches deleted')
 
