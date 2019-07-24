@@ -17,7 +17,7 @@ PREFIX = '_gitz_stripe_'
 BAD_BRANCH_CHARS = frozenset('~^: ')
 FORMATS = (
     '{commit_id}~{i}:refs/heads/{base_branch}{i}',
-    ':refs/heads/{base_branch}{i}',  # -d set
+    ':refs/heads/{base_branch}{i}',  # --delete set
 )
 
 
@@ -57,9 +57,9 @@ def git_stripe():
 
 def _add_arguments(parser):
     add = parser.add_argument
-    add('count', type=int, nargs='?', default=3, help=_HELP_COUNT)
     add('commit_id', default='', nargs='?', help=_HELP_COMMIT_ID)
     add('branch_base', default='', nargs='?', help=_HELP_BRANCH_BASE)
+    add('-c', '--count', type=int, default=3, help=_HELP_COUNT)
     add('-d', '--delete', action='store_true', help=_HELP_DEL)
     add('-r', '--remote', action='store_true', help=_HELP_REMOTE)
 
