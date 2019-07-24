@@ -1,5 +1,21 @@
 #! /usr/bin/env bash
 
+usage() {
+    cat <<EOF
+git-st: Colorful, compact git status
+
+USAGE:
+    git st
+EOF
+}
+
+while getopts ":h" opt; do
+  case $opt in
+    h)
+      usage ; exit ; ;;
+  esac
+done
+
 IFS=
 status="$(git -c color.status=always status -sb)"
 if [ $? -ne 0 ]
