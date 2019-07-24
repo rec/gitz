@@ -15,8 +15,10 @@ HELP = """
 PROGRAM = program.Program(USAGE, HELP)
 PREFIX = '_gitz_stripe_'
 BAD_BRANCH_CHARS = frozenset('~^: ')
-PUSH_FORMAT = '{commit_id}~{i}:refs/heads/{base_branch}-{i}'
-DELETE_FORMAT = ':refs/heads/{base_branch}-{i}'
+FORMATS = (
+    '{commit_id}~{i}:refs/heads/{base_branch}{i}',
+    ':refs/heads/{base_branch}{i}',  # -d set
+)
 
 
 def git_stripe():
@@ -48,7 +50,7 @@ def git_stripe():
         base_branch = PREFIX + args.commit_id + '_'
 
     for i in range(args.count):
-        refspec_format = '{commit_id}~{i}:refs/heads/{base_branch}-{i}'
+        refspec_format = FORMATS[args.delete]
         refspec = refspec_format.format(**locals())
         GIT.push(upstream, refspec)
 
