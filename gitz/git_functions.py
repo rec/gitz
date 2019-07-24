@@ -53,4 +53,5 @@ def all_branches(fetch=True, git=GIT_SILENT):
 
 def upstream_branch(git=GIT_SILENT):
     # https://stackoverflow.com/a/9753364/43839
-    return git.git('rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}')
+    g = git.git('rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}')
+    return g[0].split('/')
