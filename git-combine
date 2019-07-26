@@ -63,7 +63,6 @@ def _add_arguments(parser):
 
     boolean_flags = (
         ('preserve-conflict', 'Do not revert the workspace on failure'),
-        ('verbose', 'Report all git messages'),
     )
     for flag, help in boolean_flags:
         add_arg('-' + flag[0], '--' + flag, action='store_true', help=help)

@@ -108,8 +108,6 @@ def _add_arguments(parser):
     add('-d', '--dotfiles', action='store_true', help=_HELP_DOTFILES)
     add('-a', '--all', action='store_true', help=_HELP_ALL)
     add('-i', '--indent', default=2, type=int, help=_HELP_INDENT)
-    add('-q', '--quiet', action='store_true', help=_HELP_QUIET)
-    add('-v', '--verbose', action='store_true', help=_HELP_VERBOSE)
 
 
 _ERROR_BAD_NAME = '%s: neither branch nor git repository'
