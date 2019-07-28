@@ -1,5 +1,5 @@
 from . import git_functions
-from . import log
+from . import runner
 from . import util
 from pathlib import Path
 import argparse
@@ -20,7 +20,6 @@ class Program:
         self.program = Path(sys.argv[0]).name
         self.argv = sys.argv[1:]
         self.called = {}
-        self.log_level = log.log_level()
 
     def check_help(self):
         """If help requested, print it and exit"""
@@ -62,10 +61,10 @@ class Program:
             print()
             print('Full ', end='')
         parser = argparse.ArgumentParser()
-        log.add_arguments(parser)
+        runner.add_arguments(parser)
         add_arguments(parser)
         self.args = parser.parse_args(self.argv)
-        self.log_level = log.log_level(self.args)
+        self.git = runner.GitRunners(self, self.args)
         return self.args
 
     def _print_help(self):

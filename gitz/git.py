@@ -7,8 +7,6 @@ COMMIT_ID_LENGTH = 7
 
 
 class Git:
-    """Artificial origin for branches on the local repo"""
-
     def __init__(self, verbose=None, **kwds):
         if verbose is None:
             self.verbose = any(a in ('-v', '--verbose') for a in sys.argv)

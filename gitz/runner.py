@@ -1,3 +1,5 @@
+from . import log
+import functools
 import subprocess
 
 _SUBPROCESS_KWDS = {
@@ -7,14 +9,37 @@ _SUBPROCESS_KWDS = {
     'stdout': subprocess.PIPE,
 }
 _EXCEPTION_MSG = 'Encountered an exception while executing'
+add_arguments = log.add_arguments
 
 
-class Runner:
+class GitRunners:
+    def __init__(self, program, args):
+        main, hidden = log.logs(program, args)
+        self.main = GitRunner(main)
+        self.hidden = GitRunner(hidden)
+
+    def __getattr__(self, command):
+        return getattr(self.main, command)
+
+
+class GitRunner:
     def __init__(self, log):
         self.log = log
 
+    def __getattr__(self, command):
+        return functools.partial(self.git, command)
+
+    def git(self, *cmd):
+        return self('git', *cmd)
+
+    def __call__(self, *cmd):
+        returncode, output_lines = self.run(*cmd)
+        if returncode:
+            raise ValueError('Git command "%s" failed' % cmd.join(' '))
+        return output_lines
+
     def run(self, *cmd):
-        self.log.command('$', *cmd)
+        self.log.command(*cmd)
         proc = subprocess.Popen(cmd, **_SUBPROCESS_KWDS)
         output_lines = []
         while proc.poll() is None:
@@ -28,9 +53,3 @@ class Runner:
                 self.log.stderr(stderr)
 
         return proc.returncode, output_lines
-
-    def __call__(self, *cmd):
-        returncode, output_lines = self.run(*cmd)
-        if returncode:
-            raise ValueError('Git command "%s" failed' % cmd.join(' '))
-        return output_lines

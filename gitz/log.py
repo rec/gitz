@@ -1,17 +1,8 @@
-from enum import IntEnum
-
 FLAGS = {
     'silent': 'Suppress all output',
     'quiet': 'Only output errors and warnings',
     'verbose': 'Report all messages in great detail',
 }
-
-
-class Level(IntEnum):
-    SILENT = 0
-    QUIET = 1
-    USEFUL = 2
-    VERBOSE = 3
 
 
 def add_arguments(parser):
@@ -20,15 +11,46 @@ def add_arguments(parser):
         add('-' + flag[0], '--' + flag, action='store_true', help=help)
 
 
-def log_level(args=None):
-    if args is None:
-        return Level.USEFUL
+def logs(program, args):
     if (args.verbose + args.quiet + args.silent) > 1:
-        pass  # Can't really deal with this here?
+        program.warning(
+            'Only one of --verbose, --quiet and --silent should be set'
+        )
+
+    log, hidden = _Log.Useful, _Log.Silent
+
     if args.verbose:
-        return Level.VERBOSE
-    if args.quiet:
-        return Level.QUIET
-    if args.silent:
-        return Level.SILENT
-    return Level.USEFUL
+        log = hidden = _Log.Verbose
+    elif args.silent:
+        log = _Log.Silent
+    elif args.quiet:
+        log = _Log.Quiet
+
+    return log(program), hidden(program)
+
+
+class _Log:
+    class Silent:
+        def __init__(self, program):
+            self.program = program
+
+        def command(self, *cmd):
+            pass
+
+        def stdout(self, line):
+            pass
+
+        def stderr(self, line):
+            pass
+
+    class Quiet(Silent):
+        def stderr(self, line):
+            self.program.error('?', line)
+
+    class Useful(Quiet):
+        def command(self, *cmd):
+            self.program.info('$', *cmd)
+
+    class Verbose(Useful):
+        def stdout(self, line):
+            self.program.info(line)
