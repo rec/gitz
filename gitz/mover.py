@@ -53,7 +53,7 @@ class Mover:
         flag = '-c' if self.action == 'copy' else '-m'
         flag = flag.upper() if self.args.force else flag
         GIT.branch(flag, self.source, self.target)
-        print(self.Root + 'd', self.source, 'to', self.target)
+        print(self.Root + 'ed', self.source, 'to', self.target)
 
     def _move_remote(self):
         GIT.checkout(self.target)
