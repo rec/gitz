@@ -1,10 +1,10 @@
 🗜 gitz - tiny useful git commands, some dangerous
 -------------------------------------------------------------------
 
-This is a collection of fourteen little git utilities, each of which does one
+This is a collection of a dszen git utilities, each of which does one
 useful thing well.
 
-Most of them only exist here, two came from other git repos, one came from a
+Most of them only exist here, one comes from other git repos, one came from a
 chat on Reddit and I don't know where one of them came from
 
 Nine of them are written in Python 3, the rest use Bash.
@@ -55,10 +55,6 @@ Safe commands
 ``git-infer``
   Commit changes with an auto-generated message
   (from https://github.com/moondewio/git-infer)
-
-``git-open``
-  Opens the GitHub page for a repo/branch in your browser
-  (from https://github.com/paulirish/git-open)
 
 ``git-rot``
   Rotate the current branch forward or backward in the list of branches
