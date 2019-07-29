@@ -21,15 +21,13 @@ def delete(branches, remotes, git=GIT):
     if to_delete:
         git.branch('-D', *to_delete)
 
-    count = len(to_delete)
-
     # Remote branches
     for remote in remotes:
         git.fetch(remote)
         rb = git_functions.branches('-r', git=git)
-        to_delete = [b for b in branches if (remote + '/' + b) in rb]
-        if to_delete:
-            git.push(remote, '--delete', *to_delete)
-            count += len(to_delete)
+        to_delete_remote = [b for b in branches if (remote + '/' + b) in rb]
+        if to_delete_remote:
+            git.push(remote, '--delete', *to_delete_remote)
+            to_delete.extend('%s/%s' % (remote, i) for i in to_delete_remote)
 
-    return count
+    return to_delete
