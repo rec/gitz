@@ -28,16 +28,27 @@ EXAMPLES:
 PROGRAM = program.Program(USAGE, HELP)
 
 
-def git_rotate(delta='1'):
-    PROGRAM.check_help()
-    PROGRAM.check_git()
-
-    delta = -1 if delta == '-' else int(delta)
+def git_rotate(steps='1'):
+    PROGRAM.check_clean_workspace()
+    args = PROGRAM.parse_args(_add_arguments)
+    if args.steps == '-':
+        steps = -1
+    else:
+        try:
+            steps = int(args.steps)
+        except ValueError:
+            PROGRAM.error_and_exit('steps must be an integer, not', args.steps)
 
     branches = git_functions.branches()
-    pos = branches.index(git_functions.branch_name()) + delta
+    pos = branches.index(git_functions.branch_name()) + steps
     GIT.checkout(branches[pos % len(branches)])
 
+
+def _add_arguments(parser):
+    parser.add_argument('steps', nargs='?', default='1', help=_HELP_STEPS)
+
+
+_HELP_STEPS = 'Number of steps to rotate (positive or negative)'
 
 if __name__ == '__main__':
     git_rotate(*PROGRAM.argv)
