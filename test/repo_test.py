@@ -19,7 +19,7 @@ class RepoTest(unittest.TestCase):
         self.assertEqual('393ad1c', repo.make_commit('two.txt'))
         GIT.checkout('-b', 'working')
 
-        with repo._clone('foo', 'bar'):
+        with repo.clone('foo', 'bar'):
             expected = ['bar', 'foo', 'origin', 'upstream']
             self.assertEqual(sorted(GIT.remote()), expected)
             GIT.fetch('foo')

@@ -1,6 +1,7 @@
 from gitz import git
 from gitz import git_functions
 from gitz.git import GIT
+from gitz.program import Program
 from tempfile import TemporaryDirectory
 import contextlib
 import functools
@@ -26,10 +27,27 @@ DEFAULT_ORIGINS = 'origin', 'upstream'
 def test(f):
     @functools.wraps(f)
     def wrapper(self):
-        with _environment():
-            f(self)
+        with _with_tmpdir(), _with_env_variables(**ENV_VARIABLES):
+            GIT.init()
+            make_commit('0')
+            with clone(*DEFAULT_ORIGINS):
+                with _with_attr(self, 'program', Program('Usage!', 'Help!')):
+                    f(self)
 
     return wrapper
+
+
+@contextlib.contextmanager
+def clone(*names):
+    clones = []
+    with contextlib.ExitStack() as stack:
+        for name in names:
+            clones.append(stack.enter_context(TemporaryDirectory()))
+            GIT.clone('--mirror', '.', clones[-1])
+            GIT.remote('add', name, 'file://' + clones[-1])
+            GIT.fetch(name)
+
+        yield clones
 
 
 def write_files(*names):
@@ -52,43 +70,39 @@ def make_commit(*names):
 
 
 @contextlib.contextmanager
-def _contextmanager():
-    original_dir = os.getcwd()
+def _with_tmpdir():
+    with TemporaryDirectory() as root:
+        original_dir = os.getcwd()
+        os.chdir(root)
+        try:
+            yield root
+        finally:
+            os.chdir(original_dir)
+
+
+@contextlib.contextmanager
+def _with_env_variables(**variables):
+    original_env = {f: os.environ.get(f) for f in variables}
+    os.environ.update(variables)
     try:
-        with TemporaryDirectory() as root:
-            os.chdir(root)
-            GIT.init()
-            none = object()
-            original_env = {f: os.environ.get(f, none) for f in ENV_VARIABLES}
-            os.environ.update(ENV_VARIABLES)
-            try:
-                yield root
-            finally:
-                for f in ENV_VARIABLES:
-                    if original_env[f] is none:
-                        del os.environ[f]
-                    else:
-                        os.environ[f] = original_env[f]
+        yield
     finally:
-        os.chdir(original_dir)
+        for f in variables:
+            if original_env[f] is None:
+                del os.environ[f]
+            else:
+                os.environ[f] = original_env[f]
 
 
 @contextlib.contextmanager
-def _clone(*names):
-    clones = []
-    with contextlib.ExitStack() as stack:
-        for name in names:
-            clones.append(stack.enter_context(TemporaryDirectory()))
-            GIT.clone('--mirror', '.', clones[-1])
-            GIT.remote('add', name, 'file://' + clones[-1])
-            GIT.fetch(name)
-
-        yield clones
-
-
-@contextlib.contextmanager
-def _environment():
-    with _contextmanager() as root:
-        make_commit('0')
-        with _clone(*DEFAULT_ORIGINS) as clones:
-            yield root, clones
+def _with_attr(item, attr, value):
+    none = object()
+    original_value = getattr(item, attr, none)
+    setattr(item, attr, value)
+    try:
+        yield item
+    finally:
+        if original_value is none:
+            delattr(item, attr)
+        else:
+            setattr(item, attr, original_value)
