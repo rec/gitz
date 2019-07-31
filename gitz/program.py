@@ -1,4 +1,5 @@
 from . import git_functions
+from . import log
 from . import runner
 from . import util
 from pathlib import Path
@@ -61,10 +62,11 @@ class Program:
             print()
             print('Full ', end='')
         parser = argparse.ArgumentParser()
-        runner.add_arguments(parser)
+        log.add_arguments(parser)
         add_arguments(parser)
         self.args = parser.parse_args(self.argv)
-        self.git = runner.GitRunners(self, self.args)
+        main, hidden = log.logs(self, self.args)
+        self.git = runner.GitRunners(main, hidden)
         return self.args
 
     def _print_help(self):

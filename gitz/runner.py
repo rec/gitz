@@ -1,20 +1,17 @@
-from . import log
 import functools
 import subprocess
 
 _SUBPROCESS_KWDS = {
     'encoding': 'utf-8',
-    'shell': True,
+    'shell': False,
     'stderr': subprocess.PIPE,
     'stdout': subprocess.PIPE,
 }
 _EXCEPTION_MSG = 'Encountered an exception while executing'
-add_arguments = log.add_arguments
 
 
 class GitRunners:
-    def __init__(self, program, args):
-        main, hidden = log.logs(program, args)
+    def __init__(self, main, hidden):
         self.main = GitRunner(main)
         self.hidden = GitRunner(hidden)
 
@@ -35,7 +32,7 @@ class GitRunner:
     def __call__(self, *cmd):
         returncode, output_lines = self.run(*cmd)
         if returncode:
-            raise ValueError('Git command "%s" failed' % cmd.join(' '))
+            raise ValueError('Command "%s" failed' % ' '.join(cmd))
         return output_lines
 
     def run(self, *cmd):
