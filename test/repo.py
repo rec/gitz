@@ -25,9 +25,9 @@ DEFAULT_ORIGINS = 'origin', 'upstream'
 
 def test(f):
     @functools.wraps(f)
-    def wrapper(*args, **kwds):
+    def wrapper(self):
         with _environment():
-            f(*args, **kwds)
+            f(self)
 
     return wrapper
 
