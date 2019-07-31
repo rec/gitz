@@ -29,14 +29,14 @@ EXAMPLES:
 PROGRAM = program.Program(USAGE, HELP)
 
 
-def git_split(commit=None):
-    PROGRAM.check_help()
+def git_split():
+    args = PROGRAM.parse_args(_add_arguments)
     PROGRAM.check_git()
 
     os.chdir(util.find_git_root())
 
-    if commit is not None:
-        commit += '~'
+    if args.commit:
+        commit = args.commit + '~'
     elif git_functions.is_workspace_dirty():
         commit = 'HEAD'
     else:
@@ -71,8 +71,13 @@ def git_split(commit=None):
     print('%d commit%s generated' % (commit_count, s))
 
 
+def _add_arguments(parser):
+    parser.add_argument('commit', nargs='?', default='', help=_HELP_COMMIT)
+
+
 NAMES = 'Added', 'Deleted', 'Modified', 'Renamed'
 NAMES = {name[0]: name for name in NAMES}
+_HELP_COMMIT = 'Optional commit ID to split from'
 
 if __name__ == '__main__':
-    git_split(*PROGRAM.argv)
+    git_split()

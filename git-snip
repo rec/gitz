@@ -20,10 +20,11 @@ branches.
 
 """
 PROGRAM = program.Program(USAGE, HELP)
+_HELP_COMMIT_IDS = 'Names of commit_ids to create'
 
 
-def git_snip(*argv):
-    PROGRAM.check_help()
+def git_snip():
+    args = PROGRAM.parse_args(_add_arguments)
     PROGRAM.check_git()
 
     indexes = []
@@ -31,7 +32,7 @@ def git_snip(*argv):
     dupes = []
     indexer = CommitIndexer()
 
-    for a in argv:
+    for a in args.commit_ids:
         try:
             index = indexer.index(a)
             if index in indexes:
@@ -53,5 +54,9 @@ def git_snip(*argv):
         GIT.rebase(('HEAD~%s' % i), '--onto', 'HEAD~%s' % (i + 1))
 
 
+def _add_arguments(parser):
+    parser.add_argument('commit_ids', nargs='+', help=_HELP_COMMIT_IDS)
+
+
 if __name__ == '__main__':
-    git_snip(*PROGRAM.argv)
+    git_snip()
