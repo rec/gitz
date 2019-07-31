@@ -5,7 +5,7 @@ import unittest
 
 
 class GitDeleteTest(unittest.TestCase):
-    @repo.method
+    @repo.test
     def test_delete(self):
         GIT.fresh('one')
         repo.make_commit('1')

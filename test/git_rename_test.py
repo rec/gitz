@@ -5,7 +5,7 @@ import unittest
 
 
 class GitRenameTest(unittest.TestCase):
-    @repo.method
+    @repo.test
     def test_simple(self):
         repo.make_commit('1')
         GIT.fresh('one')

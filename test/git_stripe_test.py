@@ -5,7 +5,7 @@ import unittest
 
 
 class GitStripeTest(unittest.TestCase):
-    @repo.method
+    @repo.test
     def test_stripe(self):
         repo.make_commit('1')
         repo.make_commit('2')

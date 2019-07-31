@@ -5,7 +5,7 @@ import unittest
 
 
 class GitCombineTest(unittest.TestCase):
-    @repo.method
+    @repo.test
     def test_simple(self):
         one = repo.make_commit('1')
         repo.make_commit('2')

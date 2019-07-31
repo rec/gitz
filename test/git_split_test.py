@@ -8,7 +8,7 @@ def psp():
 
 
 class GitSplitTest(unittest.TestCase):
-    @repo.method
+    @repo.test
     def test_multiple(self):
         repo.make_commit('1', '2')
         repo.make_commit('3', '4')
@@ -30,7 +30,7 @@ class GitSplitTest(unittest.TestCase):
         ]
         self.assertEqual(actual, expected)
 
-    @repo.method
+    @repo.test
     def test_single(self):
         repo.make_commit('1', '2')
         repo.make_commit('3', '4', '5')
@@ -45,7 +45,7 @@ class GitSplitTest(unittest.TestCase):
         ]
         self.assertEqual(actual, expected)
 
-    @repo.method
+    @repo.test
     def test_staging_area(self):
         repo.make_commit('1')
         repo.make_commit('2')

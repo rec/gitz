@@ -5,7 +5,7 @@ import unittest
 
 
 class RepoTest(unittest.TestCase):
-    @repo.method
+    @repo.test
     def test_repo(self):
         self.assertEqual('44dac6b', repo.make_commit('one.txt'))
         with self.assertRaises(Exception):
@@ -13,7 +13,7 @@ class RepoTest(unittest.TestCase):
 
         self.assertEqual('393ad1c', repo.make_commit('two.txt'))
 
-    @repo.method
+    @repo.test
     def test_clone(self):
         self.assertEqual('44dac6b', repo.make_commit('one.txt'))
         self.assertEqual('393ad1c', repo.make_commit('two.txt'))

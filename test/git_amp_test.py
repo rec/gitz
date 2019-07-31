@@ -4,7 +4,7 @@ import unittest
 
 
 class GitAmpTest(unittest.TestCase):
-    @repo.method
+    @repo.test
     def test_simple(self):
         repo.make_commit('1')
         GIT.checkout('-b', 'develop')

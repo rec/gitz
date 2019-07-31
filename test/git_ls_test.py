@@ -4,7 +4,7 @@ import unittest
 
 
 class GitLsTest(unittest.TestCase):
-    @repo.method
+    @repo.test
     def test_change(self):
         repo.make_commit('1')
         repo.make_commit('2')

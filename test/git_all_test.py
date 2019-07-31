@@ -10,7 +10,7 @@ class GitAllTest(unittest.TestCase):
         actual = GIT.all('test/data/*', '-', 'ls', '-1')
         self.assertEqual(actual, _DIRECTORIES.split('\n'))
 
-    @repo.method
+    @repo.test
     def test_branches(self):
         self.assertEqual('44dac6b', repo.make_commit('one.txt'))
         current = git_functions.branch_name()

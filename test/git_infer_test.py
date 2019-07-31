@@ -5,7 +5,7 @@ import unittest
 
 
 class GitInferTest(unittest.TestCase):
-    @repo.method
+    @repo.test
     def test_change(self):
         with self.assertRaises(Exception):
             GIT.infer()
@@ -22,7 +22,7 @@ class GitInferTest(unittest.TestCase):
         ]
         self.assertEqual(actual, expected)
 
-    @repo.method
+    @repo.test
     def test_add(self):
         with open('1', 'w') as fp:
             fp.write('1\n')
@@ -35,7 +35,7 @@ class GitInferTest(unittest.TestCase):
         ]
         self.assertEqual(actual, expected)
 
-    @repo.method
+    @repo.test
     def test_remove(self):
         repo.make_commit('1')
         os.remove('0')
@@ -47,7 +47,7 @@ class GitInferTest(unittest.TestCase):
         ]
         self.assertEqual(actual, expected)
 
-    @repo.method
+    @repo.test
     def test_rename(self):
         GIT.mv('0', '1')
         actual = GIT.infer()
@@ -58,7 +58,7 @@ class GitInferTest(unittest.TestCase):
         ]
         self.assertEqual(actual, expected)
 
-    @repo.method
+    @repo.test
     def test_multiple(self):
         repo.make_commit('1')
         repo.make_commit('2')

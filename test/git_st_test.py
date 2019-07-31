@@ -5,7 +5,7 @@ import unittest
 
 
 class GitStTest(unittest.TestCase):
-    @repo.method
+    @repo.test
     def test_simple(self):
         repo.make_commit('1', '2')
         with open('3', 'w') as fp:

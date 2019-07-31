@@ -4,7 +4,7 @@ import unittest
 
 
 class RunnerTest(unittest.TestCase):
-    @repo.method
+    @repo.test
     def test_simple(self):
         logger = MockLogger()
         git = runner.GitRunners(logger, MockLogger())

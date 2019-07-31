@@ -4,7 +4,7 @@ import unittest
 
 
 class GitFreshTest(unittest.TestCase):
-    @repo.method
+    @repo.test
     def test_fresh(self):
         GIT.fresh('one')
         repo.make_commit('1')

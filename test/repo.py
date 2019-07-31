@@ -23,7 +23,7 @@ ENV_VARIABLES = {
 DEFAULT_ORIGINS = 'origin', 'upstream'
 
 
-def method(f):
+def test(f):
     @functools.wraps(f)
     def wrapper(*args, **kwds):
         with _environment():
