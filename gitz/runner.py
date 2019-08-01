@@ -30,9 +30,10 @@ class Runner:
             if stderr:
                 self.log.stderr(stderr[:-1])
 
-        while proc.poll() is None:
-            read_io()
-        read_io()
+            return stdout or stderr
+
+        while proc.poll() is None or read_io():
+            pass
 
         if proc.returncode:
             raise ValueError('Command "%s" failed' % ' '.join(cmd))
