@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from gitz import git_functions
 from gitz import program
-from gitz.git import GIT
 
 USAGE = """\
 git-rotate: Rotate through all branches
@@ -26,7 +25,6 @@ EXAMPLES:
         Rotate 1 branch backward
 """
 PROGRAM = program.Program(USAGE, HELP)
-USE_RUNNER = not True
 
 
 def git_rotate(steps='1'):
@@ -42,10 +40,7 @@ def git_rotate(steps='1'):
 
     branches = git_functions.branches()
     pos = branches.index(git_functions.branch_name()) + steps
-    if USE_RUNNER:
-        PROGRAM.git.checkout(branches[pos % len(branches)])
-    else:
-        GIT.checkout(branches[pos % len(branches)])
+    PROGRAM.git.checkout(branches[pos % len(branches)])
 
 
 def _add_arguments(parser):

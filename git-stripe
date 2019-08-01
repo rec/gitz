@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from gitz import git_functions
 from gitz import program
-from gitz.git import GIT
 
 USAGE = """\
 git-stripe: Stripes one or more branches onto a remote repository
@@ -33,7 +32,7 @@ def git_stripe():
     if not args.remote:
         upstream, _ = git_functions.upstream_branch()
 
-    elif args.remote in GIT.remotes():
+    elif args.remote in PROGRAM.git.remotes():
         upstream = args.remote
 
     else:
@@ -52,7 +51,7 @@ def git_stripe():
     for i in range(args.count):
         refspec_format = FORMATS[args.delete]
         refspec = refspec_format.format(**locals())
-        GIT.push(upstream, refspec)
+        PROGRAM.git.push(upstream, refspec)
 
 
 def _add_arguments(parser):
