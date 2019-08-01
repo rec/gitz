@@ -1,3 +1,4 @@
+
 FLAGS = {
     'silent': 'Suppress all output',
     'quiet': 'Only output errors and warnings',
@@ -17,16 +18,16 @@ def logs(program, args):
             'Only one of --verbose, --quiet and --silent should be set'
         )
 
-    log, hidden = _Log.Useful, _Log.Silent
-
     if args.verbose:
-        log = hidden = _Log.Verbose
-    elif args.silent:
-        log = _Log.Silent
-    elif args.quiet:
-        log = _Log.Quiet
+        return _Log.Verbose(program), _Log.Verbose(program)
 
-    return log(program), hidden(program)
+    if args.silent:
+        return _Log.Silent(program), _Log.Silent(program)
+
+    if args.quiet:
+        return _Log.Quiet(program), _Log.Silent(program)
+
+    return _Log.Useful(program), _Log.Silent(program)
 
 
 class _Log:

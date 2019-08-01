@@ -10,35 +10,12 @@ _SUBPROCESS_KWDS = {
 _EXCEPTION_MSG = 'Encountered an exception while executing'
 
 
-class GitRunners:
-    def __init__(self, main, hidden):
-        self.main = GitRunner(main)
-        self.hidden = GitRunner(hidden)
-
-    def __getattr__(self, command):
-        return getattr(self.main, command)
-
-    def __call__(self, *cmd):
-        return self.main.git(*cmd)
-
-
-class GitRunner:
+class Runner:
     def __init__(self, log):
         self.log = log
-
-    def __getattr__(self, command):
-        return functools.partial(self.git, command)
-
-    def git(self, *cmd):
-        return self('git', *cmd)
+        self.git = Git(self)
 
     def __call__(self, *cmd):
-        returncode, output_lines = self.run(*cmd)
-        if returncode:
-            raise ValueError('Command "%s" failed' % ' '.join(cmd))
-        return output_lines
-
-    def run(self, *cmd):
         self.log.command(*cmd)
         proc = subprocess.Popen(cmd, **_SUBPROCESS_KWDS)
         output_lines = []
@@ -55,6 +32,20 @@ class GitRunner:
 
         while proc.poll() is None:
             read_io()
-
         read_io()
-        return proc.returncode, output_lines
+
+        if proc.returncode:
+            raise ValueError('Command "%s" failed' % ' '.join(cmd))
+
+        return output_lines
+
+
+class Git:
+    def __init__(self, run):
+        self.run = run
+
+    def __getattr__(self, command):
+        return functools.partial(self.run, 'git', command)
+
+    def __call__(self, *cmd):
+        return self.run('git', *cmd)

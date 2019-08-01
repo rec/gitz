@@ -64,9 +64,13 @@ class Program:
         parser = argparse.ArgumentParser()
         log.add_arguments(parser)
         add_arguments(parser)
+        # If -h/--help are set, this next call terminates the program
         self.args = parser.parse_args(self.argv)
-        main, hidden = log.logs(self, self.args)
-        self.git = runner.GitRunners(main, hidden)
+
+        run, hidden = log.logs(self, self.args)
+        self.run, self.hidden = runner.Runner(run), runner.Runner(hidden)
+        self.git = self.run.git
+
         return self.args
 
     def _print_help(self):
