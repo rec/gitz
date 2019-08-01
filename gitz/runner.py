@@ -18,6 +18,9 @@ class GitRunners:
     def __getattr__(self, command):
         return getattr(self.main, command)
 
+    def __call__(self, *cmd):
+        return self.main.git(*cmd)
+
 
 class GitRunner:
     def __init__(self, log):
@@ -39,14 +42,19 @@ class GitRunner:
         self.log.command(*cmd)
         proc = subprocess.Popen(cmd, **_SUBPROCESS_KWDS)
         output_lines = []
-        while proc.poll() is None:
+
+        def read_io():
             stdout = proc.stdout.readline()
             if stdout:
-                self.log.stdout(stdout)
-                output_lines.append(stdout)
+                self.log.stdout(stdout[:-1])
+                output_lines.append(stdout[:-1])
 
             stderr = proc.stderr.readline()
             if stderr:
-                self.log.stderr(stderr)
+                self.log.stderr(stderr[:-1])
 
+        while proc.poll() is None:
+            read_io()
+
+        read_io()
         return proc.returncode, output_lines
