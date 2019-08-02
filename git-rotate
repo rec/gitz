@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 from gitz import git_functions
-from gitz import program
+from gitz.program import PROGRAM
 
-USAGE = """\
+PROGRAM.usage = """\
 git-rotate: Rotate through all branches
 
 USAGE:
     git rotate [<number-of-positions>]
 """
 
-HELP = """
+PROGRAM.help = """
 Change the current branch by rotating through all the branches for this repo
 in the order given by the `git branch` command
 
@@ -24,7 +24,6 @@ EXAMPLES:
     git rotate -
         Rotate 1 branch backward
 """
-PROGRAM = program.Program(USAGE, HELP)
 
 
 def git_rotate(steps='1'):

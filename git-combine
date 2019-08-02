@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 from gitz import git_functions
-from gitz import program
+from gitz.program import PROGRAM
 
-USAGE = """\
+PROGRAM.usage = """\
 git-combine: Combine multiple commits into one
 
 USAGE:
     git-combine <base-commit> [<additional-commit> ...<additional-commit>]
         [--preserve-conflict | -p]
 """
-HELP = """
+PROGRAM.help = """
 Combines a series of commits by hard resetting to the first one and then
 cherry picking each successive one on top.
 
@@ -27,7 +27,6 @@ EXAMPLES:
     git combine --preserve-conflict HEAD x-branch
         Basically the same as ``git cherry-pick x-branch``
 """
-PROGRAM = program.Program(USAGE, HELP)
 
 
 def git_combine():

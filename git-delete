@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 from gitz import delete
 from gitz import git_functions
-from gitz import program
+from gitz.program import PROGRAM
 from gitz.env import ENV
 
-USAGE = """\
+PROGRAM.usage = """\
 git-delete: Deletes one or more branches locally and on all remotes
 
 USAGE:
     git delete <branch-name> [...<branch-name>]
 """
 
-HELP = """
+PROGRAM.help = """
 By default, the branches `master` and `develop` and the remote
 `upstream` are protected, which means that they are not allowed
 to be delete.
@@ -24,7 +24,6 @@ by setting the environment variable GITZ_PROTECTED_BRANCHES or
 GITZ_PROTECTED_REMOTES to a list separated by colons, or to an empty
 string to turn off protection entirely.
 """
-PROGRAM = program.Program(USAGE, HELP)
 
 _HELP_ALL = 'Delete all, even protected remotes or branches'
 

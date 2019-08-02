@@ -1,17 +1,16 @@
 #!/usr/bin/env python3
 from gitz import git_functions
-from gitz import program
+from gitz.program import PROGRAM
 
-USAGE = """\
+PROGRAM.usage = """\
 git-stripe: Stripes one or more branches onto a remote repository
 
 USAGE:
     git stripe [<number-of-commits>] [commit-id] [baseref]
 """
 
-HELP = """
+PROGRAM.help = """
 """
-PROGRAM = program.Program(USAGE, HELP)
 PREFIX = '_gitz_stripe_'
 BAD_BRANCH_CHARS = frozenset('~^: ')
 FORMATS = (

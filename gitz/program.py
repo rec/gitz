@@ -13,12 +13,11 @@ _ERROR_NOT_GIT_REPOSITORY = (
 _ERROR_PROTECTED_BRANCHES = 'The branches %s are protected'
 
 
-class Program:
-    def __init__(self, usage, help, code=-1):
-        self.usage = usage
-        self.help = help
-        self.code = code
-        self.program = Path(sys.argv[0]).name
+class _Program:
+    def __init__(self):
+        self.usage = self.help = ''
+        self.code = -1
+        self.executable = Path(sys.argv[0]).name
         self.argv = sys.argv[1:]
         self.called = {}
 
@@ -49,7 +48,7 @@ class Program:
         print(*messages)
 
     def _print(self, messages, category):
-        caption = self.program + ':'
+        caption = self.executable + ':'
         self.called[category] = True
         caption = category.upper() + ':' + caption
         print(caption, *messages, file=sys.stderr)
@@ -86,3 +85,6 @@ class Program:
         if git_functions.is_workspace_dirty():
             self.error(_ERROR_CHANGES_OVERWRITTEN)
             self.exit()
+
+
+PROGRAM = _Program()

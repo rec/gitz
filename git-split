@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 from gitz import git_functions
-from gitz import program
+from gitz.program import PROGRAM
 from gitz import util
 import os
 
-USAGE = """\
+PROGRAM.usage = """\
 git-split:  Split a range of commits into many single-file commits
 
 USAGE:
     git-split [<pathspec>]
 """
-HELP = """
+PROGRAM.help = """
 `git-split` squashes together a range of commits and the staging area, then
 splits out a sequence of individual commits, one for each file changed.
 
@@ -25,7 +25,6 @@ EXAMPLES:
     git-split HEAD~
         Splits the squash of the staging area, HEAD and HEAD~
 """
-PROGRAM = program.Program(USAGE, HELP)
 
 
 def git_split():

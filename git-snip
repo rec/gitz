@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 
-from gitz import program
+from gitz.program import PROGRAM
 from gitz.commit_indexer import CommitIndexer
 
-USAGE = """\
+PROGRAM.usage = """\
 git-snip: Edit one or more commits out of history
 
 USAGE:
     git-snip <id> [<id> ...]
 """
-HELP = """"
+PROGRAM.help = """"
 Edit one or more commits IDs out of the current branch.
 
 IDs 0, 1, 2, 3... are short for HEAD~0, HEAD~1, HEAD~2, HEAD~3...
@@ -18,7 +18,6 @@ This command rewrites history and is only intended for use on private
 branches.
 
 """
-PROGRAM = program.Program(USAGE, HELP)
 _HELP_COMMIT_IDS = 'Names of commit_ids to create'
 
 

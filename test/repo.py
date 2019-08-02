@@ -1,7 +1,7 @@
 from gitz import git
 from gitz import git_functions
 from gitz.git import GIT
-from gitz.program import Program
+from gitz.program import PROGRAM
 from tempfile import TemporaryDirectory
 import contextlib
 import functools
@@ -31,7 +31,7 @@ def test(f):
             GIT.init()
             make_commit('0')
             with clone(*DEFAULT_ORIGINS):
-                with _with_attr(self, 'program', Program('Usage!', 'Help!')):
+                with _with_attr(self, 'program', PROGRAM):
                     f(self)
 
     return wrapper

@@ -1,19 +1,18 @@
 #!/usr/bin/env python3
 from gitz import git_functions
-from gitz import program
+from gitz.program import PROGRAM
 from gitz.env import ENV
 
-USAGE = """\
+PROGRAM.usage = """\
 git-fresh: Create and push a fresh branch from a reference branch
 
 USAGE:
     git fresh <branch-name> [...<branch-name>]
 """
 
-HELP = """
+PROGRAM.help = """
 
 """
-PROGRAM = program.Program(USAGE, HELP)
 _HELP_BRANCHES = 'Names of branches to create'
 
 

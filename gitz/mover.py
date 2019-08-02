@@ -2,7 +2,7 @@ from . import git
 from . import git_functions
 from .env import ENV
 from .git import GIT
-from .program import Program
+from .program import PROGRAM
 
 
 class Mover:
@@ -22,11 +22,12 @@ class Mover:
         self.Action = self.action.capitalize()
         self.Root = self.root.capitalize()
 
-        help = HELP.format(self) + examples
-        self.program = Program(USAGE.format(self), help)
+        assert not (PROGRAM.help or PROGRAM.usage)
+        PROGRAM.help = HELP.format(self) + examples
+        PROGRAM.usage = USAGE.format(self)
 
-        self.error = self.program.error
-        self.args = self.program.parse_args(self._add_arguments)
+        self.error = PROGRAM.error
+        self.args = PROGRAM.parse_args(self._add_arguments)
 
     def __call__(self):
         starting_branch = git_functions.branch_name()
@@ -40,8 +41,8 @@ class Mover:
         self._check_branches()
         self._check_consistent()
 
-        if self.program.called.get('error'):
-            self.program.exit()
+        if PROGRAM.called.get('error'):
+            PROGRAM.exit()
 
         self._move_local()
         self._move_remote()
@@ -77,7 +78,7 @@ class Mover:
         pb = () if self.args.all else ENV.protected_branches()
         if any(i in pb for i in (self.source, self.target)):
             self.error(_ERROR_PROTECTED_BRANCHES % ':'.join(pb))
-            self.program.exit()
+            PROGRAM.exit()
 
         branches = git_functions.branches()
         if self.source not in branches:
@@ -113,15 +114,15 @@ class Mover:
             self.error(_ERROR_INCONSISTENT_COMMITS, error)
 
 
-USAGE = '''\
+USAGE = """\
 git-{0.action}:
     {0.Root}es a git branch locally and on all remotes
 
 USAGE:
     git {0.action} [<source-branch>] <target-branch>
-'''
+"""
 
-HELP = '''
+HELP = """
 {0.Root}es one branch to another, both locally and in remote
 branches.  If no source branch is given, the current branch is
 used.
@@ -137,7 +138,7 @@ It's also possible to override the protected branches or the
 protected remotes by setting one of the environment variables
 GITZ_PROTECTED_BRANCHES or GITZ_PROTECTED_REMOTES
 to a list separated by colons, or an empty string for no protection.
-'''
+"""
 
 _ERROR_CANNOT_DELETE = 'Cannot delete remote'
 _ERROR_INCONSISTENT_COMMITS = 'Inconsistent commits IDs'
