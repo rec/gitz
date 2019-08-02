@@ -2,14 +2,14 @@
 from gitz import git_functions
 from gitz.program import PROGRAM
 
-PROGRAM.usage = """\
+USAGE = """\
 git-stripe: Stripes one or more branches onto a remote repository
 
 USAGE:
     git stripe [<number-of-commits>] [commit-id] [baseref]
 """
 
-PROGRAM.help = """
+HELP = """
 """
 PREFIX = '_gitz_stripe_'
 BAD_BRANCH_CHARS = frozenset('~^: ')
@@ -20,7 +20,7 @@ FORMATS = (
 
 
 def git_stripe():
-    args = PROGRAM.parse_args(_add_arguments)
+    args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
     commit_id = args.commit_id or 'HEAD~'
     commit_id = git_functions.check_commit_id(commit_id, PROGRAM)
 

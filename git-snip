@@ -3,13 +3,13 @@
 from gitz.program import PROGRAM
 from gitz.commit_indexer import CommitIndexer
 
-PROGRAM.usage = """\
+USAGE = """\
 git-snip: Edit one or more commits out of history
 
 USAGE:
     git-snip <id> [<id> ...]
 """
-PROGRAM.help = """"
+HELP = """"
 Edit one or more commits IDs out of the current branch.
 
 IDs 0, 1, 2, 3... are short for HEAD~0, HEAD~1, HEAD~2, HEAD~3...
@@ -22,7 +22,7 @@ _HELP_COMMIT_IDS = 'Names of commit_ids to create'
 
 
 def git_snip():
-    args = PROGRAM.parse_args(_add_arguments)
+    args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
     PROGRAM.check_git()
 
     indexes = []

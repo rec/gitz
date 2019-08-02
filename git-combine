@@ -2,14 +2,14 @@
 from gitz import git_functions
 from gitz.program import PROGRAM
 
-PROGRAM.usage = """\
+USAGE = """\
 git-combine: Combine multiple commits into one
 
 USAGE:
     git-combine <base-commit> [<additional-commit> ...<additional-commit>]
         [--preserve-conflict | -p]
 """
-PROGRAM.help = """
+HELP = """
 Combines a series of commits by hard resetting to the first one and then
 cherry picking each successive one on top.
 
@@ -30,7 +30,7 @@ EXAMPLES:
 
 
 def git_combine():
-    args = PROGRAM.parse_args(_add_arguments)
+    args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
     PROGRAM.check_clean_workspace()
     commit_id = git_functions.commit_id()
     ids, errors = [], []

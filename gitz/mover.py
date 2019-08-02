@@ -22,12 +22,10 @@ class Mover:
         self.Action = self.action.capitalize()
         self.Root = self.root.capitalize()
 
-        assert not (PROGRAM.help or PROGRAM.usage)
-        PROGRAM.help = HELP.format(self) + examples
-        PROGRAM.usage = USAGE.format(self)
-
+        help = HELP.format(self) + examples
+        usage = USAGE.format(self)
+        self.args = PROGRAM.initialize(usage, help, self._add_arguments)
         self.error = PROGRAM.error
-        self.args = PROGRAM.parse_args(self._add_arguments)
 
     def __call__(self):
         starting_branch = git_functions.branch_name()

@@ -15,11 +15,27 @@ _ERROR_PROTECTED_BRANCHES = 'The branches %s are protected'
 
 class _Program:
     def __init__(self):
-        self.usage = self.help = ''
         self.code = -1
         self.executable = Path(sys.argv[0]).name
         self.argv = sys.argv[1:]
         self.called = {}
+
+    def initialize(self, usage, help, add_arguments):
+        self.usage = usage
+        self.help = help
+        if self._print_help():
+            print()
+            print('Full ', end='')
+        parser = argparse.ArgumentParser()
+        log.add_arguments(parser)
+        add_arguments(parser)
+        # If -h/--help are set, this next call terminates the program
+        self.args = parser.parse_args(self.argv)
+
+        run, hidden = log.logs(self, self.args)
+        self.run, self.hidden = runner.Runner(run), runner.Runner(hidden)
+        self.git = self.run.git
+        return self.args
 
     def check_help(self):
         """If help requested, print it and exit"""
@@ -52,22 +68,6 @@ class _Program:
         self.called[category] = True
         caption = category.upper() + ':' + caption
         print(caption, *messages, file=sys.stderr)
-
-    def parse_args(self, add_arguments):
-        if self._print_help():
-            print()
-            print('Full ', end='')
-        parser = argparse.ArgumentParser()
-        log.add_arguments(parser)
-        add_arguments(parser)
-        # If -h/--help are set, this next call terminates the program
-        self.args = parser.parse_args(self.argv)
-
-        run, hidden = log.logs(self, self.args)
-        self.run, self.hidden = runner.Runner(run), runner.Runner(hidden)
-        self.git = self.run.git
-
-        return self.args
 
     def _print_help(self):
         if '-h' in self.argv or '--h' in self.argv:
