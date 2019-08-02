@@ -46,7 +46,7 @@ class _Log:
 
     class Quiet(Silent):
         def stderr(self, line):
-            self.program.error('?', line)
+            self.program.error(line)
 
     class Useful(Quiet):
         def command(self, *cmd):

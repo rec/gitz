@@ -25,7 +25,7 @@ def run(*cmd, use_shlex=False, verbose=False, **kwds):
         raise
 
     if verbose:
-        print(*lines, sep='')
+        print(*lines, sep='\n')
     return lines
 
 

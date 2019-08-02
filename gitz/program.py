@@ -46,16 +46,13 @@ class Program:
         self._print(messages, 'warning')
 
     def info(self, *messages):
-        self._print(messages)
+        print(*messages)
 
-    def _print(self, messages, category=None):
+    def _print(self, messages, category):
         caption = self.program + ':'
-        if category:
-            self.called[category] = True
-            caption = category.upper() + ':' + caption
-            print(caption, *messages, file=sys.stderr)
-        else:
-            print(caption, *messages)
+        self.called[category] = True
+        caption = category.upper() + ':' + caption
+        print(caption, *messages, file=sys.stderr)
 
     def parse_args(self, add_arguments):
         if self._print_help():
