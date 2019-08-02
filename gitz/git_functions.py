@@ -1,10 +1,9 @@
 from . import util
-from .git import COMMIT_ID_LENGTH
 from .git import GIT_SILENT
 
 
 def commit_id(name='HEAD', git=GIT_SILENT):
-    return git.git('rev-parse', name)[0].strip()[:COMMIT_ID_LENGTH]
+    return git.git('rev-parse', name)[0]
 
 
 def exists(name, git=GIT_SILENT):

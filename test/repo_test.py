@@ -36,5 +36,11 @@ class RepoTest(unittest.TestCase):
             self.assertEqual(actual, expected)
             self.assertEqual('efc4ce6', repo.make_commit('three.txt'))
             GIT.push('foo', 'HEAD:working')
-            self.assertEqual(git_functions.commit_id('bar/working'), '393ad1c')
-            self.assertEqual(git_functions.commit_id('foo/working'), 'efc4ce6')
+            self.assertEqual(
+                git_functions.commit_id('bar/working'),
+                '393ad1c265321cdf4d25661379a1fd6922933c40',
+            )
+            self.assertEqual(
+                git_functions.commit_id('foo/working'),
+                'efc4ce65521dbd7a2f410bcc782a088c4460afc5',
+            )
