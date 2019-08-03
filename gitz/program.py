@@ -32,7 +32,8 @@ class _Program:
 
         # If -h/--help are set, this next call terminates the program
         self.args = parser.parse_args(self.argv)
-        self.run = runner.Runner(log.Log(self.args))
+        self.log = log.Log(self.args)
+        self.run = runner.Runner(self.log)
         self.git = self.run.git
         return self.args
 
@@ -59,14 +60,14 @@ class _Program:
     def warning(self, *messages):
         self._print(messages, 'warning')
 
-    def info(self, *messages):
-        print(*messages)
+    def message(self, *messages):
+        self.log.message(*messages)
 
     def _print(self, messages, category):
         caption = self.executable + ':'
         self.called[category] = True
         caption = category.upper() + ':' + caption
-        print(caption, *messages, file=sys.stderr)
+        self.log.error(caption, *messages, file=sys.stderr)
 
     def _print_help(self):
         if '-h' in self.argv or '--h' in self.argv:
