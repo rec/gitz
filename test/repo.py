@@ -27,6 +27,8 @@ DEFAULT_ORIGINS = 'origin', 'upstream'
 def test(f):
     @functools.wraps(f)
     def wrapper(self):
+        PROGRAM.argv.clear()
+        PROGRAM.initialize('Usage!', 'Help!')
         with _with_tmpdir(), _with_env_variables(**ENV_VARIABLES):
             GIT.init()
             make_commit('0')

@@ -1,6 +1,5 @@
 from . import util
 import functools
-import subprocess
 import sys
 
 COMMIT_ID_LENGTH = 7
@@ -23,4 +22,3 @@ class Git:
 
 
 GIT = Git()
-GIT_SILENT = Git(stderr=subprocess.PIPE)

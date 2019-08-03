@@ -5,7 +5,7 @@ from . import git_functions
 def delete(branches, remotes, git=GIT):
     """Delete locally and on zero or more remotes"""
     # Locally
-    existing_branches = git_functions.branches(git=git)
+    existing_branches = git_functions.branches()
     to_delete = [b for b in branches if b in existing_branches]
     if len(to_delete) == len(existing_branches):
         raise ValueError('This would delete all the branches')
@@ -24,7 +24,7 @@ def delete(branches, remotes, git=GIT):
     # Remote branches
     for remote in remotes:
         git.fetch(remote)
-        rb = git_functions.branches('-r', git=git)
+        rb = git_functions.branches('-r')
         to_delete_remote = [b for b in branches if (remote + '/' + b) in rb]
         if to_delete_remote:
             git.push(remote, '--delete', *to_delete_remote)

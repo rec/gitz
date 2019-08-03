@@ -1,4 +1,3 @@
-from . import git_functions
 from . import log
 from . import runner
 from . import util
@@ -20,7 +19,7 @@ class _Program:
         self.argv = sys.argv[1:]
         self.called = {}
 
-    def initialize(self, usage, help, add_arguments):
+    def initialize(self, usage, help, add_arguments=None):
         self.usage = usage
         self.help = help
         if self._print_help():
@@ -28,7 +27,7 @@ class _Program:
             print('Full ', end='')
         parser = argparse.ArgumentParser()
         log.add_arguments(parser)
-        add_arguments(parser)
+        add_arguments and add_arguments(parser)
         # If -h/--help are set, this next call terminates the program
         self.args = parser.parse_args(self.argv)
 
@@ -81,6 +80,8 @@ class _Program:
             self.exit()
 
     def check_clean_workspace(self):
+        from . import git_functions
+
         self.check_git()
         if git_functions.is_workspace_dirty():
             self.error(_ERROR_CHANGES_OVERWRITTEN)
