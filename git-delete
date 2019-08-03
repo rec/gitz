@@ -30,7 +30,6 @@ _HELP_ALL = 'Delete all, even protected remotes or branches'
 
 def git_delete():
     args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
-    PROGRAM.check_clean_workspace()
 
     branch = git_functions.branch_name()
     branches = git_functions.branches()
@@ -48,6 +47,7 @@ def git_delete():
         remotes = [r for r in remotes if r not in pr]
 
     if branch not in remaining_branches:
+        PROGRAM.check_clean_workspace()
         for b in ENV.reference_branches():
             if b in remaining_branches:
                 PROGRAM.git.checkout(b)
