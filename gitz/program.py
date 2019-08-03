@@ -25,14 +25,14 @@ class _Program:
         if self._print_help():
             print()
             print('Full ', end='')
+
         parser = argparse.ArgumentParser()
         log.add_arguments(parser)
         add_arguments and add_arguments(parser)
+
         # If -h/--help are set, this next call terminates the program
         self.args = parser.parse_args(self.argv)
-
-        run, hidden = log.logs(self, self.args)
-        self.run, self.hidden = runner.Runner(run), runner.Runner(hidden)
+        self.run = runner.Runner(log.Log(self.args))
         self.git = self.run.git
         return self.args
 

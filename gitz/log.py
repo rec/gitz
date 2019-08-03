@@ -1,3 +1,5 @@
+import functools
+import sys
 
 FLAGS = {
     'silent': 'Suppress all output',
@@ -12,46 +14,30 @@ def add_arguments(parser):
         add('-' + flag[0], '--' + flag, action='store_true', help=help)
 
 
-def logs(program, args):
-    if (args.verbose + args.quiet + args.silent) > 1:
-        program.warning(
-            'Only one of --verbose, --quiet and --silent should be set'
-        )
+def Log(args):
+    error = functools.partial(print, file=sys.stderr)
 
-    if args.verbose:
-        return _Log.Verbose(program), _Log.Verbose(program)
+    if (args.verbose + args.quiet + args.silent) > 1:
+        error('WARNING: Only set one of --verbose, --quiet or --silent')
 
     if args.silent:
-        return _Log.Silent(program), _Log.Silent(program)
+        return _Log()
 
     if args.quiet:
-        return _Log.Quiet(program), _Log.Silent(program)
+        return _Log(error=error)
 
-    return _Log.Useful(program), _Log.Silent(program)
+    if not args.verbose:
+        return _Log(error=error, message=print)
+
+    return _Log(error=error, message=print, verbose=print)
+
+
+def _nothing(*args):
+    pass
 
 
 class _Log:
-    class Silent:
-        def __init__(self, program):
-            self.program = program
-
-        def command(self, *cmd):
-            pass
-
-        def stdout(self, line):
-            pass
-
-        def stderr(self, line):
-            pass
-
-    class Quiet(Silent):
-        def stderr(self, line):
-            self.program.error(line)
-
-    class Useful(Quiet):
-        def command(self, *cmd):
-            self.program.info('$', *cmd)
-
-    class Verbose(Useful):
-        def stdout(self, line):
-            self.program.info(line)
+    def __init__(self, error=_nothing, message=_nothing, verbose=_nothing):
+        self.error = error
+        self.message = message
+        self.verbose = verbose

@@ -10,9 +10,9 @@ class RunnerTest(unittest.TestCase):
         run = runner.Runner(logger)
         stdout = run('ls')
         self.assertEqual(stdout, ['0'])
-        self.assertEqual(logger.commands, [('ls',)])
-        self.assertEqual(logger.stdouts, ['0'])
-        self.assertEqual(logger.stderrs, [])
+        self.assertEqual(logger.errors, [])
+        self.assertEqual(logger.messages, [])
+        self.assertEqual(logger.verboses, [('$', 'ls'), ('0',)])
         with open('X', 'w') as fp:
             fp.write('X\n')
         run.git.add('X')
@@ -29,15 +29,15 @@ class RunnerTest(unittest.TestCase):
 
 class MockLogger:
     def __init__(self):
-        self.commands = []
-        self.stdouts = []
-        self.stderrs = []
+        self.verboses = []
+        self.messages = []
+        self.errors = []
 
-    def command(self, *cmd):
-        self.commands.append(cmd)
+    def error(self, *parts):
+        self.errors.append(parts)
 
-    def stdout(self, line):
-        self.stdouts.append(line)
+    def message(self, *parts):
+        self.messages.append(parts)
 
-    def stderr(self, line):
-        self.stderrs.append(line)
+    def verbose(self, *parts):
+        self.verboses.append(parts)

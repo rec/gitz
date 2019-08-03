@@ -3,7 +3,7 @@ from .program import PROGRAM
 
 
 def commit_id(name='HEAD'):
-    return PROGRAM.hidden.git('rev-parse', name)[0]
+    return PROGRAM.git('rev-parse', name)[0]
 
 
 def exists(name):
@@ -21,28 +21,28 @@ def check_commit_id(name, program):
 
 
 def branch_name(name='HEAD'):
-    return PROGRAM.hidden.git('symbolic-ref', '--short', name)[0].strip()
+    return PROGRAM.git('symbolic-ref', '--short', name)[0].strip()
 
 
 def is_workspace_dirty():
     if not util.find_git_root():
         return False
     try:
-        PROGRAM.hidden.git('diff-index', '--quiet', 'HEAD', '--')
+        PROGRAM.git('diff-index', '--quiet', 'HEAD', '--')
     except Exception:
         # Also returns true if workspace is broken for some other reason
         return True
 
 
 def branches(*args):
-    return PROGRAM.hidden.git.branch('--format=%(refname:short)', *args)
+    return PROGRAM.git.branch('--format=%(refname:short)', *args)
 
 
 def all_branches(fetch=True):
-    remotes = PROGRAM.hidden.git.remote()
+    remotes = PROGRAM.git.remote()
     if fetch:
         for remote in remotes:
-            PROGRAM.hidden.git.fetch(remote)
+            PROGRAM.git.fetch(remote)
     result = {}
     for rb in branches('-r'):
         remote, branch = rb.split('/')
@@ -52,7 +52,7 @@ def all_branches(fetch=True):
 
 def upstream_branch():
     # https://stackoverflow.com/a/9753364/43839
-    g = PROGRAM.hidden.git(
+    g = PROGRAM.git(
         'rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}',
     )
     return g[0].split('/')

@@ -16,19 +16,19 @@ class Runner:
         self.git = Git(self)
 
     def __call__(self, *cmd):
-        self.log.command(*cmd)
+        self.log.verbose('$', *cmd)
         proc = subprocess.Popen(cmd, **_SUBPROCESS_KWDS)
         output_lines = []
 
         def read_io():
             stdout = proc.stdout.readline()
             if stdout:
-                self.log.stdout(stdout[:-1])
+                self.log.verbose(stdout[:-1])
                 output_lines.append(stdout[:-1])
 
             stderr = proc.stderr.readline()
             if stderr:
-                self.log.stderr(stderr[:-1])
+                self.log.error(stderr[:-1])
 
             return stdout or stderr
 

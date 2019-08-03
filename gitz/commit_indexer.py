@@ -17,7 +17,7 @@ class CommitIndexer:
                 return i
 
         commits = '%s~..%s~' % (commit_id, self.commit_ids[-1])
-        for line in PROGRAM.hidden.git.log('--oneline', commits):
+        for line in PROGRAM.git.log('--oneline', commits):
             if line.strip():
                 commit, *_ = line.split(maxsplit=1)
                 self.commit_ids.append(commit.lower())
