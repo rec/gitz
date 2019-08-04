@@ -1,0 +1,58 @@
+{
+    "name": "gitz",
+    "version": "0.9.8",
+    "description": "🗜gitz: git utilities for advanced users 🗜",
+    "author": "Tom Ritchford",
+    "license": "MIT",
+    "homepage": "https://github.com/rec/gitz",
+    "bugs": {
+        "url": "https://github.com/rec/gitz/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/rec/gitz.git"
+    },
+    "contributors": [
+        "Tom Ritchford (tom@swirly.com)",
+    ],
+    "keywords": [
+        "git",
+        "cli"
+    ],
+    "engines": {
+        "node": ">=0.10.3",
+        "npm": ">=2.0.0"
+    },
+    "preferGlobal": true,
+    "bin": {
+        "git-all": "git-all",
+        "git-amp": "git-amp",
+        "git-combine": "git-combine",
+        "git-copy": "git-copy",
+        "git-delete": "git-delete",
+        "git-fresh": "git-fresh",
+        "git-infer": "git-infer",
+        "git-ls": "git-ls",
+        "git-rename": "git-rename",
+        "git-rotate": "git-rotate",
+        "git-snip": "git-snip",
+        "git-split": "git-split",
+        "git-st": "git-st",
+        "git-stripe": "git-stripe",
+    },
+    "man": "./gitz.1",
+    "scripts": {
+        "lint:editorconfig": "eclint check gitz* readme* .travis.yml",
+        "lint:package": "pjv --recommendations --warnings",
+        "lint:readme": "markdownlint --config markdownlint.json README.md",
+        "lint:man": "markdownlint --config markdownlint.json gitz.1.md",
+        "man": "marked-man --version \"gitz $npm_package_version\" --manual \"Git manual\" --section 1 gitz.1.md > gitz.1",
+    },
+    "dependencies": {},
+    "devDependencies": {
+        "eclint": "^2.1.0",
+        "markdownlint-cli": "^0.13.0",
+        "marked-man": "^0.2.1",
+        "package-json-validator": "^0.6.1"
+    }
+}
