@@ -2,8 +2,6 @@ from . import util
 import functools
 import sys
 
-COMMIT_ID_LENGTH = 7
-
 
 class Git:
     def __init__(self, verbose=None, **kwds):

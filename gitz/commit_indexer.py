@@ -1,5 +1,5 @@
-from . import git
 from . import git_functions
+from .git_functions import COMMIT_ID_LENGTH
 from .program import PROGRAM
 
 
@@ -8,7 +8,7 @@ class CommitIndexer:
         self.commit_ids = [git_functions.commit_id()]
 
     def index(self, commit_id):
-        if commit_id.isnumeric() and len(commit_id) < git.COMMIT_ID_LENGTH:
+        if commit_id.isnumeric() and len(commit_id) < COMMIT_ID_LENGTH:
             commit_id = 'HEAD~' + commit_id
 
         commit_id = git_functions.commit_id(commit_id)

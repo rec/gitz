@@ -106,7 +106,7 @@ class Mover:
         names = ('%s/%s' % (r, self.source) for r in self.old)
         commits = [git_functions.commit_id(n) for n in names]
         if len(set(commits)) > 1:
-            commits = [c[: git.COMMIT_ID_LENGTH] for c in commits]
+            commits = [c[: git_functions.COMMIT_ID_LENGTH] for c in commits]
             error = ' '.join('='.join(i) for i in zip(self.old, commits))
             self.error(_ERROR_INCONSISTENT_COMMITS, error)
 

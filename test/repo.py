@@ -1,4 +1,3 @@
-from gitz import git
 from gitz import git_functions
 from gitz.program import PROGRAM
 from tempfile import TemporaryDirectory
@@ -67,7 +66,7 @@ def make_commit(*names):
     write_files(*names)
     add_files(*names)
     PROGRAM.git.commit('-m', '_'.join(names))
-    return git_functions.commit_id()[: git.COMMIT_ID_LENGTH]
+    return git_functions.commit_id()[: git_functions.COMMIT_ID_LENGTH]
 
 
 @contextlib.contextmanager

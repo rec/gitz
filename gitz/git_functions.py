@@ -1,6 +1,8 @@
 from . import util
 from .program import PROGRAM
 
+COMMIT_ID_LENGTH = 7
+
 
 def commit_id(name='HEAD'):
     return PROGRAM.git('rev-parse', name)[0]
@@ -53,6 +55,6 @@ def all_branches(fetch=True):
 def upstream_branch():
     # https://stackoverflow.com/a/9753364/43839
     g = PROGRAM.git(
-        'rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}',
+        'rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}'
     )
     return g[0].split('/')
