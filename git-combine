@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from gitz import git_functions
+from gitz import combine
 from gitz.program import PROGRAM
 
 USAGE = """\
@@ -31,39 +31,14 @@ EXAMPLES:
 
 def git_combine():
     args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
-    PROGRAM.check_clean_workspace()
-    commit_id = git_functions.commit_id()
-    ids, errors = [], []
-    for id in (args.base, *args.commit_id):
-        try:
-            ids.append(git_functions.commit_id(id))
-        except Exception:
-            errors.append(id)
-
-    if errors:
-        PROGRAM.error_and_exit('Not commit IDs:', *errors)
-
-    try:
-        base, *commits = ids
-        PROGRAM.git.reset('--hard', base)
-        for id in commits:
-            PROGRAM.git('cherry-pick', id)
-    except Exception as e:
-        if not args.preserve_conflict:
-            PROGRAM.git.reset('--hard', commit_id)
-        PROGRAM.error_and_exit('In git:', e)
+    combine.combine(args, args.base, *args.commit_id)
 
 
 def _add_arguments(parser):
     add_arg = parser.add_argument
     add_arg('base', help='Base commit to combine from')
     add_arg('commit_id', nargs='+', help='List of commit IDs to cherry pick')
-
-    boolean_flags = (
-        ('preserve-conflict', 'Do not revert the workspace on failure'),
-    )
-    for flag, help in boolean_flags:
-        add_arg('-' + flag[0], '--' + flag, action='store_true', help=help)
+    combine.add_conflict_arguments(parser)
 
 
 if __name__ == '__main__':

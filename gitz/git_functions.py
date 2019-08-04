@@ -55,6 +55,6 @@ def all_branches(fetch=True):
 def upstream_branch():
     # https://stackoverflow.com/a/9753364/43839
     g = PROGRAM.git(
-        'rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}'
+        'rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}',
     )
     return g[0].split('/')
