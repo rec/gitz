@@ -1,4 +1,4 @@
-🗜 gitz - tiny useful git commands, some dangerous
+🗜 gitz - tiny useful git commands, some dangerous 🗜
 -------------------------------------------------------------------
 
 This is a collection of a dszen git utilities, each of which does one
