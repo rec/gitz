@@ -20,19 +20,14 @@ class Runner:
         proc = subprocess.Popen(cmd, **_SUBPROCESS_KWDS)
         output_lines = []
 
-        def read_io():
-            stdout = proc.stdout.readline()
-            if stdout:
-                self.log.verbose(stdout[:-1])
-                output_lines.append(stdout[:-1])
+        def out(line):
+            self.log.verbose(line[:-1])
+            output_lines.append(line[:-1])
 
-            stderr = proc.stderr.readline()
-            if stderr:
-                self.log.error(stderr[:-1])
+        def error(line):
+            self.log.error(line[:-1])
 
-            return stdout or stderr
-
-        while proc.poll() is None or read_io():
+        while proc.poll() is None or run_proc(proc, out, error):
             pass
 
         if proc.returncode:
@@ -50,3 +45,26 @@ class Git:
 
     def __call__(self, *cmd):
         return self.run('git', *cmd)
+
+
+def run_proc(proc, out, error):
+    running = True
+    while running:
+        running = False
+
+        while True:
+            line = proc.stdout.readline()
+            if not line:
+                break
+            out(line)
+            running = True
+
+        while True:
+            line = proc.stderr.readline()
+            if not line:
+                break
+            error(line)
+            running = True
+
+        if proc.poll() is None:
+            running = True
