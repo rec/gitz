@@ -1,6 +1,5 @@
 from . import repo
 from gitz import git_functions
-from gitz.git import GIT
 from gitz.program import PROGRAM
 from pathlib import Path
 import unittest
@@ -8,9 +7,7 @@ import unittest
 
 class GitAllTest(unittest.TestCase):
     def test_directories(self):
-        # This needs to run in shell mode so that the * is expanded.
-        # Either we need to run this in shell mode, or use glob.
-        actual = GIT.all('test/data/*', '-', 'ls', '-1')
+        actual = PROGRAM.git.all('test/data/*', '-', 'ls', '-1', shell=True)
         self.assertEqual(actual, _DIRECTORIES.split('\n'))
 
     @repo.test

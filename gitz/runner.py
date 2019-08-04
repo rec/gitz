@@ -15,9 +15,12 @@ class Runner:
         self.log = log
         self.git = Git(self)
 
-    def __call__(self, *cmd):
+    def __call__(self, *cmd, **kwds):
         self.log.verbose('$', *cmd)
-        proc = subprocess.Popen(cmd, **_SUBPROCESS_KWDS)
+        kwds = dict(_SUBPROCESS_KWDS, **kwds)
+        if kwds.get('shell'):
+            cmd = ' '.join(cmd)
+        proc = subprocess.Popen(cmd, **kwds)
         output_lines = []
 
         def out(line):

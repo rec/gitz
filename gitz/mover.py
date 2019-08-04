@@ -1,4 +1,3 @@
-from . import git
 from . import git_functions
 from .env import ENV
 from .program import PROGRAM
@@ -45,7 +44,7 @@ class Mover:
         self._move_remote()
 
         if starting_branch != self.source:
-            git.checkout(self.starting_branch)
+            PROGRAM.git.checkout(self.starting_branch)
 
     def _move_local(self):
         flag = '-c' if self.action == 'copy' else '-m'
