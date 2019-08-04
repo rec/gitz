@@ -1,39 +1,39 @@
 from . import repo
 from gitz import git_functions
-from gitz.git import GIT
+from gitz.program import PROGRAM
 import unittest
 
 
 class GitRotateTest(unittest.TestCase):
     @repo.test
     def test_change(self):
-        GIT.checkout('-b', 'A')
+        PROGRAM.git.checkout('-b', 'A')
         repo.make_commit('1')
 
-        GIT.checkout('-b', 'B')
+        PROGRAM.git.checkout('-b', 'B')
         repo.make_commit('2')
 
-        GIT.checkout('-b', 'C')
+        PROGRAM.git.checkout('-b', 'C')
         repo.make_commit('3')
         self.assertEqual(git_functions.branch_name(), 'C')
 
-        GIT.rotate('0')
+        PROGRAM.git.rotate('0')
         self.assertEqual(git_functions.branch_name(), 'C')
 
-        GIT.rotate()
+        PROGRAM.git.rotate()
         self.assertEqual(git_functions.branch_name(), 'master')
 
-        GIT.rotate()
+        PROGRAM.git.rotate()
         self.assertEqual(git_functions.branch_name(), 'A')
 
-        GIT.rotate('2')
+        PROGRAM.git.rotate('2')
         self.assertEqual(git_functions.branch_name(), 'C')
 
-        GIT.rotate('-1')
+        PROGRAM.git.rotate('-1')
         self.assertEqual(git_functions.branch_name(), 'B')
 
-        GIT.rotate('-')
+        PROGRAM.git.rotate('-')
         self.assertEqual(git_functions.branch_name(), 'A')
 
-        GIT.rotate('-2')
+        PROGRAM.git.rotate('-2')
         self.assertEqual(git_functions.branch_name(), 'C')

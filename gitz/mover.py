@@ -1,7 +1,6 @@
 from . import git
 from . import git_functions
 from .env import ENV
-from .git import GIT
 from .program import PROGRAM
 
 
@@ -51,18 +50,18 @@ class Mover:
     def _move_local(self):
         flag = '-c' if self.action == 'copy' else '-m'
         flag = flag.upper() if self.args.force else flag
-        GIT.branch(flag, self.source, self.target)
+        PROGRAM.git.branch(flag, self.source, self.target)
         print(self.Root + 'ed', self.source, 'to', self.target)
 
     def _move_remote(self):
-        GIT.checkout(self.target)
+        PROGRAM.git.checkout(self.target)
         force = ['--force-with-lease'] if self.args.force else []
         for remote in self.old + self.new:
-            GIT.push(*force, remote, self.target)
+            PROGRAM.git.push(*force, remote, self.target)
 
         if self.action != 'copy':
             for remote in self.old:
-                GIT.push(remote, ':' + self.source)
+                PROGRAM.git.push(remote, ':' + self.source)
 
     def _add_arguments(self, parser):
         add_arg = parser.add_argument
@@ -134,7 +133,7 @@ to be {0.root}ed.
 
 It's also possible to override the protected branches or the
 protected remotes by setting one of the environment variables
-GITZ_PROTECTED_BRANCHES or GITZ_PROTECTED_REMOTES
+PROGRAM.gitZ_PROTECTED_BRANCHES or PROGRAM.gitZ_PROTECTED_REMOTES
 to a list separated by colons, or an empty string for no protection.
 """
 

@@ -1,21 +1,21 @@
 from . import repo
-from gitz.git import GIT
+from gitz.program import PROGRAM
 import unittest
 
 
 class GitFreshTest(unittest.TestCase):
     @repo.test
     def test_fresh(self):
-        GIT.fresh('one')
+        PROGRAM.git.fresh('one')
         repo.make_commit('1')
-        GIT.push()
-        actual = GIT.log('--oneline', 'origin/one')
+        PROGRAM.git.push()
+        actual = PROGRAM.git.log('--oneline', 'origin/one')
         expected = ['a03c0f8 1', 'c0d1dbb 0']
         self.assertEqual(actual, expected)
 
-        GIT.fresh('two')
+        PROGRAM.git.fresh('two')
         repo.make_commit('2')
-        GIT.push()
-        actual = GIT.log('--oneline', 'origin/two')
+        PROGRAM.git.push()
+        actual = PROGRAM.git.log('--oneline', 'origin/two')
         expected = ['aff4d90 2', 'c0d1dbb 0']
         self.assertEqual(actual, expected)

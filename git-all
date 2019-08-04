@@ -2,8 +2,6 @@
 from gitz import git_functions
 from gitz.program import PROGRAM
 from gitz import util
-from gitz.git import GIT
-import sys
 
 USAGE = """\
 git-all: Perform a command on each of multiple branches or directories
@@ -33,12 +31,6 @@ def git_all():
 
     if not command:
         PROGRAM.error_and_usage_and_exit(_ERROR_MISSING_COMMAND)
-    if args.verbose:
-        if args.quiet:
-            args.verbose = False
-            print('--quiet overrides --verbose', file=sys.stderr)
-        else:
-            GIT.verbose = True
 
     PROGRAM.check_git()
     branches = git_functions.branches() if util.find_git_root() else []
@@ -79,11 +71,11 @@ def _run_command(args, name, branches, command):
         if not args.quiet:
             print('Branch %s:' % name)
         saved_branch = git_functions.branch_name()
-        GIT.checkout('-q', name)
+        PROGRAM.git.checkout('-q', name)
         try:
             lines = util.run(*command)
         finally:
-            GIT.checkout('-q', saved_branch)
+            PROGRAM.git.checkout('-q', saved_branch)
     else:
         name = util.expand_path(name)
         if name.name.startswith('.'):

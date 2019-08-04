@@ -1,5 +1,5 @@
 from . import repo
-from gitz.git import GIT
+from gitz.program import PROGRAM
 import unittest
 
 
@@ -8,7 +8,7 @@ class GitLsTest(unittest.TestCase):
     def test_change(self):
         repo.make_commit('1')
         repo.make_commit('2')
-        actual = GIT.ls()
+        actual = PROGRAM.git.ls()
         expected = [
             '0   \t.* ago\tc0d1dbb 0',
             '1   \t.* ago\ta03c0f8 1',

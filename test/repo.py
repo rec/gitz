@@ -1,6 +1,5 @@
 from gitz import git
 from gitz import git_functions
-from gitz.git import GIT
 from gitz.program import PROGRAM
 from tempfile import TemporaryDirectory
 import contextlib
@@ -30,7 +29,7 @@ def test(f):
         PROGRAM.argv.clear()
         PROGRAM.initialize('Usage!', 'Help!')
         with _with_tmpdir(), _with_env_variables(**ENV_VARIABLES):
-            GIT.init()
+            PROGRAM.git.init()
             make_commit('0')
             with clone(*DEFAULT_ORIGINS):
                 with _with_attr(self, 'program', PROGRAM):
@@ -45,9 +44,9 @@ def clone(*names):
     with contextlib.ExitStack() as stack:
         for name in names:
             clones.append(stack.enter_context(TemporaryDirectory()))
-            GIT.clone('--mirror', '.', clones[-1])
-            GIT.remote('add', name, 'file://' + clones[-1])
-            GIT.fetch(name)
+            PROGRAM.git.clone('--mirror', '.', clones[-1])
+            PROGRAM.git.remote('add', name, 'file://' + clones[-1])
+            PROGRAM.git.fetch(name)
 
         yield clones
 
@@ -61,13 +60,13 @@ def write_files(*names):
 
 def add_files(*names):
     for name in names:
-        GIT.add(name)
+        PROGRAM.git.add(name)
 
 
 def make_commit(*names):
     write_files(*names)
     add_files(*names)
-    GIT.commit('-m', '_'.join(names))
+    PROGRAM.git.commit('-m', '_'.join(names))
     return git_functions.commit_id()[: git.COMMIT_ID_LENGTH]
 
 

@@ -1,6 +1,6 @@
 from . import repo
 from gitz import git_functions
-from gitz.git import GIT
+from gitz.program import PROGRAM
 import unittest
 
 
@@ -17,13 +17,13 @@ class RepoTest(unittest.TestCase):
     def test_clone(self):
         self.assertEqual('44dac6b', repo.make_commit('one.txt'))
         self.assertEqual('393ad1c', repo.make_commit('two.txt'))
-        GIT.checkout('-b', 'working')
+        PROGRAM.git.checkout('-b', 'working')
 
         with repo.clone('foo', 'bar'):
             expected = ['bar', 'foo', 'origin', 'upstream']
-            self.assertEqual(sorted(GIT.remote()), expected)
-            GIT.fetch('foo')
-            GIT.fetch('bar')
+            self.assertEqual(sorted(PROGRAM.git.remote()), expected)
+            PROGRAM.git.fetch('foo')
+            PROGRAM.git.fetch('bar')
             actual = git_functions.branches('-r')
             expected = [
                 'bar/master',
@@ -35,7 +35,7 @@ class RepoTest(unittest.TestCase):
             ]
             self.assertEqual(actual, expected)
             self.assertEqual('efc4ce6', repo.make_commit('three.txt'))
-            GIT.push('foo', 'HEAD:working')
+            PROGRAM.git.push('foo', 'HEAD:working')
             self.assertEqual(
                 git_functions.commit_id('bar/working'),
                 '393ad1c265321cdf4d25661379a1fd6922933c40',
