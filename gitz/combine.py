@@ -40,3 +40,21 @@ def combine(args, *commit_ids):
         PROGRAM.git.reset('--hard', base)
         for id in commits:
             PROGRAM.git('cherry-pick', id)
+
+
+def shuffle(shuffle):
+    names = shuffle.replace('_', '')
+    sorted_names = sorted(names)
+
+    if len(set(names)) < len(names):
+        raise ValueError('"%s" has repeating symbols' % shuffle)
+
+    result = []
+    for name in names:
+        i = sorted_names.index(name)
+        result.append(shuffle.index(names[i]))
+
+    result.append(len(shuffle))
+    while result and result[-1] == len(result) - 1:
+        result.pop()
+    return result

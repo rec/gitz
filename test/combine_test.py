@@ -1,0 +1,27 @@
+from gitz import combine
+import unittest
+
+
+class ShuffleTest(unittest.TestCase):
+    def test_identity(self):
+        self.assertEqual(combine.shuffle(''), [])
+        self.assertEqual(combine.shuffle('a'), [])
+        self.assertEqual(combine.shuffle('ab'), [])
+        self.assertEqual(combine.shuffle('abc'), [])
+        self.assertEqual(combine.shuffle('adflpqz'), [])
+
+    def test_swap(self):
+        self.assertEqual(combine.shuffle('ba'), [1, 0])
+        self.assertEqual(combine.shuffle('xc'), [1, 0])
+
+    def test_cycle(self):
+        self.assertEqual(combine.shuffle('cab'), [2, 0, 1])
+        self.assertEqual(combine.shuffle('cab_'), [2, 0, 1, 4])
+        self.assertEqual(combine.shuffle('_cab_'), [3, 1, 2, 5])
+        self.assertEqual(combine.shuffle('_ca_b_'), [4, 1, 2, 6])
+        self.assertEqual(combine.shuffle('_____cab_'), [7, 5, 6, 9])
+
+    def test_cleaning(self):
+        self.assertEqual(combine.shuffle('cabdef'), [2, 0, 1])
+        self.assertEqual(combine.shuffle('cabedf'), [2, 0, 1, 4, 3])
+        self.assertEqual(combine.shuffle('abcdfe'), [0, 1, 2, 3, 5, 4])
