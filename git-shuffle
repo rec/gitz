@@ -1,0 +1,59 @@
+#!/usr/bin/env python3
+from gitz import combine
+from gitz.program import PROGRAM
+
+USAGE = """\
+git-shuffle: Shuffle commits within the existing branch
+
+USAGE:
+    git-shuffle [permutation]
+
+"""
+HELP = """
+Shuffles the current sequence of commits, perhaps deleting some.
+
+
+EXAMPLES:
+
+    git shuffle
+    git shuffle ba
+    git shuffle 10
+    git shuffle 21
+        Switches the first and second commit
+
+    git shuffle ab
+    git shuffle 01
+    git shuffle 12
+        Do nothing
+
+    git shuffle 312
+    git shuffle cab
+    git shuffle zxy
+        Cycles the first three commits so the third one is first
+
+    git shuffle __321_
+        Deletes the first two commits, reverses the next three, and
+        deletes one more.
+
+"""
+
+
+def git_shuffle():
+    args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
+    PROGRAM.check_clean_workspace()
+    shuffle = combine.shuffle(args.shuffle)
+    if shuffle:
+        shuffle = ['HEAD~%d' % i for i in reversed(shuffle)]
+        combine.combine(args, *shuffle)
+    else:
+        PROGRAM.message('No change')
+
+
+def _add_arguments(parser):
+    add_arg = parser.add_argument
+    add_arg('shuffle', help='Pattern string to shuffle')
+    combine.add_conflict_arguments(parser)
+
+
+if __name__ == '__main__':
+    git_shuffle()

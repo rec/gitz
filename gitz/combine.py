@@ -55,6 +55,10 @@ def shuffle(shuffle):
         result.append(shuffle.index(names[i]))
 
     result.append(len(shuffle))
+    last = None
     while result and result[-1] == len(result) - 1:
-        result.pop()
+        last = result.pop()
+    if result and last is not None:
+        result.append(last)
+
     return result
