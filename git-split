@@ -53,7 +53,7 @@ def git_split():
         mode = mode.strip()
         if mode == '??':
             mode = 'R' if len(filenames_split) > 1 else 'A'
-        mode_name = NAMES[mode]
+        mode_name = NAMES[mode[0]]
 
         # Renaming is a special case with two files on a line
         # separated by -> and with mode = '??'
