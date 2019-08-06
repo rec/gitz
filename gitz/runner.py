@@ -18,8 +18,10 @@ class Runner:
     def __call__(self, *cmd, **kwds):
         self.log.verbose('$', *cmd)
         kwds = dict(_SUBPROCESS_KWDS, **kwds)
+        cmd_arg = ' '.join(cmd)
         if kwds.get('shell'):
-            cmd = ' '.join(cmd)
+            cmd = cmd_arg
+
         proc = subprocess.Popen(cmd, **kwds)
         output_lines = []
 
@@ -34,7 +36,7 @@ class Runner:
             pass
 
         if proc.returncode:
-            raise ValueError('Command "%s" failed' % ' '.join(cmd))
+            raise ValueError('Command "%s" failed' % cmd_arg)
 
         return output_lines
 

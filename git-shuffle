@@ -40,21 +40,20 @@ EXAMPLES:
 
 
 def git_shuffle():
-    args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
     git_functions.check_clean_workspace()
-    shuffle = combine.shuffle(args.shuffle)
+    shuffle = combine.shuffle(PROGRAM.args.shuffle)
     if shuffle:
         shuffle = ['HEAD~%d' % i for i in reversed(shuffle)]
-        combine.combine(args, *shuffle)
+        combine.combine(PROGRAM.args, *shuffle)
     else:
         PROGRAM.message('No change')
 
 
-def _add_arguments(parser):
+def add_arguments(parser):
     add_arg = parser.add_argument
     add_arg('shuffle', help='Pattern string to shuffle')
     combine.add_conflict_arguments(parser)
 
 
 if __name__ == '__main__':
-    git_shuffle()
+    PROGRAM.run(**globals())

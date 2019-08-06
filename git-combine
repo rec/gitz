@@ -30,11 +30,11 @@ EXAMPLES:
 
 
 def git_combine():
-    args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
+    args = PROGRAM.args
     combine.combine(args, args.base, *args.commit_id)
 
 
-def _add_arguments(parser):
+def add_arguments(parser):
     add_arg = parser.add_argument
     add_arg('base', help='Base commit to combine from')
     add_arg('commit_id', nargs='+', help='List of commit IDs to cherry pick')
@@ -42,4 +42,4 @@ def _add_arguments(parser):
 
 
 if __name__ == '__main__':
-    git_combine()
+    PROGRAM.run(**globals())

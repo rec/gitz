@@ -17,9 +17,8 @@ _HELP_BRANCHES = 'Names of branches to create'
 
 
 def git_fresh():
-    args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
     git_functions.check_clean_workspace()
-    for branch in args.branches:
+    for branch in PROGRAM.args.branches:
         _run_fresh(branch)
 
 
@@ -55,9 +54,9 @@ def _run_fresh(fresh_branch):
     PROGRAM.exit('No reference branch found')
 
 
-def _add_arguments(parser):
+def add_arguments(parser):
     parser.add_argument('branches', nargs='+', help=_HELP_BRANCHES)
 
 
 if __name__ == '__main__':
-    git_fresh()
+    PROGRAM.run(**globals())

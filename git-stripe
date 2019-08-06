@@ -22,7 +22,7 @@ _DELETE_FMT = ':refs/heads/{base_branch}{i}'
 
 
 def git_stripe():
-    args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
+    args = PROGRAM.args
     cid = args.commit_id or 'HEAD~'
     commit_id = git_functions.commit_id(cid, short=True)
     if not commit_id:
@@ -60,7 +60,7 @@ def git_stripe():
         PROGRAM.git.push(upstream, refspec)
 
 
-def _add_arguments(parser):
+def add_arguments(parser):
     add = parser.add_argument
 
     add('commit_id', default='', nargs='?', help=_HELP_COMMIT_ID)
@@ -81,4 +81,4 @@ _HELP_REMOTE = 'Remote to push to (uses the upstream for this branch if none)'
 
 
 if __name__ == '__main__':
-    git_stripe()
+    PROGRAM.run(**globals())

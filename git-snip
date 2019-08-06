@@ -23,7 +23,7 @@ _HELP_COMMIT_IDS = 'Names of commit_ids to create'
 
 
 def git_snip():
-    args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
+    args = PROGRAM.args
     git_functions.check_git()
 
     indexes = []
@@ -53,9 +53,9 @@ def git_snip():
         PROGRAM.git.rebase(('HEAD~%s' % i), '--onto', 'HEAD~%s' % (i + 1))
 
 
-def _add_arguments(parser):
+def add_arguments(parser):
     parser.add_argument('commit_ids', nargs='+', help=_HELP_COMMIT_IDS)
 
 
 if __name__ == '__main__':
-    git_snip()
+    PROGRAM.run(**globals())

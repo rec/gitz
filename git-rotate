@@ -26,8 +26,8 @@ EXAMPLES:
 """
 
 
-def git_rotate(steps='1'):
-    args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
+def git_rotate():
+    args = PROGRAM.args
     git_functions.check_clean_workspace()
     if args.steps == '-':
         steps = -1
@@ -42,11 +42,11 @@ def git_rotate(steps='1'):
     PROGRAM.git.checkout(branches[pos % len(branches)])
 
 
-def _add_arguments(parser):
+def add_arguments(parser):
     parser.add_argument('steps', nargs='?', default='1', help=_HELP_STEPS)
 
 
 _HELP_STEPS = 'Number of steps to rotate (positive or negative)'
 
 if __name__ == '__main__':
-    git_rotate(*PROGRAM.argv)
+    PROGRAM.run(**globals())

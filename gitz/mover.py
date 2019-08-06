@@ -20,16 +20,22 @@ class Mover:
         self.Action = self.action.capitalize()
         self.Root = self.root.capitalize()
 
-        help = HELP.format(self) + examples
-        usage = USAGE.format(self)
-        self.args = PROGRAM.initialize(usage, help, self._add_arguments)
         self.error = PROGRAM.error
+        self.examples = examples
 
     def __call__(self):
+        PROGRAM.run(
+            help=HELP.format(self) + self.examples,
+            usage=USAGE.format(self),
+            add_arguments=self._add_arguments,
+            main=self.run,
+        )
+
+    def run(self):
         starting_branch = git_functions.branch_name()
-        source = self.args.source
-        if self.args.target:
-            self.source, self.target = source, self.args.target
+        source = PROGRAM.args.source
+        if PROGRAM.args.target:
+            self.source, self.target = source, PROGRAM.args.target
         else:
             self.source, self.target = starting_branch, source
 
@@ -48,13 +54,13 @@ class Mover:
 
     def _move_local(self):
         flag = '-c' if self.action == 'copy' else '-m'
-        flag = flag.upper() if self.args.force else flag
+        flag = flag.upper() if PROGRAM.args.force else flag
         PROGRAM.git.branch(flag, self.source, self.target)
         print(self.Root + 'ed', self.source, 'to', self.target)
 
     def _move_remote(self):
         PROGRAM.git.checkout(self.target)
-        force = ['--force-with-lease'] if self.args.force else []
+        force = ['--force-with-lease'] if PROGRAM.args.force else []
         for remote in self.old + self.new:
             PROGRAM.git.push(*force, remote, self.target)
 
@@ -71,7 +77,7 @@ class Mover:
             add_arg(f, f[1:3], action='store_true', help=h.format(self))
 
     def _check_branches(self):
-        pb = () if self.args.all else ENV.protected_branches()
+        pb = () if PROGRAM.args.all else ENV.protected_branches()
         if any(i in pb for i in (self.source, self.target)):
             self.error(_ERROR_PROTECTED_BRANCHES % ':'.join(pb))
             PROGRAM.exit()
@@ -80,27 +86,27 @@ class Mover:
         if self.source not in branches:
             self.error(_ERROR_LOCAL_REPO % self.source)
 
-        if not self.args.force and self.target in branches:
+        if not PROGRAM.args.force and self.target in branches:
             self.error(_ERROR_TARGET_EXISTS % self.target)
 
     def _get_remotes(self):
         all_branches = git_functions.all_branches()
-        pr = () if self.args.all else ENV.protected_remotes()
+        pr = () if PROGRAM.args.all else ENV.protected_remotes()
         all_branches = {k: v for k, v in all_branches.items() if k not in pr}
 
         self.old = []
         self.new = []
         for remote, branches in all_branches.items():
-            if self.target in branches and not self.args.force:
+            if self.target in branches and not PROGRAM.args.force:
                 branch = remote + '/' + self.target
                 self.error(_ERROR_TARGET_EXISTS % branch)
             elif self.source in branches:
                 self.old.append(remote)
-            elif self.args.create:
+            elif PROGRAM.args.create:
                 self.new.append(remote)
 
     def _check_consistent(self):
-        if self.args.force:
+        if PROGRAM.args.force:
             return
         names = ('%s/%s' % (r, self.source) for r in self.old)
         commits = [git_functions.commit_id(n) for n in names]

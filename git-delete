@@ -29,8 +29,7 @@ _HELP_ALL = 'Delete all, even protected remotes or branches'
 
 
 def git_delete():
-    args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
-
+    args = PROGRAM.args
     branch = git_functions.branch_name()
     branches = git_functions.branches()
 
@@ -63,10 +62,10 @@ def git_delete():
         PROGRAM.exit('No branches deleted')
 
 
-def _add_arguments(parser):
+def add_arguments(parser):
     parser.add_argument('target', nargs='+')
     parser.add_argument('-a', '--all', action='store_true', help=_HELP_ALL)
 
 
 if __name__ == '__main__':
-    git_delete()
+    PROGRAM.run(**globals())
