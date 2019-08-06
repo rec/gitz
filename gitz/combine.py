@@ -24,7 +24,7 @@ def add_conflict_arguments(parser):
 
 
 def combine(args, *commit_ids):
-    PROGRAM.check_clean_workspace()
+    git_functions.check_clean_workspace()
     ids, errors = [], []
     for id in commit_ids:
         try:

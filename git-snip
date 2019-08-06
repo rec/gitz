@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-from gitz.program import PROGRAM
+from gitz import git_functions
 from gitz.commit_indexer import CommitIndexer
+from gitz.program import PROGRAM
 
 USAGE = """\
 git-snip: Edit one or more commits out of history
@@ -23,7 +24,7 @@ _HELP_COMMIT_IDS = 'Names of commit_ids to create'
 
 def git_snip():
     args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
-    PROGRAM.check_git()
+    git_functions.check_git()
 
     indexes = []
     errors = []

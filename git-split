@@ -29,7 +29,7 @@ EXAMPLES:
 
 def git_split():
     args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
-    PROGRAM.check_git()
+    git_functions.check_git()
 
     os.chdir(util.find_git_root())
 

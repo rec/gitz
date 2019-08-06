@@ -1,14 +1,9 @@
 from . import log
 from . import runner
-from . import util
 from pathlib import Path
 import argparse
 import sys
 
-_ERROR_CHANGES_OVERWRITTEN = 'Your local changes would be overwritten'
-_ERROR_NOT_GIT_REPOSITORY = (
-    'fatal: not a git repository (or any of the parent directories): .git'
-)
 _ERROR_PROTECTED_BRANCHES = 'The branches %s are protected'
 
 
@@ -74,19 +69,6 @@ class _Program:
             print(self.usage.rstrip())
             print(self.help.rstrip())
             return True
-
-    def check_git(self):
-        if not util.find_git_root():
-            self.error(_ERROR_NOT_GIT_REPOSITORY)
-            self.exit()
-
-    def check_clean_workspace(self):
-        from . import git_functions
-
-        self.check_git()
-        if git_functions.is_workspace_dirty():
-            self.error(_ERROR_CHANGES_OVERWRITTEN)
-            self.exit()
 
 
 PROGRAM = _Program()

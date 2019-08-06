@@ -53,3 +53,22 @@ def upstream_branch():
         'rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}',
     )
     return g[0].split('/')
+
+
+def check_git():
+    if not util.find_git_root():
+        PROGRAM.error(_ERROR_NOT_GIT_REPOSITORY)
+        PROGRAM.exit()
+
+
+def check_clean_workspace():
+    check_git()
+    if is_workspace_dirty():
+        PROGRAM.error(_ERROR_CHANGES_OVERWRITTEN)
+        PROGRAM.exit()
+
+
+_ERROR_CHANGES_OVERWRITTEN = 'Your local changes would be overwritten'
+_ERROR_NOT_GIT_REPOSITORY = (
+    'fatal: not a git repository (or any of the parent directories): .git'
+)
