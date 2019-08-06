@@ -60,7 +60,7 @@ def git_all():
             _run_command(args, name, branches)
         except Exception as e:
             PROGRAM.error('Exception', e, 'for name', name)
-            if not args.catch:
+            if args.fail:
                 PROGRAM.exit()
 
 
@@ -100,9 +100,9 @@ def _pre():
 def add_arguments(parser):
     add = parser.add_argument
     add('name', nargs='*', help=_HELP_NAME)
-    add('-c', '--catch', action='store_true', help=_HELP_CATCH)
-    add('-d', '--dotfiles', action='store_true', help=_HELP_DOTFILES)
     add('-a', '--all', action='store_true', help=_HELP_ALL)
+    add('-d', '--dotfiles', action='store_true', help=_HELP_DOTFILES)
+    add('-f', '--fail', action='store_true', help=_HELP_FAIL)
     add('-i', '--indent', default=2, type=int, help=_HELP_INDENT)
 
 
@@ -112,7 +112,6 @@ _ERROR_BAD_NAME = '%s: neither branch nor git repository'
 _ERROR_MISSING_COMMAND = 'No command found'
 
 _HELP_ALL = 'Visit non-git directories'
-_HELP_CATCH = 'Instead of failing, catch and report errors, then continue'
 _HELP_DOTFILES = 'Don\'t exclude dotfiles'
 _HELP_FAIL = 'Fail immediately if any git-all command fails'
 _HELP_INDENT = 'Number of columns to indent output of commands'
