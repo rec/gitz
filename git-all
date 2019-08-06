@@ -2,6 +2,7 @@
 from gitz import git_functions
 from gitz.program import PROGRAM
 from gitz import util
+import sys
 
 USAGE = """\
 git-all: Perform a command on each of multiple branches or directories
@@ -30,7 +31,9 @@ def git_all():
     args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
 
     if not command:
-        PROGRAM.error_and_usage_and_exit(_ERROR_MISSING_COMMAND)
+        PROGRAM.error(_ERROR_MISSING_COMMAND)
+        print(PROGRAM.usage, file=sys.stderr)
+        PROGRAM.exit()
 
     branches = git_functions.branches() if util.find_git_root() else []
     names = args.name or branches

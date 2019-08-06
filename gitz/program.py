@@ -42,11 +42,6 @@ class _Program:
             self.error(*messages)
         sys.exit(self.code)
 
-    def error_and_usage_and_exit(self, *messages):
-        self.error(*messages)
-        print(self.usage, file=sys.stderr)
-        self.exit()
-
     def error(self, *messages):
         self._error(messages, 'error')
 
