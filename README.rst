@@ -52,6 +52,8 @@ Safe commands
   Like ``ls`` but shows git info, with good use of color
   (from an unknown source)
 
+.. image:: img/git-ls-screenshot.png
+
 ``git-infer``
   Commit changes with an auto-generated message
   (from https://github.com/moondewio/git-infer)
@@ -64,7 +66,7 @@ Safe commands
   This version written by https://github.com/PlatyPew/, original
   version by https://www.reddit.com/user/ex1c)
 
-.. image:: Screenshot.png
+.. image:: img/git-st-screenshot.png
 
 ``git-stripe``
    Push each commit in a series onto a separate remote branch
