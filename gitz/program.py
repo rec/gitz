@@ -50,15 +50,15 @@ class _Program:
         self.exit()
 
     def error(self, *messages):
-        self._print(messages, 'error')
+        self._error(messages, 'error')
 
     def warning(self, *messages):
-        self._print(messages, 'warning')
+        self._error(messages, 'warning')
 
     def message(self, *messages):
         self.log.message(*messages)
 
-    def _print(self, messages, category):
+    def _error(self, messages, category):
         caption = self.executable + ':'
         self.called[category] = True
         caption = category.upper() + ':' + caption
