@@ -54,7 +54,7 @@ def git_all():
 
     if errors:
         errors = '"%s"' % '", "'.join(errors)
-        PROGRAM.error_and_exit(_ERROR_BAD_NAME % errors)
+        PROGRAM.exit(_ERROR_BAD_NAME % errors)
 
     for name in names:
         try:

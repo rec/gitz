@@ -35,7 +35,7 @@ def git_rotate(steps='1'):
         try:
             steps = int(args.steps)
         except ValueError:
-            PROGRAM.error_and_exit('steps must be an integer, not', args.steps)
+            PROGRAM.exit('steps must be an integer, not', args.steps)
 
     branches = git_functions.branches()
     pos = branches.index(git_functions.branch_name()) + steps

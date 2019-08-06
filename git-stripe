@@ -26,10 +26,10 @@ def git_stripe():
     cid = args.commit_id or 'HEAD~'
     commit_id = git_functions.commit_id(cid, short=True)
     if not commit_id:
-        PROGRAM.error_and_exit('Cannot resolve "%s" to a commit ID' % cid)
+        PROGRAM.exit('Cannot resolve "%s" to a commit ID' % cid)
 
     if BAD_BRANCH_CHARS.intersection(args.branch_base):
-        PROGRAM.error_and_exit(_ERROR_BRANCH_NAME, args.branch_base)
+        PROGRAM.exit(_ERROR_BRANCH_NAME, args.branch_base)
     branch_base = args.branch_base or PREFIX + args.commit_id
 
     if not args.remote:
@@ -39,7 +39,7 @@ def git_stripe():
         upstream = args.remote
 
     else:
-        PROGRAM.error_and_exit('Unknown remote', args.remote)
+        PROGRAM.exit('Unknown remote', args.remote)
 
     branch_base = args.branch_base
     if args.branch_base:

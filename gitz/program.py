@@ -37,12 +37,10 @@ class _Program:
         if self._print_help():
             sys.exit(0)
 
-    def exit(self):
+    def exit(self, *messages):
+        if messages:
+            self.error(*messages)
         sys.exit(self.code)
-
-    def error_and_exit(self, *messages):
-        self.error(*messages)
-        self.exit()
 
     def error_and_usage_and_exit(self, *messages):
         self.error(*messages)

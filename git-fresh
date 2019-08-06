@@ -52,7 +52,7 @@ def _run_fresh(fresh_branch):
             PROGRAM.git.push('-u', origin, fresh_branch)
             return
 
-    PROGRAM.error_and_exit('No reference branch found')
+    PROGRAM.exit('No reference branch found')
 
 
 def _add_arguments(parser):

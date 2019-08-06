@@ -11,7 +11,7 @@ def reset_on_conflict(args):
     except Exception as e:
         if not args.preserve_conflict:
             PROGRAM.git.reset('--hard', commit_id)
-        PROGRAM.error_and_exit('In git:', e)
+        PROGRAM.exit('In git:', e)
 
 
 def add_conflict_arguments(parser):
@@ -33,7 +33,7 @@ def combine(args, *commit_ids):
             errors.append(id)
 
     if errors:
-        PROGRAM.error_and_exit('Not commit IDs:', *errors)
+        PROGRAM.exit('Not commit IDs:', *errors)
 
     with reset_on_conflict(args):
         base, *commits = ids

@@ -36,13 +36,13 @@ def git_delete():
 
     remaining_branches = set(branches).difference(args.target)
     if not remaining_branches:
-        PROGRAM.error_and_exit('This would delete all the branches')
+        PROGRAM.exit('This would delete all the branches')
 
     remotes = PROGRAM.git.remote()
     if not args.all:
         protected = set(ENV.protected_branches()).intersection(args.target)
         if protected:
-            PROGRAM.error_and_exit('These branches are protected:', *protected)
+            PROGRAM.exit('These branches are protected:', *protected)
         pr = ENV.protected_remotes()
         remotes = [r for r in remotes if r not in pr]
 
@@ -60,7 +60,7 @@ def git_delete():
         s = '' if len(deleted) == 1 else 'es'
         print('git-delete: branch%s deleted:' % s, *deleted)
     else:
-        PROGRAM.error_and_exit('No branches deleted')
+        PROGRAM.exit('No branches deleted')
 
 
 def _add_arguments(parser):
