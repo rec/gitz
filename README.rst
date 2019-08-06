@@ -49,7 +49,7 @@ Safe commands
   Checkout and push a fresh branch
 
 ``git-ls``
-  Like ``ls`` but shows git info, with good use of color
+  Like ``ls``, but shows git info, with subtle use of color
   (from an unknown source)
 
 .. image:: img/git-ls-screenshot.png
@@ -62,7 +62,7 @@ Safe commands
   Rotate the current branch forward or backward in the list of branches
 
 ``git-st``
-  Pretty, compact alternative to ``git-status``
+  Pretty, compact alternative to ``git-status``.
   This version written by https://github.com/PlatyPew/, original
   version by https://www.reddit.com/user/ex1c)
 
