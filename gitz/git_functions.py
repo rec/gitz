@@ -4,22 +4,17 @@ from .program import PROGRAM
 COMMIT_ID_LENGTH = 7
 
 
-def commit_id(name='HEAD'):
-    return PROGRAM.git('rev-parse', name)[0]
-
-
-def exists(name):
+def commit_id(name='HEAD', short=False):
     try:
-        return commit_id(name)
+        if name.isnumeric() and len(name) < COMMIT_ID_LENGTH:
+            name = 'HEAD~' + name
+        id = PROGRAM.git('rev-parse', name)[0]
+        if short:
+            id = id[:COMMIT_ID_LENGTH]
+        return id
+
     except Exception:
         return
-
-
-def check_commit_id(name, program):
-    try:
-        return commit_id(name)
-    except Exception:
-        program.error_and_exit('Cannot resolve "%s" to a commit ID' % name)
 
 
 def branch_name(name='HEAD'):

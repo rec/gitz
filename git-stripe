@@ -17,12 +17,16 @@ FORMATS = (
     '{commit_id}~{i}:refs/heads/{base_branch}{i}',
     ':refs/heads/{base_branch}{i}',  # --delete set
 )
+_FMT = '{commit_id}~{i}:refs/heads/{base_branch}{i}'
+_DELETE_FMT = ':refs/heads/{base_branch}{i}'
 
 
 def git_stripe():
     args = PROGRAM.initialize(USAGE, HELP, _add_arguments)
-    commit_id = args.commit_id or 'HEAD~'
-    commit_id = git_functions.check_commit_id(commit_id, PROGRAM)
+    cid = args.commit_id or 'HEAD~'
+    commit_id = git_functions.commit_id(cid, short=True)
+    if not commit_id:
+        PROGRAM.error_and_exit('Cannot resolve "%s" to a commit ID' % cid)
 
     if BAD_BRANCH_CHARS.intersection(args.branch_base):
         PROGRAM.error_and_exit(_ERROR_BRANCH_NAME, args.branch_base)
@@ -40,23 +44,28 @@ def git_stripe():
     branch_base = args.branch_base
     if args.branch_base:
         branch_base = args.branch_base
+
     elif not args.commit_id:
         base_branch = PREFIX
+
     elif BAD_BRANCH_CHARS.intersection(args.commit_id):
         base_branch = PREFIX + commit_id + '_'
+
     else:
         base_branch = PREFIX + args.commit_id + '_'
 
     for i in range(args.count):
-        refspec_format = FORMATS[args.delete]
+        refspec_format = _DELETE_FMT if args.delete else _FMT
         refspec = refspec_format.format(**locals())
         PROGRAM.git.push(upstream, refspec)
 
 
 def _add_arguments(parser):
     add = parser.add_argument
+
     add('commit_id', default='', nargs='?', help=_HELP_COMMIT_ID)
     add('branch_base', default='', nargs='?', help=_HELP_BRANCH_BASE)
+
     add('-c', '--count', type=int, default=3, help=_HELP_COUNT)
     add('-d', '--delete', action='store_true', help=_HELP_DEL)
     add('-r', '--remote', action='store_true', help=_HELP_REMOTE)

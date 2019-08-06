@@ -49,7 +49,7 @@ def _run_fresh(fresh_branch):
 
     for branch in ENV.reference_branches():
         refspec = '%s/%s' % (upstream, branch)
-        if git_functions.exists(refspec):
+        if git_functions.commit_id(refspec):
             PROGRAM.git.checkout('-b', fresh_branch, refspec)
             PROGRAM.git.push('-u', origin, fresh_branch)
             return
