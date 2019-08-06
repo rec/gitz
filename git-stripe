@@ -3,7 +3,7 @@ from gitz import git_functions
 from gitz.program import PROGRAM
 
 USAGE = """\
-git-stripe: Stripes one or more branches onto a remote repository
+git-stripe: Push each commit in a series onto a separate remote branch
 
 USAGE:
     git stripe [<number-of-commits>] [commit-id] [baseref]

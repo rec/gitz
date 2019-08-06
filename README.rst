@@ -66,6 +66,9 @@ Safe commands
 
 .. image:: Screenshot.png
 
+``git-stripe``
+   Push each commit in a series onto a separate remote branch
+
 Dangerous commands that delete, rename or overwrite branches
 =======================================================
 
@@ -100,6 +103,9 @@ can significantly speed up rapid development on private branches.
 
 ``git-snip``
   Edit one or more commits out of history
+
+``git-shuffle``
+  Rearrange recent commits in any order
 
 ``git-split``
   Split a commit into individual changes, one per file
