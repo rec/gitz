@@ -32,7 +32,7 @@ def Log(args):
     return _Log(error=error, message=print, verbose=print)
 
 
-def _nothing(*args):
+def _nothing(*args, **kwds):
     pass
 
 
