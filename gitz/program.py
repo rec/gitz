@@ -14,6 +14,20 @@ class _Program:
         self.argv = sys.argv[1:]
         self.called = {}
 
+    def run(self, USAGE='', HELP='', add_arguments=None, **kwds):
+        self.initialize(USAGE, HELP, add_arguments)
+        exe = self.executable.replace('-', '_')
+        main = kwds.get(exe) or kwds.get('main')
+        if not main:
+            self.exit('No method named', exe, 'or main in', self.executable)
+
+        try:
+            main()
+        except Exception as e:
+            import traceback
+            self.log.verbose(traceback.format_exc(), file=sys.stderr)
+            self.exit('Unexpected exception', e)
+
     def initialize(self, usage, help, add_arguments=None):
         self.usage = usage
         self.help = help
