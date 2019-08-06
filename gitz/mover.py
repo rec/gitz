@@ -74,7 +74,7 @@ class Mover:
         add_arg('target', nargs='?', default='')
 
         for f, h in BOOLEAN_FLAGS.items():
-            add_arg(f, f[1:3], action='store_true', help=h.format(self))
+            add_arg(f[1:3], f, action='store_true', help=h.format(self))
 
     def _check_branches(self):
         pb = () if PROGRAM.args.all else ENV.protected_branches()
