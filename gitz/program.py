@@ -3,6 +3,7 @@ from . import runner
 from pathlib import Path
 import argparse
 import sys
+import traceback
 
 _ERROR_PROTECTED_BRANCHES = 'The branches %s are protected'
 
@@ -23,10 +24,10 @@ class _Program:
 
         try:
             main()
+
         except Exception as e:
-            import traceback
             self.log.verbose(traceback.format_exc(), file=sys.stderr)
-            self.exit('Unexpected exception', e)
+            self.exit('%s: %s' % (e.__class__.__name__, e))
 
     def initialize(self, usage, help, add_arguments=None):
         self.usage = usage
