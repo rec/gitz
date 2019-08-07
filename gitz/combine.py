@@ -16,10 +16,10 @@ def reset_on_conflict(args):
 
 def add_conflict_arguments(parser):
     parser.add_argument(
-        '-p',
-        '--preserve-conflict',
+        '-r',
+        '--revert-on-failure',
         action='store_true',
-        help='Do not revert the workspace on failure',
+        help='Revert the workspace on failure',
     )
 
 

@@ -7,7 +7,7 @@ git-combine: Combine multiple commits into one
 
 USAGE:
     git-combine <base-commit> [<additional-commit> ...<additional-commit>]
-        [--preserve-conflict | -p]
+        [-r | --revert-on-failure]
 """
 HELP = """
 Combines a series of commits by hard resetting to the first one and then
@@ -23,9 +23,10 @@ EXAMPLES:
         Goes to the commit in `master` and then cherry picks the two commits
         d2dfe0c and a2833bc on top of it.
 
-    git combine -p HEAD x-branch
-    git combine --preserve-conflict HEAD x-branch
-        Basically the same as ``git cherry-pick x-branch``
+    git combine -r HEAD x-branch
+    git combine --revert-on-failure HEAD x-branch
+        Basically the same as ``git cherry-pick x-branch``, except it
+        reverts to the original state on failure
 """
 
 
