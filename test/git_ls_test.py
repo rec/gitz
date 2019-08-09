@@ -10,9 +10,9 @@ class GitLsTest(unittest.TestCase):
         repo.make_commit('2')
         actual = PROGRAM.git.ls()
         expected = [
-            '0   \t.* ago\tc0d1dbb 0',
-            '1   \t.* ago\ta03c0f8 1',
-            '2   \t.* ago\t043df1f 2',
+            r'0.* ago.*c0d1dbb.*0.*',
+            r'1.* ago.*a03c0f8.*1.*',
+            r'2.* ago.*043df1f.*2.*',
         ]
         for a, e in zip(actual, expected):
             self.assertRegex(a, e)
