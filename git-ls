@@ -45,8 +45,6 @@ Cred='\033[0;31m'
 Cgrey='\033[0;37m'
 Creset='\033[0m'
 
-file_length="$(ls -A | wc -l)"
-
 if [ "$dotfiles" -eq 1 ]
 then
     shopt -s dotglob
@@ -59,7 +57,7 @@ do
         continue
     fi
 
-    printf "%-${file_length}s\t" "$file"
+    printf "%-20s\t" "$file"
 
     status="$(git status --porcelain "$file")"
 
@@ -73,7 +71,7 @@ do
     then
         echo -en "${Cgrey}Gitignored$Creset"
     else
-        git log -1 --pretty="format:%ar%n%C(Yellow)%h%Creset %s" "$file" | tr "\n" "\t"
+        git log -1 --color=always --pretty=format:'%C(bold green)%<(20)%ar%C(reset)%C(bold blue)%h%C(reset)%n%C(white)%s%C(reset)' "$file" | tr "\n" "\t"
     fi
 
     echo ""
