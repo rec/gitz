@@ -3,22 +3,51 @@ from gitz import git_functions
 from gitz.program import PROGRAM
 
 USAGE = """\
-git-stripe: Push each commit in a series onto a separate remote branch
+git-stripe: Push a sequence of commit IDs onto separate remote branches
 
 USAGE:
-    git stripe [<number-of-commits>] [commit-id] [baseref]
+    git stripe [<number-of-commits>] [commit-id]
+               [-b/--branch_base=<branch_base>] [-d/delete]
 """
 
 HELP = """
+Starting with a given commit ID and moving backwards from there,
+push each commit ID to its own disposable branch name.
+
+Useful if CI has missed some of your commit IDs because you rebased or pushed
+a sequences of commits too fast.
+
+EXAMPLES:
+
+    git stripe
+        If the current branch is master, pushes HEAD~, HEAD~2 and
+        HEAD~3 into their own branches named _gitz_stripe_master_0,
+        _gitz_stripe_master_1 and _gitz_stripe_master_2
+
+    git stripe --delete
+    git stripe -d
+        Delete the branches named _gitz_stripe_master_0,
+        _gitz_stripe_master_1 and _gitz_stripe_master_2
+
+    git stripe --base-branch=_gs
+    git stripe -b=_gs
+        Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
+        _gs_0, _gs_1, _gs_2
+
+    git stripe --count=2 --base-branch _gs
+    git stripe -c=2 -b=_gs
+        Pushes HEAD~ and HEAD~2 into their own branches named _gs_0
+        and _gs_1
 """
+
 PREFIX = '_gitz_stripe_'
 BAD_BRANCH_CHARS = frozenset('~^: ')
 FORMATS = (
-    '{commit_id}~{i}:refs/heads/{base_branch}{i}',
-    ':refs/heads/{base_branch}{i}',  # --delete set
+    '{commit_id}~{i}:refs/heads/{branch_base}{i}',
+    ':refs/heads/{branch_base}{i}',  # --delete set
 )
-_FMT = '{commit_id}~{i}:refs/heads/{base_branch}{i}'
-_DELETE_FMT = ':refs/heads/{base_branch}{i}'
+_FMT = '{commit_id}~{i}:refs/heads/{branch_base}{i}'
+_DELETE_FMT = ':refs/heads/{branch_base}{i}'
 
 
 def git_stripe():
@@ -46,13 +75,13 @@ def git_stripe():
         branch_base = args.branch_base
 
     elif not args.commit_id:
-        base_branch = PREFIX
+        branch_base = PREFIX
 
     elif BAD_BRANCH_CHARS.intersection(args.commit_id):
-        base_branch = PREFIX + commit_id + '_'
+        branch_base = PREFIX + commit_id + '_'
 
     else:
-        base_branch = PREFIX + args.commit_id + '_'
+        branch_base = PREFIX + args.commit_id + '_'
 
     for i in range(args.count):
         refspec_format = _DELETE_FMT if args.delete else _FMT
@@ -64,8 +93,8 @@ def add_arguments(parser):
     add = parser.add_argument
 
     add('commit_id', default='', nargs='?', help=_HELP_COMMIT_ID)
-    add('branch_base', default='', nargs='?', help=_HELP_BRANCH_BASE)
 
+    add('-b', '--branch_base', type=str, default='', help=_HELP_BRANCH_BASE)
     add('-c', '--count', type=int, default=3, help=_HELP_COUNT)
     add('-d', '--delete', action='store_true', help=_HELP_DEL)
     add('-r', '--remote', action='store_true', help=_HELP_REMOTE)
