@@ -1,4 +1,5 @@
 import functools
+import itertools
 import subprocess
 
 _SUBPROCESS_KWDS = {
@@ -13,7 +14,7 @@ _EXCEPTION_MSG = 'Encountered an exception while executing'
 class Runner:
     def __init__(self, log):
         self.log = log
-        self.git = Git(self)
+        self.git = self.Git(self)
 
     def __call__(self, *cmd, **kwds):
         self.log.verbose('$', *cmd)
@@ -23,53 +24,39 @@ class Runner:
             cmd = cmd_arg
 
         proc = subprocess.Popen(cmd, **kwds)
-        output_lines = []
+        self.output_lines = []
 
-        def out(line):
-            self.log.verbose(line[:-1])
-            output_lines.append(line[:-1])
-
-        def error(line):
-            self.log.error(line[:-1])
-
-        while proc.poll() is None or run_proc(proc, out, error):
-            pass
-
+        run_proc(proc, self._out, self._error)
         if proc.returncode:
             raise ValueError('Command "%s" failed' % cmd_arg)
 
-        return output_lines
+        return self.output_lines
+
+    def _out(self, line):
+        self.log.verbose(line[:-1])
+        self.output_lines.append(line[:-1])
+
+    def _error(self, line):
+        self.log.error(line[:-1])
+
+    class Git:
+        def __init__(self, run):
+            self.run = run
+
+        def __getattr__(self, command):
+            return functools.partial(self.run, 'git', command)
+
+        def __call__(self, *cmd):
+            return self.run('git', *cmd)
 
 
-class Git:
-    def __init__(self, run):
-        self.run = run
-
-    def __getattr__(self, command):
-        return functools.partial(self.run, 'git', command)
-
-    def __call__(self, *cmd):
-        return self.run('git', *cmd)
-
-
-def run_proc(proc, out, error):
-    running = True
-    while running:
-        running = False
-
-        while True:
-            line = proc.stdout.readline()
+def run_proc(pr, out, err):
+    def run(fp, callback):
+        for i in itertools.count():
+            line = fp.readline()
             if not line:
-                break
+                return i
             out(line)
-            running = True
 
-        while True:
-            line = proc.stderr.readline()
-            if not line:
-                break
-            error(line)
-            running = True
-
-        if proc.poll() is None:
-            running = True
+    while run(pr.stdout, out) + run(pr.stderr, err) + (pr.poll() is None):
+        pass
