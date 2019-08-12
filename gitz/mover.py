@@ -25,8 +25,8 @@ class Mover:
 
     def __call__(self):
         PROGRAM.run(
-            help=HELP.format(self) + self.examples,
-            usage=USAGE.format(self),
+            HELP=HELP.format(self) + self.examples,
+            USAGE=USAGE.format(self),
             add_arguments=self._add_arguments,
             main=self.run,
         )
