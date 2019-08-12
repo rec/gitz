@@ -1,17 +1,5 @@
 from . import git_functions
 from .program import PROGRAM
-import contextlib
-
-
-@contextlib.contextmanager
-def reset_on_conflict(args):
-    commit_id = git_functions.commit_id()
-    try:
-        yield
-    except Exception as e:
-        if not args.preserve_conflict:
-            PROGRAM.git.reset('--hard', commit_id)
-        PROGRAM.exit('In git:', e)
 
 
 def add_conflict_arguments(parser):
@@ -35,11 +23,10 @@ def combine(args, *commit_ids):
     if errors:
         PROGRAM.exit('Not commit IDs:', *errors)
 
-    with reset_on_conflict(args):
-        base, *commits = ids
-        PROGRAM.git.reset('--hard', base)
-        for id in commits:
-            PROGRAM.git('cherry-pick', id)
+    base, *commits = ids
+    PROGRAM.dry.git.reset('--hard', base)
+    for id in commits:
+        PROGRAM.dry.git('cherry-pick', id)
 
 
 def shuffle(shuffle):

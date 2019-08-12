@@ -16,8 +16,10 @@ class _Program:
         self.argv = sys.argv[1:]
         self.called = {}
 
-    def run(self, USAGE='', HELP='', add_arguments=None, **kwds):
-        self.initialize(USAGE, HELP, add_arguments)
+    def run(
+        self, USAGE='', HELP='', add_arguments=None, allow_dry_run=True, **kwds
+    ):
+        self.initialize(USAGE, HELP, add_arguments, allow_dry_run)
         exe = self.executable.replace('-', '_')
         main = kwds.get(exe) or kwds.get('main')
         if not main:
@@ -30,7 +32,7 @@ class _Program:
             self.log.verbose(traceback.format_exc(), file=sys.stderr)
             self.exit('%s: %s' % (e.__class__.__name__, e))
 
-    def initialize(self, usage, help, add_arguments=lambda x: None):
+    def initialize(self, usage, help, add_arguments, allow_dry_run):
         self.usage = usage
         self.help = help
         if self._print_help():
@@ -39,17 +41,18 @@ class _Program:
 
         parser = argparse.ArgumentParser()
         log.add_arguments(parser)
-        add_arguments(parser)
-        parser.add_argument(
-            '-d', '--dry-run', action='store_true', help=_DRY_RUN_HELP
-        )
+        add_arguments and add_arguments(parser)
+        if allow_dry_run:
+            parser.add_argument(
+                '-d', '--dry-run', action='store_true', help=_DRY_RUN_HELP
+            )
 
         # If -h/--help are set, this next call terminates the program
         self.args = parser.parse_args(self.argv)
         self.log = log.Log(self.args)
         self.run = runner.Runner(self.log)
         self.git = self.run.git
-        if self.args.dry_run:
+        if allow_dry_run and self.args.dry_run:
             self.dry = runner.Runner(self.log, True)
         else:
             self.dry = self.run

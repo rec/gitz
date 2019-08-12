@@ -76,5 +76,6 @@ NAMES = 'Added', 'Deleted', 'Modified', 'Renamed'
 NAMES = {name[0]: name for name in NAMES}
 _HELP_COMMIT = 'Optional commit ID to split from'
 
+
 if __name__ == '__main__':
-    PROGRAM.run(**globals())
+    PROGRAM.run(allow_dry_run=False, **globals())

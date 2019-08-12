@@ -72,7 +72,7 @@ def _run_command(args, name, branches):
         saved_branch = git_functions.branch_name()
         PROGRAM.git.checkout('-q', name)
         try:
-            lines = util.run(*_COMMAND)
+            lines = PROGRAM.dry(*_COMMAND)
         finally:
             PROGRAM.git.checkout('-q', saved_branch)
     else:
@@ -83,7 +83,7 @@ def _run_command(args, name, branches):
             return
         if not args.quiet:
             print('Directory %s:' % name)
-        lines = util.run(*_COMMAND, cwd=str(name))
+        lines = PROGRAM.dry(*_COMMAND, cwd=str(name))
     indent = ' ' * args.indent
     for line in lines:
         print(indent, line, sep='')

@@ -87,7 +87,7 @@ def git_stripe():
     for i in range(args.count):
         refspec_format = _REMOVE_FMT if args.remove else _FMT
         refspec = refspec_format.format(**locals())
-        PROGRAM.git.push(upstream, refspec)
+        PROGRAM.dry.git.push(upstream, refspec)
 
 
 def add_arguments(parser):

@@ -16,18 +16,18 @@ def delete(branches, remotes):
 
     if git_functions.branch_name() in to_delete:
         undeleted_branch = next(b for b in branches if b not in to_delete)
-        PROGRAM.git.checkout(undeleted_branch)
+        PROGRAM.dry.git.checkout(undeleted_branch)
 
     if to_delete:
-        PROGRAM.git.branch('-D', *to_delete)
+        PROGRAM.dry.git.branch('-D', *to_delete)
 
     # Remote branches
     for remote in remotes:
-        PROGRAM.git.fetch(remote)
+        PROGRAM.dry.git.fetch(remote)
         rb = git_functions.branches('-r')
         to_delete_remote = [b for b in branches if (remote + '/' + b) in rb]
         if to_delete_remote:
-            PROGRAM.git.push(remote, '--delete', *to_delete_remote)
+            PROGRAM.dry.git.push(remote, '--delete', *to_delete_remote)
             to_delete.extend('%s/%s' % (remote, i) for i in to_delete_remote)
 
     return to_delete

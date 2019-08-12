@@ -13,11 +13,6 @@ HELP = """
 Combines a series of commits by hard resetting to the first one and then
 cherry picking each successive one on top.
 
-By default, if there is an error in the cherry-picking, it is
-reported, and then the branch gets reverted to where it was before
-git-combine started... unless the --preserve-conflict / -p flag is
-set, in which case the branch stays right at the broken cherry-pick.
-
 EXAMPLES:
     git combine master d2dfe0c a2833bc
         Goes to the commit in `master` and then cherry picks the two commits

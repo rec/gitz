@@ -26,7 +26,7 @@ def test(f):
     @functools.wraps(f)
     def wrapper(self):
         PROGRAM.argv.clear()
-        PROGRAM.initialize('Usage!', 'Help!')
+        PROGRAM.initialize('Usage!', 'Help!', None, True)
         with _with_tmpdir(), _with_env_variables(**ENV_VARIABLES):
             PROGRAM.git.init()
             make_commit('0')

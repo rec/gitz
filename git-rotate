@@ -39,7 +39,7 @@ def git_rotate():
 
     branches = git_functions.branches()
     pos = branches.index(git_functions.branch_name()) + steps
-    PROGRAM.git.checkout(branches[pos % len(branches)])
+    PROGRAM.dry.git.checkout(branches[pos % len(branches)])
 
 
 def add_arguments(parser):
