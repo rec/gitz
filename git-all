@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+
 from gitz import git_functions
 from gitz.program import PROGRAM
 from gitz import util
@@ -118,6 +119,7 @@ _HELP_INDENT = 'Number of columns to indent output of commands'
 _HELP_NAME = 'Names of branches or directories to iterate over'
 _HELP_QUIET = 'Print only command output and errors, no git or git-all output'
 _HELP_VERBOSE = 'Echo all git commands and their responses'
+
 
 if __name__ == '__main__':
     _pre()
