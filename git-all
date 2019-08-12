@@ -35,7 +35,7 @@ def git_all():
     branches = git_functions.branches() if util.find_git_root() else []
     names = args.name or branches
 
-    if not args.dotfiles:
+    if not args.all:
         names = [n for n in names if not n.startswith('.')]
 
     if set(branches).intersection(names):
@@ -102,7 +102,6 @@ def add_arguments(parser):
     add = parser.add_argument
     add('name', nargs='*', help=_HELP_NAME)
     add('-a', '--all', action='store_true', help=_HELP_ALL)
-    add('-d', '--dotfiles', action='store_true', help=_HELP_DOTFILES)
     add('-f', '--fail', action='store_true', help=_HELP_FAIL)
     add('-i', '--indent', default=2, type=int, help=_HELP_INDENT)
 
@@ -113,7 +112,6 @@ _ERROR_BAD_NAME = '%s: neither branch nor git repository'
 _ERROR_MISSING_COMMAND = 'No command found'
 
 _HELP_ALL = 'Visit non-git directories'
-_HELP_DOTFILES = 'Don\'t exclude dotfiles'
 _HELP_FAIL = 'Fail immediately if any git-all command fails'
 _HELP_INDENT = 'Number of columns to indent output of commands'
 _HELP_NAME = 'Names of branches or directories to iterate over'
