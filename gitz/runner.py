@@ -12,11 +12,16 @@ _EXCEPTION_MSG = 'Encountered an exception while executing'
 
 
 class Runner:
-    def __init__(self, log):
+    def __init__(self, log, dry_run=False):
         self.log = log
         self.git = self.Git(self)
+        self.dry_run = dry_run
 
     def __call__(self, *cmd, **kwds):
+        if self.dry_run:
+            self.log.message('$', *cmd)
+            return []
+
         self.log.verbose('$', *cmd)
         kwds = dict(_SUBPROCESS_KWDS, **kwds)
         cmd_arg = ' '.join(cmd)
