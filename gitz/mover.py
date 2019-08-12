@@ -78,8 +78,13 @@ class Mover:
 
     def _check_branches(self):
         pb = () if PROGRAM.args.all else ENV.protected_branches()
-        if any(i in pb for i in (self.source, self.target)):
-            self.error(_ERROR_PROTECTED_BRANCHES % ':'.join(pb))
+        branches = {self.target}
+        if self.action != 'copy':
+            branches.add(self.source)
+
+        protected = branches.intersection(pb)
+        if protected:
+            self.error(_ERROR_PROTECTED_BRANCHES % ', '.join(protected))
             PROGRAM.exit()
 
         branches = git_functions.branches()
