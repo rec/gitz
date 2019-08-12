@@ -11,12 +11,21 @@ USAGE:
     git-snip <id> [<id> ...]
 """
 HELP = """"
-Edit one or more commits IDs out of the current branch.
+Edit one or more commits IDs out of the current branch by index
+or by commit ID
 
 IDs 0, 1, 2, 3... are short for HEAD~0, HEAD~1, HEAD~2, HEAD~3...
 
 This command rewrites history and is only intended for use on private
 branches.
+
+EXAMPLES:
+
+    git snip 0
+        Same as git reset --hard HEAD~
+
+   git snip 1 2
+        Remove the two commits HEAD~1 and HEAD~2 but keep HEAD
 
 """
 _HELP_COMMIT_IDS = 'Names of commit_ids to create'
@@ -48,9 +57,14 @@ def git_snip():
     if errors or dupes:
         PROGRAM.exit()
 
-    for i in reversed(sorted(indexes)):
+    indexes.sort()
+    for i in reversed(indexes):
         'HEAD~%s' % i
         PROGRAM.dry.git.rebase(('HEAD~%s' % i), '--onto', 'HEAD~%s' % (i + 1))
+
+    s = '' if len(indexes) == 1 else 's'
+    ids = ', '.join(str(i) for i in indexes)
+    PROGRAM.log.message('Snipped', len(indexes), 'commit%s:' % s, ids)
 
 
 def add_arguments(parser):
