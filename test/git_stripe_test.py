@@ -25,7 +25,7 @@ class GitStripeTest(unittest.TestCase):
         ]
         self.assertEqual(actual, expected)
 
-        PROGRAM.git.stripe('-d')
+        PROGRAM.git.stripe('-r')
         actual = git_functions.branches('-r')
         expected = ['origin/master', 'upstream/master']
         self.assertEqual(actual, expected)
