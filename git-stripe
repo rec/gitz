@@ -63,7 +63,10 @@ def git_stripe():
     branch_base = args.branch_base or PREFIX + args.commit_id
 
     if not args.upstream:
-        upstream, _ = git_functions.upstream_branch()
+        try:
+            upstream, _ = git_functions.upstream_branch()
+        except Exception:
+            PROGRAM.exit('Branch has no upstream and --upstream not set')
 
     elif args.upstream in PROGRAM.git.remotes():
         upstream = args.upstream
@@ -88,6 +91,8 @@ def git_stripe():
         refspec_format = _REMOVE_FMT if args.remove else _FMT
         refspec = refspec_format.format(**locals())
         PROGRAM.dry.git.push(upstream, refspec)
+        action = 'Removed' if args.remove else 'Striped'
+        PROGRAM.log.message(action, refspec.split('/')[-1])
 
 
 def add_arguments(parser):
