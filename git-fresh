@@ -18,8 +18,12 @@ _HELP_BRANCHES = 'Names of branches to create'
 
 def git_fresh():
     git_functions.check_clean_workspace()
-    for branch in PROGRAM.args.branches:
+    branches = PROGRAM.args.branches
+    for branch in branches:
         _run_fresh(branch)
+
+    message = 'New branch' if len(branches) == 1 else 'New branches'
+    PROGRAM.log.message(message, ','.join(branches))
 
 
 def _run_fresh(fresh_branch):
