@@ -7,21 +7,18 @@ git-combine: Combine multiple commits into one
 
 USAGE:
     git-combine <base-commit> [<additional-commit> ...<additional-commit>]
-        [-r | --revert-on-failure]
+
 """
 HELP = """
-Combines a series of commits by hard resetting to the first one and then
-cherry picking each successive one on top.
+Create a single commit out of many.
+
+Equivalent to hard resetting to the base commit, then cherry picking
+each subsequent commit.
 
 EXAMPLES:
     git combine master d2dfe0c a2833bc
         Goes to the commit in `master` and then cherry picks the two commits
         d2dfe0c and a2833bc on top of it.
-
-    git combine -r HEAD x-branch
-    git combine --revert-on-failure HEAD x-branch
-        Basically the same as ``git cherry-pick x-branch``, except it
-        reverts to the original state on failure
 """
 
 
@@ -32,9 +29,8 @@ def git_combine():
 
 def add_arguments(parser):
     add_arg = parser.add_argument
-    add_arg('base', help='Base commit to combine from')
     add_arg('commit_id', nargs='+', help='List of commit IDs to cherry pick')
-    combine.add_conflict_arguments(parser)
+    add_arg('-b', '--base', help='Base commit to start from')
 
 
 if __name__ == '__main__':
