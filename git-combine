@@ -6,7 +6,7 @@ USAGE = """\
 git-combine: Combine multiple commits into one
 
 USAGE:
-    git-combine <base-commit> [<additional-commit> ...<additional-commit>]
+    git-combine <commit> [...<additional-commit>] [-b/--base=<commit>]
 
 """
 HELP = """
@@ -16,7 +16,7 @@ Equivalent to hard resetting to the base commit, then cherry picking
 each subsequent commit.
 
 EXAMPLES:
-    git combine master d2dfe0c a2833bc
+    git combine d2dfe0c a2833bc
         Goes to the commit in `master` and then cherry picks the two commits
         d2dfe0c and a2833bc on top of it.
 """
@@ -24,14 +24,17 @@ EXAMPLES:
 
 def git_combine():
     args = PROGRAM.args
-    combine.combine(args, args.base, *args.commit_id)
+    combine.combine(args, args.base, *args.commit_id, squash=args.squash)
 
 
 def add_arguments(parser):
     add_arg = parser.add_argument
     add_arg('commit_id', nargs='+', help='List of commit IDs to cherry pick')
     add_arg('-b', '--base', help='Base commit to start from')
+    add_arg('-s', '--squash', help=_HELP_SQUASH)
 
+
+_HELP_SQUASH = 'Squash all commits into one, with a message'
 
 if __name__ == '__main__':
-    PROGRAM.run(**globals())
+    PROGRAM.start(**globals())

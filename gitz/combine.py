@@ -1,8 +1,9 @@
 from . import git_functions
 from .program import PROGRAM
+from .program import dry_git
 
 
-def combine(args, *commit_ids):
+def combine(args, *commit_ids, squash=None):
     git_functions.check_clean_workspace()
     ids, errors = [], []
     for id in commit_ids:
@@ -15,9 +16,13 @@ def combine(args, *commit_ids):
         PROGRAM.exit('Not commit IDs:', *errors)
 
     base, *commits = ids
-    PROGRAM.dry.git.reset('--hard', base)
+
+    dry_git.reset('--hard', base)
     for id in commits:
-        PROGRAM.dry.git('cherry-pick', id)
+        dry_git('cherry-pick', id)
+    if squash:
+        dry_git.reset('--soft', base)
+        dry_git.reset('--soft', base)
 
 
 def shuffle(shuffle):

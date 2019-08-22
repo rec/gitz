@@ -1,5 +1,5 @@
 from . import repo
-from gitz.program import PROGRAM
+from gitz.program import git
 import os
 import unittest
 
@@ -15,7 +15,7 @@ class GitShuffleTest(unittest.TestCase):
         repo.make_commit('6')
         repo.make_commit('7')
 
-        actual = PROGRAM.git.log('--oneline')
+        actual = git.log('--oneline')
         expected = [
             'e487041 7',
             'e1e931a 6',
@@ -27,10 +27,10 @@ class GitShuffleTest(unittest.TestCase):
             'c0d1dbb 0',
         ]
         self.assertEqual(actual, expected)
-        PROGRAM.git.shuffle('_c_ab_')
+        git.shuffle('_c_ab_')
         files = [i for i in os.listdir() if not i.startswith('.')]
         self.assertEqual(sorted(files), ['0', '1', '3', '4', '6'])
-        actual = PROGRAM.git.log('--oneline')
+        actual = git.log('--oneline')
         expected = [
             '2a2c087 3',
             '4fbc0b7 6',

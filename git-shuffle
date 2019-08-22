@@ -66,4 +66,4 @@ def add_arguments(parser):
 
 
 if __name__ == '__main__':
-    PROGRAM.run(**globals())
+    PROGRAM.start(**globals())

@@ -1,5 +1,6 @@
 from .program import PROGRAM
 from pathlib import Path
+from .program import git
 
 COMMIT_ID_LENGTH = 7
 
@@ -17,7 +18,7 @@ def commit_id(name='HEAD', short=False):
     try:
         if name.isnumeric() and len(name) < COMMIT_ID_LENGTH:
             name = 'HEAD~' + name
-        id = PROGRAM.git('rev-parse', name)[0]
+        id = git('rev-parse', name)[0]
         if short:
             return id[:COMMIT_ID_LENGTH]
         return id
@@ -27,28 +28,28 @@ def commit_id(name='HEAD', short=False):
 
 
 def branch_name(name='HEAD'):
-    return PROGRAM.git('symbolic-ref', '-q', '--short', name)[0].strip()
+    return git('symbolic-ref', '-q', '--short', name)[0].strip()
 
 
 def is_workspace_dirty():
     if not find_git_root():
         return False
     try:
-        PROGRAM.git('diff-index', '--quiet', 'HEAD', '--')
+        git('diff-index', '--quiet', 'HEAD', '--')
     except Exception:
         # Also returns true if workspace is broken for some other reason
         return True
 
 
 def branches(*args):
-    return PROGRAM.git.branch('--format=%(refname:short)', *args)
+    return git.branch('--format=%(refname:short)', *args)
 
 
 def all_branches(fetch=True):
-    remotes = PROGRAM.git.remote()
+    remotes = git.remote()
     if fetch:
         for remote in remotes:
-            PROGRAM.git.fetch(remote)
+            git.fetch(remote)
     result = {}
     for rb in branches('-r'):
         remote, branch = rb.split('/')
@@ -58,10 +59,8 @@ def all_branches(fetch=True):
 
 def upstream_branch():
     # https://stackoverflow.com/a/9753364/43839
-    g = PROGRAM.git(
-        'rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}'
-    )
-    return g[0].split('/')
+    lines = git('rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}')
+    return lines[0].split('/')
 
 
 def check_git():

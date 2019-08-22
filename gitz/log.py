@@ -2,8 +2,7 @@ import functools
 import sys
 
 FLAGS = {
-    'silent': 'Suppress all output',
-    'quiet': 'Only output errors and warnings',
+    'quiet': 'Suppress all output',
     'verbose': 'Report all messages in great detail',
 }
 
@@ -17,14 +16,11 @@ def add_arguments(parser):
 def Log(args):
     error = functools.partial(print, file=sys.stderr)
 
-    if (args.verbose + args.quiet + args.silent) > 1:
-        error('WARNING: Only set one of --verbose, --quiet or --silent')
-
-    if args.silent:
-        return _Log()
+    if args.verbose and args.quiet:
+        error('WARNING: Only one of --verbose or --quiet may be set')
 
     if args.quiet:
-        return _Log(error=error)
+        return _Log()
 
     if not args.verbose:
         return _Log(error=error, message=print)

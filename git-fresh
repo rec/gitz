@@ -2,6 +2,8 @@
 from gitz import git_functions
 from gitz.env import ENV
 from gitz.program import PROGRAM
+from gitz.program import git
+from gitz.program import dry_git
 
 USAGE = """\
 git-fresh: Create and push a fresh branch from a reference branch
@@ -31,7 +33,7 @@ def _run_fresh(fresh_branch):
     if fresh_branch in branches:
         PROGRAM.error('Branch name', fresh_branch, 'already exists')
 
-    remotes = PROGRAM.git.remote()
+    remotes = git.remote()
     if len(remotes) == 1:
         origin = upstream = remotes[0]
     else:
@@ -46,13 +48,13 @@ def _run_fresh(fresh_branch):
     if PROGRAM.called.get('error'):
         PROGRAM.exit()
 
-    PROGRAM.git.fetch(upstream)
+    git.fetch(upstream)
 
     for branch in ENV.reference_branches():
         refspec = '%s/%s' % (upstream, branch)
         if git_functions.commit_id(refspec):
-            PROGRAM.dry.git.checkout('-b', fresh_branch, refspec)
-            PROGRAM.dry.git.push('-u', origin, fresh_branch)
+            dry_git.checkout('-b', fresh_branch, refspec)
+            dry_git.push('-u', origin, fresh_branch)
             return
 
     PROGRAM.exit('No reference branch found')
@@ -63,4 +65,4 @@ def add_arguments(parser):
 
 
 if __name__ == '__main__':
-    PROGRAM.run(**globals())
+    PROGRAM.start(**globals())

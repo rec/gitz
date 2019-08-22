@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 from gitz import git_functions
 from gitz.program import PROGRAM
+from gitz.program import git
+from gitz.program import dry_git
 
 USAGE = """\
 git-stripe: Push a sequence of commit IDs onto upstream branches
@@ -68,7 +70,7 @@ def git_stripe():
         except Exception:
             PROGRAM.exit('Branch has no upstream and --upstream not set')
 
-    elif args.upstream in PROGRAM.git.remotes():
+    elif args.upstream in git.remotes():
         upstream = args.upstream
 
     else:
@@ -90,7 +92,7 @@ def git_stripe():
     for i in range(args.count):
         refspec_format = _REMOVE_FMT if args.remove else _FMT
         refspec = refspec_format.format(**locals())
-        PROGRAM.dry.git.push(upstream, refspec)
+        dry_git.push(upstream, refspec)
         action = 'Removed' if args.remove else 'Striped'
         PROGRAM.log.message(action, refspec.split('/')[-1])
 
@@ -116,4 +118,4 @@ _HELP_UPSTREAM = 'Upstream remote to push to'
 
 
 if __name__ == '__main__':
-    PROGRAM.run(**globals())
+    PROGRAM.start(**globals())

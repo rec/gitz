@@ -1,5 +1,5 @@
 from . import repo
-from gitz.program import PROGRAM
+from gitz.program import git
 import os
 import unittest
 
@@ -10,14 +10,14 @@ class GitStTest(unittest.TestCase):
         repo.make_commit('1', '2')
         with open('3', 'w') as fp:
             fp.write('3\n')
-        PROGRAM.git.add('3')
+        git.add('3')
         with open('4', 'w') as fp:
             fp.write('4\n')
         with open('0', 'w') as fp:
             fp.write('100\n')
         os.remove('1')
 
-        actual = PROGRAM.git.st()
+        actual = git.st()
         expected = [
             '\x1b[32mmaster\x1b[m',
             ' \x1b[31mM\x1b[m 0  | 2 \x1b[32m+\x1b[m\x1b[31m-\x1b[m',

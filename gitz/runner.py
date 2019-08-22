@@ -14,7 +14,7 @@ _EXCEPTION_MSG = 'Encountered an exception while executing'
 class Runner:
     def __init__(self, log, dry_run=False):
         self.log = log
-        self.git = self.Git(self)
+        self.git = Git(self)
         self.dry_run = dry_run
 
     def __call__(self, *cmd, **kwds):
@@ -44,15 +44,19 @@ class Runner:
     def _error(self, line):
         self.log.error(line[:-1])
 
-    class Git:
-        def __init__(self, run):
-            self.run = run
 
-        def __getattr__(self, command):
-            return functools.partial(self.run, 'git', command)
+class Git:
+    def __init__(self, run):
+        self.run = run
 
-        def __call__(self, *cmd):
-            return self.run('git', *cmd)
+    def __getattr__(self, command):
+        return functools.partial(self, command)
+
+    def __call__(self, *cmd, **kwds):
+        if cmd[0] == 'git':
+            raise ValueError
+
+        return self.run('git', *cmd, **kwds)
 
 
 def run_proc(pr, out, err):
@@ -61,7 +65,7 @@ def run_proc(pr, out, err):
             line = fp.readline()
             if not line:
                 return i
-            out(line)
+            callback(line)
 
     while run(pr.stdout, out) + run(pr.stderr, err) + (pr.poll() is None):
         pass

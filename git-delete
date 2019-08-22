@@ -3,6 +3,7 @@ from gitz import delete
 from gitz import git_functions
 from gitz.env import ENV
 from gitz.program import PROGRAM
+from gitz.program import dry_git
 
 USAGE = """\
 git-delete: Deletes one or more branches locally and on all remotes
@@ -37,7 +38,7 @@ def git_delete():
     if not remaining_branches:
         PROGRAM.exit('This would delete all the branches')
 
-    remotes = PROGRAM.git.remote()
+    remotes = dry_git.remote()
     if not args.all:
         protected = set(ENV.protected_branches()).intersection(args.target)
         if protected:
@@ -49,10 +50,10 @@ def git_delete():
         git_functions.check_clean_workspace()
         for b in ENV.reference_branches():
             if b in remaining_branches:
-                PROGRAM.git.checkout(b)
+                dry_git.checkout(b)
                 break
         else:
-            PROGRAM.git.checkout(sorted(remaining_branches)[0])
+            dry_git.checkout(sorted(remaining_branches)[0])
 
     deleted = delete.delete(args.target, remotes)
     if deleted:
@@ -68,4 +69,4 @@ def add_arguments(parser):
 
 
 if __name__ == '__main__':
-    PROGRAM.run(**globals())
+    PROGRAM.start(**globals())

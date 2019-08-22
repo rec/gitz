@@ -10,16 +10,16 @@ _DRY_RUN_HELP = 'If set, git commands will be printed but not executed'
 
 
 class _Program:
+    ALLOW_DRY_RUN = True
+
     def __init__(self):
         self.code = -1
         self.executable = Path(sys.argv[0]).name
         self.argv = sys.argv[1:]
         self.called = {}
 
-    def run(
-        self, USAGE='', HELP='', add_arguments=None, allow_dry_run=True, **kwds
-    ):
-        self.initialize(USAGE, HELP, add_arguments, allow_dry_run)
+    def start(self, USAGE='', HELP='', add_arguments=None, **kwds):
+        self.initialize(USAGE, HELP, add_arguments)
         exe = self.executable.replace('-', '_')
         main = kwds.get(exe) or kwds.get('main')
         if not main:
@@ -32,7 +32,7 @@ class _Program:
             self.log.verbose(traceback.format_exc(), file=sys.stderr)
             self.exit('%s: %s' % (e.__class__.__name__, e))
 
-    def initialize(self, usage, help, add_arguments, allow_dry_run):
+    def initialize(self, usage, help, add_arguments):
         self.usage = usage
         self.help = help
         if self._print_help():
@@ -42,7 +42,7 @@ class _Program:
         parser = argparse.ArgumentParser()
         log.add_arguments(parser)
         add_arguments and add_arguments(parser)
-        if allow_dry_run:
+        if self.ALLOW_DRY_RUN:
             parser.add_argument(
                 '-d', '--dry-run', action='store_true', help=_DRY_RUN_HELP
             )
@@ -50,14 +50,19 @@ class _Program:
         # If -h/--help are set, this next call terminates the program
         self.args = parser.parse_args(self.argv)
         self.log = log.Log(self.args)
-        self.run = runner.Runner(self.log)
-        self.git = self.run.git
-        if allow_dry_run and self.args.dry_run:
-            self.dry = runner.Runner(self.log, True)
+        self._run = runner.Runner(self.log)
+        if self.ALLOW_DRY_RUN and self.args.dry_run:
+            self._dry_run = runner.Runner(self.log, dry_run=True)
         else:
-            self.dry = self.run
+            self._dry_run = self._run
 
         return self.args
+
+    def run(self, *command, **kwds):
+        return self._run(*command, **kwds)
+
+    def dry_run(self, *command, **kwds):
+        return self._dry_run(*command, **kwds)
 
     def check_help(self):
         """If help requested, print it and exit"""
@@ -92,3 +97,7 @@ class _Program:
 
 
 PROGRAM = _Program()
+run = PROGRAM.run
+dry_run = PROGRAM.dry_run
+git = runner.Git(run)
+dry_git = runner.Git(dry_run)

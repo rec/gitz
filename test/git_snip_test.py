@@ -1,5 +1,5 @@
 from . import repo
-from gitz.program import PROGRAM
+from gitz.program import git
 import os
 import unittest
 
@@ -14,6 +14,6 @@ class GitSnipTest(unittest.TestCase):
         repo.make_commit('5')
         repo.make_commit('6')
 
-        PROGRAM.git.snip(one, three, 'HEAD~')
+        git.snip(one, three, 'HEAD~')
         files = [i for i in os.listdir() if not i.startswith('.')]
         self.assertEqual(sorted(files), ['0', '2', '4', '6'])
