@@ -10,7 +10,7 @@ def commit_id(name='HEAD', short=False):
             name = 'HEAD~' + name
         id = PROGRAM.git('rev-parse', name)[0]
         if short:
-            id = id[:COMMIT_ID_LENGTH]
+            return id[:COMMIT_ID_LENGTH]
         return id
 
     except Exception:
@@ -18,7 +18,7 @@ def commit_id(name='HEAD', short=False):
 
 
 def branch_name(name='HEAD'):
-    return PROGRAM.git('symbolic-ref', '--short', name)[0].strip()
+    return PROGRAM.git('symbolic-ref', '-q', '--short', name)[0].strip()
 
 
 def is_workspace_dirty():
