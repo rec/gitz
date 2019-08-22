@@ -1,7 +1,16 @@
-from . import util
 from .program import PROGRAM
+from pathlib import Path
 
 COMMIT_ID_LENGTH = 7
+
+
+def find_git_root(p='.'):
+    p = Path(p)
+    while not (p / '.git' / 'config').exists():
+        if p.parent == p:
+            return None
+        p = p.parent
+    return p
 
 
 def commit_id(name='HEAD', short=False):
@@ -22,7 +31,7 @@ def branch_name(name='HEAD'):
 
 
 def is_workspace_dirty():
-    if not util.find_git_root():
+    if not find_git_root():
         return False
     try:
         PROGRAM.git('diff-index', '--quiet', 'HEAD', '--')
@@ -56,7 +65,7 @@ def upstream_branch():
 
 
 def check_git():
-    if not util.find_git_root():
+    if not find_git_root():
         PROGRAM.error(_ERROR_NOT_GIT_REPOSITORY)
         PROGRAM.exit()
 

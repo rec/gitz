@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-from gitz import git_functions
+from gitz import git_functions as gf
 from gitz.program import PROGRAM
-from gitz import util
+from pathlib import Path
+import os
 import sys
 
 USAGE = """\
@@ -32,24 +33,24 @@ def git_all():
         PROGRAM.exit()
 
     args = PROGRAM.args
-    branches = git_functions.branches() if util.find_git_root() else []
+    branches = gf.branches() if gf.find_git_root() else []
     names = args.name or branches
 
     if not args.all:
         names = [n for n in names if not n.startswith('.')]
 
     if set(branches).intersection(names):
-        git_functions.check_clean_workspace()
+        gf.check_clean_workspace()
 
     errors, names = [], []
     for name in args.name or branches:
-        p = util.expand_path(name)
+        p = _expand_path(name)
         if name in branches:
             names.append(name)
         elif not p.is_dir():
             errors.append(str(p))
         elif not p.name.startswith('.'):
-            if args.all or util.find_git_root(p):
+            if args.all or gf.find_git_root(p):
                 names.append(str(p))
 
     if errors:
@@ -65,21 +66,25 @@ def git_all():
                 PROGRAM.exit()
 
 
+def _expand_path(s):
+    return Path(os.path.expandvars(s)).expanduser().resolve()
+
+
 def _run_command(args, name, branches):
     if name in branches:
         if not args.quiet:
             print('Branch %s:' % name)
-        saved_branch = git_functions.branch_name()
+        saved_branch = gf.branch_name()
         PROGRAM.git.checkout('-q', name)
         try:
             lines = PROGRAM.dry(*_COMMAND)
         finally:
             PROGRAM.git.checkout('-q', saved_branch)
     else:
-        name = util.expand_path(name)
+        name = _expand_path(name)
         if name.name.startswith('.'):
             return
-        if not (args.all or util.find_git_root(name)):
+        if not (args.all or gf.find_git_root(name)):
             return
         if not args.quiet:
             print('Directory %s:' % name)

@@ -1,6 +1,6 @@
 import json
 import os
-from . import util
+from . import git_functions
 
 PREFIX = 'GITZ_'
 CONFIG_FILE = '.gitz.json'
@@ -28,7 +28,7 @@ class Env:
         if value is not None:
             return value
 
-        root = util.find_git_root()
+        root = git_functions.find_git_root()
         value = None
         if root and (root / CONFIG_FILE).exists():
             config = json.load(open(str(root / CONFIG_FILE)))
