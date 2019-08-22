@@ -49,12 +49,12 @@ def git_shuffle():
         shuffled = len(shuffle) - 1
         if shuffled:
             s = '' if shuffled == 1 else 's'
-            PROGRAM.message(shuffled, 'commit%s shuffled' %s)
+            PROGRAM.message(shuffled, 'commit%s shuffled' % s)
 
         deleted = len(PROGRAM.args.shuffle) - shuffled
         if deleted:
             s = '' if deleted == 1 else 's'
-            PROGRAM.message(deleted, 'commit%s deleted' %s)
+            PROGRAM.message(deleted, 'commit%s deleted' % s)
 
     else:
         PROGRAM.message('No change')
@@ -63,7 +63,6 @@ def git_shuffle():
 def add_arguments(parser):
     add_arg = parser.add_argument
     add_arg('shuffle', help='Pattern string to shuffle')
-    combine.add_conflict_arguments(parser)
 
 
 if __name__ == '__main__':

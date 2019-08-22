@@ -2,15 +2,6 @@ from . import git_functions
 from .program import PROGRAM
 
 
-def add_conflict_arguments(parser):
-    parser.add_argument(
-        '-r',
-        '--revert-on-failure',
-        action='store_true',
-        help='Revert the workspace on failure',
-    )
-
-
 def combine(args, *commit_ids):
     git_functions.check_clean_workspace()
     ids, errors = [], []
