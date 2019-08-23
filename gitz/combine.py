@@ -22,7 +22,7 @@ def combine(args, *commit_ids, squash=None):
         dry_git('cherry-pick', id)
     if squash:
         dry_git.reset('--soft', base)
-        dry_git.reset('--soft', base)
+        dry_git.commit('-m', squash)
 
 
 def shuffle(shuffle):
