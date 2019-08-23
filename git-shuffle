@@ -63,6 +63,7 @@ def git_shuffle():
 def add_arguments(parser):
     add_arg = parser.add_argument
     add_arg('shuffle', help='Pattern string to shuffle')
+    combine.add_arguments(parser)
 
 
 if __name__ == '__main__':

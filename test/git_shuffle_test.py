@@ -7,6 +7,25 @@ import unittest
 class GitShuffleTest(unittest.TestCase):
     @repo.test
     def test_simple(self):
+        self._get_files()
+        actual = git.log('--oneline')
+        expected = [
+            '2a2c087 3',
+            '4fbc0b7 6',
+            'adf954d 4',
+            'a03c0f8 1',
+            'c0d1dbb 0',
+        ]
+        self.assertEqual(actual, expected)
+
+    @repo.test
+    def test_squash(self):
+        self._get_files('-s="0 1 3 4 6"')
+        actual = git.log('--oneline')
+        expected = ['a60e28d "0 1 3 4 6"', 'a03c0f8 1', 'c0d1dbb 0']
+        self.assertEqual(actual, expected)
+
+    def _get_files(self, *args):
         repo.make_commit('1')
         repo.make_commit('2')
         repo.make_commit('3')
@@ -27,15 +46,6 @@ class GitShuffleTest(unittest.TestCase):
             'c0d1dbb 0',
         ]
         self.assertEqual(actual, expected)
-        git.shuffle('_c_ab_')
+        git.shuffle('_c_ab_', *args)
         files = [i for i in os.listdir() if not i.startswith('.')]
         self.assertEqual(sorted(files), ['0', '1', '3', '4', '6'])
-        actual = git.log('--oneline')
-        expected = [
-            '2a2c087 3',
-            '4fbc0b7 6',
-            'adf954d 4',
-            'a03c0f8 1',
-            'c0d1dbb 0',
-        ]
-        self.assertEqual(actual, expected)

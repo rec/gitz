@@ -3,7 +3,7 @@ from .program import PROGRAM
 from .program import dry_git
 
 
-def combine(args, *commit_ids, squash=None):
+def combine(args, *commit_ids):
     git_functions.check_clean_workspace()
     ids, errors = [], []
     for id in commit_ids:
@@ -20,9 +20,9 @@ def combine(args, *commit_ids, squash=None):
     dry_git.reset('--hard', base)
     for id in commits:
         dry_git('cherry-pick', id)
-    if squash:
+    if args.squash:
         dry_git.reset('--soft', base)
-        dry_git.commit('-m', squash)
+        dry_git.commit('-m', args.squash)
 
 
 def shuffle(shuffle):
@@ -45,3 +45,10 @@ def shuffle(shuffle):
         result.append(last)
 
     return result
+
+
+def add_arguments(parser):
+    parser.add_argument('-s', '--squash', help=_HELP_SQUASH)
+
+
+_HELP_SQUASH = 'Squash all commits into one, with a message'

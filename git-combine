@@ -24,17 +24,15 @@ EXAMPLES:
 
 def git_combine():
     args = PROGRAM.args
-    combine.combine(args, args.base, *args.commit_id, squash=args.squash)
+    combine.combine(args, args.base, *args.commit_id)
 
 
 def add_arguments(parser):
     add_arg = parser.add_argument
     add_arg('commit_id', nargs='+', help='List of commit IDs to cherry pick')
     add_arg('-b', '--base', help='Base commit to start from')
-    add_arg('-s', '--squash', help=_HELP_SQUASH)
+    combine.add_arguments(parser)
 
-
-_HELP_SQUASH = 'Squash all commits into one, with a message'
 
 if __name__ == '__main__':
     PROGRAM.start(**globals())
