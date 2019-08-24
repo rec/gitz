@@ -17,12 +17,20 @@ def combine(args, *commit_ids):
 
     base, *commits = ids
 
+    result = []
     dry_git.reset('--hard', base)
-    for id in commits:
-        dry_git('cherry-pick', id)
     if args.squash:
+        for id in commits:
+            dry_git('cherry-pick', id)
         dry_git.reset('--soft', base)
         dry_git.commit('-m', args.squash)
+        result = [git_functions.commit_id()]
+    else:
+        for id in commits:
+            dry_git('cherry-pick', id)
+            result.append(git_functions.commit_id())
+
+    return result
 
 
 def shuffle(shuffle):
