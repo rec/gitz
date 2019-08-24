@@ -48,6 +48,9 @@ Safe commands
 ``git-fresh``
   Checkout and push a fresh branch
 
+``git-gitz``
+  Print information about gitz
+
 ``git-ls``
   Like ``ls``, but shows git info, with subtle use of color
   (from an unknown source)

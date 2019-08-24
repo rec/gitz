@@ -1,0 +1,84 @@
+#!/usr/bin/env python3
+from gitz import env
+from gitz.program import PROGRAM
+from pathlib import Path
+import os
+import setup
+
+
+USAGE = """\
+git-gitz: Lists gitz commands, directories, protections, version number
+
+
+USAGE:
+    git gitz [item ..item]
+"""
+
+HELP = """
+`git gitz` lists all the gitz commands, the gitz protected branches
+and remotes, or the current gitz version
+
+EXAMPLES:
+    git gitz commands defaults directory version
+    git gitz
+        Prints all the gitz commands, the variable defaults
+        (including protected branches and remotes),
+        the version number, and the git command directory
+
+   git gitz version directory
+        Print just the version number and the git command directory
+"""
+
+ALL = 'commands', 'defaults', 'directory', 'version'
+DIRECTORY = str(Path(__file__).parent)
+COMMANDS = [f for f in sorted(os.listdir(DIRECTORY)) if f.startswith('git-')]
+INDENT = '  '
+
+_HELP_STEPS = 'Number of steps to gitz (positive or negative)'
+
+
+def git_gitz():
+    errors, items = [], []
+    for i in PROGRAM.args.items:
+        for c in ALL:
+            if c.startswith(i):
+                items.append(c)
+                break
+        else:
+            errors.append(i)
+            continue
+    if errors:
+        PROGRAM.exit('Do not understand:', *errors)
+    indent = '  ' if len(items) > 1 else ''
+    for i, item in enumerate(items):
+        if indent:
+            if i:
+                PROGRAM.message()
+            PROGRAM.message(item.capitalize() + ':')
+        globals()['_' + item](indent)
+
+
+def add_arguments(parser):
+    parser.add_argument('items', nargs='*', default=ALL)
+
+
+def _commands(indent):
+    for c in COMMANDS:
+        PROGRAM.message(indent + c)
+
+
+def _defaults(indent):
+    for e in sorted(env.ENV.DEFAULTS):
+        PROGRAM.message(indent + env.PREFIX + e, '=', env.ENV.get(e))
+
+
+def _directory(indent):
+    PROGRAM.message(indent + DIRECTORY)
+
+
+def _version(indent):
+    PROGRAM.message(indent + setup.VERSION)
+
+
+if __name__ == '__main__':
+    PROGRAM.start(**globals())
