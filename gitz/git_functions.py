@@ -16,8 +16,11 @@ def find_git_root(p='.'):
 
 def commit_id(name='HEAD', short=False):
     try:
-        if name.isnumeric() and len(name) < COMMIT_ID_LENGTH:
+        if name.startswith('~'):
+            name = 'HEAD' + name
+        elif name.isnumeric() and len(name) < COMMIT_ID_LENGTH:
             name = 'HEAD~' + name
+
         id = git('rev-parse', name)[0]
         if short:
             return id[:COMMIT_ID_LENGTH]
