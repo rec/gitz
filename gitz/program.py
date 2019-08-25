@@ -1,3 +1,4 @@
+from . import helper
 from . import log
 from . import runner
 from pathlib import Path
@@ -18,8 +19,9 @@ class _Program:
         self.argv = sys.argv[1:]
         self.called = {}
 
-    def start(self, USAGE='', HELP='', add_arguments=None, **kwds):
-        self.initialize(USAGE, HELP, add_arguments)
+    def start(self, add_arguments=None, **kwds):
+        self.helper = helper.Helper(**kwds)
+        self.initialize(add_arguments)
         exe = self.executable.replace('-', '_')
         main = kwds.get(exe) or kwds.get('main')
         if not main:
@@ -32,9 +34,7 @@ class _Program:
             self.log.verbose(traceback.format_exc(), file=sys.stderr)
             self.exit('%s: %s' % (e.__class__.__name__, e))
 
-    def initialize(self, usage, help, add_arguments):
-        self.usage = usage
-        self.help = help
+    def initialize(self, add_arguments):
         if self._print_help():
             print()
             print('Full ', end='')
@@ -91,8 +91,7 @@ class _Program:
 
     def _print_help(self):
         if '-h' in self.argv or '--h' in self.argv:
-            print(self.usage.rstrip())
-            print(self.help.rstrip())
+            self.helper.print_help()
             return True
 
 

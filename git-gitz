@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 from gitz import env
 from gitz.program import PROGRAM
-from pathlib import Path
-import os
 import setup
 
 
@@ -30,8 +28,6 @@ EXAMPLES:
 """
 
 ALL = 'commands', 'defaults', 'directory', 'version'
-DIRECTORY = str(Path(__file__).parent)
-COMMANDS = [f for f in sorted(os.listdir(DIRECTORY)) if f.startswith('git-')]
 INDENT = '  '
 
 _HELP_STEPS = 'Number of steps to gitz (positive or negative)'
@@ -63,7 +59,7 @@ def add_arguments(parser):
 
 
 def _commands(indent):
-    for c in COMMANDS:
+    for c in setup.COMMANDS:
         PROGRAM.message(indent + c)
 
 
@@ -73,7 +69,7 @@ def _defaults(indent):
 
 
 def _directory(indent):
-    PROGRAM.message(indent + DIRECTORY)
+    PROGRAM.message(indent + setup.ROOT_DIR)
 
 
 def _version(indent):

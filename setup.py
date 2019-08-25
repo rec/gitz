@@ -1,9 +1,13 @@
 import os
-import setuptools
 
 VERSION = '0.9.2'
+ROOT_DIR = os.path.dirname(__file__)
+COMMANDS = sorted(f for f in os.listdir(ROOT_DIR) if f.startswith('git-'))
+
 
 if __name__ == '__main__':
+    import setuptools
+
     setuptools.setup(
         name='gitz',
         version=VERSION,
@@ -23,6 +27,6 @@ if __name__ == '__main__':
             'Topic :: Utilities',
         ],
         keywords=['git'],
-        scripts=[f for f in os.listdir('.') if f.startswith('git-')],
+        scripts=COMMANDS,
         py_modules=['gitz'],
     )
