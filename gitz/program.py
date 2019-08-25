@@ -3,6 +3,7 @@ from . import log
 from . import runner
 from pathlib import Path
 import argparse
+import collections
 import sys
 import traceback
 
@@ -17,11 +18,10 @@ class _Program:
         self.code = -1
         self.executable = Path(sys.argv[0]).name
         self.argv = sys.argv[1:]
-        self.called = {}
+        self.called = collections.Counter()
 
     def start(self, add_arguments=None, **kwds):
-        self.helper = helper.Helper(self.executable, **kwds)
-        self.initialize(add_arguments)
+        self.initialize(add_arguments, **kwds)
         exe = self.executable.replace('-', '_')
         main = kwds.get(exe) or kwds.get('main')
         if not main:
@@ -34,8 +34,9 @@ class _Program:
             self.log.verbose(traceback.format_exc(), file=sys.stderr)
             self.exit('%s: %s' % (e.__class__.__name__, e))
 
-    def initialize(self, add_arguments):
-        if self._print_help():
+    def initialize(self, add_arguments, **kwds):
+        self.helper = helper.Helper(self.executable, **kwds)
+        if self.helper.print_help(self.argv):
             print()
             print('Full ', end='')
 
@@ -64,11 +65,6 @@ class _Program:
     def dry_run(self, *command, **kwds):
         return self._dry_run(*command, **kwds)
 
-    def check_help(self):
-        """If help requested, print it and exit"""
-        if self._print_help():
-            sys.exit(0)
-
     def exit(self, *messages):
         if messages:
             self.error(*messages)
@@ -85,18 +81,15 @@ class _Program:
 
     def _error(self, messages, category):
         caption = self.executable + ':'
-        self.called[category] = True
+        self.called[category] += 1
         caption = category.upper() + ':' + caption
         self.log.error(caption, *messages, file=sys.stderr)
 
-    def _print_help(self):
-        if '-h' in self.argv or '--h' in self.argv:
-            self.helper.print_help()
-            return True
-
 
 PROGRAM = _Program()
+
 run = PROGRAM.run
-dry_run = PROGRAM.dry_run
 git = runner.Git(run)
+
+dry_run = PROGRAM.dry_run
 dry_git = runner.Git(dry_run)

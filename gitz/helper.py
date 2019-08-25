@@ -8,12 +8,15 @@ class Helper:
         if self.danger:
             self.danger = 'DANGER: %s\n' % self.danger
 
-    def print_help(self):
+    def print_help(self, argv):
+        if not ('-h' in argv or '--h' in argv):
+            return False
         if self.summary and self.examples:
             print(HELP.format(**vars(self)).rstrip())
         else:
             print(self.usage.rstrip())
             print(self.help.rstrip())
+        return True
 
     INDENT = '  '
 
