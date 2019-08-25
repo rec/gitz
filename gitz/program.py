@@ -20,20 +20,6 @@ class _Program:
         self.argv = sys.argv[1:]
         self.called = collections.Counter()
 
-    def start(self, add_arguments=None, **kwds):
-        self.initialize(add_arguments, **kwds)
-        exe = self.executable.replace('-', '_')
-        main = kwds.get(exe) or kwds.get('main')
-        if not main:
-            self.exit('No method named', exe, 'or main in', self.executable)
-
-        try:
-            main()
-
-        except Exception as e:
-            self.log.verbose(traceback.format_exc(), file=sys.stderr)
-            self.exit('%s: %s' % (e.__class__.__name__, e))
-
     def initialize(self, add_arguments, **kwds):
         self.helper = helper.Helper(self.executable, **kwds)
         if self.helper.print_help(self.argv):
@@ -58,6 +44,20 @@ class _Program:
             self._dry_run = self._run
 
         return self.args
+
+    def start(self, add_arguments=None, **kwds):
+        self.initialize(add_arguments, **kwds)
+        exe = self.executable.replace('-', '_')
+        main = kwds.get(exe) or kwds.get('main')
+        if not main:
+            self.exit('No method named', exe, 'or main in', self.executable)
+
+        try:
+            main()
+
+        except Exception as e:
+            self.log.verbose(traceback.format_exc(), file=sys.stderr)
+            self.exit('%s: %s' % (e.__class__.__name__, e))
 
     def run(self, *command, **kwds):
         return self._run(*command, **kwds)
