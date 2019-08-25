@@ -1,5 +1,5 @@
 from . import repo
-from gitz.program import dry_git
+from gitz.program import git
 from gitz.program import safe_git
 import unittest
 
@@ -14,11 +14,11 @@ class GitSplitTest(unittest.TestCase):
         repo.make_commit('1', '2')
         repo.make_commit('3', '4')
         repo.make_commit('5')
-        dry_git.mv('0', '6')
-        dry_git.commit('-am', '6')
+        git.mv('0', '6')
+        git.commit('-am', '6')
         with self.assertRaises(Exception):
-            dry_git.split('HEAD~~~~')
-        dry_git.split('HEAD~~~')
+            git.split('HEAD~~~~')
+        git.split('HEAD~~~')
         actual = safe_git.log('--oneline')
         expected = [
             '78923d2 [split] Renamed 0 -> 6',
@@ -35,7 +35,7 @@ class GitSplitTest(unittest.TestCase):
     def test_single(self):
         repo.make_commit('1', '2')
         repo.make_commit('3', '4', '5')
-        dry_git.split()
+        git.split()
         actual = safe_git.log('--oneline', '-10')
         expected = [
             'a804db6 [split] Added 5',
@@ -52,9 +52,9 @@ class GitSplitTest(unittest.TestCase):
         repo.make_commit('2')
         repo.write_files('3', '4')
         repo.add_files('3')
-        dry_git.mv('1', '5')
-        dry_git.rm('0')
-        dry_git.split()
+        git.mv('1', '5')
+        git.rm('0')
+        git.split()
         actual = safe_git.log('--oneline', '-10')
         expected = [
             'cea714a [split] Added 4',

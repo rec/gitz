@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from gitz import git_functions
 from gitz.program import PROGRAM
-from gitz.program import dry_git
+from gitz.program import git
 
 USAGE = """\
 git-rotate: Rotate through all branches
@@ -40,7 +40,7 @@ def git_rotate():
 
     branches = git_functions.branches()
     pos = branches.index(git_functions.branch_name()) + steps
-    dry_git.checkout(branches[pos % len(branches)])
+    git.checkout(branches[pos % len(branches)])
 
 
 def add_arguments(parser):

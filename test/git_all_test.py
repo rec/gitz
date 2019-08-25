@@ -1,6 +1,6 @@
 from . import repo
 from gitz import git_functions
-from gitz.program import dry_git
+from gitz.program import git
 from gitz.program import safe_git
 from pathlib import Path
 import os
@@ -11,7 +11,7 @@ class GitAllTest(unittest.TestCase):
     @repo.test
     def test_directories(self):
         os.chdir(Path(__file__).parent.parent)
-        actual = dry_git.all('test/data/*', '-', 'ls', '-1', shell=True)
+        actual = git.all('test/data/*', '-', 'ls', '-1', shell=True)
         self.assertEqual(actual, _DIRECTORIES.split('\n'))
 
     @repo.test

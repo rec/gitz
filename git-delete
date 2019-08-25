@@ -3,7 +3,7 @@ from gitz import delete
 from gitz import git_functions
 from gitz.env import ENV
 from gitz.program import PROGRAM
-from gitz.program import dry_git
+from gitz.program import git
 from gitz.program import safe_git
 
 USAGE = """\
@@ -51,10 +51,10 @@ def git_delete():
         git_functions.check_clean_workspace()
         for b in ENV.reference_branches():
             if b in remaining_branches:
-                dry_git.checkout(b)
+                git.checkout(b)
                 break
         else:
-            dry_git.checkout(sorted(remaining_branches)[0])
+            git.checkout(sorted(remaining_branches)[0])
 
     deleted = delete.delete(args.target, remotes)
     if deleted:

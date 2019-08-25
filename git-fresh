@@ -3,7 +3,7 @@ from gitz import git_functions
 from gitz.env import ENV
 from gitz.program import PROGRAM
 from gitz.program import safe_git
-from gitz.program import dry_git
+from gitz.program import git
 
 USAGE = """\
 git-fresh: Create and push a fresh branch from a reference branch
@@ -53,8 +53,8 @@ def _run_fresh(fresh_branch):
     for branch in ENV.reference_branches():
         refspec = '%s/%s' % (upstream, branch)
         if git_functions.commit_id(refspec):
-            dry_git.checkout('-b', fresh_branch, refspec)
-            dry_git.push('-u', origin, fresh_branch)
+            git.checkout('-b', fresh_branch, refspec)
+            git.push('-u', origin, fresh_branch)
             return
 
     PROGRAM.exit('No reference branch found')

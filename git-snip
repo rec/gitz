@@ -3,7 +3,7 @@
 from gitz import git_functions
 from gitz.commit_indexer import CommitIndexer
 from gitz.program import PROGRAM
-from gitz.program import dry_git
+from gitz.program import git
 
 USAGE = """\
 git-snip: Edit one or more commits out of history
@@ -61,7 +61,7 @@ def git_snip():
     indexes.sort()
     for i in reversed(indexes):
         'HEAD~%s' % i
-        dry_git.rebase(('HEAD~%s' % i), '--onto', 'HEAD~%s' % (i + 1))
+        git.rebase(('HEAD~%s' % i), '--onto', 'HEAD~%s' % (i + 1))
 
     s = '' if len(indexes) == 1 else 's'
     ids = ', '.join(str(i) for i in indexes)

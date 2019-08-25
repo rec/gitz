@@ -37,11 +37,11 @@ class _Program:
         # If -h/--help are set, this next call terminates the program
         self.args = parser.parse_args(self.argv)
         self.log = log.Log(self.args)
-        self._run = runner.Runner(self.log)
+        self._safe_run = runner.Runner(self.log)
         if self.ALLOW_DRY_RUN and self.args.dry_run:
-            self._dry_run = runner.Runner(self.log, dry_run=True)
+            self._run = runner.Runner(self.log, dry_run=True)
         else:
-            self._dry_run = self._run
+            self._run = self._safe_run
 
         return self.args
 
@@ -63,7 +63,7 @@ class _Program:
         return self._run(*command, **kwds)
 
     def run(self, *command, **kwds):
-        return self._dry_run(*command, **kwds)
+        return self._run(*command, **kwds)
 
     def exit(self, *messages):
         if messages:
@@ -91,5 +91,5 @@ PROGRAM = _Program()
 safe_run = PROGRAM.safe_run
 safe_git = runner.Git(safe_run)
 
-dry_run = PROGRAM.run
-dry_git = runner.Git(dry_run)
+run = PROGRAM.run
+git = runner.Git(run)

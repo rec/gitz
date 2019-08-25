@@ -1,7 +1,7 @@
 from . import git_functions
 from .env import ENV
 from .program import PROGRAM
-from .program import dry_git
+from .program import git
 
 
 class Mover:
@@ -51,23 +51,23 @@ class Mover:
         self._move_remote()
 
         if starting_branch != self.source:
-            dry_git.checkout(self.starting_branch)
+            git.checkout(self.starting_branch)
 
     def _move_local(self):
         flag = '-c' if self.action == 'copy' else '-m'
         flag = flag.upper() if PROGRAM.args.force else flag
-        dry_git.branch(flag, self.source, self.target)
+        git.branch(flag, self.source, self.target)
         print(self.Root + 'ed', self.source, 'to', self.target)
 
     def _move_remote(self):
-        dry_git.checkout(self.target)
+        git.checkout(self.target)
         force = ['--force-with-lease'] if PROGRAM.args.force else []
         for remote in self.old + self.new:
-            dry_git.push(*force, remote, self.target)
+            git.push(*force, remote, self.target)
 
         if self.action != 'copy':
             for remote in self.old:
-                dry_git.push(remote, ':' + self.source)
+                git.push(remote, ':' + self.source)
 
     def _add_arguments(self, parser):
         add_arg = parser.add_argument

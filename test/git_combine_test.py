@@ -1,5 +1,5 @@
 from . import repo
-from gitz.program import dry_git
+from gitz.program import git
 from gitz.program import safe_git
 import os
 import unittest
@@ -26,6 +26,6 @@ class GitCombineTest(unittest.TestCase):
         repo.make_commit('5')
         repo.make_commit('6')
 
-        dry_git.combine('-b=%s~' % one, three, 'HEAD~', *args)
+        git.combine('-b=%s~' % one, three, 'HEAD~', *args)
         files = sorted(i for i in os.listdir() if not i.startswith('.'))
         self.assertEqual(files, ['0', '3', '5'])

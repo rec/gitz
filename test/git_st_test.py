@@ -1,5 +1,5 @@
 from . import repo
-from gitz.program import dry_git
+from gitz.program import git
 from gitz.program import safe_git
 import os
 import unittest
@@ -11,7 +11,7 @@ class GitStTest(unittest.TestCase):
         repo.make_commit('1', '2')
         with open('3', 'w') as fp:
             fp.write('3\n')
-        dry_git.add('3')
+        git.add('3')
         with open('4', 'w') as fp:
             fp.write('4\n')
         with open('0', 'w') as fp:

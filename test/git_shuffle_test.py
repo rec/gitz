@@ -1,5 +1,5 @@
 from . import repo
-from gitz.program import dry_git
+from gitz.program import git
 from gitz.program import safe_git
 import os
 import unittest
@@ -47,6 +47,6 @@ class GitShuffleTest(unittest.TestCase):
             'c0d1dbb 0',
         ]
         self.assertEqual(actual, expected)
-        dry_git.shuffle('_c_ab_', *args)
+        git.shuffle('_c_ab_', *args)
         files = [i for i in os.listdir() if not i.startswith('.')]
         self.assertEqual(sorted(files), ['0', '1', '3', '4', '6'])

@@ -1,6 +1,6 @@
 from . import git_functions
 from .program import PROGRAM
-from .program import dry_git
+from .program import git
 
 
 def combine(args, *commit_ids):
@@ -18,16 +18,16 @@ def combine(args, *commit_ids):
     base, *commits = ids
 
     result = []
-    dry_git.reset('--hard', base)
+    git.reset('--hard', base)
     if args.squash:
         for id in commits:
-            dry_git('cherry-pick', id)
-        dry_git.reset('--soft', base)
-        dry_git.commit('-m', args.squash)
+            git('cherry-pick', id)
+        git.reset('--soft', base)
+        git.commit('-m', args.squash)
         result = [git_functions.commit_id()]
     else:
         for id in commits:
-            dry_git('cherry-pick', id)
+            git('cherry-pick', id)
             result.append(git_functions.commit_id())
 
     return result
