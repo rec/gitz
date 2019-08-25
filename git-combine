@@ -3,24 +3,18 @@ from gitz import combine
 from gitz.git_functions import COMMIT_ID_LENGTH
 from gitz.program import PROGRAM
 
-USAGE = """\
-git-combine: Combine multiple commits into one
-
-USAGE:
-    git-combine <commit> [...<additional-commit>] [-b/--base=<commit>]
-
-"""
+SUMMARY = 'Combine multiple commits into one'
+USAGE = 'git-combine <commit> [...<additional-commit>] [-b/--base=<commit>]'
 HELP = """
-Create a single commit out of many.
-
 Equivalent to hard resetting to the base commit, then cherry picking
 each subsequent commit.
-
-EXAMPLES:
-    git combine d2dfe0c a2833bc
-        Goes to the commit in `master` and then cherry picks the two commits
-        d2dfe0c and a2833bc on top of it.
 """
+EXAMPLES = """
+git combine d2dfe0c a2833bc
+  Goes to the commit in `master` and then cherry picks the two commits
+  d2dfe0c and a2833bc on top of it.
+"""
+DANGER = 'Rewrites history!'
 
 
 def git_combine():

@@ -7,7 +7,7 @@ from .program import git
 class Mover:
     """Moves things around, either with rename or copy"""
 
-    def __init__(self, action, examples=''):
+    def __init__(self, action):
         assert action in ('rename', 'copy')
 
         self.action = action
@@ -22,13 +22,15 @@ class Mover:
         self.Root = self.root.capitalize()
 
         self.error = PROGRAM.error
-        self.examples = examples
 
     def __call__(self):
         PROGRAM.start(
-            HELP=HELP.format(self) + self.examples,
-            USAGE=USAGE.format(self),
             add_arguments=self._add_arguments,
+            HELP=HELP.format(self),
+            USAGE=USAGE.format(self),
+            SUMMARY=SUMMARY.format(self),
+            EXAMPLES=EXAMPLES.format(self),
+            DANGER=DANGER.format(self),
             main=self.run,
         )
 
@@ -122,14 +124,9 @@ class Mover:
             self.error(_ERROR_INCONSISTENT_COMMITS, error)
 
 
-USAGE = """\
-git-{0.action}:
-    {0.Root}es a git branch locally and on all remotes
-
-USAGE:
-    git {0.action} [<source-branch>] <target-branch>
-"""
-
+DANGER = 'Changes remote branches!'
+SUMMARY = '{0.Root}es a git branch locally and on all remotes'
+USAGE = 'git {0.action} [<source-branch>] <target-branch>'
 HELP = """
 {0.Root}es one branch to another, both locally and in remote
 branches.  If no source branch is given, the current branch is
@@ -146,6 +143,11 @@ It's also possible to override the protected branches or the
 protected remotes by setting one of the environment variables
 GITZ_PROTECTED_BRANCHES or GITZ_PROTECTED_REMOTES
 to a list separated by colons, or an empty string for no protection.
+"""
+EXAMPLES = """
+git {0.action} old new
+    {0.Root}es the branch "old" to "new", both locally and in remote
+    branches.
 """
 
 _ERROR_CANNOT_DELETE = 'Cannot delete remote'

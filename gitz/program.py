@@ -8,7 +8,7 @@ import sys
 import traceback
 
 _ERROR_PROTECTED_BRANCHES = 'The branches %s are protected'
-_DRY_RUN_HELP = 'If set, git commands will be printed but not executed'
+_DRY_RUN_HELP = 'If set, commands will be printed but not executed'
 
 
 class _Program:
@@ -23,7 +23,7 @@ class _Program:
     def initialize(self, add_arguments, **kwds):
         self.helper = helper.Helper(self.executable, **kwds)
         if self.helper.print_help(self.argv):
-            print()
+            print('\n---\n')
             print('Full ', end='')
 
         parser = argparse.ArgumentParser()

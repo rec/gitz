@@ -79,5 +79,5 @@ _HELP_COMMIT = 'Optional commit ID to split from'
 
 
 if __name__ == '__main__':
-    PROGRAM.allow_dry_run = False
+    PROGRAM.ALLOW_DRY_RUN = False
     PROGRAM.start(**globals())
