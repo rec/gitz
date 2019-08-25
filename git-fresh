@@ -2,7 +2,7 @@
 from gitz import git_functions
 from gitz.env import ENV
 from gitz.program import PROGRAM
-from gitz.program import git
+from gitz.program import safe_git
 from gitz.program import dry_git
 
 USAGE = """\
@@ -33,7 +33,7 @@ def _run_fresh(fresh_branch):
     if fresh_branch in branches:
         PROGRAM.error('Branch name', fresh_branch, 'already exists')
 
-    remotes = git.remote()
+    remotes = safe_git.remote()
     if len(remotes) == 1:
         origin = upstream = remotes[0]
     else:
@@ -48,7 +48,7 @@ def _run_fresh(fresh_branch):
     if PROGRAM.called.get('error'):
         PROGRAM.exit()
 
-    git.fetch(upstream)
+    safe_git.fetch(upstream)
 
     for branch in ENV.reference_branches():
         refspec = '%s/%s' % (upstream, branch)

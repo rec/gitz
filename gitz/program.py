@@ -59,10 +59,10 @@ class _Program:
             self.log.verbose(traceback.format_exc(), file=sys.stderr)
             self.exit('%s: %s' % (e.__class__.__name__, e))
 
-    def run(self, *command, **kwds):
+    def safe_run(self, *command, **kwds):
         return self._run(*command, **kwds)
 
-    def dry_run(self, *command, **kwds):
+    def run(self, *command, **kwds):
         return self._dry_run(*command, **kwds)
 
     def exit(self, *messages):
@@ -88,8 +88,8 @@ class _Program:
 
 PROGRAM = _Program()
 
-run = PROGRAM.run
-git = runner.Git(run)
+safe_run = PROGRAM.safe_run
+safe_git = runner.Git(safe_run)
 
-dry_run = PROGRAM.dry_run
+dry_run = PROGRAM.run
 dry_git = runner.Git(dry_run)

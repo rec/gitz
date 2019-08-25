@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from gitz import git_functions
 from gitz.program import PROGRAM
-from gitz.program import git
 from gitz.program import dry_git
+from gitz.program import safe_git
 
 USAGE = """\
 git-stripe: Push a sequence of commit IDs onto upstream branches
@@ -70,7 +70,7 @@ def git_stripe():
         except Exception:
             PROGRAM.exit('Branch has no upstream and --upstream not set')
 
-    elif args.upstream in git.remotes():
+    elif args.upstream in safe_git.remotes():
         upstream = args.upstream
 
     else:

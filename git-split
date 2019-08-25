@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 from gitz import git_functions
 from gitz.program import PROGRAM
-from gitz.program import git
+from gitz.program import dry_git
+from gitz.program import safe_git
 import os
 
 USAGE = """\
@@ -40,10 +41,10 @@ def git_split():
         commit = 'HEAD~'
 
     commit = git_functions.commit_id(commit)
-    git.reset('--soft', commit)
-    lines = git.status('--porcelain')
+    dry_git.reset('--soft', commit)
+    lines = safe_git.status('--porcelain')
 
-    git.reset(commit)
+    dry_git.reset(commit)
     commit_count = 0
 
     for line in lines:
@@ -57,8 +58,8 @@ def git_split():
         # Renaming is a special case with two files on a line
         # separated by -> and with mode = '??'
         try:
-            git.add(*filenames_split)
-            git.commit('-m', '[split] %s %s' % (mode_name, filenames))
+            dry_git.add(*filenames_split)
+            dry_git.commit('-m', '[split] %s %s' % (mode_name, filenames))
             commit_count += 1
 
         except Exception:

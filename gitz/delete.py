@@ -1,5 +1,5 @@
 from . import git_functions
-from .program import git
+from .program import safe_git
 from .program import dry_git
 
 
@@ -11,7 +11,7 @@ def delete(branches, remotes):
     if len(to_delete) == len(existing_branches):
         raise ValueError('This would delete all the branches')
 
-    unknown_remotes = set(remotes).difference(git.remote())
+    unknown_remotes = set(remotes).difference(safe_git.remote())
     if unknown_remotes:
         raise ValueError('Unknown remotes:', *unknown_remotes)
 

@@ -1,5 +1,5 @@
 from . import repo
-from gitz.program import git
+from gitz.program import safe_git
 from setup import COMMANDS
 from setup import ROOT_DIR
 from setup import VERSION
@@ -9,35 +9,35 @@ import unittest
 class GitGitzTest(unittest.TestCase):
     @repo.test
     def test_all(self):
-        self.assertEqual(git.gitz(), RESULTS)
+        self.assertEqual(safe_git.gitz(), RESULTS)
 
     @repo.test
     def test_version(self):
         for v in 'v', 've', 'version':
-            self.assertEqual(git.gitz(v), [VERSION])
+            self.assertEqual(safe_git.gitz(v), [VERSION])
 
     @repo.test
     def test_commands(self):
         for c in 'c', 'com', 'commands':
-            self.assertEqual(git.gitz(c), list(COMMANDS))
+            self.assertEqual(safe_git.gitz(c), list(COMMANDS))
 
     @repo.test
     def test_directory(self):
         for d in 'dir', 'directory':
-            self.assertEqual(git.gitz(d), [ROOT_DIR])
+            self.assertEqual(safe_git.gitz(d), [ROOT_DIR])
 
     @repo.test
     def test_defaults(self):
         for d in 'd', 'def', 'defaults':
-            self.assertEqual(git.gitz(d), DEFAULTS)
+            self.assertEqual(safe_git.gitz(d), DEFAULTS)
 
     @repo.test
     def test_error(self):
         with self.assertRaises(ValueError):
-            git.gitz('var')
+            safe_git.gitz('var')
 
         with self.assertRaises(ValueError):
-            git.gitz('Com')
+            safe_git.gitz('Com')
 
 
 RESULTS = """\
