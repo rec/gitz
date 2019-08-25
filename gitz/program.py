@@ -20,7 +20,7 @@ class _Program:
         self.called = {}
 
     def start(self, add_arguments=None, **kwds):
-        self.helper = helper.Helper(**kwds)
+        self.helper = helper.Helper(self.executable, **kwds)
         self.initialize(add_arguments)
         exe = self.executable.replace('-', '_')
         main = kwds.get(exe) or kwds.get('main')
