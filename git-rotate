@@ -3,7 +3,9 @@ from gitz import git_functions
 from gitz.program import PROGRAM
 from gitz.program import git
 
-SUMMARY = 'Rotate through all branches'
+SUMMARY = (
+    'Rotate the current branch forward or backward in the list of branches'
+)
 USAGE = 'git rotate [<number-of-positions>]'
 HELP = """
 Change the current branch by rotating through all the branches for

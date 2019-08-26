@@ -3,7 +3,7 @@ from gitz import combine
 from gitz import git_functions
 from gitz.program import PROGRAM
 
-SUMMARY = 'Shuffle commits within the existing branch'
+SUMMARY = 'Reorder and delete commits in the existing branch'
 USAGE = 'git-shuffle [permutation]'
 
 HELP = """

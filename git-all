@@ -13,6 +13,9 @@ USAGE = 'git all [name ...] - <command> [argument ...]'
 HELP = """
 Performs <command> [argument ...] for each `name`, or over all
 branches if no `name` is given.
+
+Note that this does not handle aliases within commands and might do
+unexpected things with complex commands.  Please handle with care.
 """
 EXAMPLES = """
 git all - git log --oneline -5
@@ -22,7 +25,7 @@ git all * - git all - git log --oneline -5
   Performs git log --oneline -5 for each branch in each
   directory in the current directory
 """
-
+DANGER = 'This is a bit janky'
 
 def git_all():
     if not _COMMAND:

@@ -125,10 +125,10 @@ class Mover:
 
 
 DANGER = 'Changes remote branches!'
-SUMMARY = '{0.Root}es a git branch locally and on all remotes'
+SUMMARY = '{0.Action} a git branch locally and on all remotes'
 USAGE = 'git {0.action} [<source-branch>] <target-branch>'
 HELP = """
-{0.Root}es one branch to another, both locally and in remote
+{0.Action} one branch to another, both locally and in remote
 branches.  If no source branch is given, the current branch is
 used.
 
@@ -146,7 +146,7 @@ to a list separated by colons, or an empty string for no protection.
 """
 EXAMPLES = """
 git {0.action} old new
-    {0.Root}es the branch "old" to "new", both locally and in remote
+    {0.Action} the branch "old" to "new", both locally and in remote
     branches.
 """
 

@@ -6,13 +6,8 @@ from gitz.program import PROGRAM
 from gitz.program import git
 from gitz.program import safe_git
 
-USAGE = """\
-git-delete: Deletes one or more branches locally and on all remotes
-
-USAGE:
-    git delete <branch-name> [...<branch-name>]
-"""
-
+SUMMARY = 'Delete one or more branches locally and on all remotes'
+USAGE = 'git delete <branch-name> [...<branch-name>]'
 HELP = """
 By default, the branches `master` and `develop` and the remote
 `upstream` are protected, which means that they are not allowed
@@ -25,6 +20,11 @@ It's also possible to change which branches or remotes are protected
 by setting the environment variable GITZ_PROTECTED_BRANCHES or
 GITZ_PROTECTED_REMOTES to a list separated by colons, or to an empty
 string to turn off protection entirely.
+"""
+EXAMPLES = """
+git delete foo bar
+    Delete the branches foo and bar locally and on every upstream
+    except (by default) upstream
 """
 
 _HELP_ALL = 'Delete all, even protected remotes or branches'

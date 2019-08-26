@@ -40,51 +40,52 @@ A summary of the commands follows:
 
 
 Safe commands
-=============================================
+=============
 
-``git-all``
-  Perform a command on each of multiple branches or directories.
+Informational commands that don't change your repository
 
 ``git-fresh``
-  Checkout and push a fresh branch
+  Create and push fresh branches from a reference branch
 
 ``git-gitz``
-  Print information about gitz
-
-``git-ls``
-  Like ``ls``, but shows git info, with subtle use of color
-  (from an unknown source)
-
-.. image:: img/git-ls-screenshot.png
+  Print information about the gitz environment
 
 ``git-infer``
   Commit changes with an auto-generated message
   (from https://github.com/moondewio/git-infer)
 
-``git-rot``
+``git-ls``
+  List each file with its most recent commit, in subtle color
+
+  (from an unknown source)
+
+.. image:: img/git-ls-screenshot.png
+
+``git-rotate``
   Rotate the current branch forward or backward in the list of branches
 
 ``git-st``
-  Pretty, compact alternative to ``git-status``.
+  Colorful, compact git status
+
   This version written by https://github.com/PlatyPew/, original
   version by https://www.reddit.com/user/ex1c)
 
 .. image:: img/git-st-screenshot.png
 
 ``git-stripe``
-   Push each commit in a series onto a separate remote branch
+  Push a sequence of commit IDs onto upstream branches
 
 Dangerous commands that delete, rename or overwrite branches
-=======================================================
+============================================================
 
 ``git-copy``
-  Copy a branch locally and on every remote
+  Copy a git branch locally and on all remotes
 
 ``git-delete``
-  Delete one or more branches locally and on every remote
+  Delete one or more branches locally and on all remotes
 
 ``git-rename``
-  Rename a branch locally and on every remote
+  Rename a git branch locally and on all remotes
 
 By default, the branches ``develop`` and ``master`` and the remote ``upstream``
 are not allowed to be copied, renamed, or deleted.
@@ -93,9 +94,8 @@ You can disable this by setting the ``--all/-a`` flag, or you can override the
 protected branches or remotes by setting the environment variables
 ``PROTECTED_BRANCHES`` or ``PROTECTED_REMOTES``
 
-
 Dangerous commands that rewrite history
-==============================================
+=======================================
 
 These commands are not intended for use on a shared or production branch, but
 can significantly speed up rapid development on private branches.
@@ -106,11 +106,21 @@ can significantly speed up rapid development on private branches.
 ``git-combine``
   Combine multiple commits into one
 
+``git-shuffle``
+  Reorder and delete commits in the existing branch
+
 ``git-snip``
   Edit one or more commits out of history
 
-``git-shuffle``
-  Rearrange recent commits in any order
-
 ``git-split``
-  Split a commit into individual changes, one per file
+  Split a range of commits into many single-file commits
+
+Dangerous commands that are janky
+=================================
+
+``git-all`` is something I use all the time, but it only works in
+simple cases, and I don't see a good path to making it do complicated
+things in a sane way.
+
+``git-all``
+  Perform a command on each of multiple branches or directories
