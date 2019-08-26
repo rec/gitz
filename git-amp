@@ -9,6 +9,9 @@ git-amp:
 USAGE:
     git amp [commit message here]
 
+DANGER:
+    Rewrites history!
+
 DESCRIPTION:
     AMend the last commit message and force Push to its upstream branch.
 

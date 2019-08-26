@@ -3,11 +3,11 @@ class Helper:
         self.command = command
         for f in FIELDS:
             value = kwds.get(f.upper(), '').lstrip().rstrip()
-            if f != 'danger':
+            if f not in SIMPLE_FIELDS:
                 value = self._indent(value)
             setattr(self, f, value)
         if self.danger:
-            self.danger = 'DANGER: %s\n\n' % self.danger
+            self.danger = 'DANGER:\n%s%s\n\n' % (self.INDENT, self.danger)
 
     def print_help(self, argv):
         if not ('-h' in argv or '--h' in argv):
@@ -25,7 +25,8 @@ class Helper:
         return '\n'.join(self.INDENT + i for i in text.splitlines()) + '\n'
 
 
-FIELDS = 'danger', 'examples', 'help', 'summary', 'usage'
+FIELDS = 'danger', 'examples', 'help', 'image', 'summary', 'usage'
+SIMPLE_FIELDS = 'danger', 'image'
 
 HELP = """\
 {command}:

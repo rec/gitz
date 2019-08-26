@@ -20,7 +20,7 @@ class _Program:
         self.argv = sys.argv[1:]
         self.called = collections.Counter()
 
-    def initialize(self, add_arguments, **kwds):
+    def initialize(self, add_arguments=None, **kwds):
         self.helper = helper.Helper(self.executable, **kwds)
         if self.helper.print_help(self.argv):
             print('\n---\n')

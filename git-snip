@@ -7,6 +7,7 @@ from gitz.program import git
 
 SUMMARY = 'Edit one or more commits out of history'
 USAGE = 'git-snip <id> [<id> ...]'
+DANGER = 'Rewrites history!'
 HELP = """"
 Edit one or more commits IDs out of the current branch by index
 or by commit ID

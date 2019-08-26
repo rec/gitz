@@ -27,6 +27,7 @@ git all * - git all - git log --oneline -5
 """
 DANGER = 'This is a bit janky'
 
+
 def git_all():
     if not _COMMAND:
         PROGRAM.error(_ERROR_MISSING_COMMAND)
