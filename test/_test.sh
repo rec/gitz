@@ -12,8 +12,4 @@ flake8 $FILES
 export PATH=`pwd`:$PATH
 pytest
 
-for i in git-*; do
-    echo '----------------------------------------------------------------'
-    $i -h
-done
-echo '----------------------------------------------------------------'
+source test/_help.sh

@@ -2,7 +2,8 @@
 
 usage() {
     cat <<EOF
-git-st: Colorful, compact git status
+git-st:
+    Colorful, compact git status
 
 USAGE:
     git st

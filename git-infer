@@ -3,7 +3,8 @@ set -Eeuo pipefail
 
 usage() {
     cat <<EOF
-git-infer: Commit your changes with an auto-generated message
+git-infer:
+    Commit your changes with an auto-generated message
 
 USAGE:
     git infer [-a] [-A] [-h]

@@ -3,9 +3,9 @@ class Helper:
         self.command = command
         for f in FIELDS:
             value = kwds.get(f.upper(), '').lstrip().rstrip()
+            if f != 'danger':
+                value = self._indent(value)
             setattr(self, f, value)
-        self.usage = self._indent(self.usage)
-        self.examples = self._indent(self.examples)
         if self.danger:
             self.danger = 'DANGER: %s\n\n' % self.danger
 
@@ -28,12 +28,12 @@ class Helper:
 FIELDS = 'danger', 'examples', 'help', 'summary', 'usage'
 
 HELP = """\
-{command}: {summary}
-
+{command}:
+{summary}
 USAGE:
 {usage}
-{danger}{help}
-
+{danger}DESCRIPTION:
+{help}
 EXAMPLES:
 {examples}
 """

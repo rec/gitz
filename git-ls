@@ -2,7 +2,8 @@
 
 usage() {
     cat <<EOF
-git-ls: List each file with its most recent commit
+git-ls:
+    List each file with its most recent commit
 
 USAGE:
     git ls [-a] [directory]
