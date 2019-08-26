@@ -3,39 +3,33 @@ from gitz import combine
 from gitz import git_functions
 from gitz.program import PROGRAM
 
-USAGE = """\
-git-shuffle: Shuffle commits within the existing branch
+SUMMARY = 'Shuffle commits within the existing branch'
+USAGE = 'git-shuffle [permutation]'
 
-USAGE:
-    git-shuffle [permutation]
-
-"""
 HELP = """
 Shuffles the current sequence of commits, perhaps deleting some.
+"""
 
+EXAMPLES = """
+git shuffle
+git shuffle ba
+git shuffle 10
+git shuffle 21
+    Switches the first and second commit
 
-EXAMPLES:
+git shuffle ab
+git shuffle 01
+git shuffle 12
+    Do nothing
 
-    git shuffle
-    git shuffle ba
-    git shuffle 10
-    git shuffle 21
-        Switches the first and second commit
+git shuffle 312
+git shuffle cab
+git shuffle zxy
+    Cycles the first three commits so the third one is first
 
-    git shuffle ab
-    git shuffle 01
-    git shuffle 12
-        Do nothing
-
-    git shuffle 312
-    git shuffle cab
-    git shuffle zxy
-        Cycles the first three commits so the third one is first
-
-    git shuffle __321_
-        Deletes the first two commits, reverses the next three, and
-        deletes one more.
-
+git shuffle __321_
+    Deletes the first two commits, reverses the next three, and
+    deletes one more.
 """
 
 

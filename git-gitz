@@ -3,28 +3,22 @@ from gitz import env
 from gitz.program import PROGRAM
 import setup
 
-
-USAGE = """\
-git-gitz: Lists gitz commands, directories, protections, version number
-
-
-USAGE:
-    git gitz [item ..item]
-"""
-
+SUMMARY = 'Lists gitz commands, directories, protections, version number'
+USAGE = 'git gitz [item ..item]'
 HELP = """
 `git gitz` lists all the gitz commands, the gitz protected branches
 and remotes, or the current gitz version
+"""
 
-EXAMPLES:
-    git gitz commands defaults directory version
-    git gitz
-        Prints all the gitz commands, the variable defaults
-        (including protected branches and remotes),
-        the version number, and the git command directory
+EXAMPLES = """
+git gitz commands defaults directory version
+git gitz
+    Prints all the gitz commands, the variable defaults
+    (including protected branches and remotes),
+    the version number, and the git command directory
 
-   git gitz version directory
-        Print just the version number and the git command directory
+git gitz version directory
+    Print just the version number and the git command directory
 """
 
 ALL = 'commands', 'defaults', 'directory', 'version'

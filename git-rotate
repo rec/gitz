@@ -3,27 +3,23 @@ from gitz import git_functions
 from gitz.program import PROGRAM
 from gitz.program import git
 
-USAGE = """\
-git-rotate: Rotate through all branches
-
-USAGE:
-    git rotate [<number-of-positions>]
+SUMMARY = 'Rotate through all branches'
+USAGE = 'git rotate [<number-of-positions>]'
+HELP = """
+Change the current branch by rotating through all the branches for
+this repo in the order given by the `git branch` command
 """
 
-HELP = """
-Change the current branch by rotating through all the branches for this repo
-in the order given by the `git branch` command
+EXAMPLES = """
+git rotate
+    Rotate to the next branch
 
-EXAMPLES:
-    git rotate
-        Rotate to the next branch
+git rotate 3
+    Rotate 3 branches ahead
 
-    git rotate 3
-        Rotate 3 branches ahead
-
-    git rotate -1
-    git rotate -
-        Rotate 1 branch backward
+git rotate -1
+git rotate -
+    Rotate 1 branch backward
 """
 
 

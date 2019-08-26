@@ -4,47 +4,46 @@ from gitz.program import PROGRAM
 from gitz.program import git
 from gitz.program import safe_git
 
-USAGE = """\
-git-stripe: Push a sequence of commit IDs onto upstream branches
+SUMMARY = 'Push a sequence of commit IDs onto upstream branches'
 
-USAGE:
-    git stripe [<number-of-commits>] [commit-id]
-               [-b/--branch_base=<branch_base>] [-r/remove]
+USAGE = """
+git stripe [<number-of-commits>] [commit-id]
+[-b/--branch_base=<branch_base>] [-r/remove]
 """
 
 HELP = """
 Starting with a given commit ID, and moving backwards from there,
 push each commit ID to its own disposable branch name.
 
-Useful if CI has missed some of your commit IDs because you rebased or pushed
-a sequences of commits too fast.
+Useful if CI has missed some of your commit IDs because you rebased or
+pushed a sequences of commits too fast.
+"""
 
-EXAMPLES:
+EXAMPLES = """
+Assume current branch is master:
 
-If current branch is master:
+git stripe
+    Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
+    _gitz_stripe_master_0, _gitz_stripe_master_1
+    and _gitz_stripe_master_2
 
-    git stripe
-        Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
-        _gitz_stripe_master_0, _gitz_stripe_master_1
-        and _gitz_stripe_master_2
+git stripe --remove
+git stripe -r
+    Remove any branches named _gitz_stripe_master_0,
+    _gitz_stripe_master_1 and _gitz_stripe_master_2.
 
-    git stripe --remove
-    git stripe -r
-        Remove any branches named _gitz_stripe_master_0,
-        _gitz_stripe_master_1 and _gitz_stripe_master_2.
+    git-stripe -d does not fail if some or all of the branches
+    to be removed are missing
 
-        git-stripe -d does not fail if some or all of the branches
-        to be removed are missing
+git stripe --base-branch=BBBB
+git stripe -b=BBBB
+    Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
+    BBBB_0, BBBB_1, BBBB_2
 
-    git stripe --base-branch=BBBB
-    git stripe -b=BBBB
-        Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
-        BBBB_0, BBBB_1, BBBB_2
-
-    git stripe --count=2 --base-branch=BBBB
-    git stripe -c=2 -b=BBBB
-        Pushes HEAD~ and HEAD~2 into their own branches named BBBB_0
-        and BBBB_1
+git stripe --count=2 --base-branch=BBBB
+git stripe -c=2 -b=BBBB
+    Pushes HEAD~ and HEAD~2 into their own branches named BBBB_0
+    and BBBB_1
 """
 
 PREFIX = '_gitz_stripe_'
