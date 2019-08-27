@@ -17,7 +17,7 @@ class Runner:
         self.git = Git(self)
         self.dry_run = dry_run
 
-    def __call__(self, *cmd, **kwds):
+    def __call__(self, *cmd, quiet=False, **kwds):
         if self.dry_run:
             self.log.message('$', *cmd)
             return []
@@ -29,20 +29,22 @@ class Runner:
             cmd = cmd_arg
 
         proc = subprocess.Popen(cmd, **kwds)
-        self.output_lines = []
+        output_lines = []
 
-        run_proc(proc, self._out, self._error)
+        def out(line):
+            if not quiet:
+                self.log.verbose(line[:-1])
+            output_lines.append(line[:-1])
+
+        def error(line):
+            if not quiet:
+                self.log.error(line[:-1])
+
+        run_proc(proc, out, error)
         if proc.returncode:
             raise ValueError('Command "%s" failed' % cmd_arg)
 
-        return self.output_lines
-
-    def _out(self, line):
-        self.log.verbose(line[:-1])
-        self.output_lines.append(line[:-1])
-
-    def _error(self, line):
-        self.log.error(line[:-1])
+        return output_lines
 
 
 class Git:

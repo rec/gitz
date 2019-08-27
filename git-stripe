@@ -93,7 +93,8 @@ def git_stripe():
         refspec_format = _REMOVE_FMT if args.remove else _FMT
         refspec = refspec_format.format(**locals())
         force = git_functions.force_flags()
-        git.push(*force, upstream, refspec, stderr=subprocess.PIPE)
+        pipe = subprocess.PIPE
+        git.push(*force, upstream, refspec, quiet=True)
         action = 'Removed' if args.remove else 'Striped'
         PROGRAM.log.message(action, refspec.split('/')[-1])
 

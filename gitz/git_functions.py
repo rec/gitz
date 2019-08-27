@@ -21,7 +21,7 @@ def commit_id(name='HEAD', short=False):
         elif name.isnumeric() and len(name) < COMMIT_ID_LENGTH:
             name = 'HEAD~' + name
 
-        id = safe_git('rev-parse', name)[0]
+        id = safe_git('rev-parse', name, quiet=True)[0]
         if short:
             return id[:COMMIT_ID_LENGTH]
         return id

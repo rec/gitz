@@ -59,8 +59,9 @@ def _run_fresh(fresh_branch):
     for branch in ENV.reference_branches():
         refspec = '%s/%s' % (upstream, branch)
         if git_functions.commit_id(refspec):
-            git.checkout('-b', fresh_branch, refspec)
-            git.push('-u', origin, fresh_branch)
+            git.checkout('-b', fresh_branch, refspec, quiet=True)
+            git.push('-u', origin, fresh_branch, quiet=True)
+            PROGRAM.message('Created fresh branch', fresh_branch)
             return
 
     PROGRAM.exit('No reference branch found')
