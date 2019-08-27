@@ -6,7 +6,7 @@ COMMIT_ID_LENGTH = 7
 
 
 def find_git_root(p='.'):
-    p = Path(p)
+    p = Path(p).absolute()
     while not (p / '.git' / 'config').exists():
         if p.parent == p:
             return None
