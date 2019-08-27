@@ -63,7 +63,7 @@ class Mover:
 
     def _move_remote(self):
         git.checkout(self.target)
-        force = ['--force-with-lease'] if PROGRAM.args.force else []
+        force = git_functions.force_flags()
         for remote in self.old + self.new:
             git.push(*force, remote, self.target)
 

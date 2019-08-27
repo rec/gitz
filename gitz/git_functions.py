@@ -81,6 +81,10 @@ def check_clean_workspace():
         PROGRAM.exit()
 
 
+def force_flags():
+    return ['--force-with-lease'] if PROGRAM.args.force else []
+
+
 _ERROR_CHANGES_OVERWRITTEN = 'Your local changes would be overwritten'
 _ERROR_NOT_GIT_REPOSITORY = (
     'fatal: not a git repository (or any of the parent directories): .git'
