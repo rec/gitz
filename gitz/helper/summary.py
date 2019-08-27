@@ -1,54 +1,12 @@
 from pathlib import Path
 from ..program import PROGRAM
-from ..program import safe_run
+from . import reader
 import os
-import setup
 
-NONE = '(none)'
-INDENT = 4
-SAFE = 'safe'
 README = 'README.rst'
 
 
-def parse_one(command):
-    help = {'COMMAND': command}
-    section = NONE
-    for line in safe_run(command, '-h'):
-        if not line or line.startswith(' '):
-            for i in range(INDENT):
-                if line.startswith(' '):
-                    line = line[1:]
-            help.setdefault(section, []).append(line)
-        elif line.endswith(':'):
-            section = line[:-1]
-        else:
-            section = line
-
-    for k, v in help.items():
-        while v and not v[-1].strip():
-            v.pop()
-
-    return help
-
-
-def parse_all():
-    command_help = {}
-    for command in setup.COMMANDS:
-        data = parse_one(command)
-        danger = data.get('DANGER', '')
-        if danger:
-            for m in MESSAGES:
-                if m in danger[0]:
-                    command_help.setdefault(m, []).append(data)
-                    break
-            else:
-                raise ValueError('Bad danger', danger[0])
-        else:
-            command_help.setdefault(SAFE, []).append(data)
-    return command_help
-
-
-def write_summary(fp, command_help):
+def summary(fp, command_help):
     for i, (danger, message) in enumerate(MESSAGES.items()):
         if i:
             print(file=fp)
@@ -78,12 +36,11 @@ def write_summary(fp, command_help):
 
 
 def main():
-    PROGRAM.initialize()
     tmpfile = README + '.tmp'
     with open(tmpfile, 'w') as fp:
         for line in open(README):
             if line.startswith('Safe commands'):
-                write_summary(fp, parse_all())
+                summary(fp, reader.read())
                 break
             else:
                 fp.write(line)
@@ -96,6 +53,8 @@ MESSAGES = {
     'history': 'Dangerous commands that rewrite history',
     'janky': 'Dangerous commands that are janky',
 }
+assert set(MESSAGES) == set(reader.DANGERS)
+
 
 PRE = {
     'safe': 'Informational commands that don\'t change your repository',
@@ -120,4 +79,5 @@ protected branches or remotes by setting the environment variables
 
 
 if __name__ == '__main__':
+    PROGRAM.initialize()
     main()
