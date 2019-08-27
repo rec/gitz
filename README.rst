@@ -1,5 +1,5 @@
 🗜 gitz - tiny useful git commands, some dangerous 🗜
--------------------------------------------------------------------
+------------------------------------------------------
 
 This is a collection of a dszen git utilities, each of which does one
 useful thing well.
@@ -17,7 +17,7 @@ There's a summary of what each command does below - for more details use the
     git all -h
 
 How to install
-================
+==============
 
 If you have ``pip`` installed
 
@@ -31,7 +31,7 @@ Otherwise, download and uncompress
 then put that directory's path into the ``PATH`` environment variable.
 
 Getting help
-==============
+============
 
 Each command has detailed help available by calling it with the -f flag, like
 this: ``git all -h``.
