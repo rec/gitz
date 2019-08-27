@@ -1,5 +1,4 @@
-from pathlib import Path
-from ..program import PROGRAM
+from . import screenshot
 from . import reader
 import os
 
@@ -25,25 +24,22 @@ def summary(fp, command_help):
             print('``%s``' % command, file=fp)
             for hc in help[command]:
                 print('  ' + hc, file=fp)
-            screenshot = 'img/%s-screenshot.png' % command
-            if Path(screenshot).exists():
-                print(file=fp)
-                print('.. image::', screenshot, file=fp)
+                screenshot.screenshot(fp, command)
 
         if danger in POST:
             print(file=fp)
             print(POST[danger], file=fp)
 
 
-def main():
+def main(commands):
     tmpfile = README + '.tmp'
     with open(tmpfile, 'w') as fp:
         for line in open(README):
-            if line.startswith('Safe commands'):
-                summary(fp, reader.read())
-                break
-            else:
+            if not line.startswith('Safe commands'):
                 fp.write(line)
+            else:
+                summary(fp, reader.sort_by_danger(commands))
+                break
     os.rename(tmpfile, README)
 
 
@@ -53,7 +49,7 @@ MESSAGES = {
     'history': 'Dangerous commands that rewrite history',
     'janky': 'Dangerous commands that are janky',
 }
-assert set(MESSAGES) == set(reader.DANGERS)
+assert set(MESSAGES) == reader.DANGERS
 
 
 PRE = {
@@ -76,8 +72,3 @@ You can disable this by setting the ``--all/-a`` flag, or you can override the
 protected branches or remotes by setting the environment variables
 ``PROTECTED_BRANCHES`` or ``PROTECTED_REMOTES``"""
 }
-
-
-if __name__ == '__main__':
-    PROGRAM.initialize()
-    main()

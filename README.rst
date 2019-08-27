@@ -56,6 +56,8 @@ Informational commands that don't change your repository
 
 ``git-ls``
   List each file with its most recent commit, in subtle color
+
+.. image:: img/git-ls-screenshot.png
   (from an unknown source)
 
 .. image:: img/git-ls-screenshot.png
@@ -65,8 +67,14 @@ Informational commands that don't change your repository
 
 ``git-st``
   Colorful, compact git status
+
+.. image:: img/git-st-screenshot.png
   
+
+.. image:: img/git-st-screenshot.png
   This version written by https://github.com/PlatyPew/, original
+
+.. image:: img/git-st-screenshot.png
   version by https://www.reddit.com/user/ex1c)
 
 .. image:: img/git-st-screenshot.png

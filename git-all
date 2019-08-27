@@ -19,11 +19,11 @@ unexpected things with complex commands.  Please handle with care.
 """
 EXAMPLES = """
 git all - git log --oneline -5
-  Performs git log --oneline -5 for each branch in this repo
+    Performs git log --oneline -5 for each branch in this repo
 
 git all * - git all - git log --oneline -5
-  Performs git log --oneline -5 for each branch in each
-  directory in the current directory
+    Performs git log --oneline -5 for each branch in each
+    directory in the current directory
 """
 DANGER = 'This is a bit janky'
 
