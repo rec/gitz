@@ -13,4 +13,4 @@ export PATH=`pwd`:$PATH
 pytest
 
 source test/_help.sh
-python -m gitz.help_parser
+python -m gitz.helper.help_parser

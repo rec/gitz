@@ -1,6 +1,6 @@
 from pathlib import Path
-from .program import PROGRAM
-from .program import safe_run
+from ..program import PROGRAM
+from ..program import safe_run
 import os
 import setup
 
