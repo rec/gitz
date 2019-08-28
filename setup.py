@@ -1,21 +1,16 @@
-import os
-
-VERSION = '0.9.5'
-ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
-COMMANDS = sorted(f for f in os.listdir(ROOT_DIR) if f.startswith('git-'))
-README = os.path.join(ROOT_DIR, 'README.rst')
+from gitz import config
 
 if __name__ == '__main__':
     import setuptools
 
     setuptools.setup(
         name='gitz',
-        version=VERSION,
+        version=config.VERSION,
         author='Tom Ritchford',
         author_email='tom@swirly.com',
         url='https://github.com/rec/gitz',
         description='🗜 gitz - tiny useful git commands, some dangerous 🗜',
-        long_description=open(README).read(),
+        long_description=open(str(config.README)).read(),
         license='MIT',
         classifiers=[
             'Development Status :: 4 - Beta',
@@ -28,6 +23,6 @@ if __name__ == '__main__':
         ],
         include_package_data=True,
         keywords=['git'],
-        scripts=COMMANDS,
+        scripts=config.COMMANDS,
         packages=setuptools.find_packages(exclude=['test']),
     )

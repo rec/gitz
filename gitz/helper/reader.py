@@ -1,5 +1,5 @@
+from .. import config
 from ..program import safe_run
-import setup
 
 NONE = '(none)'
 INDENT = 4
@@ -42,7 +42,7 @@ def read_one(command):
 
 
 def read():
-    return {c: read_one(c) for c in setup.COMMANDS}
+    return {c: read_one(c) for c in config.COMMANDS}
 
 
 def sort_by_danger(commands):
