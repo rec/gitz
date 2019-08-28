@@ -44,54 +44,46 @@ Safe commands
 
 Informational commands that don't change your repository
 
-``git-fresh``
+`git-fresh <help/git-fresh.rst>`_
   Create and push fresh branches from a reference branch
 
-``git-gitz``
+`git-gitz <help/git-gitz.rst>`_
   Print information about the gitz environment
 
-``git-infer``
+`git-infer <help/git-infer.rst>`_
   Commit changes with an auto-generated message
   (from https://github.com/moondewio/git-infer)
 
-``git-ls``
+`git-ls <help/git-ls.rst>`_
   List each file with its most recent commit, in subtle color
-
-.. image:: img/git-ls-screenshot.png
   (from an unknown source)
 
 .. image:: img/git-ls-screenshot.png
 
-``git-rotate``
+`git-rotate <help/git-rotate.rst>`_
   Rotate the current branch forward or backward in the list of branches
 
-``git-st``
+`git-st <help/git-st.rst>`_
   Colorful, compact git status
-
-.. image:: img/git-st-screenshot.png
   
-
-.. image:: img/git-st-screenshot.png
   This version written by https://github.com/PlatyPew/, original
-
-.. image:: img/git-st-screenshot.png
   version by https://www.reddit.com/user/ex1c)
 
 .. image:: img/git-st-screenshot.png
 
-``git-stripe``
+`git-stripe <help/git-stripe.rst>`_
   Push a sequence of commit IDs onto upstream branches
 
 Dangerous commands that delete, rename or overwrite branches
 ============================================================
 
-``git-copy``
+`git-copy <help/git-copy.rst>`_
   Copy a git branch locally and on all remotes
 
-``git-delete``
+`git-delete <help/git-delete.rst>`_
   Delete one or more branches locally and on all remotes
 
-``git-rename``
+`git-rename <help/git-rename.rst>`_
   Rename a git branch locally and on all remotes
 
 By default, the branches ``develop`` and ``master`` and the remote ``upstream``
@@ -107,19 +99,19 @@ Dangerous commands that rewrite history
 These commands are not intended for use on a shared or production branch, but
 can significantly speed up rapid development on private branches.
 
-``git-amp``
+`git-amp <help/git-amp.rst>`_
   AMend just the last commit message and force-Push, somewhat safely
 
-``git-combine``
+`git-combine <help/git-combine.rst>`_
   Combine multiple commits into one
 
-``git-shuffle``
+`git-shuffle <help/git-shuffle.rst>`_
   Reorder and delete commits in the existing branch
 
-``git-snip``
+`git-snip <help/git-snip.rst>`_
   Edit one or more commits out of history
 
-``git-split``
+`git-split <help/git-split.rst>`_
   Split a range of commits into many single-file commits
 
 Dangerous commands that are janky
@@ -129,5 +121,5 @@ Dangerous commands that are janky
 simple cases, and I don't see a good path to making it do complicated
 things in a sane way.
 
-``git-all``
+`git-all <help/git-all.rst>`_
   Perform a command on each of multiple branches or directories

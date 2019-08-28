@@ -3,6 +3,7 @@ from . import reader
 import os
 
 README = 'README.rst'
+LINK = '`{0} <help/{0}.rst>`_'
 
 
 def summary(fp, command_help):
@@ -21,10 +22,10 @@ def summary(fp, command_help):
             if j:
                 print(file=fp)
             command = help['COMMAND']
-            print('``%s``' % command, file=fp)
+            print(LINK.format(command), file=fp)
             for hc in help[command]:
                 print('  ' + hc, file=fp)
-                screenshot.screenshot(fp, command)
+            screenshot.screenshot(fp, command)
 
         if danger in POST:
             print(file=fp)
