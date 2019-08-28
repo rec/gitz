@@ -54,4 +54,4 @@ if [ "$1" == "" ]; then
 else
     git commit --amend -m "$*"
 fi
-git push -f
+git push --force-with-lease
