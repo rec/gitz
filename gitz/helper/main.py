@@ -1,4 +1,4 @@
-from . import command
+from . import pages
 from . import directory
 from . import reader
 from . import summary
@@ -8,7 +8,7 @@ from ..program import PROGRAM
 def main():
     help = reader.read()
     directory.main(help)
-    command.main(help)
+    pages.main(help)
     summary.main(help)
 
 
