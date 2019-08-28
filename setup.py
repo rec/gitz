@@ -3,7 +3,7 @@ import os
 VERSION = '0.9.4'
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 COMMANDS = sorted(f for f in os.listdir(ROOT_DIR) if f.startswith('git-'))
-
+README = os.path.join(ROOT_DIR, 'README.rst')
 
 if __name__ == '__main__':
     import setuptools
@@ -15,7 +15,7 @@ if __name__ == '__main__':
         author_email='tom@swirly.com',
         url='https://github.com/rec/gitz',
         description='🗜 gitz - tiny useful git commands, some dangerous 🗜',
-        long_description=open('README.rst').read(),
+        long_description=open(README).read(),
         license='MIT',
         classifiers=[
             'Development Status :: 4 - Beta',
@@ -26,7 +26,8 @@ if __name__ == '__main__':
             'License :: OSI Approved :: MIT License',
             'Topic :: Utilities',
         ],
+        include_package_data=True,
         keywords=['git'],
         scripts=COMMANDS,
-        py_modules=['gitz'],
+        packages=setuptools.find_packages(exclude=['test']),
     )
