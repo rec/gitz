@@ -1,6 +1,6 @@
 import os
 
-VERSION = '0.9.4'
+VERSION = '0.9.5'
 ROOT_DIR = os.path.dirname(os.path.abspath(__file__))
 COMMANDS = sorted(f for f in os.listdir(ROOT_DIR) if f.startswith('git-'))
 README = os.path.join(ROOT_DIR, 'README.rst')
