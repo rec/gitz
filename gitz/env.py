@@ -8,7 +8,7 @@ CONFIG_FILE = '.gitz.json'
 
 class Env:
     DEFAULTS = {
-        'PROTECTED_BRANCHES': 'develop:master',
+        'PROTECTED_BRANCHES': 'develop:master:release',
         'PROTECTED_REMOTES': 'upstream',
         'REFERENCE_BRANCHES': 'develop:master',
         'ORIGIN': 'origin',
