@@ -24,27 +24,31 @@ DESCRIPTION
 EXAMPLES
 ========
 
-    git all - git log --oneline -5
+    ``git all - git log --oneline -5``
         Performs git log --oneline -5 for each branch in this repo
-    
-    git all * - git all - git log --oneline -5
+
+    ``git all * - git all - git log --oneline -5``
         Performs git log --oneline -5 for each branch in each
         directory in the current directory
 
 FLAGS
 =====
+    ``git-all [-h] [-q] [-v] [-a] [-f] [-i INDENT] [-d] [name [name ...]]``
 
-    Full usage: git-all [-h] [-q] [-v] [-a] [-f] [-i INDENT] [-d] [name [name ...]]
-    
-    positional arguments:
-      name                  Names of branches or directories to iterate over
-    
-    optional arguments:
-      -h, --help            show this help message and exit
-      -q, --quiet           Suppress all output
-      -v, --verbose         Report all messages in great detail
-      -a, --all             Visit non-git directories
-      -f, --fail            Fail immediately if any git-all command fails
-      -i INDENT, --indent INDENT
-                            Number of columns to indent output of commands
-      -d, --dry-run         If set, commands will be printed but not executed
+    Positional arguments:
+      ``name``: Names of branches or directories to iterate over
+
+    Optional arguments:
+      ``-h, --help``: show this help message and exit
+
+      ``-q, --quiet``: Suppress all output
+
+      ``-v, --verbose``: Report all messages in great detail
+
+      ``-a, --all``: Visit non-git directories
+
+      ``-f, --fail``: Fail immediately if any git-all command fails
+
+      ``-i INDENT, --indent INDENT``: Number of columns to indent output of commands
+
+      ``-d, --dry-run``: If set, commands will be printed but not executed

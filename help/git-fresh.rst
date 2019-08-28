@@ -17,22 +17,24 @@ DESCRIPTION
 EXAMPLES
 ========
 
-    git fresh foo
+    ``git fresh foo``
        Create a new branch foo and push to the origin
-    
-    git fresh one two three
+
+    ``git fresh one two three``
        Create three new branches
 
 FLAGS
 =====
+    ``git-fresh [-h] [-q] [-v] [-d] branches [branches ...]``
 
-    Full usage: git-fresh [-h] [-q] [-v] [-d] branches [branches ...]
-    
-    positional arguments:
-      branches       Names of branches to create
-    
-    optional arguments:
-      -h, --help     show this help message and exit
-      -q, --quiet    Suppress all output
-      -v, --verbose  Report all messages in great detail
-      -d, --dry-run  If set, commands will be printed but not executed
+    Positional arguments:
+      ``branches``: Names of branches to create
+
+    Optional arguments:
+      ``-h, --help``: show this help message and exit
+
+      ``-q, --quiet``: Suppress all output
+
+      ``-v, --verbose``: Report all messages in great detail
+
+      ``-d, --dry-run``: If set, commands will be printed but not executed

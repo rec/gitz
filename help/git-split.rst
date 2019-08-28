@@ -21,24 +21,25 @@ DESCRIPTION
 EXAMPLES
 ========
 
-    git-split
+    ``git-split``
         Splits the staging area if it's not empty, otherwise HEAD
-    
-    git-split HEAD
+
+    ``git-split HEAD``
         Splits the squash of the staging area and HEAD
-    
-    git-split HEAD~
+
+    ``git-split HEAD~``
         Splits the squash of the staging area, HEAD and HEAD~
 
 FLAGS
 =====
+    ``git-split [-h] [-q] [-v] [commit]``
 
-    Full usage: git-split [-h] [-q] [-v] [commit]
-    
-    positional arguments:
-      commit         Optional commit ID to split from
-    
-    optional arguments:
-      -h, --help     show this help message and exit
-      -q, --quiet    Suppress all output
-      -v, --verbose  Report all messages in great detail
+    Positional arguments:
+      ``commit``: Optional commit ID to split from
+
+    Optional arguments:
+      ``-h, --help``: show this help message and exit
+
+      ``-q, --quiet``: Suppress all output
+
+      ``-v, --verbose``: Report all messages in great detail

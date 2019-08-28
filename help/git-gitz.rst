@@ -16,25 +16,27 @@ DESCRIPTION
 EXAMPLES
 ========
 
-    git gitz commands defaults directory version
-    git gitz
+    ``git gitz commands defaults directory version``
+    ``git gitz``
         Prints all the gitz commands, the variable defaults
         (including protected branches and remotes),
         the version number, and the git command directory
-    
-    git gitz version directory
+
+    ``git gitz version directory``
         Print just the version number and the git command directory
 
 FLAGS
 =====
+    ``git-gitz [-h] [-q] [-v] [-d] [items [items ...]]``
 
-    Full usage: git-gitz [-h] [-q] [-v] [-d] [items [items ...]]
-    
-    positional arguments:
-      items
-    
-    optional arguments:
-      -h, --help     show this help message and exit
-      -q, --quiet    Suppress all output
-      -v, --verbose  Report all messages in great detail
-      -d, --dry-run  If set, commands will be printed but not executed
+    Positional arguments:
+      ``items``: 
+
+    Optional arguments:
+      ``-h, --help``: show this help message and exit
+
+      ``-q, --quiet``: Suppress all output
+
+      ``-v, --verbose``: Report all messages in great detail
+
+      ``-d, --dry-run``: If set, commands will be printed but not executed

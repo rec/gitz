@@ -30,21 +30,24 @@ DESCRIPTION
 EXAMPLES
 ========
 
-    git delete foo bar
+    ``git delete foo bar``
         Delete the branches foo and bar locally and on every upstream
         except (by default) upstream
 
 FLAGS
 =====
+    ``git-delete [-h] [-q] [-v] [-a] [-d] target [target ...]``
 
-    Full usage: git-delete [-h] [-q] [-v] [-a] [-d] target [target ...]
-    
-    positional arguments:
-      target
-    
-    optional arguments:
-      -h, --help     show this help message and exit
-      -q, --quiet    Suppress all output
-      -v, --verbose  Report all messages in great detail
-      -a, --all      Delete all, even protected remotes or branches
-      -d, --dry-run  If set, commands will be printed but not executed
+    Positional arguments:
+      ``target``: 
+
+    Optional arguments:
+      ``-h, --help``: show this help message and exit
+
+      ``-q, --quiet``: Suppress all output
+
+      ``-v, --verbose``: Report all messages in great detail
+
+      ``-a, --all``: Delete all, even protected remotes or branches
+
+      ``-d, --dry-run``: If set, commands will be printed but not executed

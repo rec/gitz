@@ -27,22 +27,24 @@ DESCRIPTION
 EXAMPLES
 ========
 
-    git snip 0
+    ``git snip 0``
         Same as git reset --hard HEAD~
-    
-    git snip 1 2
+
+    ``git snip 1 2``
         Remove the two commits HEAD~1 and HEAD~2 but keep HEAD
 
 FLAGS
 =====
+    ``git-snip [-h] [-q] [-v] [-d] commit_ids [commit_ids ...]``
 
-    Full usage: git-snip [-h] [-q] [-v] [-d] commit_ids [commit_ids ...]
-    
-    positional arguments:
-      commit_ids     Names of commit_ids to create
-    
-    optional arguments:
-      -h, --help     show this help message and exit
-      -q, --quiet    Suppress all output
-      -v, --verbose  Report all messages in great detail
-      -d, --dry-run  If set, commands will be printed but not executed
+    Positional arguments:
+      ``commit_ids``: Names of commit_ids to create
+
+    Optional arguments:
+      ``-h, --help``: show this help message and exit
+
+      ``-q, --quiet``: Suppress all output
+
+      ``-v, --verbose``: Report all messages in great detail
+
+      ``-d, --dry-run``: If set, commands will be printed but not executed

@@ -34,24 +34,29 @@ DESCRIPTION
 EXAMPLES
 ========
 
-    git copy old new
+    ``git copy old new``
         Copy the branch "old" to "new", both locally and in remote
         branches.
 
 FLAGS
 =====
+    ``git-copy [-h] [-q] [-v] [-a] [-c] [-f] [-d] source [target]``
 
-    Full usage: git-copy [-h] [-q] [-v] [-a] [-c] [-f] [-d] source [target]
-    
-    positional arguments:
-      source
-      target
-    
-    optional arguments:
-      -h, --help     show this help message and exit
-      -q, --quiet    Suppress all output
-      -v, --verbose  Report all messages in great detail
-      -a, --all      Copy all, even protected remotes or branches
-      -c, --create   Create remote branch even if source does not exist
-      -f, --force    Force copy over existing branches
-      -d, --dry-run  If set, commands will be printed but not executed
+    Positional arguments:
+      ``source``: 
+      ``target``: 
+
+    Optional arguments:
+      ``-h, --help``: show this help message and exit
+
+      ``-q, --quiet``: Suppress all output
+
+      ``-v, --verbose``: Report all messages in great detail
+
+      ``-a, --all``: Copy all, even protected remotes or branches
+
+      ``-c, --create``: Create remote branch even if source does not exist
+
+      ``-f, --force``: Force copy over existing branches
+
+      ``-d, --dry-run``: If set, commands will be printed but not executed

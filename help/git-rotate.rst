@@ -16,26 +16,28 @@ DESCRIPTION
 EXAMPLES
 ========
 
-    git rotate
+    ``git rotate``
         Rotate to the next branch
-    
-    git rotate 3
+
+    ``git rotate 3``
         Rotate 3 branches ahead
-    
-    git rotate -1
-    git rotate -
+
+    ``git rotate -1``
+    ``git rotate -``
         Rotate 1 branch backward
 
 FLAGS
 =====
+    ``git-rotate [-h] [-q] [-v] [-d] [steps]``
 
-    Full usage: git-rotate [-h] [-q] [-v] [-d] [steps]
-    
-    positional arguments:
-      steps          Number of steps to rotate (positive or negative)
-    
-    optional arguments:
-      -h, --help     show this help message and exit
-      -q, --quiet    Suppress all output
-      -v, --verbose  Report all messages in great detail
-      -d, --dry-run  If set, commands will be printed but not executed
+    Positional arguments:
+      ``steps``: Number of steps to rotate (positive or negative)
+
+    Optional arguments:
+      ``-h, --help``: show this help message and exit
+
+      ``-q, --quiet``: Suppress all output
+
+      ``-v, --verbose``: Report all messages in great detail
+
+      ``-d, --dry-run``: If set, commands will be printed but not executed

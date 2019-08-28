@@ -28,13 +28,13 @@ DESCRIPTION
 EXAMPLES
 ========
 
-    git amp
+    ``git amp``
         Bring up an editor for a new commit message, then amend and push
-    
-    git amp Your new commit message here
+
+    ``git amp Your new commit message here``
        Amend and push with the message "Your new commit message here"
-    
-    git amp "Commit message! (fix #12?)"
+
+    ``git amp "Commit message! (fix #12?)"``
         Amend and push with message "Commit message! (fix #12?)"
         (You need quotes if the message includes special shell
          characters like #, ', ", *, ?, !)
