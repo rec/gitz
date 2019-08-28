@@ -59,7 +59,7 @@ class Writer:
 
             elif line.startswith(_FULL_USAGE):
                 assert not state
-                usage = line[len(_FULL_USAGE):].strip()
+                usage = line[len(_FULL_USAGE) :].strip()
                 self._indent('``%s``' % usage)
 
             elif line.startswith(_POSITIONAL):

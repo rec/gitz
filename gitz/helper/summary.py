@@ -61,7 +61,7 @@ can significantly speed up rapid development on private branches.""",
     'janky': """\
 ``git-all`` is something I use all the time, but it only works in
 simple cases, and I don't see a good path to making it do complicated
-things in a sane way."""
+things in a sane way.""",
 }
 
 POST = {
