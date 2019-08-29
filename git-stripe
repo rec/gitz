@@ -113,7 +113,7 @@ def add_arguments(parser):
     add('count', default=3, nargs='?', type=int, help=_HELP_COUNT)
 
     add('-R', '--remove-all', action='store_true', help=_HELP_REMOVE_ALL)
-    add('-c', '--commit_id', type=int, help=_HELP_COMMIT_ID)
+    add('-c', '--commit_id', default='', help=_HELP_COMMIT_ID)
     add('-f', '--force', action='store_true', help=_HELP_FORCE)
     add('-o', '--origin', action='store_true', help=_HELP_ORIGIN)
     add('-p', '--prefix', type=str, default='', help=_HELP_PREFIX)
