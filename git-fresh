@@ -29,6 +29,10 @@ def git_fresh():
     git_functions.check_clean_workspace()
     branches = git_functions.branches()
 
+    existing = set(branches).intersection(PROGRAM.args.branches)
+    if existing:
+        PROGRAM.error('Cannot overwrite:', *existing)
+
     remotes = safe_git.remote()
 
     if len(remotes) == 1:
