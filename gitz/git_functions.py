@@ -62,10 +62,8 @@ def all_branches(fetch=True):
 
 def upstream_branch():
     # https://stackoverflow.com/a/9753364/43839
-    lines = safe_git(
-        'rev-parse', '--abbrev-ref', '--symbolic-full-name', '@{u}'
-    )
-    return lines[0].split('/')
+    lines = safe_git(*_UPSTREAM, quiet=True)
+    return lines[0].split('/', maxsplit=1)
 
 
 def check_git():
@@ -85,6 +83,7 @@ def force_flags():
     return ['--force-with-lease'] if PROGRAM.args.force else []
 
 
+_UPSTREAM = 'rev-parse --abbrev-ref --symbolic-full-name @{u}'.split()
 _ERROR_CHANGES_OVERWRITTEN = 'Your local changes would be overwritten'
 _ERROR_NOT_GIT_REPOSITORY = (
     'fatal: not a git repository (or any of the parent directories): .git'

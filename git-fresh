@@ -2,7 +2,6 @@
 from gitz import git_functions
 from gitz.env import ENV
 from gitz.program import PROGRAM
-from gitz.program import safe_git
 from gitz.program import git
 
 SUMMARY = 'Create and push one or more fresh branches'
@@ -28,69 +27,87 @@ _HELP_BRANCHES = 'Names of branches to create'
 def git_fresh():
     git_functions.check_clean_workspace()
     branches = git_functions.branches()
+    all_remotes = git_functions.all_branches()
+    origin = _origin(all_remotes)
 
     new_branches = set(PROGRAM.args.branches)
-    existing = new_branches.intersection(branches)
-    if existing:
-        PROGRAM.error('Cannot overwrite:', *existing)
+    if not PROGRAM.args.force:
+        existing = new_branches.intersection(branches)
+        if existing:
+            PROGRAM.exit('Cannot overwrite locally:', *existing)
 
-    protected = new_branches.intersection(ENV.protected_branches())
-    if protected:
-        PROGRAM.error('Protected:', *protected)
+        existing = new_branches.intersection(all_remotes[origin])
+        if existing:
+            PROGRAM.exit('Cannot overwrite', *existing, 'on origin', origin)
 
-    if PROGRAM.called.get('error'):
-        PROGRAM.exit()
+        protected = new_branches.intersection(ENV.protected_branches())
+        if protected:
+            PROGRAM.exit('Protected:', *protected)
 
-    upstream, origin = _upstream_and_origin()
-    safe_git.fetch(upstream)
-    for branch in PROGRAM.args.branches:
-        _run_fresh(branch, branches, origin, upstream)
-
-    PROGRAM.log.message('Created:', ','.join(PROGRAM.args.branches))
-
-
-def _upstream_and_origin():
-    remotes = safe_git.remote()
-
-    if len(remotes) == 1:
-        return remotes[0], remotes[0]
-
-    origin = next((u for u in ENV.origin() if u in remotes), None)
-    upstream = next((u for u in ENV.upstream() if u in remotes), None)
-
-    if origin not in remotes:
-        PROGRAM.error('No origin found')
-
-    if upstream is None:
-        PROGRAM.error('No upstream found')
-
-    return upstream, origin
+    reference = '/'.join(_reference_branch(all_remotes))
+    for new_branch in PROGRAM.args.branches:
+        if new_branch in branches:
+            git.branch('-D', new_branch)
+        git.checkout('-b', new_branch, reference, quiet=True)
+        git.push('-fu', origin, new_branch, quiet=True)
+        PROGRAM.message('Created fresh branch', new_branch)
 
 
-def _run_fresh(fresh_branch, branches, origin, upstream):
-    if fresh_branch in branches:
-        PROGRAM.error('Branch name', fresh_branch, 'already exists')
+def _origin(all_remotes):
+    origin = PROGRAM.args.origin
+    if not origin:
+        try:
+            return git_functions.upstream_branch()[0]
+        except Exception:
+            pass
+        try:
+            return next(o for o in ENV.origin() if o in all_remotes)
+        except Exception:
+            PROGRAM.exit('Cannot determine origin')
 
-    for branch in ENV.reference_branches():
-        refspec = '%s/%s' % (upstream, branch)
-        if git_functions.commit_id(refspec):
-            git.checkout('-b', fresh_branch, refspec, quiet=True)
-            git.push('-u', origin, fresh_branch, quiet=True)
-            PROGRAM.message('Created fresh branch', fresh_branch)
-            return
+    if origin not in all_remotes:
+        PROGRAM.exit('Unknown remote', origin)
+    return origin
 
-    PROGRAM.exit('No reference branch found')
+
+def _reference_branch(all_remotes):
+    remote, *rest = PROGRAM.args.reference_branch.split('/', maxsplit=1)
+    if rest:
+        if remote not in all_remotes:
+            PROGRAM.exit('Unknown remote', remote)
+
+        branch = rest[0]
+        if branch not in all_remotes[remote]:
+            PROGRAM.exit(
+                'Unknown reference branch', branch, 'in remote', remote
+            )
+        return remote, branch
+
+    branches = [remote] if remote else ENV.reference_branches()
+    if len(all_remotes) == 1:
+        remotes = all_remotes
+    else:
+        remotes = [r for r in ENV.upstream() if r in all_remotes]
+
+    for remote in remotes:
+        for branch in branches:
+            if branch in all_remotes[remote]:
+                return remote, branch
+
+    PROGRAM.exit('Cannot determine upstream remote')
 
 
 def add_arguments(parser):
     add = parser.add_argument
     add('branches', nargs='+', help=_HELP_BRANCHES)
-    add('-b', '--base-branch', default='', help=_HELP_BASE_BRANCH)
     add('-f', '--force', action='store_true', help=_HELP_FORCE)
-    add('-o', '--origin', action='store_true', help=_HELP_ORIGIN)
+    add('-o', '--origin', default='', help=_HELP_ORIGIN)
+    add('-r', '--reference-branch', default='', help=_HELP_REFERENCE_BRANCH)
 
 
-_HELP_BASE_BRANCH = 'Branch '
+_HELP_REFERENCE_BRANCH = (
+    'Branch to create from, in the form ``branch`` or ``remote/branch``'
+)
 _HELP_FORCE = 'Force push over existing branches'
 _HELP_ORIGIN = 'Remote origin to push to'
 

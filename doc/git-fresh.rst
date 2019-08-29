@@ -24,7 +24,7 @@ EXAMPLES
 
 FLAGS
 =====
-    ``git-fresh [-h] [-q] [-v] [-b BASE_BRANCH] [-f] [-o] [-d] branches [branches ...]``
+    ``git-fresh [-h] [-q] [-v] [-r REFERENCE_BRANCH] [-f] [-o] [-d] branches [branches ...]``
 
     Positional arguments:
       ``branches``: Names of branches to create
@@ -36,7 +36,7 @@ FLAGS
 
       ``-v, --verbose``: Report all messages in great detail
 
-      ``-b BASE_BRANCH, --base-branch BASE_BRANCH``: Branch
+      ``-r REFERENCE_BRANCH, --reference-branch REFERENCE_BRANCH``: Branch to create from, in the form ``branch`` or ``remote/branch``
 
       ``-f, --force``: Force push over existing branches
 
