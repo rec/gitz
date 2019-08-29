@@ -5,12 +5,14 @@ from gitz.program import PROGRAM
 from gitz.program import safe_git
 from gitz.program import git
 
-SUMMARY = 'Create and push fresh branches from a reference branch'
+SUMMARY = 'Create and push one or more fresh branches'
+
 USAGE = 'git fresh <branch-name> [...<branch-name>]'
+
 HELP = """
-Create a branch, fetch the upstream remote, get the commit ID
-of the tip of the reference branch (by default, either develop or master)
-and push to the origin
+Creates one or more fresh branches from the main working branch
+and pushes them them to your git origin.
+
 """
 EXAMPLES = """
 git fresh foo
@@ -19,7 +21,6 @@ git fresh foo
 git fresh one two three
    Create three new branches
 """
-
 
 _HELP_BRANCHES = 'Names of branches to create'
 
