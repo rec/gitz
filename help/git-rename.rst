@@ -36,7 +36,30 @@ EXAMPLES
 
     ``git rename old new``
         Rename the branch "old" to "new", both locally and in remote
-        branches.
+        repositories where the branch "old" exists.
+
+        Fails if "new" exists locally or in the remote repositories.
+
+    ``git rename -c old new``
+    ``git rename --create old new``
+        Rename the branch "old" to "new", both locally and in remote
+        repositories, even ones where the branch "old" does not exist
+
+        Fails if "new" exists locally or in the remote repositories.
+
+    ``git rename -a old new``
+    ``git rename --all old new``
+        Rename the branch "old" to "new", both locally and in remote
+        repositories, even protected branches or repositories.
+
+        Fails if "new" exists locally or in the remote repositories.
+
+    ``git rename -f old new``
+    ``git rename --force old new``
+        Rename the branch "old" to "new", both locally and in remote
+        repositories where the branch "old" exists.
+
+        Overwrites "new" if it exists locally or in the remote repositories.
 
 FLAGS
 =====

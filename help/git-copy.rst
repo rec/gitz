@@ -36,7 +36,30 @@ EXAMPLES
 
     ``git copy old new``
         Copy the branch "old" to "new", both locally and in remote
-        branches.
+        repositories where the branch "old" exists.
+
+        Fails if "new" exists locally or in the remote repositories.
+
+    ``git copy -c old new``
+    ``git copy --create old new``
+        Copy the branch "old" to "new", both locally and in remote
+        repositories, even ones where the branch "old" does not exist
+
+        Fails if "new" exists locally or in the remote repositories.
+
+    ``git copy -a old new``
+    ``git copy --all old new``
+        Copy the branch "old" to "new", both locally and in remote
+        repositories, even protected branches or repositories.
+
+        Fails if "new" exists locally or in the remote repositories.
+
+    ``git copy -f old new``
+    ``git copy --force old new``
+        Copy the branch "old" to "new", both locally and in remote
+        repositories where the branch "old" exists.
+
+        Overwrites "new" if it exists locally or in the remote repositories.
 
 FLAGS
 =====

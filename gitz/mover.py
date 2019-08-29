@@ -147,7 +147,30 @@ to a list separated by colons, or an empty string for no protection.
 EXAMPLES = """
 git {0.action} old new
     {0.Action} the branch "old" to "new", both locally and in remote
-    branches.
+    repositories where the branch "old" exists.
+
+    Fails if "new" exists locally or in the remote repositories.
+
+git {0.action} -c old new
+git {0.action} --create old new
+    {0.Action} the branch "old" to "new", both locally and in remote
+    repositories, even ones where the branch "old" does not exist
+
+    Fails if "new" exists locally or in the remote repositories.
+
+git {0.action} -a old new
+git {0.action} --all old new
+    {0.Action} the branch "old" to "new", both locally and in remote
+    repositories, even protected branches or repositories.
+
+    Fails if "new" exists locally or in the remote repositories.
+
+git {0.action} -f old new
+git {0.action} --force old new
+    {0.Action} the branch "old" to "new", both locally and in remote
+    repositories where the branch "old" exists.
+
+    Overwrites "new" if it exists locally or in the remote repositories.
 """
 
 _ERROR_CANNOT_DELETE = 'Cannot delete remote'
