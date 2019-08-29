@@ -10,3 +10,6 @@ USAGE
 .. code-block:: bash
 
     git st
+
+`Gitz home page <https://github.com/rec/gitz/>`_
+================================================

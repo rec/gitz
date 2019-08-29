@@ -2,6 +2,7 @@ import os
 
 README = 'doc/README.rst'
 LINK = '`{0} <{0}.rst>`_'
+HOME_LINK = '`Gitz home page <https://github.com/rec/gitz/>`_'
 
 
 def main(commands):
@@ -17,5 +18,8 @@ def main(commands):
             summary = help[help['COMMAND']]
             for s in summary:
                 print(' ', s.strip(), file=fp)
+        print(file=fp)
+        print(HOME_LINK, file=fp)
+        print('=' * len(HOME_LINK), file=fp)
 
     os.rename(tmpfile, README)

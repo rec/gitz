@@ -43,3 +43,6 @@ FLAGS
       ``-q, --quiet``: Suppress all output
 
       ``-v, --verbose``: Report all messages in great detail
+
+`Gitz home page <https://github.com/rec/gitz/>`_
+================================================

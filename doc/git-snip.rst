@@ -48,3 +48,6 @@ FLAGS
       ``-v, --verbose``: Report all messages in great detail
 
       ``-d, --dry-run``: If set, commands will be printed but not executed
+
+`Gitz home page <https://github.com/rec/gitz/>`_
+================================================

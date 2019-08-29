@@ -2,6 +2,7 @@ from pathlib import Path
 
 _HELP_DIRECTORY = Path(__file__).parent.parent.parent / 'doc'
 _COMMANDS = ()
+_HOME_LINK = '`Gitz home page <https://github.com/rec/gitz/>`_'
 
 
 def main(commands):
@@ -30,6 +31,9 @@ class Writer:
                 method(lines)
             else:
                 self._default(field, lines)
+
+        self._print()
+        self._header(_HOME_LINK)
 
     def _title(self, lines):
         self._header('``%s``: %s' % (self.command, lines[0]), '-')

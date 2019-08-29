@@ -57,3 +57,6 @@ FLAGS
       ``-s SQUASH, --squash SQUASH``: Squash all commits into one, with a message
 
       ``-d, --dry-run``: If set, commands will be printed but not executed
+
+`Gitz home page <https://github.com/rec/gitz/>`_
+================================================

@@ -27,8 +27,7 @@ EXAMPLES
 
 FLAGS
 =====
-    ``git-combine [-h] [-q] [-v] [-b BASE] [-s SQUASH] [-d]``
-    ``                   commit_id [commit_id ...]``
+    ``git-combine [-h] [-q] [-v] [-b BASE] [-s SQUASH] [-d] commit_id [commit_id ...]``
 
     Positional arguments:
       ``commit_id``: List of commit IDs to cherry pick
@@ -45,3 +44,6 @@ FLAGS
       ``-s SQUASH, --squash SQUASH``: Squash all commits into one, with a message
 
       ``-d, --dry-run``: If set, commands will be printed but not executed
+
+`Gitz home page <https://github.com/rec/gitz/>`_
+================================================

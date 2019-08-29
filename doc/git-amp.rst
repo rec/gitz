@@ -38,3 +38,6 @@ EXAMPLES
         Amend and push with message "Commit message! (fix #12?)"
         (You need quotes if the message includes special shell
          characters like #, ', ", *, ?, !)
+
+`Gitz home page <https://github.com/rec/gitz/>`_
+================================================

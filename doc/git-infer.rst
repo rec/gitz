@@ -12,3 +12,6 @@ USAGE
        -a    Include all tracked files
        -A    Include all files, even the untracked
        -h    See this help message
+
+`Gitz home page <https://github.com/rec/gitz/>`_
+================================================

@@ -52,3 +52,6 @@ FLAGS
       ``-i INDENT, --indent INDENT``: Number of columns to indent output of commands
 
       ``-d, --dry-run``: If set, commands will be printed but not executed
+
+`Gitz home page <https://github.com/rec/gitz/>`_
+================================================

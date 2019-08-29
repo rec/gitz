@@ -51,3 +51,6 @@ FLAGS
       ``-a, --all``: Delete all, even protected remotes or branches
 
       ``-d, --dry-run``: If set, commands will be printed but not executed
+
+`Gitz home page <https://github.com/rec/gitz/>`_
+================================================

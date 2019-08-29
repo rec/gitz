@@ -53,3 +53,6 @@ gitz commands
 
 `git-stripe <git-stripe.rst>`_
   Push a sequence of commit IDs to the origin repo
+
+`Gitz home page <https://github.com/rec/gitz/>`_
+================================================

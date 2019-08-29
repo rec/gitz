@@ -47,8 +47,7 @@ EXAMPLES
 
 FLAGS
 =====
-    ``git-stripe [-h] [-q] [-v] [-R] [-c COMMIT_ID] [-f] [-o] [-p PREFIX] [-r] [-d]``
-    ``                  [count]``
+    ``git-stripe [-h] [-q] [-v] [-R] [-c COMMIT_ID] [-f] [-o] [-p PREFIX] [-r] [-d] [count]``
 
     Positional arguments:
       ``count``: The number of stripe branches to be created
@@ -73,3 +72,6 @@ FLAGS
       ``-r, --remove``: Remove the striped branches for this request
 
       ``-d, --dry-run``: If set, commands will be printed but not executed
+
+`Gitz home page <https://github.com/rec/gitz/>`_
+================================================

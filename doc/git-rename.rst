@@ -83,3 +83,6 @@ FLAGS
       ``-f, --force``: Force rename over existing branches
 
       ``-d, --dry-run``: If set, commands will be printed but not executed
+
+`Gitz home page <https://github.com/rec/gitz/>`_
+================================================
