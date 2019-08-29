@@ -52,4 +52,4 @@ gitz commands
   version by https://www.reddit.com/user/ex1c)
 
 `git-stripe <git-stripe.rst>`_
-  Push a sequence of commit IDs onto upstream branches
+  Push a sequence of commit IDs to the origin repo

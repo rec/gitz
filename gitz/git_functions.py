@@ -52,7 +52,7 @@ def all_branches(fetch=True):
     remotes = safe_git.remote()
     if fetch:
         for remote in remotes:
-            safe_git.fetch(remote)
+            safe_git.fetch('-q', remote)
     result = {}
     for rb in branches('-r'):
         remote, branch = rb.split('/')

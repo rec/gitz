@@ -72,7 +72,7 @@ Informational commands that don't change your repository
 .. image:: img/git-st-screenshot.png
 
 `git-stripe <help/git-stripe.rst>`_
-  Push a sequence of commit IDs onto upstream branches
+  Push a sequence of commit IDs to the origin repo
 
 Dangerous commands that delete, rename or overwrite branches
 ============================================================

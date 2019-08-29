@@ -96,8 +96,7 @@ class Writer:
                 self._print()
 
             word, *rest = (i for i in o.strip().split('  ') if i)
-            assert len(rest) == 1, self.command + ' -> ' + str(rest)
-            self._argument(word.strip(), rest[0].strip())
+            self._argument(word.strip(), ' '.join(rest).strip())
 
     def _command(self, lines):
         pass
