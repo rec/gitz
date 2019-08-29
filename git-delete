@@ -16,7 +16,7 @@ By default, the branches `master` and `develop` and the remote
 to be delete.
 
 Using the --all/-a flag allows protected branches and remotes
-to be deleteded.
+to be deleted.
 
 It's also possible to change which branches or remotes are protected
 by setting the environment variable GITZ_PROTECTED_BRANCHES or
