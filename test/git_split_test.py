@@ -57,7 +57,6 @@ class GitSplitTest(unittest.TestCase):
         git.split()
         actual = safe_git.log('--oneline', '-10')
         expected = [
-            'cea714a [split] Added 4',
             '05ecff4 [split] Renamed 1 -> 5',
             'e6b7f89 [split] Added 3',
             '21f80f5 [split] Deleted 0',

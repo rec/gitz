@@ -26,8 +26,13 @@ git-split HEAD~
 
 def git_split():
     git_functions.check_git()
-
     os.chdir(git_functions.find_git_root())
+    not_added = []
+
+    for line in safe_git.status('--porcelain'):
+        mode, filenames = line.split(maxsplit=1)
+        if mode == '??':
+            not_added.append(filenames)
 
     if PROGRAM.args.commit:
         commit = PROGRAM.args.commit + '~'
@@ -48,6 +53,8 @@ def git_split():
         filenames_split = filenames.split(' -> ')
         mode = mode.strip()
         if mode == '??':
+            if filenames in not_added:
+                continue
             mode = 'R' if len(filenames_split) > 1 else 'A'
         mode_name = NAMES[mode[0]]
 
