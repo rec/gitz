@@ -1,6 +1,6 @@
 import os
 
-README = 'help/README.rst'
+README = 'doc/README.rst'
 LINK = '`{0} <{0}.rst>`_'
 
 

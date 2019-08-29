@@ -1,6 +1,6 @@
 from pathlib import Path
 
-_HELP_DIRECTORY = Path(__file__).parent.parent.parent / 'help'
+_HELP_DIRECTORY = Path(__file__).parent.parent.parent / 'doc'
 _COMMANDS = ()
 
 

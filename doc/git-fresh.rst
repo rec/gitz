@@ -1,5 +1,5 @@
-``git-fresh``: Create and push fresh branches from a reference branch
----------------------------------------------------------------------
+``git-fresh``: Create and push one or more fresh branches
+---------------------------------------------------------
 
 USAGE
 =====
@@ -10,9 +10,8 @@ USAGE
 DESCRIPTION
 ===========
 
-    Create a branch, fetch the upstream remote, get the commit ID
-    of the tip of the reference branch (by default, either develop or master)
-    and push to the origin
+    Creates one or more fresh branches from the main working branch
+    and pushes them them to your git origin.
 
 EXAMPLES
 ========

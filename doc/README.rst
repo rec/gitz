@@ -17,7 +17,7 @@ gitz commands
   Delete one or more branches locally and on all remotes
 
 `git-fresh <git-fresh.rst>`_
-  Create and push fresh branches from a reference branch
+  Create and push one or more fresh branches
 
 `git-gitz <git-gitz.rst>`_
   Print information about the gitz environment

@@ -47,7 +47,8 @@ EXAMPLES
 
 FLAGS
 =====
-    ``git-stripe [-h] [-q] [-v] [-R] [-c COMMIT_ID] [-f] [-o] [-p PREFIX] [-r] [-d] [count]``
+    ``git-stripe [-h] [-q] [-v] [-R] [-c COMMIT_ID] [-f] [-o] [-p PREFIX] [-r] [-d]``
+    ``                  [count]``
 
     Positional arguments:
       ``count``: The number of stripe branches to be created

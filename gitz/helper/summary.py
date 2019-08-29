@@ -3,7 +3,7 @@ from . import reader
 import os
 
 README = 'README.rst'
-LINK = '`{0} <help/{0}.rst>`_'
+LINK = '`{0} <doc/{0}.rst>`_'
 
 
 def summary(fp, command_help):

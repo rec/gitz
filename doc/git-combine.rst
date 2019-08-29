@@ -27,7 +27,8 @@ EXAMPLES
 
 FLAGS
 =====
-    ``git-combine [-h] [-q] [-v] [-b BASE] [-s SQUASH] [-d] commit_id [commit_id ...]``
+    ``git-combine [-h] [-q] [-v] [-b BASE] [-s SQUASH] [-d]``
+    ``                   commit_id [commit_id ...]``
 
     Positional arguments:
       ``commit_id``: List of commit IDs to cherry pick
