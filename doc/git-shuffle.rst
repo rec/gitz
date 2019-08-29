@@ -42,7 +42,7 @@ EXAMPLES
 
 FLAGS
 =====
-    ``git-shuffle [-h] [-q] [-v] [-s SQUASH] [-d] shuffle``
+    ``git-shuffle [-h] [-q] [-v] [-s SQUASH] [-n] shuffle``
 
     Positional arguments:
       ``shuffle``: Pattern string to shuffle
@@ -56,7 +56,7 @@ FLAGS
 
       ``-s SQUASH, --squash SQUASH``: Squash all commits into one, with a message
 
-      ``-d, --dry-run``: If set, commands will be printed but not executed
+      ``-n, --no-run``: If set, commands will be printed but not executed
 
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================

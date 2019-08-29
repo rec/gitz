@@ -63,7 +63,7 @@ EXAMPLES
 
 FLAGS
 =====
-    ``git-rename [-h] [-q] [-v] [-a] [-c] [-f] [-d] source [target]``
+    ``git-rename [-h] [-q] [-v] [-a] [-c] [-f] [-n] source [target]``
 
     Positional arguments:
       ``source``: 
@@ -82,7 +82,7 @@ FLAGS
 
       ``-f, --force``: Force rename over existing branches
 
-      ``-d, --dry-run``: If set, commands will be printed but not executed
+      ``-n, --no-run``: If set, commands will be printed but not executed
 
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================

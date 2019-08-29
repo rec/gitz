@@ -24,7 +24,8 @@ EXAMPLES
 
 FLAGS
 =====
-    ``git-fresh [-h] [-q] [-v] [-r REFERENCE_BRANCH] [-f] [-o] [-d] branches [branches ...]``
+    ``git-fresh [-h] [-q] [-v] [-f] [-o ORIGIN] [-r REFERENCE_BRANCH] [-n]``
+    ``                 branches [branches ...]``
 
     Positional arguments:
       ``branches``: Names of branches to create
@@ -36,13 +37,13 @@ FLAGS
 
       ``-v, --verbose``: Report all messages in great detail
 
-      ``-r REFERENCE_BRANCH, --reference-branch REFERENCE_BRANCH``: Branch to create from, in the form ``branch`` or ``remote/branch``
-
       ``-f, --force``: Force push over existing branches
 
-      ``-o, --origin``: Remote origin to push to
+      ``-o ORIGIN, --origin ORIGIN``: Remote origin to push to
 
-      ``-d, --dry-run``: If set, commands will be printed but not executed
+      ``-r REFERENCE_BRANCH, --reference-branch REFERENCE_BRANCH``: Branch to create from, in the form ``branch`` or ``remote/branch``
+
+      ``-n, --no-run``: If set, commands will be printed but not executed
 
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================

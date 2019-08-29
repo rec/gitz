@@ -8,11 +8,11 @@ import sys
 import traceback
 
 _ERROR_PROTECTED_BRANCHES = 'The branches %s are protected'
-_DRY_RUN_HELP = 'If set, commands will be printed but not executed'
+_NO_RUN_HELP = 'If set, commands will be printed but not executed'
 
 
 class _Program:
-    ALLOW_DRY_RUN = True
+    ALLOW_NO_RUN = True
 
     def __init__(self):
         self.code = -1
@@ -29,17 +29,17 @@ class _Program:
         parser = argparse.ArgumentParser()
         log.add_arguments(parser)
         add_arguments and add_arguments(parser)
-        if self.ALLOW_DRY_RUN:
+        if self.ALLOW_NO_RUN:
             parser.add_argument(
-                '-d', '--dry-run', action='store_true', help=_DRY_RUN_HELP
+                '-n', '--no-run', action='store_true', help=_NO_RUN_HELP
             )
 
         # If -h/--help are set, this next call terminates the program
         self.args = parser.parse_args(self.argv)
         self.log = log.Log(self.args)
         self._safe_run = runner.Runner(self.log)
-        if self.ALLOW_DRY_RUN and self.args.dry_run:
-            self._run = runner.Runner(self.log, dry_run=True)
+        if self.ALLOW_NO_RUN and self.args.no_run:
+            self._run = runner.Runner(self.log, no_run=True)
         else:
             self._run = self._safe_run
 

@@ -28,7 +28,7 @@ EXAMPLES
 
 FLAGS
 =====
-    ``git-rotate [-h] [-q] [-v] [-d] [steps]``
+    ``git-rotate [-h] [-q] [-v] [-n] [steps]``
 
     Positional arguments:
       ``steps``: Number of steps to rotate (positive or negative)
@@ -40,7 +40,7 @@ FLAGS
 
       ``-v, --verbose``: Report all messages in great detail
 
-      ``-d, --dry-run``: If set, commands will be printed but not executed
+      ``-n, --no-run``: If set, commands will be printed but not executed
 
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================

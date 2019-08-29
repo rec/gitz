@@ -35,7 +35,7 @@ EXAMPLES
 
 FLAGS
 =====
-    ``git-snip [-h] [-q] [-v] [-d] commit_ids [commit_ids ...]``
+    ``git-snip [-h] [-q] [-v] [-n] commit_ids [commit_ids ...]``
 
     Positional arguments:
       ``commit_ids``: Names of commit_ids to create
@@ -47,7 +47,7 @@ FLAGS
 
       ``-v, --verbose``: Report all messages in great detail
 
-      ``-d, --dry-run``: If set, commands will be printed but not executed
+      ``-n, --no-run``: If set, commands will be printed but not executed
 
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================

@@ -33,7 +33,7 @@ EXAMPLES
 
 FLAGS
 =====
-    ``git-all [-h] [-q] [-v] [-a] [-f] [-i INDENT] [-d] [name [name ...]]``
+    ``git-all [-h] [-q] [-v] [-a] [-f] [-i INDENT] [-n] [name [name ...]]``
 
     Positional arguments:
       ``name``: Names of branches or directories to iterate over
@@ -51,7 +51,7 @@ FLAGS
 
       ``-i INDENT, --indent INDENT``: Number of columns to indent output of commands
 
-      ``-d, --dry-run``: If set, commands will be printed but not executed
+      ``-n, --no-run``: If set, commands will be printed but not executed
 
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================
