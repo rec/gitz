@@ -10,7 +10,7 @@ SUMMARY = 'Create and push one or more fresh branches'
 USAGE = 'git fresh <branch-name> [...<branch-name>]'
 
 HELP = """
-Creates one or more fresh branches from the main working branch
+Creates one or more fresh branches from the base working branch
 and pushes them them to your git origin.
 
 """
@@ -29,31 +29,42 @@ def git_fresh():
     git_functions.check_clean_workspace()
     branches = git_functions.branches()
 
-    existing = set(branches).intersection(PROGRAM.args.branches)
+    new_branches = set(PROGRAM.args.branches)
+    existing = new_branches.intersection(branches)
     if existing:
         PROGRAM.error('Cannot overwrite:', *existing)
 
-    remotes = safe_git.remote()
-
-    if len(remotes) == 1:
-        origin = upstream = remotes[0]
-    else:
-        origin = ENV.origin()[0]
-        if origin not in remotes:
-            PROGRAM.error('Unknown origin', origin)
-
-        upstream = next((u for u in ENV.upstream() if u in remotes), None)
-        if upstream is None:
-            PROGRAM.error('No upstream found')
+    protected = new_branches.intersection(ENV.protected_branches())
+    if protected:
+        PROGRAM.error('Protected:', *protected)
 
     if PROGRAM.called.get('error'):
         PROGRAM.exit()
 
+    upstream, origin = _upstream_and_origin()
     safe_git.fetch(upstream)
     for branch in PROGRAM.args.branches:
         _run_fresh(branch, branches, origin, upstream)
 
     PROGRAM.log.message('Created:', ','.join(PROGRAM.args.branches))
+
+
+def _upstream_and_origin():
+    remotes = safe_git.remote()
+
+    if len(remotes) == 1:
+        return remotes[0], remotes[0]
+
+    origin = next((u for u in ENV.origin() if u in remotes), None)
+    upstream = next((u for u in ENV.upstream() if u in remotes), None)
+
+    if origin not in remotes:
+        PROGRAM.error('No origin found')
+
+    if upstream is None:
+        PROGRAM.error('No upstream found')
+
+    return upstream, origin
 
 
 def _run_fresh(fresh_branch, branches, origin, upstream):
@@ -72,8 +83,16 @@ def _run_fresh(fresh_branch, branches, origin, upstream):
 
 
 def add_arguments(parser):
-    parser.add_argument('branches', nargs='+', help=_HELP_BRANCHES)
+    add = parser.add_argument
+    add('branches', nargs='+', help=_HELP_BRANCHES)
+    add('-b', '--base-branch', default='', help=_HELP_BASE_BRANCH)
+    add('-f', '--force', action='store_true', help=_HELP_FORCE)
+    add('-o', '--origin', action='store_true', help=_HELP_ORIGIN)
 
+
+_HELP_BASE_BRANCH = 'Branch '
+_HELP_FORCE = 'Force push over existing branches'
+_HELP_ORIGIN = 'Remote origin to push to'
 
 if __name__ == '__main__':
     PROGRAM.start(**globals())

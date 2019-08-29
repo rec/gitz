@@ -10,7 +10,7 @@ USAGE
 DESCRIPTION
 ===========
 
-    Creates one or more fresh branches from the main working branch
+    Creates one or more fresh branches from the base working branch
     and pushes them them to your git origin.
 
 EXAMPLES
@@ -24,7 +24,7 @@ EXAMPLES
 
 FLAGS
 =====
-    ``git-fresh [-h] [-q] [-v] [-d] branches [branches ...]``
+    ``git-fresh [-h] [-q] [-v] [-b BASE_BRANCH] [-f] [-o] [-d] branches [branches ...]``
 
     Positional arguments:
       ``branches``: Names of branches to create
@@ -35,6 +35,12 @@ FLAGS
       ``-q, --quiet``: Suppress all output
 
       ``-v, --verbose``: Report all messages in great detail
+
+      ``-b BASE_BRANCH, --base-branch BASE_BRANCH``: Branch
+
+      ``-f, --force``: Force push over existing branches
+
+      ``-o, --origin``: Remote origin to push to
 
       ``-d, --dry-run``: If set, commands will be printed but not executed
 
