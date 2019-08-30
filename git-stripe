@@ -47,13 +47,23 @@ git stripe -c=2 -b=BBBB
 
 PREFIX = '_gitz_stripe_'
 BAD_BRANCH_CHARS = frozenset('~^: ')
-_FMT = '{commit_id}~{i}:refs/heads/{prefix}{i}'
+_FMT = '{commit_id}~{i_offset}:refs/heads/{prefix}{i}'
 _DELETE_FMT = ':refs/heads/{prefix}{i}'
 
 
 def git_stripe():
     args = PROGRAM.args
-    cid = args.commit_id or 'HEAD~'
+    cid, count = args.commit_id, args.count
+
+    if len(count) >= 7 or not count.isnumeric():
+        cid, count = count, cid
+
+    try:
+        count = int(count)
+    except ValueError:
+        PROGRAM.exit('Cannot understand count =', count)
+
+    cid = cid or 'HEAD~'
     commit_id = git_functions.commit_id(cid, short=True)
     if not commit_id:
         PROGRAM.exit('Cannot resolve "%s" to a commit ID' % cid)
@@ -61,68 +71,68 @@ def git_stripe():
     if BAD_BRANCH_CHARS.intersection(args.prefix):
         PROGRAM.exit(_ERROR_BRANCH_NAME, args.prefix)
     prefix = args.prefix or PREFIX + cid
+
     all_remotes = git_functions.all_branches()
-    if not args.origin:
-        try:
-            origin, _ = git_functions.upstream_branch()
-        except Exception:
-            PROGRAM.exit('Branch has no origin and --origin not set')
+    remotes = []
+    for remote in args.remotes.split(':'):
+        if remote == '^':
+            try:
+                remote, _ = git_functions.upstream_branch()
+            except Exception:
+                PROGRAM.exit('Branch has no upstream remote')
+        elif remote != '.' and remote not in all_remotes:
+            PROGRAM.exit('Unknown remote', remote)
 
-    elif args.origin in all_remotes:
-        origin = args.origin
+        remotes.append(remote)
 
-    else:
-        PROGRAM.exit('Unknown origin', args.origin)
-
-    if prefix.startswith('_') or not prefix:
-        prefix = args.prefix
-    else:
-        prefix = '_' + args.prefix
+    prefix = args.prefix
+    if not prefix.startswith('_'):
+        prefix = '_' + prefix
 
     if args.delete_all:
         prefix = prefix or PREFIX
-        for branch in git_functions.all_branches()[origin]:
-            if branch.startswith(prefix or PREFIX):
-                git.push(origin, ':refs/heads/' + branch, quiet=True)
-                PROGRAM.log.message('Deleted', '%s/%s' % (origin, branch))
+        for remote in remotes:
+            for branch in all_remotes[remote]:
+                if branch.startswith(prefix):
+                    git.push(remote, ':refs/heads/' + branch, quiet=True)
+                    PROGRAM.log.message('Deleted', '%s/%s' % (remote, branch))
         return
 
-    if not prefix:
-        if not args.commit_id:
-            prefix = PREFIX
+    indexes = range(args.offset, args.offset + count)
 
-        elif BAD_BRANCH_CHARS.intersection(args.commit_id):
-            prefix = PREFIX + commit_id + '_'
+    if not (args.force or args.delete):
+        branches = {prefix + str(i) for i in indexes}
+        all_branches = set()
+        for br in all_remotes.values():
+            all_branches.update(br)
 
-        else:
-            prefix = PREFIX + args.commit_id + '_'
-
-    if not (args.force or args.delete or args.delete_all):
-        branches = {prefix + str(i) for i in range(args.count)}
-        existing = branches.intersection(all_remotes[origin])
+        existing = branches.intersection(all_branches)
         if existing:
             PROGRAM.exit('Cannot overwrite existing', *existing)
 
-    for i in range(args.count):
+    for i in indexes:
+        i_offset = i - args.offset
         refspec_format = _DELETE_FMT if args.delete else _FMT
         refspec = refspec_format.format(**locals())
         force = git_functions.force_flags()
-        git.push(*force, origin, refspec, quiet=True)
-        action = 'Deleted' if args.delete else 'Striped'
+        for remote in remotes:
+            git.push(*force, remote, refspec, quiet=True)
+        action = 'Deleted' if args.delete else 'Created'
         PROGRAM.log.message(action, refspec.split('/')[-1])
 
 
 def add_arguments(parser):
     add = parser.add_argument
 
-    add('count', default=3, nargs='?', type=int, help=_HELP_COUNT)
+    add('count', default='3', nargs='?', help=_HELP_COUNT)
+    add('commit_id', default='', nargs='?', help=_HELP_COMMIT_ID)
 
     add('-D', '--delete-all', action='store_true', help=_HELP_DELETE_ALL)
-    add('-c', '--commit_id', default='', help=_HELP_COMMIT_ID)
     add('-d', '--delete', action='store_true', help=_HELP_DELETE)
     add('-f', '--force', action='store_true', help=_HELP_FORCE)
-    add('-o', '--origin', action='store_true', help=_HELP_ORIGIN)
-    add('-p', '--prefix', type=str, default='', help=_HELP_PREFIX)
+    add('-o', '--offset', default=0, type=int, help=_HELP_OFFSET)
+    add('-p', '--prefix', default=PREFIX, help=_HELP_PREFIX)
+    add('-r', '--remotes', default='^', help=_HELP_REMOTE)
 
 
 _ERROR_BRANCH_NAME = 'Illegal character in branch name'
@@ -132,9 +142,12 @@ _HELP_COUNT = 'The number of stripe branches to be created'
 _HELP_DELETE = 'Delete the striped branches for this request'
 _HELP_DELETE_ALL = 'Delete all striped branches'
 _HELP_FORCE = 'Force push over existing stripes'
-_HELP_ORIGIN = 'Remote origin to push to'
 _HELP_PREFIX = 'Base name for stripe branches (autogenerated if none)'
-
+_HELP_OFFSET = 'Offset to start numbering stripes'
+_HELP_REMOTE = (
+    'One or more remote remotes to push to, separated by colon. '
+    '  "." means the local repo, "^" means the upstream repo'
+)
 
 if __name__ == '__main__':
     PROGRAM.start(**globals())
