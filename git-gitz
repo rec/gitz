@@ -22,7 +22,7 @@ git gitz version directory
 """
 
 ALL = 'commands', 'defaults', 'directory', 'version'
-INDENT = '  '
+INDENT = '    '
 
 _HELP_STEPS = 'Number of steps to gitz (positive or negative)'
 
@@ -39,7 +39,7 @@ def git_gitz():
             continue
     if errors:
         PROGRAM.exit('Do not understand:', *errors)
-    indent = '  ' if len(items) > 1 else ''
+    indent = INDENT if len(items) > 1 else ''
     for i, item in enumerate(items):
         if indent:
             if i:

@@ -40,38 +40,24 @@ class GitGitzTest(unittest.TestCase):
 
 VERSION = config.VERSION
 ROOT_DIR = str(config.ROOT_DIR)
+COMMANDS = '\n'.join('    ' + i for i in config.COMMANDS)
 
 RESULTS = """\
 Commands:
-  git-all
-  git-amp
-  git-combine
-  git-copy
-  git-delete
-  git-fresh
-  git-gitz
-  git-infer
-  git-ls
-  git-rename
-  git-rotate
-  git-shuffle
-  git-snip
-  git-split
-  git-st
-  git-stripe
+{COMMANDS}
 
 Defaults:
-  GITZ_ORIGIN = ['origin']
-  GITZ_PROTECTED_BRANCHES = ['develop', 'master', 'release']
-  GITZ_PROTECTED_REMOTES = ['upstream']
-  GITZ_REFERENCE_BRANCHES = ['develop', 'master']
-  GITZ_UPSTREAM = ['upstream', 'origin']
+    GITZ_ORIGIN = ['origin']
+    GITZ_PROTECTED_BRANCHES = ['develop', 'master', 'release']
+    GITZ_PROTECTED_REMOTES = ['upstream']
+    GITZ_REFERENCE_BRANCHES = ['develop', 'master']
+    GITZ_UPSTREAM = ['upstream', 'origin']
 
 Directory:
-  {ROOT_DIR}
+    {ROOT_DIR}
 
 Version:
-  {VERSION}
+    {VERSION}
 """.format(
     **globals()
 ).splitlines()
