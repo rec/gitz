@@ -11,4 +11,4 @@ class GitRenameTest(unittest.TestCase):
         git.fresh('one')
         git.rename('two')
         expected = {'origin': ['master', 'two'], 'upstream': ['master']}
-        self.assertEqual(git_functions.all_branches(), expected)
+        self.assertEqual(git_functions.remote_branches(), expected)

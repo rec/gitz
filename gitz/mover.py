@@ -98,13 +98,15 @@ class Mover:
             self.error(_ERROR_TARGET_EXISTS % self.target)
 
     def _get_remotes(self):
-        all_branches = git_functions.all_branches()
+        remote_branches = git_functions.remote_branches()
         pr = () if PROGRAM.args.all else ENV.protected_remotes()
-        all_branches = {k: v for k, v in all_branches.items() if k not in pr}
+        remote_branches = {
+            k: v for k, v in remote_branches.items() if k not in pr
+        }
 
         self.old = []
         self.new = []
-        for remote, branches in all_branches.items():
+        for remote, branches in remote_branches.items():
             if self.target in branches and not PROGRAM.args.force:
                 branch = remote + '/' + self.target
                 self.error(_ERROR_TARGET_EXISTS % branch)

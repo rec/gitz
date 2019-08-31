@@ -56,7 +56,7 @@ def git_stripe():
 
 class Stripe:
     def __init__(self):
-        self.remote_to_branches = git_functions.all_branches()
+        self.remote_branches = git_functions.remote_branches()
         args = PROGRAM.args
         commit_id, count = args.commit_id, args.count
 
@@ -101,7 +101,7 @@ class Stripe:
             branch = '%s%d' % (self.prefix, i)
             refspec = ':refs/heads/' + branch
             for remote in self.remotes:
-                if branch in self.remote_to_branches[remote]:
+                if branch in self.remote_branches[remote]:
                     git.push(remote, refspec, quiet=True)
                     deleted.append('%s/%s' % (remote, branch))
 
@@ -111,11 +111,11 @@ class Stripe:
         args = PROGRAM.args
         if not args.force:
             branches = {self.prefix + str(i) for i in self.indexes}
-            all_branches = set()
+            remote_branches = set()
             for remote in self.remotes:
-                all_branches.update(self.remote_to_branches[remote])
+                remote_branches.update(self.remote_branches[remote])
 
-            existing = sorted(branches.intersection(all_branches))
+            existing = sorted(branches.intersection(remote_branches))
             if existing:
                 PROGRAM.exit('Cannot overwrite existing', *existing)
 
@@ -139,14 +139,14 @@ class Stripe:
                     yield git_functions.upstream_branch()[0]
                 except Exception:
                     PROGRAM.exit('Branch has no upstream remote')
-            elif remote == '.' or remote in self.remote_to_branches:
+            elif remote == '.' or remote in self.remote_branches:
                 yield remote
             else:
                 PROGRAM.exit('Unknown remote', remote)
 
     def _delete_all(self):
         for remote in self.remotes:
-            for branch in self.remote_to_branches[remote]:
+            for branch in self.remote_branches[remote]:
                 if branch.startswith(self.prefix):
                     git.push(remote, ':refs/heads/' + branch, quiet=True)
                     PROGRAM.log.message('Deleted', '%s/%s' % (remote, branch))

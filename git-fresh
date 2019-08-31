@@ -27,8 +27,8 @@ _HELP_BRANCHES = 'Names of branches to create'
 def git_fresh():
     git_functions.check_clean_workspace()
     branches = git_functions.branches()
-    all_remotes = git_functions.all_branches()
-    origin = _origin(all_remotes)
+    remote_branches = git_functions.remote_branches()
+    origin = _origin(remote_branches)
 
     new_branches = set(PROGRAM.args.branches)
     if not PROGRAM.args.force:
@@ -36,7 +36,7 @@ def git_fresh():
         if existing:
             PROGRAM.exit('Cannot overwrite locally:', *existing)
 
-        existing = new_branches.intersection(all_remotes[origin])
+        existing = new_branches.intersection(remote_branches[origin])
         if existing:
             PROGRAM.exit('Cannot overwrite', *existing, 'on origin', origin)
 
@@ -44,7 +44,7 @@ def git_fresh():
         if protected:
             PROGRAM.exit('Protected:', *protected)
 
-    reference = '/'.join(_reference_branch(all_remotes))
+    reference = '/'.join(_reference_branch(remote_branches))
     for new_branch in PROGRAM.args.branches:
         if new_branch in branches:
             git.branch('-D', new_branch)
@@ -53,7 +53,7 @@ def git_fresh():
         PROGRAM.message('Created fresh branch', new_branch)
 
 
-def _origin(all_remotes):
+def _origin(remote_branches):
     origin = PROGRAM.args.origin
     if not origin:
         try:
@@ -61,37 +61,37 @@ def _origin(all_remotes):
         except Exception:
             pass
         try:
-            return next(o for o in ENV.origin() if o in all_remotes)
+            return next(o for o in ENV.origin() if o in remote_branches)
         except Exception:
             PROGRAM.exit('Cannot determine origin')
 
-    if origin not in all_remotes:
+    if origin not in remote_branches:
         PROGRAM.exit('Unknown remote', origin)
     return origin
 
 
-def _reference_branch(all_remotes):
+def _reference_branch(remote_branches):
     remote, *rest = PROGRAM.args.reference_branch.split('/', maxsplit=1)
     if rest:
-        if remote not in all_remotes:
+        if remote not in remote_branches:
             PROGRAM.exit('Unknown remote', remote)
 
         branch = rest[0]
-        if branch not in all_remotes[remote]:
+        if branch not in remote_branches[remote]:
             PROGRAM.exit(
                 'Unknown reference branch', branch, 'in remote', remote
             )
         return remote, branch
 
     branches = [remote] if remote else ENV.reference_branches()
-    if len(all_remotes) == 1:
-        remotes = all_remotes
+    if len(remote_branches) == 1:
+        remotes = remote_branches
     else:
-        remotes = [r for r in ENV.upstream() if r in all_remotes]
+        remotes = [r for r in ENV.upstream() if r in remote_branches]
 
     for remote in remotes:
         for branch in branches:
-            if branch in all_remotes[remote]:
+            if branch in remote_branches[remote]:
                 return remote, branch
 
     PROGRAM.exit('Cannot determine upstream remote')

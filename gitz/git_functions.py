@@ -48,7 +48,7 @@ def branches(*args):
     return safe_git.branch('--format=%(refname:short)', *args)
 
 
-def all_branches(fetch=True):
+def remote_branches(fetch=True):
     remotes = safe_git.remote()
     if fetch:
         for remote in remotes:
