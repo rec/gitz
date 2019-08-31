@@ -1,0 +1,64 @@
+#!/usr/bin/env python3
+from gitz import git_functions
+from gitz import reference_branch
+from gitz.program import PROGRAM
+from gitz.program import git
+
+SUMMARY = 'Update branches from the reference branch'
+USAGE = 'git-update [branch ...branch]'
+DANGER = 'Rewrites history!'
+HELP = """
+``git-update`` goes to each branch in turn, then tries to update it
+the reference branch by pulling with --rebase.
+
+If the rebase fails with a conflict, then ``git-update``aborts the
+rebase and returns that branch to its previous condition.
+
+If the rebase succeeds, ``git-update`` force-pushes the result.
+"""
+EXAMPLES = """
+git-update
+    Updates all branches
+
+git-update foo bar
+    Only updates branches foo and bar
+"""
+
+
+def git_update():
+    git_functions.check_clean_workspace()
+    reference_branch = '/'.join(git_functions.reference_branch())
+    args = PROGRAM.args
+    failed, succeeded = [], []
+    branches = git_functions.branches()
+    missing = set(args.branches).difference(branches)
+    if missing:
+        PROGRAM.exit('Missing:', *missing)
+
+    for branch in args.branches or branches:
+        git.checkout(branch)
+        try:
+            git.pull('--rebase', reference_branch)
+        except Exception:
+            failed.append(branch)
+        else:
+            succeeded.append(branch)
+            git.push('--force-with-lease')
+
+    if succeeded:
+        PROGRAM.message('Updated', *succeeded)
+
+    if failed:
+        PROGRAM.exit('Failed', *failed)
+
+
+def add_arguments(parser):
+    parser.add_argument('branches', nargs='?', default='', help=_HELP_BRANCHES)
+    reference_branch.add_arguments(parser)
+
+
+_HELP_BRANCHES = 'A list of branches to update - default is all branches'
+
+
+if __name__ == '__main__':
+    PROGRAM.start(**globals())
