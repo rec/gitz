@@ -130,7 +130,8 @@ class Stripe:
                 git.push(*force, remote, refspec, quiet=True)
                 striped.append('%s/%s' % (remote, branch))
 
-            PROGRAM.log.message('Created', branch)
+            id = git_functions.commit_id(striped[0], short=True)
+            PROGRAM.log.message('Created', branch, id)
 
     def _remotes(self):
         for remote in PROGRAM.args.remotes.split(':'):
