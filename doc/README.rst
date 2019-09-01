@@ -54,5 +54,8 @@ gitz commands
 `git-stripe <git-stripe.rst>`_
   Push a sequence of commit IDs to the origin repo
 
+`git-update <git-update.rst>`_
+  Update branches from the reference branch
+
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================

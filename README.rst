@@ -114,6 +114,9 @@ can significantly speed up rapid development on private branches.
 `git-split <doc/git-split.rst>`_
   Split a range of commits into many single-file commits
 
+`git-update <doc/git-update.rst>`_
+  Update branches from the reference branch
+
 Dangerous commands that are janky
 =================================
 

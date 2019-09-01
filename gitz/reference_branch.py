@@ -4,8 +4,8 @@ from gitz.env import ENV
 from gitz.program import PROGRAM
 
 
-def reference_branch():
-    remote_branches = git_functions.remote_branches()
+def reference_branch(remote_branches=None):
+    remote_branches = remote_branches or git_functions.remote_branches()
 
     remote, *rest = PROGRAM.args.reference_branch.split('/', maxsplit=1)
     if rest:

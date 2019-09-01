@@ -45,7 +45,7 @@ def git_fresh():
         if protected:
             PROGRAM.exit('Protected:', *protected)
 
-    reference = '/'.join(reference_branch.reference_branch())
+    reference = '/'.join(reference_branch.reference_branch(remote_branches))
     for new_branch in PROGRAM.args.branches:
         if new_branch in branches:
             git.branch('-D', new_branch)

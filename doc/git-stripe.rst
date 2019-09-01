@@ -47,7 +47,8 @@ EXAMPLES
 
 FLAGS
 =====
-    ``git-stripe [-h] [-q] [-v] [-D] [-d] [-f] [-o OFFSET] [-p PREFIX] [-r REMOTES] [-n]``
+    ``git-stripe [-h] [-q] [-v] [-D] [-d] [-f] [-o OFFSET] [-p PREFIX] [-r REMOTES]``
+    ``                  [-n]``
     ``                  [count] [commit_id]``
 
     Positional arguments:
