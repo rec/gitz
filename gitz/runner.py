@@ -12,12 +12,15 @@ _EXCEPTION_MSG = 'Encountered an exception while executing'
 
 
 class Runner:
-    def __init__(self, log, no_run=False):
+    def __init__(self, log, quiet=None, no_run=False):
         self.log = log
         self.git = Git(self)
         self.no_run = no_run
+        self.quiet = quiet
 
-    def __call__(self, *cmd, quiet=False, **kwds):
+    def __call__(self, *cmd, quiet=None, **kwds):
+        if quiet is None:
+            quiet = self.quiet
         if self.no_run:
             self.log.message('$', *cmd)
             return []

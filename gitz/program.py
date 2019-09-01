@@ -43,6 +43,7 @@ class _Program:
         else:
             self._run = self._safe_run
 
+        self._quiet_run = runner.Runner(self.log, quiet=True)
         return self.args
 
     def start(self, add_arguments=None, **kwds):
@@ -61,6 +62,9 @@ class _Program:
 
     def safe_run(self, *command, **kwds):
         return self._run(*command, **kwds)
+
+    def quiet_run(self, *command, **kwds):
+        return self._quiet_run(*command, **kwds)
 
     def run(self, *command, **kwds):
         return self._run(*command, **kwds)
@@ -93,3 +97,6 @@ safe_git = runner.Git(safe_run)
 
 run = PROGRAM.run
 git = runner.Git(run)
+
+quiet_run = PROGRAM.run
+quiet_git = runner.Git(run)
