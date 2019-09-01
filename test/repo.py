@@ -51,11 +51,17 @@ def clone(*names):
         yield clones
 
 
-def write_files(*names):
+def write_file(name, contents):
+    with open(name, 'w') as fp:
+        fp.write(contents)
+
+
+def write_files(*names, **kwds):
     for name in names:
-        with open(name, 'w') as fp:
-            fp.write(name)
-            fp.write('\n')
+        write_file(name, name + '\n')
+
+    for name, contents in kwds.items():
+        write_file(name, contents)
 
 
 def add_files(*names):
@@ -63,11 +69,22 @@ def add_files(*names):
         git.add(name)
 
 
-def make_commit(*names):
-    write_files(*names)
+def make_commit(*names, **kwds):
+    write_files(*names, **kwds)
     add_files(*names)
-    git.commit('-m', '_'.join(names))
+    add_files(*kwds)
+    return commit('_'.join(names + tuple(kwds)))
+
+
+def commit(message):
+    git.commit('-m', message)
     return git_functions.commit_id()[: git_functions.COMMIT_ID_LENGTH]
+
+
+def make_one_commit(filename, contents, message):
+    write_file(filename, contents)
+    add_files(filename)
+    return commit(message)
 
 
 @contextlib.contextmanager
