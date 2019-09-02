@@ -29,7 +29,7 @@ git delete foo bar
     except (by default) upstream
 """
 
-_HELP_ALL = 'Delete all, even protected remotes or branches'
+_HELP_FORCE = 'Delete all, even protected remotes or branches'
 
 
 def git_delete():
@@ -42,7 +42,7 @@ def git_delete():
         PROGRAM.exit('This would delete all the branches')
 
     remotes = safe_git.remote()
-    if not args.all:
+    if not args.force:
         protected = set(ENV.protected_branches()).intersection(args.target)
         if protected:
             PROGRAM.exit('These branches are protected:', *protected)
@@ -68,7 +68,7 @@ def git_delete():
 
 def add_arguments(parser):
     parser.add_argument('target', nargs='+')
-    parser.add_argument('-a', '--all', action='store_true', help=_HELP_ALL)
+    parser.add_argument('-f', '--force', action='store_true', help=_HELP_FORCE)
 
 
 if __name__ == '__main__':
