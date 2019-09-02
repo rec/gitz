@@ -23,8 +23,8 @@ class RepoTest(unittest.TestCase):
         with repo.clone('foo', 'bar'):
             expected = ['bar', 'foo', 'origin', 'upstream']
             self.assertEqual(sorted(safe_git.remote()), expected)
-            git.fetch('foo')
-            git.fetch('bar')
+            git_functions.fetch('foo')
+            git_functions.fetch('bar')
             actual = git_functions.branches('-r')
             expected = [
                 'bar/master',

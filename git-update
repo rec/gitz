@@ -43,7 +43,7 @@ def git_update():
         branch_to_upstream[branch] = git_functions.upstream_branch()
 
     for upstream in set(v[0] for v in branch_to_upstream.values()):
-        quiet_git.fetch(upstream)
+        git_functions.fetch(upstream)
 
     failed, succeeded = [], []
     for branch, upstream in branch_to_upstream.items():

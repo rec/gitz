@@ -30,6 +30,15 @@ def commit_id(name='HEAD', short=False):
         return
 
 
+def fetch(remote):
+    fetched = safe_git.fetch(remote)
+    while fetched and not fetched.startswith('From '):
+        fetched.pop(0)
+    if fetched:
+        for f in fetched:
+            PROGRAM.message(f)
+
+
 def branch_name(name='HEAD'):
     return safe_git('symbolic-ref', '-q', '--short', name)[0].strip()
 
@@ -48,11 +57,12 @@ def branches(*args):
     return safe_git.branch('--format=%(refname:short)', *args)
 
 
-def remote_branches(fetch=True):
+def remote_branches():
     remotes = safe_git.remote()
-    if fetch:
-        for remote in remotes:
-            safe_git.fetch('-q', remote)
+
+    for remote in remotes:
+        fetch(remote)
+
     result = {}
     for rb in branches('-r'):
         remote, branch = rb.split('/')

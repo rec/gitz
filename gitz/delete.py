@@ -24,7 +24,7 @@ def delete(branches, remotes):
 
     # Remote branches
     for remote in remotes:
-        git.fetch(remote)
+        git_functions.fetch(remote)
         rb = git_functions.branches('-r')
         to_delete_remote = [b for b in branches if (remote + '/' + b) in rb]
         if to_delete_remote:

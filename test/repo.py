@@ -46,7 +46,7 @@ def clone(*names):
             clones.append(stack.enter_context(TemporaryDirectory()))
             git.clone('--mirror', '.', clones[-1])
             git.remote('add', name, 'file://' + clones[-1])
-            git.fetch(name)
+            git_functions.fetch(name)
 
         yield clones
 
