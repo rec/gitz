@@ -1,43 +1,37 @@
-🗜 gitz - tiny useful git commands, some dangerous 🗜
+🗜 gitz - git commands for rapid development 🗜
 ------------------------------------------------------
 
-This is a collection of a dszen git utilities, each of which does one
-useful thing well.
+This is a collection of seventeen git utilities, the majority of which
+are aimed at people doing rapid development using Git.
 
-Most of them only exist here, one comes from other git repos, one came from a
-chat on Reddit and I don't know where one of them came from
+Most of them only exist here, one comes from other git repos, one came
+from a chat on Reddit and I don't know where one of them came from
 
-Nine of them are written in Python 3, the rest use Bash.
-
-There's a summary of what each command does below - for more details use the
-``-h`` flag like this:
-
-.. code-block:: bash
-
-    git all -h
+Four of them are written in Bash, the rest use Python 3.
 
 How to install
 ==============
 
-If you have ``pip`` installed
+Using `pip <https://pypi.org/project/pip/>`_:
 
 .. code-block:: bash
 
     pip3 install gitz
 
 Otherwise, download and uncompress
-`this directory
-<https://github.com/rec/gitz/archive/master.tar.gz>`_,
-then put that directory's path into the ``PATH`` environment variable.
+`this directory <https://github.com/rec/gitz/archive/master.tar.gz>`_,
+then put that downloaded directory's path into the ``PATH``
+environment variable.
 
 Getting help
 ============
 
-Each command has detailed help available by calling it with the -f flag, like
-this: ``git all -h``.
+There's a summary of what each command does below, and a link to a
+complete manual page. From the terminal, use ``-h`` flag like this:
 
-A summary of the commands follows:
+.. code-block:: bash
 
+    git fresh -h
 
 Safe commands
 =============
@@ -65,7 +59,7 @@ Informational commands that don't change your repository
 
 `git-st <doc/git-st.rst>`_
   Colorful, compact git status
-  
+
   This version written by https://github.com/PlatyPew/, original
   version by https://www.reddit.com/user/ex1c)
 
