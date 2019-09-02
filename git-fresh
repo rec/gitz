@@ -32,18 +32,18 @@ def git_fresh():
     origin = _origin(remote_branches)
 
     new_branches = set(PROGRAM.args.branches)
+
+    def check(branches, name):
+        branches = new_branches.intersection(branches)
+        if branches:
+            s = 'branch:' if len(branches) == 1 else 'branches:'
+            PROGRAM.exit('Cannot overwrite', name, s, *branches)
+
+    check(ENV.protected_branches(), 'protected')
+
     if not PROGRAM.args.force:
-        existing = new_branches.intersection(branches)
-        if existing:
-            PROGRAM.exit('Cannot overwrite locally:', *existing)
-
-        existing = new_branches.intersection(remote_branches[origin])
-        if existing:
-            PROGRAM.exit('Cannot overwrite', *existing, 'on origin', origin)
-
-        protected = new_branches.intersection(ENV.protected_branches())
-        if protected:
-            PROGRAM.exit('Protected:', *protected)
+        check(branches, 'local')
+        check(remote_branches[origin], 'remote branches on origin ' + origin)
 
     reference = '/'.join(reference_branch.reference_branch(remote_branches))
     for new_branch in PROGRAM.args.branches:
