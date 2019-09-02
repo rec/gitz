@@ -1,5 +1,5 @@
-from . import screenshot
 from . import reader
+from . import screenshot
 import os
 
 README = 'README.rst'

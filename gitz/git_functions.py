@@ -1,6 +1,6 @@
 from .program import PROGRAM
-from pathlib import Path
 from .program import safe_git
+from pathlib import Path
 
 COMMIT_ID_LENGTH = 7
 

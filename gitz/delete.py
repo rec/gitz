@@ -1,6 +1,6 @@
 from . import git_functions
-from .program import safe_git
 from .program import git
+from .program import safe_git
 
 
 def delete(branches, remotes):

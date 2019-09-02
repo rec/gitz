@@ -1,6 +1,6 @@
+from . import git_functions
 import json
 import os
-from . import git_functions
 
 PREFIX = 'GITZ_'
 CONFIG_FILE = '.gitz.json'

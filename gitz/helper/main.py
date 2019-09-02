@@ -1,5 +1,5 @@
-from . import pages
 from . import directory
+from . import pages
 from . import reader
 from . import summary
 from ..program import PROGRAM
