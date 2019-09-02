@@ -48,10 +48,20 @@ def git_fresh():
     reference = '/'.join(reference_branch.reference_branch(remote_branches))
     for new_branch in PROGRAM.args.branches:
         if new_branch in branches:
-            git.branch('-D', new_branch)
-        git.checkout('-b', new_branch, reference, quiet=True)
+            original_id = git_functions.commit_id(new_branch, short=True)
+            git.checkout(new_branch, '--quiet')
+            git.reset('--hard', reference)
+        else:
+            original_id = None
+            git.checkout('-b', new_branch, reference, quiet=True)
+
         git.push('-fu', origin, new_branch, quiet=True)
-        PROGRAM.message('Created fresh branch', new_branch)
+        id = git_functions.commit_id(new_branch, short=True)
+        PROGRAM.message(
+            'Fresh!  {0}..{1}  {2} -> {2}'.format(
+                original_id or id, id, new_branch
+            )
+        )
 
 
 def _origin(remote_branches):
