@@ -10,48 +10,51 @@ USAGE
 DANGER
 ======
 
-    This is a bit janky
+This is a bit janky
 
 DESCRIPTION
 ===========
 
-    Performs <command> [argument ...] for each `name`, or over all
-    branches if no `name` is given.
-    
-    Note that this does not handle aliases within commands and might do
-    unexpected things with complex commands.  Please handle with care.
+Performs <command> [argument ...] for each `name`, or over all
+branches if no `name` is given.
+
+Note that this does not handle aliases within commands and might do
+unexpected things with complex commands.  Please handle with care.
 
 EXAMPLES
 ========
 
-    ``git all - git log --oneline -5``
-        Performs git log --oneline -5 for each branch in this repo
+``git all - git log --oneline -5``
+    Performs git log --oneline -5 for each branch in this repo
 
-    ``git all * - git all - git log --oneline -5``
-        Performs git log --oneline -5 for each branch in each
-        directory in the current directory
+``git all * - git all - git log --oneline -5``
+    Performs git log --oneline -5 for each branch in each
+    directory in the current directory
 
 FLAGS
 =====
-    ``git-all [-h] [-q] [-v] [-a] [-f] [-i INDENT] [-n] [name [name ...]]``
 
-    Positional arguments:
-      ``name``: Names of branches or directories to iterate over
+.. code-block:: bash
 
-    Optional arguments:
-      ``-h, --help``: show this help message and exit
+    git-all [-h] [-q] [-v] [-a] [-f] [-i INDENT] [-n] [name [name ...]]
 
-      ``-q, --quiet``: Suppress all output
+Positional arguments:
+  ``name``: Names of branches or directories to iterate over
 
-      ``-v, --verbose``: Report all messages in great detail
+Optional arguments:
+  ``-h, --help``: show this help message and exit
 
-      ``-a, --all``: Visit non-git directories
+  ``-q, --quiet``: Suppress all output
 
-      ``-f, --fail``: Fail immediately if any git-all command fails
+  ``-v, --verbose``: Report all messages in great detail
 
-      ``-i INDENT, --indent INDENT``: Number of columns to indent output of commands
+  ``-a, --all``: Visit non-git directories
 
-      ``-n, --no-run``: If set, commands will be printed but not executed
+  ``-f, --fail``: Fail immediately if any git-all command fails
+
+  ``-i INDENT, --indent INDENT``: Number of columns to indent output of commands
+
+  ``-n, --no-run``: If set, commands will be printed but not executed
 
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================

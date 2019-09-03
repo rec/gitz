@@ -1,7 +1,7 @@
 ``git-ls``: List each file with its most recent commit, in subtle color
 -----------------------------------------------------------------------
 
-    (from an unknown source)
+(from an unknown source)
 
 USAGE
 =====

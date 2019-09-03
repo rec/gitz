@@ -10,39 +10,42 @@ USAGE
 DANGER
 ======
 
-    Rewrites history!
+Rewrites history!
 
 DESCRIPTION
 ===========
 
-    `git-split` squashes together a range of commits and the staging area, then
-    splits out a sequence of individual commits, one for each file changed.
+`git-split` squashes together a range of commits and the staging area, then
+splits out a sequence of individual commits, one for each file changed.
 
 EXAMPLES
 ========
 
-    ``git-split``
-        Splits the staging area if it's not empty, otherwise HEAD
+``git-split``
+    Splits the staging area if it's not empty, otherwise HEAD
 
-    ``git-split HEAD``
-        Splits the squash of the staging area and HEAD
+``git-split HEAD``
+    Splits the squash of the staging area and HEAD
 
-    ``git-split HEAD~``
-        Splits the squash of the staging area, HEAD and HEAD~
+``git-split HEAD~``
+    Splits the squash of the staging area, HEAD and HEAD~
 
 FLAGS
 =====
-    ``git-split [-h] [-q] [-v] [commit]``
 
-    Positional arguments:
-      ``commit``: Optional commit ID to split from
+.. code-block:: bash
 
-    Optional arguments:
-      ``-h, --help``: show this help message and exit
+    git-split [-h] [-q] [-v] [commit]
 
-      ``-q, --quiet``: Suppress all output
+Positional arguments:
+  ``commit``: Optional commit ID to split from
 
-      ``-v, --verbose``: Report all messages in great detail
+Optional arguments:
+  ``-h, --help``: show this help message and exit
+
+  ``-q, --quiet``: Suppress all output
+
+  ``-v, --verbose``: Report all messages in great detail
 
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================

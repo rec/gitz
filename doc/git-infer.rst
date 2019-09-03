@@ -1,7 +1,7 @@
 ``git-infer``: Commit changes with an auto-generated message
 ------------------------------------------------------------
 
-    (from https://github.com/moondewio/git-infer)
+(from https://github.com/moondewio/git-infer)
 
 USAGE
 =====

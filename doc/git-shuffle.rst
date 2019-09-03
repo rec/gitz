@@ -10,58 +10,61 @@ USAGE
 DANGER
 ======
 
-    Rewrites history!
+Rewrites history!
 
 DESCRIPTION
 ===========
 
-    Shuffles the current sequence of commits, perhaps deleting some.
+Shuffles the current sequence of commits, perhaps deleting some.
 
 EXAMPLES
 ========
 
-    ``git shuffle``
-    ``git shuffle ba``
-    ``git shuffle 10``
-    ``git shuffle 21``
-        Switches the first and second commit
+``git shuffle``
+``git shuffle ba``
+``git shuffle 10``
+``git shuffle 21``
+    Switches the first and second commit
 
-    ``git shuffle ab``
-    ``git shuffle 01``
-    ``git shuffle 12``
-        Do nothing
+``git shuffle ab``
+``git shuffle 01``
+``git shuffle 12``
+    Do nothing
 
-    ``git shuffle 312``
-    ``git shuffle cab``
-    ``git shuffle zxy``
-        Cycles the first three commits so the third one is first
+``git shuffle 312``
+``git shuffle cab``
+``git shuffle zxy``
+    Cycles the first three commits so the third one is first
 
-    ``git shuffle __321_``
-        Deletes the first two commits, reverses the next three, and
-        deletes one more.
+``git shuffle __321_``
+    Deletes the first two commits, reverses the next three, and
+    deletes one more.
 
-    ``git shuffle __321_ -s "Commit message"``
-    ``git shuffle __321_ --squash="Commit messager"``
-        Deletes the first two commits, reverses the next three, squashes them
-        into one, and deletes one more.
+``git shuffle __321_ -s "Commit message"``
+``git shuffle __321_ --squash="Commit messager"``
+    Deletes the first two commits, reverses the next three, squashes them
+    into one, and deletes one more.
 
 FLAGS
 =====
-    ``git-shuffle [-h] [-q] [-v] [-s SQUASH] [-n] shuffle``
 
-    Positional arguments:
-      ``shuffle``: Pattern string to shuffle
+.. code-block:: bash
 
-    Optional arguments:
-      ``-h, --help``: show this help message and exit
+    git-shuffle [-h] [-q] [-v] [-s SQUASH] [-n] shuffle
 
-      ``-q, --quiet``: Suppress all output
+Positional arguments:
+  ``shuffle``: Pattern string to shuffle
 
-      ``-v, --verbose``: Report all messages in great detail
+Optional arguments:
+  ``-h, --help``: show this help message and exit
 
-      ``-s SQUASH, --squash SQUASH``: Squash all commits into one, with a message
+  ``-q, --quiet``: Suppress all output
 
-      ``-n, --no-run``: If set, commands will be printed but not executed
+  ``-v, --verbose``: Report all messages in great detail
+
+  ``-s SQUASH, --squash SQUASH``: Squash all commits into one, with a message
+
+  ``-n, --no-run``: If set, commands will be printed but not executed
 
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================

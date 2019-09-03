@@ -10,37 +10,40 @@ USAGE
 DESCRIPTION
 ===========
 
-    Change the current branch by rotating through all the branches for
-    this repo in the order given by the `git branch` command
+Change the current branch by rotating through all the branches for
+this repo in the order given by the `git branch` command
 
 EXAMPLES
 ========
 
-    ``git rotate``
-        Rotate to the next branch
+``git rotate``
+    Rotate to the next branch
 
-    ``git rotate 3``
-        Rotate 3 branches ahead
+``git rotate 3``
+    Rotate 3 branches ahead
 
-    ``git rotate -1``
-    ``git rotate -``
-        Rotate 1 branch backward
+``git rotate -1``
+``git rotate -``
+    Rotate 1 branch backward
 
 FLAGS
 =====
-    ``git-rotate [-h] [-q] [-v] [-n] [steps]``
 
-    Positional arguments:
-      ``steps``: Number of steps to rotate (positive or negative)
+.. code-block:: bash
 
-    Optional arguments:
-      ``-h, --help``: show this help message and exit
+    git-rotate [-h] [-q] [-v] [-n] [steps]
 
-      ``-q, --quiet``: Suppress all output
+Positional arguments:
+  ``steps``: Number of steps to rotate (positive or negative)
 
-      ``-v, --verbose``: Report all messages in great detail
+Optional arguments:
+  ``-h, --help``: show this help message and exit
 
-      ``-n, --no-run``: If set, commands will be printed but not executed
+  ``-q, --quiet``: Suppress all output
+
+  ``-v, --verbose``: Report all messages in great detail
+
+  ``-n, --no-run``: If set, commands will be printed but not executed
 
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================

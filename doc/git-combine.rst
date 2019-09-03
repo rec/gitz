@@ -10,42 +10,45 @@ USAGE
 DANGER
 ======
 
-    Rewrites history!
+Rewrites history!
 
 DESCRIPTION
 ===========
 
-    Equivalent to hard resetting to the base commit, then cherry picking
-    each subsequent commit.
-    
-    The -s/--squash argument
+Equivalent to hard resetting to the base commit, then cherry picking
+each subsequent commit.
+
+The -s/--squash argument
 
 EXAMPLES
 ========
 
-    ``git combine d2dfe0c a2833bc``
-      Goes to the commit in `master` and then cherry picks the two commits
-      d2dfe0c and a2833bc on top of it.
+``git combine d2dfe0c a2833bc``
+  Goes to the commit in `master` and then cherry picks the two commits
+  d2dfe0c and a2833bc on top of it.
 
 FLAGS
 =====
-    ``git-combine [-h] [-q] [-v] [-b BASE] [-s SQUASH] [-n] commit_id [commit_id ...]``
 
-    Positional arguments:
-      ``commit_id``: List of commit IDs to cherry pick
+.. code-block:: bash
 
-    Optional arguments:
-      ``-h, --help``: show this help message and exit
+    git-combine [-h] [-q] [-v] [-b BASE] [-s SQUASH] [-n] commit_id [commit_id ...]
 
-      ``-q, --quiet``: Suppress all output
+Positional arguments:
+  ``commit_id``: List of commit IDs to cherry pick
 
-      ``-v, --verbose``: Report all messages in great detail
+Optional arguments:
+  ``-h, --help``: show this help message and exit
 
-      ``-b BASE, --base BASE``: Base commit to start from
+  ``-q, --quiet``: Suppress all output
 
-      ``-s SQUASH, --squash SQUASH``: Squash all commits into one, with a message
+  ``-v, --verbose``: Report all messages in great detail
 
-      ``-n, --no-run``: If set, commands will be printed but not executed
+  ``-b BASE, --base BASE``: Base commit to start from
+
+  ``-s SQUASH, --squash SQUASH``: Squash all commits into one, with a message
+
+  ``-n, --no-run``: If set, commands will be printed but not executed
 
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================

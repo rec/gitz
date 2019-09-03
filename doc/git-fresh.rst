@@ -10,39 +10,42 @@ USAGE
 DESCRIPTION
 ===========
 
-    Creates one or more fresh branches from the base working branch
-    and pushes them them to your git origin.
+Creates one or more fresh branches from the base working branch
+and pushes them them to your git origin.
 
 EXAMPLES
 ========
 
-    ``git fresh foo``
-       Create a new branch foo and push to the origin
+``git fresh foo``
+   Create a new branch foo and push to the origin
 
-    ``git fresh one two three``
-       Create three new branches
+``git fresh one two three``
+   Create three new branches
 
 FLAGS
 =====
-    ``git-fresh [-h] [-q] [-v] [-f] [-o ORIGIN] [-r REFERENCE_BRANCH] [-n] branches [branches ...]``
 
-    Positional arguments:
-      ``branches``: Names of branches to create
+.. code-block:: bash
 
-    Optional arguments:
-      ``-h, --help``: show this help message and exit
+    git-fresh [-h] [-q] [-v] [-f] [-o ORIGIN] [-r REFERENCE_BRANCH] [-n] branches [branches ...]
 
-      ``-q, --quiet``: Suppress all output
+Positional arguments:
+  ``branches``: Names of branches to create
 
-      ``-v, --verbose``: Report all messages in great detail
+Optional arguments:
+  ``-h, --help``: show this help message and exit
 
-      ``-f, --force``: Force push over existing branches
+  ``-q, --quiet``: Suppress all output
 
-      ``-o ORIGIN, --origin ORIGIN``: Remote origin to push to
+  ``-v, --verbose``: Report all messages in great detail
 
-      ``-r REFERENCE_BRANCH, --reference-branch REFERENCE_BRANCH``: Branch to create from, in the form ``branch`` or ``remote/branch``
+  ``-f, --force``: Force push over existing branches
 
-      ``-n, --no-run``: If set, commands will be printed but not executed
+  ``-o ORIGIN, --origin ORIGIN``: Remote origin to push to
+
+  ``-r REFERENCE_BRANCH, --reference-branch REFERENCE_BRANCH``: Branch to create from, in the form ``branch`` or ``remote/branch``
+
+  ``-n, --no-run``: If set, commands will be printed but not executed
 
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================

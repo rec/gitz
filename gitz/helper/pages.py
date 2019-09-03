@@ -48,34 +48,42 @@ class Writer:
             if not line:
                 self._print()
             elif line.startswith(' '):
-                self._indent(line)
+                self._print(line)
             else:
-                self._indent('``%s``' % line)
+                self._print('``%s``' % line)
 
     def _flags(self, lines):
         self._print()
         self._header('FLAGS')
         state = None
         optionals = []
+        usage = []
+
+        def set_state(new_state):
+            nonlocal state
+            state = new_state
+            if usage:
+                self._code_block(usage)
+                self._print()
+                usage.clear()
+            self._print(new_state.capitalize())
+
         for line in lines:
             if not line:
                 self._print()
 
             elif line.startswith(_FULL_USAGE):
                 assert not state
-                usage = line[len(_FULL_USAGE) :].strip()
-                self._indent('``%s``' % usage)
+                usage = [line[len(_FULL_USAGE) :].strip()]
 
             elif line.startswith(_POSITIONAL):
-                state = _POSITIONAL
-                self._indent(_POSITIONAL.capitalize())
+                set_state(_POSITIONAL)
 
             elif line.startswith(_OPTIONAL):
-                state = _OPTIONAL
-                self._indent(_OPTIONAL.capitalize())
+                set_state(_OPTIONAL)
 
             elif state is None:
-                self._indent('``%s``' % line)
+                usage.append(line.strip())
 
             elif state == _POSITIONAL:
                 word, *rest = line.strip().split(maxsplit=1)
@@ -105,11 +113,16 @@ class Writer:
     def _command(self, lines):
         pass
 
+    def _code_block(self, lines):
+        self._print('.. code-block:: bash')
+        self._print()
+        for i, line in enumerate(lines):
+            self._print('    ' + line)
+
     def _usage(self, lines):
         self._print()
         self._header('USAGE')
-        self._print('.. code-block:: bash')
-        self._print_lines(lines)
+        self._code_block(lines)
 
     def _default(self, field, lines):
         self._print()
@@ -119,11 +132,8 @@ class Writer:
     def _print(self, *args):
         print(*args, file=self.fp)
 
-    def _indent(self, *args):
-        self._print(_INDENT, *args)
-
     def _argument(self, word, rest):
-        self._indent('  ``%s``: %s' % (word, rest))
+        self._print('  ``%s``: %s' % (word, rest))
 
     def _header(self, line, underline='='):
         self._print(line)
@@ -133,10 +143,9 @@ class Writer:
         if lines:
             self._print()
         for line in lines:
-            self._indent(line)
+            self._print(line)
 
 
-_INDENT = '   '
 _FULL_USAGE = 'Full usage:'
 _POSITIONAL = 'positional arguments:'
 _OPTIONAL = 'optional arguments:'

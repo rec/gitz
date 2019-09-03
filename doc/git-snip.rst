@@ -10,44 +10,47 @@ USAGE
 DANGER
 ======
 
-    Rewrites history!
+Rewrites history!
 
 DESCRIPTION
 ===========
 
-    "
-    Edit one or more commits IDs out of the current branch by index
-    or by commit ID
-    
-    IDs 0, 1, 2, 3... are short for HEAD~0, HEAD~1, HEAD~2, HEAD~3...
-    
-    This command rewrites history and is only intended for use on private
-    branches.
+"
+Edit one or more commits IDs out of the current branch by index
+or by commit ID
+
+IDs 0, 1, 2, 3... are short for HEAD~0, HEAD~1, HEAD~2, HEAD~3...
+
+This command rewrites history and is only intended for use on private
+branches.
 
 EXAMPLES
 ========
 
-    ``git snip 0``
-        Same as git reset --hard HEAD~
+``git snip 0``
+    Same as git reset --hard HEAD~
 
-    ``git snip 1 2``
-        Remove the two commits HEAD~1 and HEAD~2 but keep HEAD
+``git snip 1 2``
+    Remove the two commits HEAD~1 and HEAD~2 but keep HEAD
 
 FLAGS
 =====
-    ``git-snip [-h] [-q] [-v] [-n] commit_ids [commit_ids ...]``
 
-    Positional arguments:
-      ``commit_ids``: Names of commit_ids to create
+.. code-block:: bash
 
-    Optional arguments:
-      ``-h, --help``: show this help message and exit
+    git-snip [-h] [-q] [-v] [-n] commit_ids [commit_ids ...]
 
-      ``-q, --quiet``: Suppress all output
+Positional arguments:
+  ``commit_ids``: Names of commit_ids to create
 
-      ``-v, --verbose``: Report all messages in great detail
+Optional arguments:
+  ``-h, --help``: show this help message and exit
 
-      ``-n, --no-run``: If set, commands will be printed but not executed
+  ``-q, --quiet``: Suppress all output
+
+  ``-v, --verbose``: Report all messages in great detail
+
+  ``-n, --no-run``: If set, commands will be printed but not executed
 
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================
