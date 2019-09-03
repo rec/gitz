@@ -40,6 +40,11 @@ EXAMPLES
         Deletes the first two commits, reverses the next three, and
         deletes one more.
 
+    ``git shuffle __321_ -s "Commit message"``
+    ``git shuffle __321_ --squash="Commit messager"``
+        Deletes the first two commits, reverses the next three, squashes them
+        into one, and deletes one more.
+
 FLAGS
 =====
     ``git-shuffle [-h] [-q] [-v] [-s SQUASH] [-n] shuffle``

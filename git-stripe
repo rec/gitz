@@ -3,7 +3,7 @@ from gitz import git_functions
 from gitz.program import PROGRAM
 from gitz.program import git
 
-SUMMARY = 'Push a sequence of commit IDs to the origin repo'
+SUMMARY = 'Push a sequence of commit IDs to a remote repository'
 
 USAGE = """
 git stripe [<number-of-commits>] [commit-id]
@@ -14,12 +14,12 @@ HELP = """
 Starting with a given commit ID, and moving backwards from there,
 push each commit ID to its own disposable branch name.
 
-Useful if CI has missed some of your commit IDs because you rebased or
-pushed a sequences of commits too fast.
+Useful to bring these commits to the attention of your CI if has missed some of
+your commit IDs because you rebased or pushed a sequences of commits too fast.
 """
 
 EXAMPLES = """
-Assume current branch is master:
+Assume the current branch is master:
 
 git stripe
     Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named

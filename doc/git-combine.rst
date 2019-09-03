@@ -5,7 +5,7 @@ USAGE
 =====
 .. code-block:: bash
 
-    git-combine <commit> [...<additional-commit>] [-b/--base=<commit>]
+    git-combine [commit ...commit] [-b/--base=<commit>]
 
 DANGER
 ======
@@ -17,6 +17,8 @@ DESCRIPTION
 
     Equivalent to hard resetting to the base commit, then cherry picking
     each subsequent commit.
+    
+    The -s/--squash argument
 
 EXAMPLES
 ========

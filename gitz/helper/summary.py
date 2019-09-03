@@ -56,6 +56,8 @@ assert set(MESSAGES) == reader.DANGERS
 PRE = {
     'safe': 'Informational commands that don\'t change your repository',
     'history': """\
+Slice, dice, shuffle and split your commits.
+
 These commands are not intended for use on a shared or production branch, but
 can significantly speed up rapid development on private branches.""",
     'janky': """\
@@ -67,9 +69,16 @@ things in a sane way.""",
 POST = {
     'branch': """\
 By default, the branches ``develop`` and ``master`` and the remote ``upstream``
-are not allowed to be copied, renamed, or deleted.
+are protected - they are not allowed to be copied to, renamed, or deleted.
 
-You can disable this by setting the ``--all/-a`` flag, or you can override the
-protected branches or remotes by setting the environment variables
-``PROTECTED_BRANCHES`` or ``PROTECTED_REMOTES``"""
+You can configure this in three ways:
+
+- setting the ``--all/-a`` flag ignore protected branches entirely
+
+- setting one of the the environment variables
+  ``GITZ_PROTECTED_BRANCHES`` or ``GITZ_PROTECTED_REMOTES`` overrides these
+  defaults
+
+- setting a value for the keys ``PROTECTED_BRANCHES`` or ``PROTECTED_REMOTES``
+  in the file .gitz.json in the top directory of your Git project""",
 }

@@ -36,7 +36,7 @@ EXAMPLES
 
 FLAGS
 =====
-    ``git-delete [-h] [-q] [-v] [-a] [-n] target [target ...]``
+    ``git-delete [-h] [-q] [-v] [-f] [-n] target [target ...]``
 
     Positional arguments:
       ``target``: 
@@ -48,7 +48,7 @@ FLAGS
 
       ``-v, --verbose``: Report all messages in great detail
 
-      ``-a, --all``: Delete all, even protected remotes or branches
+      ``-f, --force``: Delete all, even protected remotes or branches
 
       ``-n, --no-run``: If set, commands will be printed but not executed
 

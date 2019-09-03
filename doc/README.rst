@@ -52,7 +52,7 @@ gitz commands
   version by https://www.reddit.com/user/ex1c)
 
 `git-stripe <git-stripe.rst>`_
-  Push a sequence of commit IDs to the origin repo
+  Push a sequence of commit IDs to a remote repository
 
 `git-update <git-update.rst>`_
   Update branches from the reference branch

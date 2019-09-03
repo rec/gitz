@@ -1,5 +1,5 @@
-``git-stripe``: Push a sequence of commit IDs to the origin repo
-----------------------------------------------------------------
+``git-stripe``: Push a sequence of commit IDs to a remote repository
+--------------------------------------------------------------------
 
 USAGE
 =====
@@ -14,13 +14,13 @@ DESCRIPTION
     Starting with a given commit ID, and moving backwards from there,
     push each commit ID to its own disposable branch name.
     
-    Useful if CI has missed some of your commit IDs because you rebased or
-    pushed a sequences of commits too fast.
+    Useful to bring these commits to the attention of your CI if has missed some of
+    your commit IDs because you rebased or pushed a sequences of commits too fast.
 
 EXAMPLES
 ========
 
-    ``Assume current branch is master:``
+    ``Assume the current branch is master:``
 
     ``git stripe``
         Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
@@ -47,9 +47,7 @@ EXAMPLES
 
 FLAGS
 =====
-    ``git-stripe [-h] [-q] [-v] [-D] [-d] [-f] [-o OFFSET] [-p PREFIX] [-r REMOTES]``
-    ``                  [-n]``
-    ``                  [count] [commit_id]``
+    ``git-stripe [-h] [-q] [-v] [-D] [-d] [-f] [-o OFFSET] [-p PREFIX] [-r REMOTES] [-n] [count] [commit_id]``
 
     Positional arguments:
       ``count``: The number of stripe branches to be created
