@@ -4,6 +4,7 @@ import os
 
 README = 'README.rst'
 LINK = '`{0} <doc/{0}.rst>`_'
+SAFE = 'safe'
 
 
 def summary(fp, command_help):
@@ -32,6 +33,23 @@ def summary(fp, command_help):
             print(POST[danger], file=fp)
 
 
+def sort_by_danger(commands):
+    command_help = {}
+    for command, data in commands.items():
+        data = reader.read_one(command)
+        danger = data.get('DANGER', '')
+        if danger:
+            for d in MESSAGES:
+                if d in danger[0]:
+                    command_help.setdefault(d, []).append(data)
+                    break
+            else:
+                raise ValueError('Bad danger', danger[0])
+        else:
+            command_help.setdefault(SAFE, []).append(data)
+    return command_help
+
+
 def main(commands):
     tmpfile = README + '.tmp'
     with open(tmpfile, 'w') as fp:
@@ -39,7 +57,7 @@ def main(commands):
             if not line.startswith('Safe commands'):
                 fp.write(line)
             else:
-                summary(fp, reader.sort_by_danger(commands))
+                summary(fp, sort_by_danger(commands))
                 break
     os.rename(tmpfile, README)
 
@@ -50,7 +68,6 @@ MESSAGES = {
     'history': 'Dangerous commands that rewrite history',
     'janky': 'Dangerous commands that are janky',
 }
-assert set(MESSAGES) == reader.DANGERS
 
 
 PRE = {

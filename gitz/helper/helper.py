@@ -1,3 +1,7 @@
+def helper(command, context, argv):
+    return Helper(command, context).print_help(argv)
+
+
 class Helper:
     def __init__(self, command, context):
         self.command = command
@@ -17,6 +21,8 @@ class Helper:
         else:
             print(self.usage.rstrip())
             print(self.help.rstrip())
+        print('\n---\n')
+        print('Full ', end='')
         return True
 
     INDENT = '    '

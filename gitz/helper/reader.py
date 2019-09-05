@@ -3,8 +3,6 @@ from ..program import safe_run
 
 NONE = '(none)'
 INDENT = 4
-SAFE = 'safe'
-DANGERS = {'safe', 'branch', 'history', 'janky'}
 FULL_USAGE = '---'
 
 
@@ -43,20 +41,3 @@ def read_one(command):
 
 def read():
     return {c: read_one(c) for c in config.COMMANDS}
-
-
-def sort_by_danger(commands):
-    command_help = {}
-    for command, data in commands.items():
-        data = read_one(command)
-        danger = data.get('DANGER', '')
-        if danger:
-            for d in DANGERS:
-                if d in danger[0]:
-                    command_help.setdefault(d, []).append(data)
-                    break
-            else:
-                raise ValueError('Bad danger', danger[0])
-        else:
-            command_help.setdefault(SAFE, []).append(data)
-    return command_help
