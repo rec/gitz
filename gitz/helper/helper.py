@@ -1,38 +1,35 @@
-def helper(command, context, argv):
-    return Helper(command, context).print_help(argv)
+def helper(program, context):
+    if not ('-h' in program.argv or '--h' in program.argv):
+        return False
+
+    fmt = {'command': program.executable}
+    for f in FIELDS:
+        value = context.get(f.upper(), '').lstrip().rstrip()
+        if f not in SIMPLE_FIELDS:
+            value = _indent(value)
+        fmt[f] = value
+
+    if fmt['danger']:
+        fmt['danger'] = 'DANGER:\n%s%s\n\n' % (INDENT, fmt['danger'])
+
+    if fmt['summary'] and fmt['examples']:
+        print(HELP.format(**fmt).rstrip())
+    else:
+        print(fmt['usage'].rstrip())
+        print(fmt['help'].rstrip())
+
+    print('\n---\n')
+    print('Full ', end='')
+    return True
 
 
-class Helper:
-    def __init__(self, command, context):
-        self.command = command
-        for f in FIELDS:
-            value = context.get(f.upper(), '').lstrip().rstrip()
-            if f not in SIMPLE_FIELDS:
-                value = self._indent(value)
-            setattr(self, f, value)
-        if self.danger:
-            self.danger = 'DANGER:\n%s%s\n\n' % (self.INDENT, self.danger)
-
-    def print_help(self, argv):
-        if not ('-h' in argv or '--h' in argv):
-            return False
-        if self.summary and self.examples:
-            print(HELP.format(**vars(self)).rstrip())
-        else:
-            print(self.usage.rstrip())
-            print(self.help.rstrip())
-        print('\n---\n')
-        print('Full ', end='')
-        return True
-
-    INDENT = '    '
-
-    def _indent(self, text):
-        return '\n'.join(self.INDENT + i for i in text.splitlines()) + '\n'
+def _indent(text):
+    return '\n'.join(INDENT + i for i in text.splitlines()) + '\n'
 
 
 FIELDS = 'danger', 'examples', 'help', 'image', 'summary', 'usage'
 SIMPLE_FIELDS = 'danger', 'image'
+INDENT = '    '
 
 HELP = """\
 {command}:

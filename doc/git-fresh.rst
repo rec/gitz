@@ -27,7 +27,8 @@ FLAGS
 
 .. code-block:: bash
 
-    git-fresh [-h] [-q] [-v] [-f] [-o ORIGIN] [-r REFERENCE_BRANCH] [-n] branches [branches ...]
+    git-fresh [-h] [-q] [-v] [-f] [-o ORIGIN] [-r REFERENCE_BRANCH] [-n]
+    branches [branches ...]
 
 Positional arguments:
   ``branches``: Names of branches to create

@@ -50,7 +50,9 @@ FLAGS
 
 .. code-block:: bash
 
-    git-stripe [-h] [-q] [-v] [-D] [-d] [-f] [-o OFFSET] [-p PREFIX] [-r REMOTES] [-n] [count] [commit_id]
+    git-stripe [-h] [-q] [-v] [-D] [-d] [-f] [-o OFFSET] [-p PREFIX] [-r REMOTES]
+    [-n]
+    [count] [commit_id]
 
 Positional arguments:
   ``count``: The number of stripe branches to be created

@@ -43,7 +43,7 @@ class _Program:
                 '-n', '--no-run', action='store_true', help=_NO_RUN_HELP
             )
 
-        helper.helper(self.executable, context, self.argv)
+        helper.helper(self, context)
 
         # If -h/--help are set, this next call terminates the program
         self.args = parser.parse_args(self.argv)
