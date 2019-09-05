@@ -122,8 +122,6 @@ _HELP_ALL = 'Visit non-git directories'
 _HELP_FAIL = 'Fail immediately if any git-all command fails'
 _HELP_INDENT = 'Number of columns to indent output of commands'
 _HELP_NAME = 'Names of branches or directories to iterate over'
-_HELP_QUIET = 'Print only command output and errors, no git or git-all output'
-_HELP_VERBOSE = 'Echo all git commands and their responses'
 
 
 if __name__ == '__main__':
