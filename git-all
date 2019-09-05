@@ -126,4 +126,4 @@ _HELP_NAME = 'Names of branches or directories to iterate over'
 
 if __name__ == '__main__':
     _pre()
-    PROGRAM.start(**globals())
+    PROGRAM.start()

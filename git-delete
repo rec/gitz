@@ -72,4 +72,4 @@ def add_arguments(parser):
 
 
 if __name__ == '__main__':
-    PROGRAM.start(**globals())
+    PROGRAM.start()

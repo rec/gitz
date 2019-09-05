@@ -20,7 +20,9 @@ class _Program:
         self.argv = sys.argv[1:]
         self.called = collections.Counter()
 
-    def start(self, **context):
+    def start(self, context=None):
+        if context is None:
+            context = vars(sys.modules['__main__'])
         self.initialize(**context)
         exe = self.executable.replace('-', '_')
         main = context.get(exe) or context.get('main')

@@ -83,4 +83,4 @@ _HELP_COMMIT = 'Optional commit ID to split from'
 
 if __name__ == '__main__':
     PROGRAM.ALLOW_NO_RUN = False
-    PROGRAM.start(**globals())
+    PROGRAM.start()

@@ -71,4 +71,4 @@ def _version(indent):
 
 
 if __name__ == '__main__':
-    PROGRAM.start(**globals())
+    PROGRAM.start()

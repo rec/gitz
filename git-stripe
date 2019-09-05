@@ -183,4 +183,4 @@ _HELP_REMOTE = (
 )
 
 if __name__ == '__main__':
-    PROGRAM.start(**globals())
+    PROGRAM.start()

@@ -96,4 +96,4 @@ _HELP_FORCE = 'Force push over existing branches'
 _HELP_ORIGIN = 'Remote origin to push to'
 
 if __name__ == '__main__':
-    PROGRAM.start(**globals())
+    PROGRAM.start()

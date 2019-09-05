@@ -93,4 +93,4 @@ _HELP_BRANCHES = 'A list of branches to update - default is all branches'
 
 
 if __name__ == '__main__':
-    PROGRAM.start(**globals())
+    PROGRAM.start()

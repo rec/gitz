@@ -13,5 +13,5 @@ def main():
 
 
 if __name__ == '__main__':
-    PROGRAM.initialize()
+    PROGRAM.start()
     main()
