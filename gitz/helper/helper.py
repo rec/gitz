@@ -1,4 +1,7 @@
-def helper(program, context):
+import sys
+
+
+def helper(program, context, parser):
     if not ('-h' in program.argv or '--h' in program.argv):
         return False
 
@@ -20,7 +23,8 @@ def helper(program, context):
 
     print('\n---\n')
     print('Full ', end='')
-    return True
+    print(parser.format_help())
+    sys.exit()
 
 
 def _indent(text):

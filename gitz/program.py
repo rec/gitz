@@ -45,9 +45,9 @@ class _Program:
                 '-n', '--no-run', action='store_true', help=_NO_RUN_HELP
             )
 
-        helper.helper(self, context)
-
         # If -h/--help are set, this next call terminates the program
+        helper.helper(self, context, parser)
+
         self.args = parser.parse_args(self.argv)
         self.log = log.Log(self.args)
         self._safe_run = runner.Runner(self.log)
