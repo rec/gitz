@@ -20,12 +20,21 @@ class _Program:
         self.argv = sys.argv[1:]
         self.called = collections.Counter()
 
-    def initialize(self, add_arguments=None, **kwds):
-        self.helper = helper.Helper(self.executable, **kwds)
-        if self.helper.print_help(self.argv):
-            print('\n---\n')
-            print('Full ', end='')
+    def start(self, **context):
+        self.initialize(**context)
+        exe = self.executable.replace('-', '_')
+        main = context.get(exe) or context.get('main')
+        if not main:
+            self.exit('No method named', exe, 'or main in', self.executable)
 
+        try:
+            main()
+
+        except Exception as e:
+            self.log.verbose(traceback.format_exc(), file=sys.stderr)
+            self.exit('%s: %s' % (e.__class__.__name__, e))
+
+    def initialize(self, add_arguments=None, **context):
         parser = argparse.ArgumentParser()
         log.add_arguments(parser)
         add_arguments and add_arguments(parser)
@@ -33,6 +42,11 @@ class _Program:
             parser.add_argument(
                 '-n', '--no-run', action='store_true', help=_NO_RUN_HELP
             )
+
+        self.helper = helper.Helper(self.executable, context)
+        if self.helper.print_help(self.argv):
+            print('\n---\n')
+            print('Full ', end='')
 
         # If -h/--help are set, this next call terminates the program
         self.args = parser.parse_args(self.argv)
@@ -45,20 +59,6 @@ class _Program:
 
         self._quiet_run = runner.Runner(self.log, quiet=True)
         return self.args
-
-    def start(self, add_arguments=None, **kwds):
-        self.initialize(add_arguments, **kwds)
-        exe = self.executable.replace('-', '_')
-        main = kwds.get(exe) or kwds.get('main')
-        if not main:
-            self.exit('No method named', exe, 'or main in', self.executable)
-
-        try:
-            main()
-
-        except Exception as e:
-            self.log.verbose(traceback.format_exc(), file=sys.stderr)
-            self.exit('%s: %s' % (e.__class__.__name__, e))
 
     def safe_run(self, *command, **kwds):
         return self._run(*command, **kwds)

@@ -1,8 +1,8 @@
 class Helper:
-    def __init__(self, command, **kwds):
+    def __init__(self, command, context):
         self.command = command
         for f in FIELDS:
-            value = kwds.get(f.upper(), '').lstrip().rstrip()
+            value = context.get(f.upper(), '').lstrip().rstrip()
             if f not in SIMPLE_FIELDS:
                 value = self._indent(value)
             setattr(self, f, value)
