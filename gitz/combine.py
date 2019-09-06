@@ -47,12 +47,15 @@ def shuffle(shuffle):
 
     result.append(len(shuffle))
     last = None
+    unchanged = 0
     while result and result[-1] == len(result) - 1:
         last = result.pop()
+        unchanged += 1
     if result and last is not None:
         result.append(last)
+        unchanged -= 1
 
-    return result
+    return result, unchanged if result else 0
 
 
 def add_arguments(parser):

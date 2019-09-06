@@ -41,7 +41,7 @@ git shuffle __321_ --squash="Commit messager"
 
 def git_shuffle():
     git_functions.check_clean_workspace()
-    shuffle = combine.shuffle(PROGRAM.args.shuffle)
+    shuffle, unchanged = combine.shuffle(PROGRAM.args.shuffle)
     if not shuffle:
         PROGRAM.message('No change')
         return
@@ -54,7 +54,7 @@ def git_shuffle():
         s = '' if shuffled == 1 else 's'
         PROGRAM.message(shuffled, 'commit%s shuffled' % s)
 
-    deleted = len(PROGRAM.args.shuffle) - shuffled
+    deleted = len(PROGRAM.args.shuffle) - shuffled - unchanged
     if deleted:
         s = '' if deleted == 1 else 's'
         PROGRAM.message(deleted, 'commit%s deleted' % s)
