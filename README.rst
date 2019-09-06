@@ -12,7 +12,9 @@ advantage of continuous integration.
 Most of them only exist here, one comes from other git repos, one came
 from a chat on Reddit and I don't know where one of them came from
 
-Four of them are written in Bash, the rest use Python 3.
+Four of them are written in Bash, the rest use Python 3.  They have been tested
+on Mac OS/X (Darwin) and on Ubuntu, and will likely work on any Unix-like
+operating system.
 
 How to install
 ==============
@@ -104,7 +106,7 @@ Informational commands that don't change your repository
 
 `git-st <doc/git-st.rst>`_
   Colorful, compact git status
-  
+
   This version written by https://github.com/PlatyPew/, original
   version by https://www.reddit.com/user/ex1c)
 
