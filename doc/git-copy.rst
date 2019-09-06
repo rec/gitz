@@ -3,14 +3,29 @@
 
 USAGE
 =====
+
 .. code-block:: bash
 
-    git copy [<source-branch>] <target-branch>
+    git-copy [-h] [-q] [-v] [-a] [-c] [-f] [-n] source [target]
 
-DANGER
-======
+Positional arguments
+  ``source``: 
+  ``target``: 
 
-Changes remote branches!
+Optional arguments
+  ``-h, --help``: show this help message and exit
+
+  ``-q, --quiet``: Suppress all output
+
+  ``-v, --verbose``: Report all messages in great detail
+
+  ``-a, --all``: Copy all, even protected remotes or branches
+
+  ``-c, --create``: Create remote branch even if source does not exist
+
+  ``-f, --force``: Force copy over existing branches
+
+  ``-n, --no-run``: If set, commands will be printed but not executed
 
 DESCRIPTION
 ===========
@@ -30,6 +45,11 @@ It's also possible to override the protected branches or the
 protected remotes by setting one of the environment variables
 GITZ_PROTECTED_BRANCHES or GITZ_PROTECTED_REMOTES
 to a list separated by colons, or an empty string for no protection.
+
+DANGER
+======
+
+Changes remote branches!
 
 EXAMPLES
 ========
@@ -60,32 +80,3 @@ EXAMPLES
     repositories where the branch "old" exists.
 
     Overwrites "new" if it exists locally or in the remote repositories.
-
-FLAGS
-=====
-
-.. code-block:: bash
-
-    git-copy [-h] [-q] [-v] [-a] [-c] [-f] [-n] source [target]
-
-Positional arguments:
-  ``source``: 
-  ``target``: 
-
-Optional arguments:
-  ``-h, --help``: show this help message and exit
-
-  ``-q, --quiet``: Suppress all output
-
-  ``-v, --verbose``: Report all messages in great detail
-
-  ``-a, --all``: Copy all, even protected remotes or branches
-
-  ``-c, --create``: Create remote branch even if source does not exist
-
-  ``-f, --force``: Force copy over existing branches
-
-  ``-n, --no-run``: If set, commands will be printed but not executed
-
-`Gitz home page <https://github.com/rec/gitz/>`_
-================================================

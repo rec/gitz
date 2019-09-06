@@ -3,20 +3,31 @@
 
 USAGE
 =====
+
 .. code-block:: bash
 
-    git-split [<pathspec>]
+    git-split [-h] [-q] [-v] [commit]
 
-DANGER
-======
+Positional arguments
+  ``commit``: Optional commit ID to split from
 
-Rewrites history!
+Optional arguments
+  ``-h, --help``: show this help message and exit
+
+  ``-q, --quiet``: Suppress all output
+
+  ``-v, --verbose``: Report all messages in great detail
 
 DESCRIPTION
 ===========
 
 `git-split` squashes together a range of commits and the staging area, then
 splits out a sequence of individual commits, one for each file changed.
+
+DANGER
+======
+
+Rewrites history!
 
 EXAMPLES
 ========
@@ -29,23 +40,3 @@ EXAMPLES
 
 ``git-split HEAD~``
     Splits the squash of the staging area, HEAD and HEAD~
-
-FLAGS
-=====
-
-.. code-block:: bash
-
-    git-split [-h] [-q] [-v] [commit]
-
-Positional arguments:
-  ``commit``: Optional commit ID to split from
-
-Optional arguments:
-  ``-h, --help``: show this help message and exit
-
-  ``-q, --quiet``: Suppress all output
-
-  ``-v, --verbose``: Report all messages in great detail
-
-`Gitz home page <https://github.com/rec/gitz/>`_
-================================================

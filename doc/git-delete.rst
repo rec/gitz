@@ -3,14 +3,24 @@
 
 USAGE
 =====
+
 .. code-block:: bash
 
-    git delete <branch-name> [...<branch-name>]
+    git-delete [-h] [-q] [-v] [-f] [-n] target [target ...]
 
-DANGER
-======
+Positional arguments
+  ``target``: 
 
-Deletes remote branches!
+Optional arguments
+  ``-h, --help``: show this help message and exit
+
+  ``-q, --quiet``: Suppress all output
+
+  ``-v, --verbose``: Report all messages in great detail
+
+  ``-f, --force``: Delete all, even protected remotes or branches
+
+  ``-n, --no-run``: If set, commands will be printed but not executed
 
 DESCRIPTION
 ===========
@@ -27,33 +37,14 @@ by setting the environment variable GITZ_PROTECTED_BRANCHES or
 GITZ_PROTECTED_REMOTES to a list separated by colons, or to an empty
 string to turn off protection entirely.
 
+DANGER
+======
+
+Deletes remote branches!
+
 EXAMPLES
 ========
 
 ``git delete foo bar``
     Delete the branches foo and bar locally and on every upstream
     except (by default) upstream
-
-FLAGS
-=====
-
-.. code-block:: bash
-
-    git-delete [-h] [-q] [-v] [-f] [-n] target [target ...]
-
-Positional arguments:
-  ``target``: 
-
-Optional arguments:
-  ``-h, --help``: show this help message and exit
-
-  ``-q, --quiet``: Suppress all output
-
-  ``-v, --verbose``: Report all messages in great detail
-
-  ``-f, --force``: Delete all, even protected remotes or branches
-
-  ``-n, --no-run``: If set, commands will be printed but not executed
-
-`Gitz home page <https://github.com/rec/gitz/>`_
-================================================

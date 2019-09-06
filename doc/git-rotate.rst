@@ -3,9 +3,22 @@
 
 USAGE
 =====
+
 .. code-block:: bash
 
-    git rotate [<number-of-positions>]
+    git-rotate [-h] [-q] [-v] [-n] [steps]
+
+Positional arguments
+  ``steps``: Number of steps to rotate (positive or negative)
+
+Optional arguments
+  ``-h, --help``: show this help message and exit
+
+  ``-q, --quiet``: Suppress all output
+
+  ``-v, --verbose``: Report all messages in great detail
+
+  ``-n, --no-run``: If set, commands will be printed but not executed
 
 DESCRIPTION
 ===========
@@ -25,25 +38,3 @@ EXAMPLES
 ``git rotate -1``
 ``git rotate -``
     Rotate 1 branch backward
-
-FLAGS
-=====
-
-.. code-block:: bash
-
-    git-rotate [-h] [-q] [-v] [-n] [steps]
-
-Positional arguments:
-  ``steps``: Number of steps to rotate (positive or negative)
-
-Optional arguments:
-  ``-h, --help``: show this help message and exit
-
-  ``-q, --quiet``: Suppress all output
-
-  ``-v, --verbose``: Report all messages in great detail
-
-  ``-n, --no-run``: If set, commands will be printed but not executed
-
-`Gitz home page <https://github.com/rec/gitz/>`_
-================================================

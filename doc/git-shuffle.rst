@@ -3,19 +3,34 @@
 
 USAGE
 =====
+
 .. code-block:: bash
 
-    git-shuffle [permutation]
+    git-shuffle [-h] [-q] [-v] [-s SQUASH] [-n] shuffle
 
-DANGER
-======
+Positional arguments
+  ``shuffle``: Pattern string to shuffle
 
-Rewrites history!
+Optional arguments
+  ``-h, --help``: show this help message and exit
+
+  ``-q, --quiet``: Suppress all output
+
+  ``-v, --verbose``: Report all messages in great detail
+
+  ``-s SQUASH, --squash SQUASH``: Squash all commits into one, with a message
+
+  ``-n, --no-run``: If set, commands will be printed but not executed
 
 DESCRIPTION
 ===========
 
 Shuffles the current sequence of commits, perhaps deleting some.
+
+DANGER
+======
+
+Rewrites history!
 
 EXAMPLES
 ========
@@ -44,27 +59,3 @@ EXAMPLES
 ``git shuffle __321_ --squash="Commit messager"``
     Deletes the first two commits, reverses the next three, squashes them
     into one, and deletes one more.
-
-FLAGS
-=====
-
-.. code-block:: bash
-
-    git-shuffle [-h] [-q] [-v] [-s SQUASH] [-n] shuffle
-
-Positional arguments:
-  ``shuffle``: Pattern string to shuffle
-
-Optional arguments:
-  ``-h, --help``: show this help message and exit
-
-  ``-q, --quiet``: Suppress all output
-
-  ``-v, --verbose``: Report all messages in great detail
-
-  ``-s SQUASH, --squash SQUASH``: Squash all commits into one, with a message
-
-  ``-n, --no-run``: If set, commands will be printed but not executed
-
-`Gitz home page <https://github.com/rec/gitz/>`_
-================================================

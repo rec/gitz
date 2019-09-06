@@ -3,9 +3,28 @@
 
 USAGE
 =====
+
 .. code-block:: bash
 
-    git fresh <branch-name> [...<branch-name>]
+    git-fresh [-h] [-q] [-v] [-f] [-o ORIGIN] [-r REFERENCE_BRANCH] [-n] branches [branches ...]
+
+Positional arguments
+  ``branches``: Names of branches to create
+
+Optional arguments
+  ``-h, --help``: show this help message and exit
+
+  ``-q, --quiet``: Suppress all output
+
+  ``-v, --verbose``: Report all messages in great detail
+
+  ``-f, --force``: Force push over existing branches
+
+  ``-o ORIGIN, --origin ORIGIN``: Remote origin to push to
+
+  ``-r REFERENCE_BRANCH, --reference-branch REFERENCE_BRANCH``: Branch to create from, in the form ``branch`` or ``remote/branch``
+
+  ``-n, --no-run``: If set, commands will be printed but not executed
 
 DESCRIPTION
 ===========
@@ -21,31 +40,3 @@ EXAMPLES
 
 ``git fresh one two three``
    Create three new branches
-
-FLAGS
-=====
-
-.. code-block:: bash
-
-    git-fresh [-h] [-q] [-v] [-f] [-o ORIGIN] [-r REFERENCE_BRANCH] [-n] branches [branches ...]
-
-Positional arguments:
-  ``branches``: Names of branches to create
-
-Optional arguments:
-  ``-h, --help``: show this help message and exit
-
-  ``-q, --quiet``: Suppress all output
-
-  ``-v, --verbose``: Report all messages in great detail
-
-  ``-f, --force``: Force push over existing branches
-
-  ``-o ORIGIN, --origin ORIGIN``: Remote origin to push to
-
-  ``-r REFERENCE_BRANCH, --reference-branch REFERENCE_BRANCH``: Branch to create from, in the form ``branch`` or ``remote/branch``
-
-  ``-n, --no-run``: If set, commands will be printed but not executed
-
-`Gitz home page <https://github.com/rec/gitz/>`_
-================================================

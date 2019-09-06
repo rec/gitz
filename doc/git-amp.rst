@@ -3,14 +3,10 @@
 
 USAGE
 =====
+
 .. code-block:: bash
 
     git amp [commit message here]
-
-DANGER
-======
-
-Rewrites history!
 
 DESCRIPTION
 ===========
@@ -25,6 +21,11 @@ For your protection, 'git amp' will fail with a message if there are
 any changes in your workspace which would get accidentally mixed into
 the previous commit.
 
+DANGER
+======
+
+Rewrites history!
+
 EXAMPLES
 ========
 
@@ -38,6 +39,3 @@ EXAMPLES
     Amend and push with message "Commit message! (fix #12?)"
     (You need quotes if the message includes special shell
      characters like #, ', ", *, ?, !)
-
-`Gitz home page <https://github.com/rec/gitz/>`_
-================================================
