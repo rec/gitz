@@ -5,19 +5,42 @@ from gitz.env import ENV
 from gitz.program import PROGRAM
 from gitz.program import git
 
-SUMMARY = 'Create and push one or more fresh branches'
+SUMMARY = 'Create and push fresh branches'
 
 HELP = """
-Creates one or more fresh branches from the base working branch
-and pushes them them to your git origin.
+Create fresh branches from the reference branch and push them with
+--set-upstream.
 
+git-fresh does all the things you really want to safely get fresh new branches
+where you can start working and pushing immediately
+
+- Fails leaving the workspace unchanged if there are uncommitted changes
+
+- Fails if any branch already exists locally or remotely, unless -f/--force
+
+- Fetches the *reference branch* - a branch on the upstream or origin repo that
+  is the main branch for development - likely upstream/master or origin/master
+
+- Create new branches locally from that reference branch commit ID
+
+- Pushes them to the remote origin
+
+- gitz can guess what the reference branch and remote origin are, and for
+  nearly all projects this will be correct, or this can be specified at the
+  command line, per project, or through environment variables - see
+  ``git gitz`` for more details
 """
 EXAMPLES = """
 git fresh foo
-   Create a new branch foo and push to the origin
+   Create a new branch foo from the reference branch and push to the origin
 
-git fresh one two three
-   Create three new branches
+git fresh foo --origin=remote_1
+git fresh foo -o remote_1
+   Create a new branch foo from the reference branch and push to remote_1
+
+git fresh one two three --reference-branch=some-remote/master
+git fresh one two three -r some-remote/master
+   Create three new branches from the remote branch some-remote/master
 """
 
 _HELP_BRANCHES = 'Names of branches to create'
@@ -87,9 +110,6 @@ def add_arguments(parser):
     reference_branch.add_arguments(parser)
 
 
-_HELP_REFERENCE_BRANCH = (
-    'Branch to create from, in the form ``branch`` or ``remote/branch``'
-)
 _HELP_FORCE = 'Force push over existing branches'
 _HELP_ORIGIN = 'Remote origin to push to'
 
