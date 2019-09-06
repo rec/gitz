@@ -35,6 +35,43 @@ Below there's a summary of each command, and a link to a manual page.
 Or from the terminal, use ``-h`` flag like this: ``git new -h``.
 
 
+When to use gitz
+=================
+
+1. At the start of a session
+   - ``git new`` safely creates fresh branches from upstream
+   - ``git update`` for each branch, rebases from upstream and pushes
+
+2. During development
+   - ``git st`` is a more compact and prettier ``git status``
+   - ``git ls`` shows you when documents were last changed
+
+3. Rapid rapid development
+   - ``git amp`` amends and force-pushes the message of the last commit -
+     great for minor spelling mistakes
+   - ``git infer`` commits files with an automatically generated message -
+     great for committing tiny changes for later rebasing down
+
+4. Cleaning commits for release
+   - ``git combine`` combines multiple commits and optionally squashes them
+   - ``git shuffle`` shuffles and removes commits in the current branch
+   - ``git snip`` removes commits in the current branch
+   - ``git split`` split one or more commits, perhaps with the staging area,
+     into many small individual commits, one per file
+
+5. During branch maintenance
+   - ``git rotate`` rotates through all branches
+   - ``git copy``, ``git delete``,  and ``git rename`` work both remotely and
+     locally
+
+6. Working with continuous integration
+   - ``git stripe`` pushes branches with a sequence of commits
+     to a remote where CI can find and test them
+
+The gitz commands
+-----------------
+
+
 Safe commands
 =============
 
@@ -61,7 +98,7 @@ Informational commands that don't change your repository
 
 `git-st <doc/git-st.rst>`_
   Colorful, compact git status
-  
+
   This version written by https://github.com/PlatyPew/, original
   version by https://www.reddit.com/user/ex1c)
 
