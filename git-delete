@@ -9,7 +9,6 @@ from gitz.program import safe_git
 SUMMARY = 'Delete one or more branches locally and on all remotes'
 DANGER = 'Deletes remote branches!'
 
-USAGE = 'git delete <branch-name> [...<branch-name>]'
 HELP = """
 By default, the branches `master` and `develop` and the remote
 `upstream` are protected, which means that they are not allowed

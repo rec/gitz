@@ -4,7 +4,6 @@ from gitz.git_functions import COMMIT_ID_LENGTH
 from gitz.program import PROGRAM
 
 SUMMARY = 'Combine multiple commits into one'
-USAGE = 'git-combine [commit ...commit] [-b/--base=<commit>]'
 HELP = """
 Equivalent to hard resetting to the base commit, then cherry picking
 each subsequent commit.

@@ -9,7 +9,6 @@ import os
 import sys
 
 SUMMARY = 'Perform a command on each of multiple branches or directories'
-USAGE = 'git all [name ...] - <command> [argument ...]'
 HELP = """
 Performs <command> [argument ...] for each `name`, or over all
 branches if no `name` is given.

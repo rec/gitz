@@ -24,16 +24,14 @@ class Mover:
         self.error = PROGRAM.error
 
     def __call__(self):
-        config = {
+        PROGRAM.start({
             'add_arguments': self._add_arguments,
             'HELP': HELP.format(self),
-            'USAGE': USAGE.format(self),
             'SUMMARY': SUMMARY.format(self),
             'EXAMPLES': EXAMPLES.format(self),
             'DANGER': DANGER.format(self),
             'main': self.run,
-        }
-        PROGRAM.start(config)
+        })
 
     def run(self):
         starting_branch = git_functions.branch_name()
@@ -129,7 +127,6 @@ class Mover:
 
 DANGER = 'Changes remote branches!'
 SUMMARY = '{0.Action} a git branch locally and on all remotes'
-USAGE = 'git {0.action} [<source-branch>] <target-branch>'
 HELP = """
 {0.Action} one branch to another, both locally and in remote
 branches.  If no source branch is given, the current branch is

@@ -5,11 +5,6 @@ from gitz.program import git
 
 SUMMARY = 'Push a sequence of commit IDs to a remote repository'
 
-USAGE = """
-git stripe [<number-of-commits>] [commit-id]
-[-b/--prefix=<prefix>] [-d/delete]
-"""
-
 HELP = """
 Starting with a given commit ID, and moving backwards from there,
 push each commit ID to its own disposable branch name.

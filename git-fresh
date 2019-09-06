@@ -7,8 +7,6 @@ from gitz.program import git
 
 SUMMARY = 'Create and push one or more fresh branches'
 
-USAGE = 'git fresh <branch-name> [...<branch-name>]'
-
 HELP = """
 Creates one or more fresh branches from the base working branch
 and pushes them them to your git origin.

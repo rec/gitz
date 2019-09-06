@@ -6,8 +6,9 @@ from gitz.program import git
 from gitz.program import quiet_git
 
 SUMMARY = 'Update branches from the reference branch'
-USAGE = 'git-update [branch ...branch]'
+
 DANGER = 'Rewrites history!'
+
 HELP = """
 ``git-update`` goes to each branch in turn, then tries to update it
 the reference branch by pulling with --rebase.
@@ -17,6 +18,7 @@ rebase and returns that branch to its previous condition.
 
 If the rebase succeeds, ``git-update`` force-pushes the result.
 """
+
 EXAMPLES = """
 git-update
     Updates all branches

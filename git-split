@@ -6,7 +6,7 @@ from gitz.program import safe_git
 import os
 
 SUMMARY = 'Split a range of commits into many single-file commits'
-USAGE = 'git-split [<pathspec>]'
+
 DANGER = 'Rewrites history!'
 HELP = """
 `git-split` squashes together a range of commits and the staging area, then

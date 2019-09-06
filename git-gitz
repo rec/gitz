@@ -4,7 +4,7 @@ from gitz import env
 from gitz.program import PROGRAM
 
 SUMMARY = 'Print information about the gitz environment'
-USAGE = 'git gitz [item ..item]'
+
 HELP = """
 `git gitz` lists all the gitz commands, the gitz protected branches
 and remotes, or the current gitz version

@@ -4,7 +4,7 @@ from gitz import git_functions
 from gitz.program import PROGRAM
 
 SUMMARY = 'Reorder and delete commits in the existing branch'
-USAGE = 'git-shuffle [permutation]'
+
 DANGER = 'Rewrites history!'
 
 HELP = """
