@@ -16,9 +16,6 @@ gitz commands
 `git-delete <git-delete.rst>`_
   Delete one or more branches locally and on all remotes
 
-`git-fresh <git-fresh.rst>`_
-  Create and push one or more fresh branches
-
 `git-gitz <git-gitz.rst>`_
   Print information about the gitz environment
 
@@ -29,6 +26,9 @@ gitz commands
 `git-ls <git-ls.rst>`_
   List each file with its most recent commit, in subtle color
   (from an unknown source)
+
+`git-new <git-new.rst>`_
+  Create and push new branches
 
 `git-rename <git-rename.rst>`_
   Rename a git branch locally and on all remotes

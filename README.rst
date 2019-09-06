@@ -32,16 +32,13 @@ Getting help
 ============
 
 Below there's a summary of each command, and a link to a manual page.
-Or from the terminal, use ``-h`` flag like this: ``git fresh -h``.
+Or from the terminal, use ``-h`` flag like this: ``git new -h``.
 
 
 Safe commands
 =============
 
 Informational commands that don't change your repository
-
-`git-fresh <doc/git-fresh.rst>`_
-  Create and push one or more fresh branches
 
 `git-gitz <doc/git-gitz.rst>`_
   Print information about the gitz environment
@@ -56,12 +53,15 @@ Informational commands that don't change your repository
 
 .. image:: img/git-ls-screenshot.png
 
+`git-new <doc/git-new.rst>`_
+  Create and push new branches
+
 `git-rotate <doc/git-rotate.rst>`_
   Rotate the current branch forward or backward in the list of branches
 
 `git-st <doc/git-st.rst>`_
   Colorful, compact git status
-
+  
   This version written by https://github.com/PlatyPew/, original
   version by https://www.reddit.com/user/ex1c)
 

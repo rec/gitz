@@ -13,23 +13,23 @@ class GitUpdateTest(unittest.TestCase):
         git.push('--set-upstream', 'origin', 'master')
 
         # No conflicts
-        git.fresh('one')
+        git.new('one')
         repo.make_commit('one')
         git.push()
 
         # Resolvable conflict
-        git.fresh('two')
+        git.new('two')
         repo.make_one_commit('file.txt', DELTA1, 'two')
         git.push()
 
         # Unresolvable conflict
         # TODO: this didn't work
-        git.fresh('three')
+        git.new('three')
         repo.make_one_commit('file.txt', DELTA2, 'three')
         git.push()
 
         # Local differs from origin
-        git.fresh('four')
+        git.new('four')
         repo.make_one_commit('file.txt', 'four', 'four')
 
         git.checkout('master')

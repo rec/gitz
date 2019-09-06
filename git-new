@@ -5,13 +5,13 @@ from gitz.env import ENV
 from gitz.program import PROGRAM
 from gitz.program import git
 
-SUMMARY = 'Create and push fresh branches'
+SUMMARY = 'Create and push new branches'
 
 HELP = """
-Create fresh branches from the reference branch and push them with
+Create new branches from the reference branch and push them with
 --set-upstream.
 
-git-fresh does all the things you really want to safely get fresh new branches
+git-new does the things you really want to safely get new branches
 where you can start working and pushing immediately
 
 - Fails leaving the workspace unchanged if there are uncommitted changes
@@ -23,30 +23,30 @@ where you can start working and pushing immediately
 
 - Create new branches locally from that reference branch commit ID
 
-- Pushes them to the remote origin
+- Pushes them to the remote origin with --set-upstream
 
-- gitz can guess what the reference branch and remote origin are, and for
-  nearly all projects this will be correct, or this can be specified at the
-  command line, per project, or through environment variables - see
-  ``git gitz`` for more details
+gitz can guess what the reference branch and remote origin are, and for
+nearly all projects this will be correct, or this can be specified at the
+command line, per project, or through environment variables - see ``git gitz``
+for more details.
 """
 EXAMPLES = """
-git fresh foo
+git new foo
    Create a new branch foo from the reference branch and push to the origin
 
-git fresh foo --origin=remote_1
-git fresh foo -o remote_1
+git new foo --origin=remote_1
+git new foo -o remote_1
    Create a new branch foo from the reference branch and push to remote_1
 
-git fresh one two three --reference-branch=some-remote/master
-git fresh one two three -r some-remote/master
+git new one two three --reference-branch=some-remote/master
+git new one two three -r some-remote/master
    Create three new branches from the remote branch some-remote/master
 """
 
 _HELP_BRANCHES = 'Names of branches to create'
 
 
-def git_fresh():
+def git_new():
     git_functions.check_clean_workspace()
     branches = git_functions.branches()
     remote_branches = git_functions.remote_branches()
@@ -79,7 +79,7 @@ def git_fresh():
         git.push('-fu', origin, new_branch, quiet=True)
         id = git_functions.commit_id(new_branch, short=True)
         PROGRAM.message(
-            'Fresh!  {0}..{1}  {2} -> {2}'.format(
+            'New {0}..{1}  {2} -> {2}'.format(
                 original_id or id, id, new_branch
             )
         )
