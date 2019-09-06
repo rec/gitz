@@ -39,20 +39,24 @@ When to use gitz
 =================
 
 1. At the start of a session
+
    - ``git new`` safely creates fresh branches from upstream
    - ``git update`` for each branch, rebases from upstream and pushes
 
 2. During development
+
    - ``git st`` is a more compact and prettier ``git status``
    - ``git ls`` shows you when documents were last changed
 
-3. Rapid rapid development
+3. During rapid development
+
    - ``git amp`` amends and force-pushes the message of the last commit -
      great for minor spelling mistakes
    - ``git infer`` commits files with an automatically generated message -
      great for committing tiny changes for later rebasing down
 
-4. Cleaning commits for release
+4. While cleaning commits for release
+
    - ``git combine`` combines multiple commits and optionally squashes them
    - ``git shuffle`` shuffles and removes commits in the current branch
    - ``git snip`` removes commits in the current branch
@@ -60,11 +64,13 @@ When to use gitz
      into many small individual commits, one per file
 
 5. During branch maintenance
+
    - ``git rotate`` rotates through all branches
    - ``git copy``, ``git delete``,  and ``git rename`` work both remotely and
      locally
 
 6. Working with continuous integration
+
    - ``git stripe`` pushes branches with a sequence of commits
      to a remote where CI can find and test them
 
