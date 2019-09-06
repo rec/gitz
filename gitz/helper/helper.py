@@ -1,11 +1,21 @@
 import sys
 
+_REPLACEMENTS = {
+    '\npositional arguments:\n': '\nPositional arguments\n',
+    '\noptional arguments:\n': '\nOptional arguments\n',
+    'usage: ': 'USAGE\n    ',
+}
+
 
 def helper(program, context, parser):
     if not ('-h' in program.argv or '--h' in program.argv):
-        return False
+        return
 
-    fmt = {'command': program.executable}
+    usage = parser.format_help()
+    for target, replacement in _REPLACEMENTS.items():
+        usage = usage.replace(target, replacement)
+
+    fmt = {'command': program.executable, 'usage': usage}
     for f in FIELDS:
         value = context.get(f.upper(), '').lstrip().rstrip()
         if f not in SIMPLE_FIELDS:
@@ -13,17 +23,14 @@ def helper(program, context, parser):
         fmt[f] = value
 
     if fmt['danger']:
-        fmt['danger'] = 'DANGER:\n%s%s\n\n' % (INDENT, fmt['danger'])
+        fmt['danger'] = 'DANGER\n%s%s\n\n' % (INDENT, fmt['danger'])
 
     if fmt['summary'] and fmt['examples']:
-        print(HELP.format(**fmt).rstrip())
+        print(HELP.format(**fmt))
     else:
         print(fmt['usage'].rstrip())
         print(fmt['help'].rstrip())
 
-    print('\n---\n')
-    print('Full ', end='')
-    print(parser.format_help())
     sys.exit()
 
 
@@ -31,17 +38,15 @@ def _indent(text):
     return '\n'.join(INDENT + i for i in text.splitlines()) + '\n'
 
 
-FIELDS = 'danger', 'examples', 'help', 'image', 'summary', 'usage'
+FIELDS = 'danger', 'examples', 'help', 'image', 'summary'
 SIMPLE_FIELDS = 'danger', 'image'
 INDENT = '    '
 
 HELP = """\
-{command}:
+{command}
 {summary}
-USAGE:
 {usage}
-{danger}DESCRIPTION:
+{danger}DESCRIPTION
 {help}
-EXAMPLES:
-{examples}
-"""
+EXAMPLES
+{examples}"""

@@ -1,14 +1,11 @@
-from . import log
+from . import parser
 from . import runner
-from .helper import helper
 from pathlib import Path
-import argparse
 import collections
 import sys
 import traceback
 
 _ERROR_PROTECTED_BRANCHES = 'The branches %s are protected'
-_NO_RUN_HELP = 'If set, commands will be printed but not executed'
 
 
 class _Program:
@@ -36,20 +33,8 @@ class _Program:
             self.log.verbose(traceback.format_exc(), file=sys.stderr)
             self.exit('%s: %s' % (e.__class__.__name__, e))
 
-    def initialize(self, add_arguments=None, **context):
-        parser = argparse.ArgumentParser()
-        log.add_arguments(parser)
-        add_arguments and add_arguments(parser)
-        if self.ALLOW_NO_RUN:
-            parser.add_argument(
-                '-n', '--no-run', action='store_true', help=_NO_RUN_HELP
-            )
-
-        # If -h/--help are set, this next call terminates the program
-        helper.helper(self, context, parser)
-
-        self.args = parser.parse_args(self.argv)
-        self.log = log.Log(self.args)
+    def initialize(self, **context):
+        self.args, self.log = parser.parse(self, **context)
         self._safe_run = runner.Runner(self.log)
         if self.ALLOW_NO_RUN and self.args.no_run:
             self._run = runner.Runner(self.log, no_run=True)
