@@ -49,6 +49,7 @@ where you can start working and pushing immediately
 gitz can guess what the reference branch and remote origin are, and for
 nearly all projects this will be correct, or this can be specified at the
 command line, per project, or through environment variables - see ``git gitz``
+for more details.
 
 EXAMPLES
 ========
