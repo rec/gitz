@@ -27,10 +27,16 @@ git all * - git all - git log --oneline -5
 DANGER = 'This is a bit janky'
 
 
+USAGE = """
+USAGE:
+    git all - <command> [argument argument...]
+"""
+
+
 def git_all():
     if not _COMMAND:
         PROGRAM.error(_ERROR_MISSING_COMMAND)
-        print(PROGRAM.usage, file=sys.stderr)
+        print(USAGE, file=sys.stderr)
         PROGRAM.exit()
 
     args = PROGRAM.args
