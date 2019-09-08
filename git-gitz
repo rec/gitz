@@ -7,24 +7,29 @@ SUMMARY = 'Print information about the gitz environment'
 
 HELP = """
 `git gitz` lists all the gitz commands, the gitz protected branches
-and remotes, or the current gitz version
+and remotes, the current gitz version, and the git directories
 """
 
 EXAMPLES = """
-git gitz commands defaults directory version
 git gitz
+git gitz commands defaults directory library version
     Prints all the gitz commands, the variable defaults
     (including protected branches and remotes),
-    the version number, and the git command directory
+    the version number, and the git command and library directories
 
 git gitz version directory
     Print just the version number and the git command directory
 """
 
-ALL = 'commands', 'defaults', 'directory', 'version'
-INDENT = '    '
+ALL = (
+    'commands',
+    'defaults',
+    'executable_directory',
+    'library_directory',
+    'version',
+)
 
-_HELP_STEPS = 'Number of steps to gitz (positive or negative)'
+INDENT = '    '
 
 
 def git_gitz():
@@ -39,12 +44,14 @@ def git_gitz():
             continue
     if errors:
         PROGRAM.exit('Do not understand:', *errors)
+
     indent = INDENT if len(items) > 1 else ''
     for i, item in enumerate(items):
         if indent:
             if i:
                 PROGRAM.message()
-            PROGRAM.message(item.capitalize() + ':')
+            title = item.capitalize().replace('_', ' ')
+            PROGRAM.message(title + ':')
         globals()['_' + item](indent)
 
 
@@ -62,8 +69,12 @@ def _defaults(indent):
         PROGRAM.message(indent + env.PREFIX + e, '=', env.ENV.get(e))
 
 
-def _directory(indent):
-    PROGRAM.message(indent + str(config.ROOT_DIR))
+def _executable_directory(indent):
+    PROGRAM.message(indent + str(config.EXECUTABLE_DIRECTORY))
+
+
+def _library_directory(indent):
+    PROGRAM.message(indent + str(config.LIBRARY_DIRECTORY))
 
 
 def _version(indent):

@@ -1,8 +1,18 @@
 from pathlib import Path
+import sys
 
 VERSION = '0.9.11'
-ROOT_DIR = Path(__file__).absolute().parents[1]
-COMMANDS = sorted(
-    f.name for f in ROOT_DIR.iterdir() if f.name.startswith('git-')
-)
-README = ROOT_DIR / 'README.rst'
+LIBRARY_DIRECTORY = Path(__file__).absolute().parent
+EXECUTABLE_DIRECTORY = Path(sys.argv[0]).absolute().parent
+
+
+def _commands():
+    def commands(d):
+        return [f.name for f in d.iterdir() if f.name.startswith('git-')]
+
+    return sorted(
+        commands(LIBRARY_DIRECTORY.parent) or commands(EXECUTABLE_DIRECTORY)
+    )
+
+
+COMMANDS = _commands()

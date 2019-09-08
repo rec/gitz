@@ -24,14 +24,16 @@ class Mover:
         self.error = PROGRAM.error
 
     def __call__(self):
-        PROGRAM.start({
-            'add_arguments': self._add_arguments,
-            'HELP': HELP.format(self),
-            'SUMMARY': SUMMARY.format(self),
-            'EXAMPLES': EXAMPLES.format(self),
-            'DANGER': DANGER.format(self),
-            'main': self.run,
-        })
+        PROGRAM.start(
+            {
+                'add_arguments': self._add_arguments,
+                'HELP': HELP.format(self),
+                'SUMMARY': SUMMARY.format(self),
+                'EXAMPLES': EXAMPLES.format(self),
+                'DANGER': DANGER.format(self),
+                'main': self.run,
+            }
+        )
 
     def run(self):
         starting_branch = git_functions.branch_name()

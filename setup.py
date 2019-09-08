@@ -10,7 +10,7 @@ if __name__ == '__main__':
         author_email='tom@swirly.com',
         url='https://github.com/rec/gitz',
         description='🗜 gitz - tiny useful git commands, some dangerous 🗜',
-        long_description=open(str(config.README)).read(),
+        long_description=open(str('README.rst')).read(),
         license='MIT',
         classifiers=[
             'Development Status :: 4 - Beta',

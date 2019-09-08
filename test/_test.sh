@@ -10,6 +10,6 @@ black -l 79 -S *.py test/*.py $FILES
 flake8
 flake8 $FILES
 export PATH=`pwd`:$PATH
-pytest
+pytest $@
 
 source test/_help.sh

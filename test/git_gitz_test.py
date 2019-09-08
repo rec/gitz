@@ -5,6 +5,8 @@ import unittest
 
 
 class GitGitzTest(unittest.TestCase):
+    maxDiff = 100000
+
     @repo.test
     def test_all(self):
         self.assertEqual(safe_git.gitz(), RESULTS)
@@ -20,9 +22,17 @@ class GitGitzTest(unittest.TestCase):
             self.assertEqual(safe_git.gitz(c), list(config.COMMANDS))
 
     @repo.test
-    def test_directory(self):
-        for d in 'dir', 'directory':
-            self.assertEqual(safe_git.gitz(d), [str(config.ROOT_DIR)])
+    def test_executable_directory(self):
+        # The configs for the child process and for us are different!
+        for d in 'e', 'exec', 'executable_directory':
+            self.assertEqual(
+                safe_git.gitz(d), [str(config.LIBRARY_DIRECTORY.parent)]
+            )
+
+    @repo.test
+    def test_library_directory(self):
+        for d in 'l', 'lib', 'library_directory':
+            self.assertEqual(safe_git.gitz(d), [str(config.LIBRARY_DIRECTORY)])
 
     @repo.test
     def test_defaults(self):
@@ -38,9 +48,10 @@ class GitGitzTest(unittest.TestCase):
             safe_git.gitz('Com')
 
 
-VERSION = config.VERSION
-ROOT_DIR = str(config.ROOT_DIR)
 COMMANDS = '\n'.join('    ' + i for i in config.COMMANDS)
+EXECUTABLE_DIRECTORY = str(config.LIBRARY_DIRECTORY.parent)
+LIBRARY_DIRECTORY = str(config.LIBRARY_DIRECTORY)
+VERSION = config.VERSION
 
 RESULTS = """\
 Commands:
@@ -53,8 +64,11 @@ Defaults:
     GITZ_REFERENCE_BRANCHES = ['develop', 'master']
     GITZ_UPSTREAM = ['upstream', 'origin']
 
-Directory:
-    {ROOT_DIR}
+Executable directory:
+    {EXECUTABLE_DIRECTORY}
+
+Library directory:
+    {LIBRARY_DIRECTORY}
 
 Version:
     {VERSION}
