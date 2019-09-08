@@ -19,12 +19,12 @@ def summary(fp, command_help):
             print(PRE[danger], file=fp)
             print(file=fp)
 
-        for j, help in enumerate(command_help[danger]):
+        for j, sections in enumerate(command_help[danger]):
             if j:
                 print(file=fp)
-            command = help['COMMAND']
+            command = sections['COMMAND'].replace('git-', 'git ')
             print(LINK.format(command), file=fp)
-            for hc in help[command]:
+            for hc in sections[command]:
                 print('  ' + hc, file=fp)
             screenshot.screenshot(fp, command)
 

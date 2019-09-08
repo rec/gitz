@@ -1,4 +1,4 @@
-``git-all``: Perform a command on each of multiple branches or directories
+``git all``: Perform a command on each of multiple branches or directories
 --------------------------------------------------------------------------
 
 USAGE
@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git-all [-h] [-q] [-v] [-a] [-f] [-i INDENT] [-n] [name [name ...]]
+    git all [-h] [-q] [-v] [-a] [-f] [-i INDENT] [-n] [name [name ...]]
 
 Positional arguments
   ``name``: Names of branches or directories to iterate over
@@ -20,7 +20,7 @@ Optional arguments
 
   ``-a, --all``: Visit non-git directories
 
-  ``-f, --fail``: Fail immediately if any git-all command fails
+  ``-f, --fail``: Fail immediately if any git all command fails
 
   ``-i INDENT, --indent INDENT``: Number of columns to indent output of commands
 

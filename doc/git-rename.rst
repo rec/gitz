@@ -1,4 +1,4 @@
-``git-rename``: Rename a git branch locally and on all remotes
+``git rename``: Rename a git branch locally and on all remotes
 --------------------------------------------------------------
 
 USAGE
@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git-rename [-h] [-q] [-v] [-a] [-c] [-f] [-n] source [target]
+    git rename [-h] [-q] [-v] [-a] [-c] [-f] [-n] source [target]
 
 Positional arguments
   ``source``: 

@@ -1,4 +1,4 @@
-``git-copy``: Copy a git branch locally and on all remotes
+``git copy``: Copy a git branch locally and on all remotes
 ----------------------------------------------------------
 
 USAGE
@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git-copy [-h] [-q] [-v] [-a] [-c] [-f] [-n] source [target]
+    git copy [-h] [-q] [-v] [-a] [-c] [-f] [-n] source [target]
 
 Positional arguments
   ``source``: 

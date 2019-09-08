@@ -1,4 +1,4 @@
-``git-stripe``: Push a sequence of commit IDs to a remote repository
+``git stripe``: Push a sequence of commit IDs to a remote repository
 --------------------------------------------------------------------
 
 USAGE
@@ -6,8 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git-stripe [-h] [-q] [-v] [-D] [-d] [-f] [-o OFFSET] [-p PREFIX]
-                  [-r REMOTES] [-n]
+    git stripe [-h] [-q] [-v] [-D] [-d] [-f] [-o OFFSET] [-p PREFIX] [-r REMOTES] [-n]
                   [count] [commit_id]
 
 Positional arguments
@@ -59,7 +58,7 @@ EXAMPLES
     Delete any branches named _gitz_stripe_master_0,
     _gitz_stripe_master_1 and _gitz_stripe_master_2.
 
-    git-stripe -d does not fail if some or all of the branches
+    git stripe -d does not fail if some or all of the branches
     to be deleted are missing
 
 ``git stripe --base-branch=BBBB``

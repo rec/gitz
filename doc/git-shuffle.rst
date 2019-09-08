@@ -1,4 +1,4 @@
-``git-shuffle``: Reorder and delete commits in the existing branch
+``git shuffle``: Reorder and delete commits in the existing branch
 ------------------------------------------------------------------
 
 USAGE
@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git-shuffle [-h] [-q] [-v] [-s SQUASH] [-n] [shuffle]
+    git shuffle [-h] [-q] [-v] [-s SQUASH] [-n] [shuffle]
 
 Positional arguments
   ``shuffle``: Pattern string to shuffle (defaults to "ba")

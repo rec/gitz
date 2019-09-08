@@ -1,4 +1,4 @@
-``git-update``: Update branches from the reference branch
+``git update``: Update branches from the reference branch
 ---------------------------------------------------------
 
 USAGE
@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git-update [-h] [-q] [-v] [-f] [-r REFERENCE_BRANCH] [-n] [branches]
+    git update [-h] [-q] [-v] [-f] [-r REFERENCE_BRANCH] [-n] [branches]
 
 Positional arguments
   ``branches``: A list of branches to update - default is all branches
@@ -27,13 +27,13 @@ Optional arguments
 DESCRIPTION
 ===========
 
-``git-update`` goes to each branch in turn, then tries to update it
+``git update`` goes to each branch in turn, then tries to update it
 the reference branch by pulling with --rebase.
 
-If the rebase fails with a conflict, then ``git-update``aborts the
+If the rebase fails with a conflict, then ``git update``aborts the
 rebase and returns that branch to its previous condition.
 
-If the rebase succeeds, ``git-update`` force-pushes the result.
+If the rebase succeeds, ``git update`` force-pushes the result.
 
 DANGER
 ======
@@ -43,8 +43,8 @@ Rewrites history!
 EXAMPLES
 ========
 
-``git-update``
+``git update``
     Updates all branches
 
-``git-update foo bar``
+``git update foo bar``
     Only updates branches foo and bar

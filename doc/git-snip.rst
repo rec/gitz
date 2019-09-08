@@ -1,4 +1,4 @@
-``git-snip``: Edit one or more commits out of history
+``git snip``: Edit one or more commits out of history
 -----------------------------------------------------
 
 USAGE
@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git-snip [-h] [-q] [-v] [-n] commit_ids [commit_ids ...]
+    git snip [-h] [-q] [-v] [-n] commit_ids [commit_ids ...]
 
 Positional arguments
   ``commit_ids``: Names of commit_ids to create

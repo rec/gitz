@@ -1,4 +1,4 @@
-``git-new``: Create and push new branches
+``git new``: Create and push new branches
 -----------------------------------------
 
 USAGE
@@ -6,8 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git-new [-h] [-q] [-v] [-f] [-o ORIGIN] [-r REFERENCE_BRANCH] [-n]
-               branches [branches ...]
+    git new [-h] [-q] [-v] [-f] [-o ORIGIN] [-r REFERENCE_BRANCH] [-n] branches [branches ...]
 
 Positional arguments
   ``branches``: Names of branches to create
@@ -33,7 +32,7 @@ DESCRIPTION
 Create new branches from the reference branch and push them with
 --set-upstream.
 
-git-new does the things you really want to safely get new branches
+``git new`` does the things you really want to safely get new branches
 where you can start working and pushing immediately
 
 - Fails leaving the workspace unchanged if there are uncommitted changes

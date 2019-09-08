@@ -1,4 +1,4 @@
-``git-gitz``: Print information about the gitz environment
+``git gitz``: Print information about the gitz environment
 ----------------------------------------------------------
 
 USAGE
@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git-gitz [-h] [-q] [-v] [-n] [items [items ...]]
+    git gitz [-h] [-q] [-v] [-n] [items [items ...]]
 
 Positional arguments
   ``items``: 

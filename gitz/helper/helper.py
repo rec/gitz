@@ -1,6 +1,7 @@
 import sys
 
 _REPLACEMENTS = {
+    'git-': 'git ',
     '\npositional arguments:\n': '\nPositional arguments\n',
     '\noptional arguments:\n': '\nOptional arguments\n',
     'usage: ': 'USAGE\n    ',
@@ -15,7 +16,8 @@ def helper(program, context, parser):
     for target, replacement in _REPLACEMENTS.items():
         usage = usage.replace(target, replacement)
 
-    fmt = {'command': program.executable, 'usage': usage}
+    command = program.executable.replace('git-', 'git ', 1)
+    fmt = {'command': command, 'usage': usage}
     for f in FIELDS:
         value = context.get(f.upper(), '').lstrip().rstrip()
         if f not in SIMPLE_FIELDS:

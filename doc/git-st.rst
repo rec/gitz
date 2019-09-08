@@ -1,4 +1,4 @@
-``git-st``: Colorful, compact git status
+``git st``: Colorful, compact git status
 ----------------------------------------
 
 

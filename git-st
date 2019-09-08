@@ -2,7 +2,7 @@
 
 usage() {
     cat <<EOF
-git-st:
+git st:
     Colorful, compact git status
 
     This version written by https://github.com/PlatyPew/, original

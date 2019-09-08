@@ -26,7 +26,7 @@ git stripe -d
     Delete any branches named _gitz_stripe_master_0,
     _gitz_stripe_master_1 and _gitz_stripe_master_2.
 
-    git-stripe -d does not fail if some or all of the branches
+    git stripe -d does not fail if some or all of the branches
     to be deleted are missing
 
 git stripe --base-branch=BBBB

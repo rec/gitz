@@ -1,4 +1,4 @@
-``git-infer``: Commit changes with an auto-generated message
+``git infer``: Commit changes with an auto-generated message
 ------------------------------------------------------------
 
 (from https://github.com/moondewio/git-infer)

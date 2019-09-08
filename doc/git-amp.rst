@@ -1,4 +1,4 @@
-``git-amp``: AMend just the last commit message and force-Push, somewhat safely
+``git amp``: AMend just the last commit message and force-Push, somewhat safely
 -------------------------------------------------------------------------------
 
 USAGE
@@ -16,7 +16,7 @@ AMend the last commit message and force Push to its upstream branch.
 If arguments are given, they are used as the commit message,
 otherwise an editor is brought up to create one.
 
-git-amp rewrites history and should only be used on private branches.
+git amp rewrites history and should only be used on private branches.
 For your protection, 'git amp' will fail with a message if there are
 any changes in your workspace which would get accidentally mixed into
 the previous commit.

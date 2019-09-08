@@ -1,9 +1,7 @@
 from pathlib import Path
 
 _HELP_DIRECTORY = Path(__file__).parent.parent.parent / 'doc'
-_COMMANDS = ()
 _HOME_LINK = '`Gitz home page <https://github.com/rec/gitz/>`_'
-_DRY_RUN = False
 SECTIONS = (
     'TITLE',
     'USAGE',
@@ -17,18 +15,14 @@ SECTIONS = (
 
 def main(commands):
     for command, help in commands.items():
-        if _COMMANDS and command not in _COMMANDS:
-            continue
         help_file = (_HELP_DIRECTORY / command).with_suffix('.rst')
         with open(help_file, 'w') as fp:
-            Writer(command, help, fp).write()
-        if _DRY_RUN:
-            break
+            Writer(help, fp).write()
 
 
 class Writer:
-    def __init__(self, command, sections, fp):
-        self.command = command
+    def __init__(self, sections, fp):
+        self.command = sections['COMMAND'].replace('git-', 'git ')
         self.sections = sections
         self.fp = fp
 

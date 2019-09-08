@@ -1,4 +1,4 @@
-``git-split``: Split a range of commits into many single-file commits
+``git split``: Split a range of commits into many single-file commits
 ---------------------------------------------------------------------
 
 USAGE
@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git-split [-h] [-q] [-v] [commit]
+    git split [-h] [-q] [-v] [commit]
 
 Positional arguments
   ``commit``: Optional commit ID to split from
@@ -21,7 +21,7 @@ Optional arguments
 DESCRIPTION
 ===========
 
-`git-split` squashes together a range of commits and the staging area, then
+`git split` squashes together a range of commits and the staging area, then
 splits out a sequence of individual commits, one for each file changed.
 
 DANGER
@@ -32,11 +32,11 @@ Rewrites history!
 EXAMPLES
 ========
 
-``git-split``
+``git split``
     Splits the staging area if it's not empty, otherwise HEAD
 
-``git-split HEAD``
+``git split HEAD``
     Splits the squash of the staging area and HEAD
 
-``git-split HEAD~``
+``git split HEAD~``
     Splits the squash of the staging area, HEAD and HEAD~

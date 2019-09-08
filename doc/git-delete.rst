@@ -1,4 +1,4 @@
-``git-delete``: Delete one or more branches locally and on all remotes
+``git delete``: Delete one or more branches locally and on all remotes
 ----------------------------------------------------------------------
 
 USAGE
@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git-delete [-h] [-q] [-v] [-f] [-n] target [target ...]
+    git delete [-h] [-q] [-v] [-f] [-n] target [target ...]
 
 Positional arguments
   ``target``: 

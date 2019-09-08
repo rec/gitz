@@ -1,4 +1,4 @@
-``git-rotate``: Rotate the current branch forward or backward in the list of branches
+``git rotate``: Rotate the current branch forward or backward in the list of branches
 -------------------------------------------------------------------------------------
 
 USAGE
@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git-rotate [-h] [-q] [-v] [-n] [steps]
+    git rotate [-h] [-q] [-v] [-n] [steps]
 
 Positional arguments
   ``steps``: Number of steps to rotate (positive or negative)

@@ -15,7 +15,7 @@ def main(commands):
             print(file=fp)
             print(LINK.format(command), file=fp)
 
-            summary = help[help['COMMAND']]
+            summary = help[help['COMMAND'].replace('git-', 'git ')]
             for s in summary:
                 print(' ', s.strip(), file=fp)
         print(file=fp)
