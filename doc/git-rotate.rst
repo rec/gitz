@@ -23,18 +23,24 @@ Optional arguments
 DESCRIPTION
 ===========
 
-Change the current branch by rotating through all the branches for
-this repo in the order given by the `git branch` command
+Rotate through the branches in a repo, one at a time, in the order given by
+the `git branch` command.
+
+If x is a number, ``git-rotate x`` rotates x branches forward,
+and ``git-rotate -x`` rotates x branches forward.
+
+Great for quickly browsing all the branches one at a time.
 
 EXAMPLES
 ========
 
 ``git rotate``
-    Rotate to the next branch
+``git rotate 1``
+    Rotates to the next branch
 
 ``git rotate 3``
-    Rotate 3 branches ahead
+    Rotates 3 branches ahead
 
 ``git rotate -1``
 ``git rotate -``
-    Rotate 1 branch backward
+    Rotates 1 branch backward
