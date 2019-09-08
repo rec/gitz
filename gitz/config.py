@@ -1,7 +1,7 @@
 from pathlib import Path
 import sys
 
-VERSION = '0.9.11'
+VERSION = '0.9.12'
 LIBRARY_DIRECTORY = Path(__file__).absolute().parent
 EXECUTABLE_DIRECTORY = Path(sys.argv[0]).absolute().parent
 
