@@ -6,7 +6,8 @@ USAGE
 
 .. code-block:: bash
 
-    git-combine [-h] [-q] [-v] [-b BASE] [-s SQUASH] [-n] commit_id [commit_id ...]
+    git-combine [-h] [-q] [-v] [-b BASE] [-s SQUASH] [-n]
+                   commit_id [commit_id ...]
 
 Positional arguments
   ``commit_id``: List of commit IDs to cherry pick

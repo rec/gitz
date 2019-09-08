@@ -23,10 +23,6 @@ gitz commands
   Commit changes with an auto-generated message
   (from https://github.com/moondewio/git-infer)
 
-`git-ls <git-ls.rst>`_
-  List each file with its most recent commit, in subtle color
-  (from an unknown source)
-
 `git-new <git-new.rst>`_
   Create and push new branches
 
@@ -56,6 +52,10 @@ gitz commands
 
 `git-update <git-update.rst>`_
   Update branches from the reference branch
+
+`git-when <git-when.rst>`_
+  When did each file change (date, commit, message)?
+  Nice use of color - from an unknown source.
 
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================

@@ -2,12 +2,12 @@
 
 usage() {
     cat <<EOF
-git-ls:
-    List each file with its most recent commit, in subtle color
-    (from an unknown source)
+git-when:
+    When did each file change (date, commit, message)?
+    Nice use of color - from an unknown source.
 
 USAGE:
-    git ls [-a] [directory]
+    git when [-a] [directory]
 EOF
 }
 
