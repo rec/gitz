@@ -1,5 +1,5 @@
-``git shuffle``: Reorder and delete commits in the existing branch
-------------------------------------------------------------------
+``git shuffle``: Reorder and delete commits in the current branch
+-----------------------------------------------------------------
 
 USAGE
 =====
@@ -25,7 +25,22 @@ Optional arguments
 DESCRIPTION
 ===========
 
-Shuffles the current sequence of commits, perhaps deleting some.
+Shuffles the commits in the current branch, perhaps deleting some.
+
+The single argument is a pattern where underscores mean commits to be
+deleted, and alphabetic characters mean commits to be shuffled.
+
+For example, ``git shuffle ba`` switches the first and second most
+recent commits, ``git shuffle cba`` swaps the first and third
+commits, ``git shuffle cab`` pops the third commit to be the most
+recent, top commit on the branch.
+
+``git shuffle _ba`` deletes the most recent commit and then swaps
+the next two; and ``git shuffle _a_b_c`` deletes the most recent, the
+third most recent and the fifth most recent commit from the branch.
+
+If omitted, the default pattern is ``ba``.  Only the order of the
+letters matter so ``cba``, ``ZYX`` and ``zma`` mean the same thing.
 
 DANGER
 ======
@@ -37,11 +52,14 @@ EXAMPLES
 
 ``git shuffle``
 ``git shuffle ba``
+``git shuffle YX``
 ``git shuffle 10``
 ``git shuffle 21``
-    Switches the first and second commit
+    Switches the first and second most recent commits
 
 ``git shuffle ab``
+``git shuffle abc``
+``git shuffle ADE``
 ``git shuffle 01``
 ``git shuffle 12``
     Do nothing
@@ -49,13 +67,13 @@ EXAMPLES
 ``git shuffle 312``
 ``git shuffle cab``
 ``git shuffle zxy``
-    Cycles the first three commits so the third one is first
+    Cycles the three most recent commits so the third one is first
 
-``git shuffle __321_``
-    Deletes the first two commits, reverses the next three, and
-    deletes one more.
+``git shuffle __cba_``
+    Deletes the most recent two commeits, reverses the next three, and
+    deletes the sixth.
 
-``git shuffle __321_ -s "Commit message"``
-``git shuffle __321_ --squash="Commit messager"``
-    Deletes the first two commits, reverses the next three, squashes them
-    into one, and deletes one more.
+``git shuffle __cba_ -s "My message"``
+``git shuffle __cba_ --squash="My message"``
+    Same as the previous command, but squashes the three commits into
+    one with the commit message "My message"

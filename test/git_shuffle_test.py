@@ -20,6 +20,14 @@ class GitShuffleTest(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     @repo.test
+    def TODO_test_example(self):
+        # Why does this fail?  Debugging gives nonsensical results!
+        git.shuffle('__cba_')
+        actual = safe_git.log('--oneline')[:4]
+        expected = []
+        self.assertEqual(actual, expected)
+
+    @repo.test
     def test_no_arguments(self):
         self._first()
         git.shuffle()

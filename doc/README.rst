@@ -33,7 +33,7 @@ gitz commands
   Rotate the current branch forward or backward in the list of branches
 
 `git-shuffle <git-shuffle.rst>`_
-  Reorder and delete commits in the existing branch
+  Reorder and delete commits in the current branch
 
 `git-snip <git-snip.rst>`_
   Edit one or more commits out of history

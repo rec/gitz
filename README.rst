@@ -152,7 +152,7 @@ can significantly speed up rapid development on private branches.
   Combine multiple commits into one
 
 `git shuffle <doc/git shuffle.rst>`_
-  Reorder and delete commits in the existing branch
+  Reorder and delete commits in the current branch
 
 `git snip <doc/git snip.rst>`_
   Edit one or more commits out of history
