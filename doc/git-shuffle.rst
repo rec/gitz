@@ -6,10 +6,10 @@ USAGE
 
 .. code-block:: bash
 
-    git-shuffle [-h] [-q] [-v] [-s SQUASH] [-n] shuffle
+    git-shuffle [-h] [-q] [-v] [-s SQUASH] [-n] [shuffle]
 
 Positional arguments
-  ``shuffle``: Pattern string to shuffle
+  ``shuffle``: Pattern string to shuffle (defaults to "ba")
 
 Optional arguments
   ``-h, --help``: show this help message and exit
