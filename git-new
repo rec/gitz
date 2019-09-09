@@ -60,11 +60,12 @@ def git_new():
             s = 'branch:' if len(branches) == 1 else 'branches:'
             PROGRAM.exit('Cannot overwrite', name, s, *branches)
 
-    check(ENV.protected_branches(), 'protected')
-
-    if not PROGRAM.args.force:
-        check(branches, 'local')
-        check(remote_branches[origin], 'remote branches on origin ' + origin)
+    if not PROGRAM.args.force_protected:
+        check(ENV.protected_branches(), 'protected')
+        if not PROGRAM.args.force:
+            check(branches, 'local')
+            remote_msg = 'remote branches on origin ' + origin
+            check(remote_branches[origin], remote_msg)
 
     reference = '/'.join(reference_branch.reference_branch(remote_branches))
     for new_branch in PROGRAM.args.branches:
@@ -106,11 +107,13 @@ def add_arguments(parser):
     add = parser.add_argument
     add('branches', nargs='+', help=_HELP_BRANCHES)
     add('-f', '--force', action='store_true', help=_HELP_FORCE)
+    add('-F', '--force-protected', action='store_true', help=_HELP_FORCE_PROT)
     add('-o', '--origin', default='', help=_HELP_ORIGIN)
     reference_branch.add_arguments(parser)
 
 
 _HELP_FORCE = 'Force push over existing branches'
+_HELP_FORCE_PROT = 'Force push over existing or protected branches'
 _HELP_ORIGIN = 'Remote origin to push to'
 
 if __name__ == '__main__':
