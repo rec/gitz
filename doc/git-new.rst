@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git new [-h] [-q] [-v] [-f] [-o ORIGIN] [-r REFERENCE_BRANCH] [-n]
+    git new [-h] [-q] [-v] [-f] [-F] [-o ORIGIN] [-r REFERENCE_BRANCH] [-n]
                branches [branches ...]
 
 Positional arguments
@@ -20,6 +20,8 @@ Optional arguments
   ``-v, --verbose``: Report all messages in great detail
 
   ``-f, --force``: Force push over existing branches
+
+  ``-F, --force-protected``: Force push over existing or protected branches
 
   ``-o ORIGIN, --origin ORIGIN``: Remote origin to push to
 

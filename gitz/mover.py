@@ -56,6 +56,52 @@ class Mover:
         if starting_branch != self.source:
             git.checkout(self.starting_branch)
 
+    def _get_remotes(self):
+        remotes = git_functions.remote_branches()
+        pr = () if PROGRAM.args.all else ENV.protected_remotes()
+        remotes = {k: v for k, v in remotes.items() if k not in pr}
+
+        self.old = []
+        self.new = []
+        for remote, branches in remotes.items():
+            if self.target in branches and not PROGRAM.args.force:
+                branch = remote + '/' + self.target
+                self.error(_ERROR_TARGET_EXISTS % branch)
+
+            elif self.source in branches:
+                self.old.append(remote)
+
+            elif PROGRAM.args.create:
+                self.new.append(remote)
+
+    def _check_branches(self):
+        pb = () if PROGRAM.args.all else ENV.protected_branches()
+        branches = {self.target}
+        if self.action != 'copy':
+            branches.add(self.source)
+
+        protected = branches.intersection(pb)
+        if protected:
+            self.error(_ERROR_PROTECTED_BRANCHES % ', '.join(protected))
+            PROGRAM.exit()
+
+        branches = git_functions.branches()
+        if self.source not in branches:
+            self.error(_ERROR_LOCAL_REPO % self.source)
+
+        if not PROGRAM.args.force and self.target in branches:
+            self.error(_ERROR_TARGET_EXISTS % self.target)
+
+    def _check_consistent(self):
+        if PROGRAM.args.force:
+            return
+        names = ('%s/%s' % (r, self.source) for r in self.old)
+        commits = [git_functions.commit_id(n) for n in names]
+        if len(set(commits)) > 1:
+            commits = [c[: git_functions.COMMIT_ID_LENGTH] for c in commits]
+            error = ' '.join('='.join(i) for i in zip(self.old, commits))
+            self.error(_ERROR_INCONSISTENT_COMMITS, error)
+
     def _move_local(self):
         flag = '-c' if self.action == 'copy' else '-m'
         flag = flag.upper() if PROGRAM.args.force else flag
@@ -79,52 +125,6 @@ class Mover:
 
         for f, h in BOOLEAN_FLAGS.items():
             add_arg(f[1:3], f, action='store_true', help=h.format(self))
-
-    def _check_branches(self):
-        pb = () if PROGRAM.args.all else ENV.protected_branches()
-        branches = {self.target}
-        if self.action != 'copy':
-            branches.add(self.source)
-
-        protected = branches.intersection(pb)
-        if protected:
-            self.error(_ERROR_PROTECTED_BRANCHES % ', '.join(protected))
-            PROGRAM.exit()
-
-        branches = git_functions.branches()
-        if self.source not in branches:
-            self.error(_ERROR_LOCAL_REPO % self.source)
-
-        if not PROGRAM.args.force and self.target in branches:
-            self.error(_ERROR_TARGET_EXISTS % self.target)
-
-    def _get_remotes(self):
-        remote_branches = git_functions.remote_branches()
-        pr = () if PROGRAM.args.all else ENV.protected_remotes()
-        remote_branches = {
-            k: v for k, v in remote_branches.items() if k not in pr
-        }
-
-        self.old = []
-        self.new = []
-        for remote, branches in remote_branches.items():
-            if self.target in branches and not PROGRAM.args.force:
-                branch = remote + '/' + self.target
-                self.error(_ERROR_TARGET_EXISTS % branch)
-            elif self.source in branches:
-                self.old.append(remote)
-            elif PROGRAM.args.create:
-                self.new.append(remote)
-
-    def _check_consistent(self):
-        if PROGRAM.args.force:
-            return
-        names = ('%s/%s' % (r, self.source) for r in self.old)
-        commits = [git_functions.commit_id(n) for n in names]
-        if len(set(commits)) > 1:
-            commits = [c[: git_functions.COMMIT_ID_LENGTH] for c in commits]
-            error = ' '.join('='.join(i) for i in zip(self.old, commits))
-            self.error(_ERROR_INCONSISTENT_COMMITS, error)
 
 
 DANGER = 'Changes remote branches!'
