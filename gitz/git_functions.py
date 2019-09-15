@@ -57,11 +57,12 @@ def branches(*args):
     return safe_git.branch('--format=%(refname:short)', *args)
 
 
-def remote_branches():
+def remote_branches(must_fetch=True):
     remotes = safe_git.remote()
 
-    for remote in remotes:
-        fetch(remote)
+    if must_fetch:
+        for remote in remotes:
+            fetch(remote)
 
     result = {}
     for rb in branches('-r'):
@@ -70,9 +71,10 @@ def remote_branches():
     return result
 
 
-def upstream_branch():
+def upstream_branch(branch=''):
     # https://stackoverflow.com/a/9753364/43839
-    lines = safe_git(*_UPSTREAM, quiet=True)
+    upstream = (_UPSTREAM % branch).split()
+    lines = safe_git(*upstream, quiet=True)
     return lines[0].split('/', maxsplit=1)
 
 
@@ -93,7 +95,7 @@ def force_flags():
     return ['--force-with-lease'] if PROGRAM.args.force else []
 
 
-_UPSTREAM = 'rev-parse --abbrev-ref --symbolic-full-name @{u}'.split()
+_UPSTREAM = 'rev-parse --abbrev-ref --symbolic-full-name %s@{u}'
 _ERROR_CHANGES_OVERWRITTEN = 'Your local changes would be overwritten'
 _ERROR_NOT_GIT_REPOSITORY = (
     'fatal: not a git repository (or any of the parent directories): .git'

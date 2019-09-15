@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git copy [-h] [-q] [-v] [-a] [-c] [-f] [-n] source [target]
+    git copy [-h] [-q] [-v] [-a] [-f] [-n] source [target]
 
 Positional arguments
   ``source``: 
@@ -20,8 +20,6 @@ Optional arguments
   ``-v, --verbose``: Report all messages in great detail
 
   ``-a, --all``: Copy all, even protected remotes or branches
-
-  ``-c, --create``: Create remote branch even if source does not exist
 
   ``-f, --force``: Force copy over existing branches
 
@@ -57,13 +55,6 @@ EXAMPLES
 ``git copy old new``
     Copy the branch "old" to "new", both locally and in remote
     repositories where the branch "old" exists.
-
-    Fails if "new" exists locally or in the remote repositories.
-
-``git copy -c old new``
-``git copy --create old new``
-    Copy the branch "old" to "new", both locally and in remote
-    repositories, even ones where the branch "old" does not exist
 
     Fails if "new" exists locally or in the remote repositories.
 

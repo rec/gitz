@@ -4,7 +4,6 @@ from gitz import git_functions
 from gitz.env import ENV
 from gitz.program import PROGRAM
 from gitz.program import git
-from gitz.program import safe_git
 
 SUMMARY = 'Delete one or more branches locally and on all remotes'
 DANGER = 'Deletes remote branches!'
@@ -40,13 +39,10 @@ def git_delete():
     if not remaining_branches:
         PROGRAM.exit('This would delete all the branches')
 
-    remotes = safe_git.remote()
     if not args.force:
         protected = set(ENV.protected_branches()).intersection(args.target)
         if protected:
-            PROGRAM.exit('These branches are protected:', *protected)
-        pr = ENV.protected_remotes()
-        remotes = [r for r in remotes if r not in pr]
+            PROGRAM.exit('Protected:', *protected)
 
     if branch not in remaining_branches:
         git_functions.check_clean_workspace()
@@ -57,12 +53,10 @@ def git_delete():
         else:
             git.checkout(sorted(remaining_branches)[0])
 
-    deleted = delete.delete(args.target, remotes)
+    deleted = delete.delete(args.target)
     if deleted:
         s = '' if len(deleted) == 1 else 'es'
         print('git-delete: branch%s deleted:' % s, *deleted)
-    else:
-        PROGRAM.exit('No branches deleted')
 
 
 def add_arguments(parser):

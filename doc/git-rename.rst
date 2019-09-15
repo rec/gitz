@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git rename [-h] [-q] [-v] [-a] [-c] [-f] [-n] source [target]
+    git rename [-h] [-q] [-v] [-a] [-f] [-n] source [target]
 
 Positional arguments
   ``source``: 
@@ -20,8 +20,6 @@ Optional arguments
   ``-v, --verbose``: Report all messages in great detail
 
   ``-a, --all``: Rename all, even protected remotes or branches
-
-  ``-c, --create``: Create remote branch even if source does not exist
 
   ``-f, --force``: Force rename over existing branches
 
@@ -57,13 +55,6 @@ EXAMPLES
 ``git rename old new``
     Rename the branch "old" to "new", both locally and in remote
     repositories where the branch "old" exists.
-
-    Fails if "new" exists locally or in the remote repositories.
-
-``git rename -c old new``
-``git rename --create old new``
-    Rename the branch "old" to "new", both locally and in remote
-    repositories, even ones where the branch "old" does not exist
 
     Fails if "new" exists locally or in the remote repositories.
 

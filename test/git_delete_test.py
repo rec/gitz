@@ -24,7 +24,7 @@ class GitDeleteTest(unittest.TestCase):
         ]
         self.assertEqual(actual, expected)
 
-        git.delete('one', 'two')
+        git.delete('-v', 'one', 'two')
         actual = git_functions.branches('-r')
         expected = ['origin/master', 'upstream/master']
         self.assertEqual(actual, expected)

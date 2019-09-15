@@ -2,16 +2,19 @@ from . import git_functions
 from .env import ENV
 from .program import PROGRAM
 from .program import git
+from .program import safe_git
+
+COPY, RENAME = 'copy', 'rename'
 
 
 class Mover:
     """Moves things around, either with rename or copy"""
 
     def __init__(self, action):
-        assert action in ('rename', 'copy')
+        assert action in (RENAME, COPY)
 
         self.action = action
-        if action == 'copy':
+        if action == COPY:
             self.root = 'copi'
             self.direction = 'over'
         else:
@@ -36,87 +39,68 @@ class Mover:
         )
 
     def run(self):
-        starting_branch = git_functions.branch_name()
         source = PROGRAM.args.source
+        self.starting_branch = git_functions.branch_name()
+
         if PROGRAM.args.target:
             self.source, self.target = source, PROGRAM.args.target
         else:
-            self.source, self.target = starting_branch, source
+            self.source, self.target = self.starting_branch, source
 
-        self._get_remotes()
         self._check_branches()
-        self._check_consistent()
-
-        if PROGRAM.called['error']:
-            PROGRAM.exit()
-
         self._move_local()
         self._move_remote()
 
-        if starting_branch != self.source:
-            git.checkout(self.starting_branch)
-
-    def _get_remotes(self):
-        remotes = git_functions.remote_branches()
-        pr = () if PROGRAM.args.all else ENV.protected_remotes()
-        remotes = {k: v for k, v in remotes.items() if k not in pr}
-
-        self.old = []
-        self.new = []
-        for remote, branches in remotes.items():
-            if self.target in branches and not PROGRAM.args.force:
-                branch = remote + '/' + self.target
-                self.error(_ERROR_TARGET_EXISTS % branch)
-
-            elif self.source in branches:
-                self.old.append(remote)
-
-            elif PROGRAM.args.create:
-                self.new.append(remote)
-
     def _check_branches(self):
-        pb = () if PROGRAM.args.all else ENV.protected_branches()
-        branches = {self.target}
-        if self.action != 'copy':
-            branches.add(self.source)
+        if self.source == self.target:
+            PROGRAM.exit('Source and target must be different')
 
-        protected = branches.intersection(pb)
-        if protected:
-            self.error(_ERROR_PROTECTED_BRANCHES % ', '.join(protected))
-            PROGRAM.exit()
+        self.in_source = (self.starting_branch == self.source)
+        self.in_target = (self.starting_branch == self.target)
+        if self.in_source or self.in_target:
+            git_functions.check_clean_workspace()
 
         branches = git_functions.branches()
         if self.source not in branches:
-            self.error(_ERROR_LOCAL_REPO % self.source)
+            PROGRAM.exit(_ERROR_LOCAL_REPO % self.source)
 
-        if not PROGRAM.args.force and self.target in branches:
-            self.error(_ERROR_TARGET_EXISTS % self.target)
+        self.origin = git_functions.upstream_branch(self.source)[0]
 
-    def _check_consistent(self):
-        if PROGRAM.args.force:
-            return
-        names = ('%s/%s' % (r, self.source) for r in self.old)
-        commits = [git_functions.commit_id(n) for n in names]
-        if len(set(commits)) > 1:
-            commits = [c[: git_functions.COMMIT_ID_LENGTH] for c in commits]
-            error = ' '.join('='.join(i) for i in zip(self.old, commits))
-            self.error(_ERROR_INCONSISTENT_COMMITS, error)
+        if not PROGRAM.args.all:
+            p = ENV.protected_branches()
+            if self.target in p:
+                PROGRAM.exit(_ERROR_PROTECTED_BRANCHES % self.target)
+            if self.action == RENAME and self.source in p:
+                PROGRAM.exit(_ERROR_PROTECTED_BRANCHES % self.source)
+
+        if not PROGRAM.args.force:
+            if self.target in branches:
+                PROGRAM.exit(_ERROR_TARGET_EXISTS % self.target)
+            safe_git.fetch(self.origin)
+            ubranches = git_functions.remote_branches(False)[self.origin]
+            if self.target in ubranches:
+                PROGRAM.exit(_ERROR_TARGET_EXISTS % self.target)
 
     def _move_local(self):
-        flag = '-c' if self.action == 'copy' else '-m'
-        flag = flag.upper() if PROGRAM.args.force else flag
+        flag = '-C' if PROGRAM.args.force else '-c'
+        if self.in_target:
+            git.checkout(self.source)
         git.branch(flag, self.source, self.target)
+        if self.action == RENAME:
+            if self.in_source:
+                git.checkout(self.target)
+            git.branch('-D', self.source)
+
+        if self.in_target:
+            git.checkout(self.target)
         print(self.Root + 'ed', self.source, 'to', self.target)
 
     def _move_remote(self):
-        git.checkout(self.target)
         force = git_functions.force_flags()
-        for remote in self.old + self.new:
-            git.push(*force, remote, self.target)
+        git.push(*force, self.origin, self.target)
 
-        if self.action != 'copy':
-            for remote in self.old:
-                git.push(remote, ':' + self.source)
+        if self.action == RENAME:
+            git.push(self.origin, ':' + self.source)
 
     def _add_arguments(self, parser):
         add_arg = parser.add_argument
@@ -153,13 +137,6 @@ git {0.action} old new
 
     Fails if "new" exists locally or in the remote repositories.
 
-git {0.action} -c old new
-git {0.action} --create old new
-    {0.Action} the branch "old" to "new", both locally and in remote
-    repositories, even ones where the branch "old" does not exist
-
-    Fails if "new" exists locally or in the remote repositories.
-
 git {0.action} -a old new
 git {0.action} --all old new
     {0.Action} the branch "old" to "new", both locally and in remote
@@ -178,12 +155,11 @@ git {0.action} --force old new
 _ERROR_CANNOT_DELETE = 'Cannot delete remote'
 _ERROR_INCONSISTENT_COMMITS = 'Inconsistent commits IDs'
 _ERROR_LOCAL_REPO = 'Branch %s does not exist in the local repository'
-_ERROR_PROTECTED_BRANCHES = 'These branches are protected: %s'
+_ERROR_PROTECTED_BRANCHES = 'Protected: %s'
 _ERROR_TARGET_EXISTS = 'Branch %s already exists'
 
 
 BOOLEAN_FLAGS = {
     '--all': '{0.Action} all, even protected remotes or branches',
-    '--create': 'Create remote branch even if source does not exist',
     '--force': 'Force {0.action} over existing branches',
 }
