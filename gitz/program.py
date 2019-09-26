@@ -70,7 +70,7 @@ class _Program:
     def _error(self, messages, category):
         caption = self.executable + ':'
         self.called[category] += 1
-        caption = category.upper() + ':' + caption
+        caption = category.upper() + ': ' + caption
         self.log.error(caption, *messages, file=sys.stderr)
 
 
