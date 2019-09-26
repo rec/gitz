@@ -93,7 +93,7 @@ class Mover:
 
         if self.in_target:
             git.checkout(self.target)
-        print(self.Root + 'ed', self.source, 'to', self.target)
+        PROGRAM.message(self.Root + 'ed', self.source, 'to', self.target)
 
     def _move_remote(self):
         force = git_functions.force_flags()
