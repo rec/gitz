@@ -30,13 +30,7 @@ def delete(branches):
     if unknown:
         remotes = remote_branches.get(origin, [])
         missing = unknown.difference(remotes)
-
-        if missing:
-            brs = 'branch' if len(missing) == 1 else 'branches'
-            miss = ', '.join(sorted(missing))
-            PROGRAM.error('Non-existent', brs, miss)
-    else:
-        missing = set()
+        PROGRAM.error_if(sorted(missing), 'Non-existent')
 
     remaining_branches = existing_branches.difference(branches)
     if not remaining_branches:

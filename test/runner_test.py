@@ -12,7 +12,7 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(stdout, ['0'])
         self.assertEqual(logger.errors, [])
         self.assertEqual(logger.messages, [])
-        self.assertEqual(logger.verboses, [('$', 'ls'), ('>', '0',)])
+        self.assertEqual(logger.verboses, [('$', 'ls'), ('>', '0')])
         with open('X', 'w') as fp:
             fp.write('X\n')
         run.git.add('X')

@@ -17,43 +17,44 @@ class Runner:
         self.git = Git(self)
         self.no_run = no_run
 
-    def __call__(self, *cmd, quiet=None, **kwds):
+    def __call__(self, *cmd, quiet=None, silent=None, **kwds):
+        quiet = quiet or silent
+        self.output_lines, self.error_lines = [], []
+
         if self.no_run:
             self.log.message('$', *cmd)
             return []
 
         self.log.verbose('$', *cmd)
         kwds = dict(_SUBPROCESS_KWDS, **kwds)
-        cmd_arg = ' '.join(cmd)
         if kwds.get('shell'):
-            cmd = cmd_arg
+            cmd = ' '.join(cmd)
 
         proc = subprocess.Popen(cmd, **kwds)
-        output_lines, error_lines = [], []
 
         def out(line):
             if not quiet:
                 self.log.verbose('>', line)
-            output_lines.append(line)
+            self.output_lines.append(line)
 
         def error(line):
             if not quiet:
                 self.log.error('!', line)
-            else:
-                error_lines.append(line)
+            self.error_lines.append(line)
 
         run_proc(proc, out, error)
         if proc.returncode:
-            for line in error_lines:
-                self.log.error('!', line)
-            raise ValueError('Command "%s" failed' % cmd_arg)
+            if quiet and not silent:
+                for line in self.error_lines:
+                    self.log.error('!', line)
+            raise ValueError('Command "%s" failed' % ' '.join(cmd))
 
-        return output_lines
+        return self.output_lines
 
 
 class Git:
-    def __init__(self, run):
-        self.run = run
+    def __init__(self, runner):
+        self.runner = runner
 
     def __getattr__(self, command):
         return functools.partial(self, command)
@@ -62,7 +63,15 @@ class Git:
         if cmd[0] == 'git':
             raise ValueError
 
-        return self.run('git', *cmd, **kwds)
+        return self.runner('git', *cmd, **kwds)
+
+    @property
+    def output_lines(self):
+        return self.runner.output_lines
+
+    @property
+    def error_lines(self):
+        return self.runner.error_lines
 
 
 def run_proc(pr, out, err):

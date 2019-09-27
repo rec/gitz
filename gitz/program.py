@@ -60,6 +60,12 @@ class _Program:
     def error(self, *messages):
         self._error(messages, 'error')
 
+    def error_if(self, errors, message, singular='branch', plural='branches'):
+        if errors:
+            s = singular if len(errors) == 1 else plural
+            self._error([message, s, ', '.join(errors)], 'error')
+            return True
+
     def warning(self, *messages):
         self._error(messages, 'warning')
 

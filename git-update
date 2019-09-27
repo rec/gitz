@@ -34,53 +34,38 @@ def git_update():
     args = PROGRAM.args
     branches = git_functions.branches()
     missing = set(args.branches).difference(branches)
-    if missing:
-        PROGRAM.exit('Missing:', *missing)
+    if PROGRAM.error_if(missing, 'Missing'):
+        PROGRAM.exit()
 
     starting_branch = git_functions.branch_name()
-    branch_to_upstream = {}
+    failed, succeeded = {}, []
 
     for branch in args.branches or branches:
-        git.checkout(branch)
-        branch_to_upstream[branch] = git_functions.upstream_branch()
-
-    for upstream in set(v[0] for v in branch_to_upstream.values()):
-        git_functions.fetch(upstream)
-
-    failed, succeeded = [], []
-    for branch, upstream in branch_to_upstream.items():
-        quiet_git.checkout(branch)
-        if not args.force:
-            branch_commit_id = git_functions.commit_id()
-            upstream = '/'.join(upstream)
-            remote_commit_id = git_functions.commit_id(upstream)
-            if branch_commit_id != remote_commit_id:
-                try:
-                    quiet_git.push()
-                except Exception:
-                    failed.append(branch)
-                    PROGRAM.error(
-                        'Skipping', branch, 'which differed from', upstream
-                    )
-                    continue
         try:
-            quiet_git.pull('--rebase', *ref_branch)
+            quiet_git.checkout(branch)
+            try:
+                quiet_git.pull('--rebase', *ref_branch)
+            except Exception:
+                try:
+                    quiet_git.rebase('--abort')
+                except Exception:
+                    pass
+                raise
+
+            git.push('--force-with-lease')
+
         except Exception:
             failed.append(branch)
-            quiet_git.rebase('--abort')
+
         else:
             succeeded.append(branch)
-            git.push('--force-with-lease')
 
     quiet_git.checkout(starting_branch)
 
     if succeeded:
         PROGRAM.message('Updated', *sorted(succeeded))
 
-    if failed:
-        PROGRAM.error('Failed', *sorted(failed))
-
-    if False and PROGRAM.called['error']:
+    if PROGRAM.error_if(sorted(failed), 'Failed'):
         PROGRAM.exit()
 
 
@@ -90,6 +75,7 @@ def add_arguments(parser):
     reference_branch.add_arguments(parser)
 
 
+_ERROR_PUSH = 'Skipping {branch} which differed from {upstream}'
 _HELP_FORCE = 'Force push over non-matching remote branches'
 _HELP_BRANCHES = 'A list of branches to update - default is all branches'
 
