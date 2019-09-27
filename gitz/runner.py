@@ -12,15 +12,12 @@ _EXCEPTION_MSG = 'Encountered an exception while executing'
 
 
 class Runner:
-    def __init__(self, log, quiet=None, no_run=False):
+    def __init__(self, log, no_run=False):
         self.log = log
         self.git = Git(self)
         self.no_run = no_run
-        self.quiet = quiet
 
     def __call__(self, *cmd, quiet=None, **kwds):
-        if quiet is None:
-            quiet = self.quiet
         if self.no_run:
             self.log.message('$', *cmd)
             return []
@@ -32,19 +29,23 @@ class Runner:
             cmd = cmd_arg
 
         proc = subprocess.Popen(cmd, **kwds)
-        output_lines = []
+        output_lines, error_lines = [], []
 
         def out(line):
             if not quiet:
-                self.log.verbose(line[:-1])
-            output_lines.append(line[:-1])
+                self.log.verbose('>', line)
+            output_lines.append(line)
 
         def error(line):
             if not quiet:
-                self.log.error(line[:-1])
+                self.log.error('!', line)
+            else:
+                error_lines.append(line)
 
         run_proc(proc, out, error)
         if proc.returncode:
+            for line in error_lines:
+                self.log.error('!', line)
             raise ValueError('Command "%s" failed' % cmd_arg)
 
         return output_lines
@@ -70,7 +71,7 @@ def run_proc(pr, out, err):
             line = fp.readline()
             if not line:
                 return i
-            callback(line)
+            callback(line[:-1])
 
     while run(pr.stdout, out) + run(pr.stderr, err) + (pr.poll() is None):
         pass

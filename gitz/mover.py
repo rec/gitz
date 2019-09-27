@@ -1,8 +1,8 @@
 from . import git_functions
 from .env import ENV
 from .program import PROGRAM
-from .program import git
 from .program import safe_git
+from .program import quiet_git
 
 COPY, RENAME = 'copy', 'rename'
 
@@ -55,8 +55,8 @@ class Mover:
         if self.source == self.target:
             PROGRAM.exit('Source and target must be different')
 
-        self.in_source = (self.starting_branch == self.source)
-        self.in_target = (self.starting_branch == self.target)
+        self.in_source = self.starting_branch == self.source
+        self.in_target = self.starting_branch == self.target
         if self.in_source or self.in_target:
             git_functions.check_clean_workspace()
 
@@ -84,23 +84,26 @@ class Mover:
     def _move_local(self):
         flag = '-C' if PROGRAM.args.force else '-c'
         if self.in_target:
-            git.checkout(self.source)
-        git.branch(flag, self.source, self.target)
+            quiet_git.checkout(self.source)
+        quiet_git.branch(flag, self.source, self.target)
         if self.action == RENAME:
             if self.in_source:
-                git.checkout(self.target)
-            git.branch('-D', self.source)
+                quiet_git.checkout(self.target)
+            quiet_git.branch('-D', self.source)
 
         if self.in_target:
-            git.checkout(self.target)
-        PROGRAM.message(self.Root + 'ed', self.source, 'to', self.target)
+            quiet_git.checkout(self.target)
+        PROGRAM.message('{Root}ed {source} -> {target}'.format(**vars(self)))
 
     def _move_remote(self):
         force = git_functions.force_flags()
-        git.push(*force, '--set-upstream', self.origin, self.target)
+        quiet_git.push(*force, '--set-upstream', self.origin, self.target)
 
         if self.action == RENAME:
-            git.push(self.origin, ':' + self.source)
+            quiet_git.push(self.origin, ':' + self.source)
+
+        msg = '{Root}ed {origin}/{source} -> {origin}/{target}'
+        PROGRAM.message(msg.format(**vars(self)))
 
     def _add_arguments(self, parser):
         add_arg = parser.add_argument
