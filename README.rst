@@ -61,7 +61,6 @@ When to use gitz
 
    - ``git combine`` combines multiple commits and optionally squashes them
    - ``git shuffle`` shuffles and removes commits in the current branch
-   - ``git snip`` removes commits in the current branch
    - ``git split`` split one or more commits, perhaps with the staging area,
      into many small individual commits, one per file
 
@@ -153,9 +152,6 @@ can significantly speed up rapid development on private branches.
 
 `git shuffle <doc/git shuffle.rst>`_
   Reorder and delete commits in the current branch
-
-`git snip <doc/git snip.rst>`_
-  Edit one or more commits out of history
 
 `git split <doc/git split.rst>`_
   Split a range of commits into many single-file commits

@@ -35,9 +35,6 @@ gitz commands
 `git-shuffle <git-shuffle.rst>`_
   Reorder and delete commits in the current branch
 
-`git-snip <git-snip.rst>`_
-  Edit one or more commits out of history
-
 `git-split <git-split.rst>`_
   Split a range of commits into many single-file commits
 
