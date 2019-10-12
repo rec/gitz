@@ -66,10 +66,15 @@ class _Program:
             self._error([message, s, ', '.join(errors)], 'error')
             return True
 
-    def warning(self, *messages):
-        self._error(messages, 'warning')
+    def progress(self, *messages):
+        self.has_progress = True
+        self.log.message(*messages, end=' ')
+        self.log.flush()
 
     def message(self, *messages):
+        if getattr(self, 'has_progress', False):
+            self.log.message()
+            self.has_progress = True
         self.log.message(*messages)
 
     def _error(self, messages, category):

@@ -2,7 +2,6 @@
 from gitz import git_functions
 from gitz import reference_branch
 from gitz.program import PROGRAM
-from gitz.program import git
 from gitz.program import quiet_git
 
 SUMMARY = 'Update branches from the reference branch'
@@ -38,11 +37,14 @@ def git_update():
         PROGRAM.exit()
 
     starting_branch = git_functions.branch_name()
-    failed, succeeded = {}, []
+    failed, updated, unchanged = [], [], []
+
+    progress = (lambda x: x) if PROGRAM.args.verbose else PROGRAM.message
 
     for branch in args.branches or branches:
         try:
             quiet_git.checkout(branch)
+            cid = git_functions.commit_id()
             try:
                 quiet_git.pull('--rebase', *ref_branch)
             except Exception:
@@ -52,18 +54,25 @@ def git_update():
                     pass
                 raise
 
-            git.push('--force-with-lease')
+            if git_functions.commit_id() == cid:
+                progress('(%s)' % branch)
+                unchanged.append(branch)
+            else:
+                progress(branch)
+                updated.append(branch)
+            quiet_git.push('--force-with-lease')
 
         except Exception:
             failed.append(branch)
 
-        else:
-            succeeded.append(branch)
-
+    PROGRAM.message()
     quiet_git.checkout(starting_branch)
 
-    if succeeded:
-        PROGRAM.message('Updated', *sorted(succeeded))
+    if updated:
+        PROGRAM.message('Updated', *sorted(updated))
+
+    if unchanged:
+        PROGRAM.message('Unchanged', *sorted(unchanged))
 
     if PROGRAM.error_if(sorted(failed), 'Failed'):
         PROGRAM.exit()

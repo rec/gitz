@@ -20,7 +20,7 @@ def Log(args):
         error('WARNING: Only one of --verbose or --quiet may be set')
 
     if args.quiet:
-        return _Log()
+        return _Log(flush=_nothing)
 
     if not args.verbose:
         return _Log(error=error, message=print)
@@ -33,7 +33,14 @@ def _nothing(*args, **kwds):
 
 
 class _Log:
-    def __init__(self, error=_nothing, message=_nothing, verbose=_nothing):
+    def __init__(
+        self,
+        error=_nothing,
+        message=_nothing,
+        verbose=_nothing,
+        flush=sys.stdout.flush,
+    ):
         self.error = error
         self.message = message
         self.verbose = verbose
+        self.flush = flush
