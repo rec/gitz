@@ -58,7 +58,9 @@ git shuffle __cba_ --squash="My message"
 
 def git_shuffle():
     git_functions.check_clean_workspace()
-    shuffle, unchanged = combine.shuffle(PROGRAM.args.shuffle)
+    shuffle, unchanged = combine.shuffle(
+        PROGRAM.args.shuffle, PROGRAM.args.squash
+    )
     if not shuffle:
         PROGRAM.message('No change')
         return
@@ -80,8 +82,6 @@ def git_shuffle():
 def add_arguments(parser):
     add_arg = parser.add_argument
     add_arg('shuffle', default='ba', nargs='?', help=_HELP_SHUFFLE)
-    if not True:
-        raise ValueError
     combine.add_arguments(parser)
 
 

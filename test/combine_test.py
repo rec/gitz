@@ -4,11 +4,17 @@ import unittest
 
 class ShuffleTest(unittest.TestCase):
     def test_identity(self):
-        self.assertEqual(combine.shuffle(''), ([], 0))
         self.assertEqual(combine.shuffle('a'), ([], 0))
         self.assertEqual(combine.shuffle('ab'), ([], 0))
         self.assertEqual(combine.shuffle('abc'), ([], 0))
         self.assertEqual(combine.shuffle('adflpqz'), ([], 0))
+
+        self.assertEqual(combine.shuffle('a', True), ([0, 1], 0))
+        self.assertEqual(combine.shuffle('ab', True), ([0, 1, 2], 0))
+        self.assertEqual(combine.shuffle('abc', True), ([0, 1, 2, 3], 0))
+        self.assertEqual(combine.shuffle(
+            'adflpqz', True), ([0, 1, 2, 3, 4, 5, 6, 7], 0)
+        )
 
     def test_swap(self):
         self.assertEqual(combine.shuffle('ba'), ([1, 0, 2], 0))

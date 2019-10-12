@@ -33,7 +33,8 @@ def combine(args, *commit_ids):
     return result
 
 
-def shuffle(shuffle):
+def shuffle(shuffle, squash=False):
+    shuffle = shuffle.replace('-', '_')
     names = shuffle.replace('_', '')
     sorted_names = sorted(names)
 
@@ -48,12 +49,14 @@ def shuffle(shuffle):
     result.append(len(shuffle))
     last = None
     unchanged = 0
-    while result and result[-1] == len(result) - 1:
-        last = result.pop()
-        unchanged += 1
-    if result and last is not None:
-        result.append(last)
-        unchanged -= 1
+
+    if not squash:
+        while result and result[-1] == len(result) - 1:
+            last = result.pop()
+            unchanged += 1
+        if result and last is not None:
+            result.append(last)
+            unchanged -= 1
 
     return result, unchanged if result else 0
 
