@@ -58,25 +58,36 @@ git shuffle __cba_ --squash="My message"
 
 def git_shuffle():
     git_functions.check_clean_workspace()
-    shuffle, unchanged = combine.shuffle(
-        PROGRAM.args.shuffle, PROGRAM.args.squash
-    )
+    squash = PROGRAM.args.squash
+    shuffle, unchanged = combine.shuffle(PROGRAM.args.shuffle, squash)
     if not shuffle:
         PROGRAM.message('No change')
         return
 
+    deleted = sorted(set(range(max(shuffle))) - set(shuffle))
+    deleted = git_functions.show_commits(deleted)
+    if squash:
+        squashed = git_functions.show_commits(shuffle[:-1])
+
     shuffle = ['HEAD~%d' % i for i in reversed(shuffle)]
     combine.combine(PROGRAM.args, *shuffle)
 
-    shuffled = len(shuffle) - 1
-    if shuffled:
-        s = '' if shuffled == 1 else 's'
-        PROGRAM.message(shuffled, 'commit%s shuffled' % s)
+    def report(name, items):
+        if items:
+            s = '' if len(items) == 1 else 's'
+            PROGRAM.message(len(items), 'commit%s %s' % (s, name))
+            for i in items:
+                PROGRAM.message(' ', i)
 
-    deleted = len(PROGRAM.args.shuffle) - shuffled - unchanged
-    if deleted:
-        s = '' if deleted == 1 else 's'
-        PROGRAM.message(deleted, 'commit%s deleted' % s)
+    report('deleted', deleted)
+    if squash:
+        report('squashed', squashed)
+        if squashed:
+            PROGRAM.message('->')
+            PROGRAM.message(' ', git_functions.show_commit())
+    else:
+        shuffled = git_functions.show_commits(range(len(shuffle) - 1))
+        report('shuffled', shuffled)
 
 
 def add_arguments(parser):
