@@ -57,6 +57,9 @@ git shuffle __cba_ --squash="My message"
 
 
 def git_shuffle():
+    def show_commits(names):
+        return [git_functions.show_commit(name) for name in names]
+
     git_functions.check_clean_workspace()
     squash = PROGRAM.args.squash
     shuffle, unchanged = combine.shuffle(PROGRAM.args.shuffle, squash)
@@ -65,9 +68,9 @@ def git_shuffle():
         return
 
     deleted = sorted(set(range(max(shuffle))) - set(shuffle))
-    deleted = git_functions.show_commits(deleted)
+    deleted = show_commits(deleted)
     if squash:
-        squashed = git_functions.show_commits(shuffle[:-1])
+        squashed = show_commits(shuffle[:-1])
 
     shuffle = ['HEAD~%d' % i for i in reversed(shuffle)]
     combine.combine(PROGRAM.args, *shuffle)
@@ -86,7 +89,7 @@ def git_shuffle():
             PROGRAM.message('->')
             PROGRAM.message(' ', git_functions.show_commit())
     else:
-        shuffled = git_functions.show_commits(range(len(shuffle) - 1))
+        shuffled = show_commits(range(len(shuffle) - 1))
         report('shuffled', shuffled)
 
 

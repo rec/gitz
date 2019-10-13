@@ -34,12 +34,9 @@ def show_commit(name='HEAD'):
     if isinstance(name, int):
         name = 'HEAD~%d' % name
     cid = commit_id(name)
-    message = safe_git('show-branch', '--no-name', cid)[0]
-    return '[%s] %s' % (cid[:COMMIT_ID_LENGTH], message)
-
-
-def show_commits(names):
-    return [show_commit(name) for name in names]
+    if cid:
+        message = safe_git('show-branch', '--no-name', cid)[0]
+        return '%s: %s' % (cid[:COMMIT_ID_LENGTH], message)
 
 
 def fetch(remote):
