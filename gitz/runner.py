@@ -17,9 +17,9 @@ class Runner:
         self.git = Git(self)
         self.no_run = no_run
 
-    def __call__(self, *cmd, quiet=None, silent=None, **kwds):
+    def __call__(self, *cmd, quiet=None, silent=None, merged=False, **kwds):
         quiet = quiet or silent
-        self.output_lines, self.error_lines = [], []
+        self.all_lines, self.output_lines, self.error_lines = [], [], []
 
         if self.no_run:
             self.log.message('$', *cmd)
@@ -36,11 +36,13 @@ class Runner:
             if not quiet:
                 self.log.verbose('>', line)
             self.output_lines.append(line)
+            self.all_lines.append(line)
 
         def error(line):
             if not quiet:
                 self.log.error('!', line)
             self.error_lines.append(line)
+            self.all_lines.append(line)
 
         run_proc(proc, out, error)
         if proc.returncode:
@@ -49,7 +51,7 @@ class Runner:
                     self.log.error('!', line)
             raise ValueError('Command "%s" failed' % ' '.join(cmd))
 
-        return self.output_lines
+        return self.all_lines if merged else self.output_lines
 
 
 class Git:
@@ -64,14 +66,6 @@ class Git:
             raise ValueError
 
         return self.runner('git', *cmd, **kwds)
-
-    @property
-    def output_lines(self):
-        return self.runner.output_lines
-
-    @property
-    def error_lines(self):
-        return self.runner.error_lines
 
 
 def run_proc(pr, out, err):
