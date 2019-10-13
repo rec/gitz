@@ -55,8 +55,8 @@ def git_delete():
 
     deleted = delete.delete(args.target)
     if deleted:
-        s = '' if len(deleted) == 1 else 'es'
-        print('git-delete: branch%s deleted:' % s, *deleted)
+        s = '' if deleted == 1 else 'es'
+        PROGRAM.message('git-delete: %d branch%s deleted' % (deleted, s))
 
 
 def add_arguments(parser):

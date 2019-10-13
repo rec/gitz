@@ -1,6 +1,6 @@
 from . import git_functions
 from .program import PROGRAM
-from .program import git
+from .program import quiet_git
 
 
 def delete(branches):
@@ -37,19 +37,29 @@ def delete(branches):
         raise ValueError('This would delete all the branches')
 
     if git_functions.branch_name() in branches:
-        git.checkout(sorted(remaining_branches)[0])
+        quiet_git.checkout(sorted(remaining_branches)[0])
 
-    remotes_deleted = []
+    deleted_count = 0
+    PROGRAM.message('Deleting:')
     for b in branches:
         try:
             upstream = git_functions.upstream_branch(b)[0]
         except Exception:
             upstream = origin
         if upstream and b in remote_branches[upstream]:
-            git.push(upstream, '--delete', b)
-            remotes_deleted.append('%s/%s' % (upstream, b))
+            branch_name = '%s/%s' % (upstream, b)
+            cid = git_functions.commit_id(branch_name, True)
+            quiet_git.push(upstream, '--delete', b)
+            PROGRAM.message('  %s: %s' % (cid, branch_name))
+            deleted_count += 1
 
     local_branches = [b for b in branches if b not in unknown]
+
     if local_branches:
-        git.branch('-D', *local_branches)
-    return local_branches + remotes_deleted
+        locals_cid = [git_functions.commit_id(b, True) for b in local_branches]
+        quiet_git.branch('-D', *local_branches)
+        for branch, cid in zip(local_branches, locals_cid):
+            PROGRAM.message('  %s: %s' % (cid, branch))
+            deleted_count += 1
+
+    return deleted_count
