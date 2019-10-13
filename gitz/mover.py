@@ -93,7 +93,9 @@ class Mover:
 
         if self.in_target:
             quiet_git.checkout(self.target)
-        PROGRAM.message('{Root}ed {source} -> {target}'.format(**vars(self)))
+        msg = '{0.Root}ed {0.source} -> {0.target} [{1}]'
+        cid = git_functions.commit_id(self.target, True)
+        PROGRAM.message(msg.format(self, cid))
 
     def _move_remote(self):
         force = git_functions.force_flags()
@@ -102,8 +104,10 @@ class Mover:
         if self.action == RENAME:
             quiet_git.push(self.origin, ':' + self.source)
 
-        msg = '{Root}ed {origin}/{source} -> {origin}/{target}'
-        PROGRAM.message(msg.format(**vars(self)))
+        target = '%s/%s' % (self.origin, self.target)
+        msg = '{0.Root}ed {0.origin}/{0.source} -> {1} [{2}]'
+        cid = git_functions.commit_id(target, True)
+        PROGRAM.message(msg.format(self, target, cid))
 
     def _add_arguments(self, parser):
         add_arg = parser.add_argument
