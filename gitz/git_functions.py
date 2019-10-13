@@ -87,6 +87,24 @@ def upstream_remote(branch=''):
     return lines[0].split('/', maxsplit=1)[0]
 
 
+def origin(origin, rbranches=None):
+    rbranches = rbranches or remote_branches()
+    if not origin:
+        try:
+            return upstream_remote()
+        except Exception:
+            pass
+        try:
+            from .env import ENV
+            return next(o for o in ENV.origin() if o in rbranches)
+        except Exception:
+            PROGRAM.exit('Cannot determine origin')
+
+    if origin not in rbranches:
+        PROGRAM.exit('Unknown remote', origin)
+    return origin
+
+
 def check_git():
     if not find_git_root():
         PROGRAM.error(_ERROR_NOT_GIT_REPOSITORY)
