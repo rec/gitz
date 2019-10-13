@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git split [-h] [-q] [-v] [commit]
+    git split [-h] [-q] [-v] [-p PREFIX] [commit]
 
 Positional arguments
   ``commit``: Optional commit ID to split from
@@ -17,6 +17,8 @@ Optional arguments
   ``-q, --quiet``: Suppress all output
 
   ``-v, --verbose``: Report all messages in great detail
+
+  ``-p PREFIX, --prefix PREFIX``: Prefix for each commit message
 
 DESCRIPTION
 ===========

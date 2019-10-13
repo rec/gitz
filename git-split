@@ -62,7 +62,9 @@ def git_split():
         # separated by -> and with mode = '??'
         try:
             git.add(*filenames_split)
-            git.commit('-m', '[split] %s %s' % (mode_name, filenames))
+            pre = PROGRAM.args.prefix
+            lines = git.commit('-m', '%s %s %s' % (pre, mode_name, filenames))
+            PROGRAM.message(lines[0])
             commit_count += 1
 
         except Exception:
@@ -74,11 +76,13 @@ def git_split():
 
 def add_arguments(parser):
     parser.add_argument('commit', nargs='?', default='', help=_HELP_COMMIT)
+    parser.add_argument('-p', '--prefix', default='[split]', help=_HELP_PREFIX)
 
 
 NAMES = 'Added', 'Deleted', 'Modified', 'Renamed'
 NAMES = {name[0]: name for name in NAMES}
 _HELP_COMMIT = 'Optional commit ID to split from'
+_HELP_PREFIX = 'Prefix for each commit message'
 
 
 if __name__ == '__main__':
