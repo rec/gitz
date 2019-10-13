@@ -90,7 +90,7 @@ def _origin(remote_branches):
     origin = PROGRAM.args.origin
     if not origin:
         try:
-            return git_functions.upstream_branch()[0]
+            return git_functions.upstream_remote()
         except Exception:
             pass
         try:

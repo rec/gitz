@@ -64,7 +64,7 @@ class Mover:
         if self.source not in branches:
             PROGRAM.exit(_ERROR_LOCAL_REPO % self.source)
 
-        self.origin = git_functions.upstream_branch(self.source)[0]
+        self.origin = git_functions.upstream_remote(self.source)
 
         if not PROGRAM.args.all:
             p = ENV.protected_branches()

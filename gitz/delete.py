@@ -10,7 +10,7 @@ def delete(branches):
         return
 
     try:
-        origin = git_functions.upstream_branch()[0]
+        origin = git_functions.upstream_remote()
     except Exception:
         origin = ''
 
@@ -43,7 +43,7 @@ def delete(branches):
     PROGRAM.message('Deleting:')
     for b in branches:
         try:
-            upstream = git_functions.upstream_branch(b)[0]
+            upstream = git_functions.upstream_remote(b)
         except Exception:
             upstream = origin
         if upstream and b in remote_branches[upstream]:

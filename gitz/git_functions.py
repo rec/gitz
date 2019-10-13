@@ -80,11 +80,11 @@ def remote_branches(must_fetch=True):
     return result
 
 
-def upstream_branch(branch=''):
+def upstream_remote(branch=''):
     # https://stackoverflow.com/a/9753364/43839
     upstream = (_UPSTREAM % branch).split()
     lines = safe_git(*upstream, quiet=True)
-    return lines[0].split('/', maxsplit=1)
+    return lines[0].split('/', maxsplit=1)[0]
 
 
 def check_git():

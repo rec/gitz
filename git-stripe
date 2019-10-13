@@ -146,7 +146,7 @@ class Stripe:
         for remote in PROGRAM.args.remotes.split(':'):
             if remote == '^':
                 try:
-                    yield git_functions.upstream_branch()[0]
+                    yield git_functions.upstream_remote()
                 except Exception:
                     PROGRAM.exit('Branch has no upstream remote')
             elif remote == '.' or remote in self.remote_branches:
