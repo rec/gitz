@@ -1,4 +1,4 @@
-from . import git_functions
+from . import git_root
 import json
 import os
 
@@ -28,7 +28,7 @@ class Env:
         if value is not None:
             return value
 
-        root = git_functions.find_git_root()
+        root = git_root.git_root()
         value = None
         if root and (root / CONFIG_FILE).exists():
             config = json.load(open(str(root / CONFIG_FILE)))

@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 from gitz import git_functions
+from gitz import git_root
+from gitz import guess_origin
 from gitz import reference_branch
 from gitz.env import ENV
 from gitz.program import PROGRAM
@@ -30,6 +32,7 @@ nearly all projects this will be correct, or this can be specified at the
 command line, per project, or through environment variables - see ``git gitz``
 for more details.
 """
+
 EXAMPLES = """
 git new foo
    Create a new branch foo from the reference branch and push to the origin
@@ -47,10 +50,10 @@ _HELP_BRANCHES = 'Names of branches to create'
 
 
 def git_new():
-    git_functions.check_clean_workspace()
+    git_root.check_clean_workspace()
     branches = git_functions.branches()
     remote_branches = git_functions.remote_branches()
-    origin = git_functions.origin(PROGRAM.args.origin, remote_branches)
+    origin = guess_origin.guess_origin(PROGRAM.args.origin)
 
     new_branches = set(PROGRAM.args.branches)
 

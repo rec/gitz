@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from gitz import delete
 from gitz import git_functions
+from gitz import git_root
 from gitz.env import ENV
 from gitz.program import PROGRAM
 from gitz.program import git
@@ -45,7 +46,7 @@ def git_delete():
             PROGRAM.exit('Protected:', *protected)
 
     if branch not in remaining_branches:
-        git_functions.check_clean_workspace()
+        git_root.check_clean_workspace()
         for b in ENV.reference_branches():
             if b in remaining_branches:
                 git.checkout(b)

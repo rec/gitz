@@ -1,10 +1,11 @@
 from . import git_functions
+from . import git_root
 from .program import PROGRAM
 from .program import git
 
 
 def combine(args, *commit_ids):
-    git_functions.check_clean_workspace()
+    git_root.check_clean_workspace()
     ids, errors = [], []
     for id in commit_ids:
         try:

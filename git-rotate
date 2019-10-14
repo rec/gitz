@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from gitz import git_functions
+from gitz import git_root
 from gitz.program import PROGRAM
 from gitz.program import quiet_git
 
@@ -33,7 +34,7 @@ git rotate -
 
 
 def git_rotate():
-    git_functions.check_clean_workspace()
+    git_root.check_clean_workspace()
 
     if PROGRAM.args.steps == '-':
         steps = -1

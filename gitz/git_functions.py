@@ -1,17 +1,7 @@
 from .program import PROGRAM
 from .program import safe_git
-from pathlib import Path
 
 COMMIT_ID_LENGTH = 7
-
-
-def find_git_root(p='.'):
-    p = Path(p).absolute()
-    while not (p / '.git' / 'config').exists():
-        if p.parent == p:
-            return None
-        p = p.parent
-    return p
 
 
 def commit_id(name='HEAD', short=False):
@@ -52,16 +42,6 @@ def branch_name(name='HEAD'):
     return safe_git('symbolic-ref', '-q', '--short', name)[0].strip()
 
 
-def is_workspace_dirty():
-    if not find_git_root():
-        return False
-    try:
-        safe_git('diff-index', '--quiet', 'HEAD', '--')
-    except Exception:
-        # Also returns true if workspace is broken for some other reason
-        return True
-
-
 def branches(*args):
     return safe_git.branch('--format=%(refname:short)', *args)
 
@@ -80,50 +60,5 @@ def remote_branches(must_fetch=True):
     return result
 
 
-def upstream_remote(branch=''):
-    # https://stackoverflow.com/a/9753364/43839
-    upstream = (_UPSTREAM % branch).split()
-    lines = safe_git(*upstream, quiet=True)
-    return lines[0].split('/', maxsplit=1)[0]
-
-
-def origin(origin, rbranches=None):
-    rbranches = rbranches or remote_branches()
-    if not origin:
-        try:
-            return upstream_remote()
-        except Exception:
-            pass
-        try:
-            from .env import ENV
-            return next(o for o in ENV.origin() if o in rbranches)
-        except Exception:
-            PROGRAM.exit('Cannot determine origin')
-
-    if origin not in rbranches:
-        PROGRAM.exit('Unknown remote', origin)
-    return origin
-
-
-def check_git():
-    if not find_git_root():
-        PROGRAM.error(_ERROR_NOT_GIT_REPOSITORY)
-        PROGRAM.exit()
-
-
-def check_clean_workspace():
-    check_git()
-    if is_workspace_dirty():
-        PROGRAM.error(_ERROR_CHANGES_OVERWRITTEN)
-        PROGRAM.exit()
-
-
 def force_flags():
     return ['--force-with-lease'] if PROGRAM.args.force else []
-
-
-_UPSTREAM = 'rev-parse --abbrev-ref --symbolic-full-name %s@{u}'
-_ERROR_CHANGES_OVERWRITTEN = 'Your local changes would be overwritten'
-_ERROR_NOT_GIT_REPOSITORY = (
-    'fatal: not a git repository (or any of the parent directories): .git'
-)

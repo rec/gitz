@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from gitz import git_functions
+from gitz import git_root
 from gitz import reference_branch
 from gitz.program import PROGRAM
 from gitz.program import quiet_git
@@ -28,7 +29,7 @@ git update foo bar
 
 
 def git_update():
-    git_functions.check_clean_workspace()
+    git_root.check_clean_workspace()
     ref_branch = reference_branch.reference_branch()
     args = PROGRAM.args
     branches = git_functions.branches()

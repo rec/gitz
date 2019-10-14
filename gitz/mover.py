@@ -1,4 +1,6 @@
 from . import git_functions
+from . import git_root
+from . import guess_origin
 from .env import ENV
 from .program import PROGRAM
 from .program import safe_git
@@ -58,13 +60,13 @@ class Mover:
         self.in_source = self.starting_branch == self.source
         self.in_target = self.starting_branch == self.target
         if self.in_source or self.in_target:
-            git_functions.check_clean_workspace()
+            git_root.check_clean_workspace()
 
         branches = git_functions.branches()
         if self.source not in branches:
             PROGRAM.exit(_ERROR_LOCAL_REPO % self.source)
 
-        self.origin = git_functions.upstream_remote(self.source)
+        self.origin = guess_origin.guess_origin(branch=self.source)
 
         if not PROGRAM.args.all:
             p = ENV.protected_branches()

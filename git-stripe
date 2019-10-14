@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from gitz import git_functions
+from gitz import guess_origin
 from gitz.program import PROGRAM
 from gitz.program import git
 
@@ -145,10 +146,7 @@ class Stripe:
     def _remotes(self):
         for remote in PROGRAM.args.remotes.split(':'):
             if remote == '^':
-                try:
-                    yield git_functions.upstream_remote()
-                except Exception:
-                    PROGRAM.exit('Branch has no upstream remote')
+                yield guess_origin.guess_origin()
             elif remote == '.' or remote in self.remote_branches:
                 yield remote
             else:

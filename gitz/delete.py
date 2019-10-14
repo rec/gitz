@@ -1,3 +1,4 @@
+from . import guess_origin
 from . import git_functions
 from .program import PROGRAM
 from .program import quiet_git
@@ -10,7 +11,7 @@ def delete(branches):
         return
 
     try:
-        origin = git_functions.upstream_remote()
+        origin = guess_origin.guess_origin()
     except Exception:
         origin = ''
 
@@ -43,7 +44,7 @@ def delete(branches):
     PROGRAM.message('Deleting:')
     for b in branches:
         try:
-            upstream = git_functions.upstream_remote(b)
+            upstream = guess_origin.guess_origin(branch=b)
         except Exception:
             upstream = origin
         if upstream and b in remote_branches[upstream]:

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from gitz import git_functions
+from gitz import git_root
 from gitz.program import PROGRAM
 from gitz.program import git
 from gitz.program import safe_git
@@ -25,8 +26,8 @@ git split HEAD~
 
 
 def git_split():
-    git_functions.check_git()
-    os.chdir(git_functions.find_git_root())
+    git_root.check_git()
+    os.chdir(git_root.git_root())
     not_added = []
 
     for line in safe_git.status('--porcelain'):
@@ -36,7 +37,7 @@ def git_split():
 
     if PROGRAM.args.commit:
         commit = PROGRAM.args.commit + '~'
-    elif git_functions.is_workspace_dirty():
+    elif git_root.is_workspace_dirty():
         commit = 'HEAD'
     else:
         commit = 'HEAD~'
