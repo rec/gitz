@@ -49,6 +49,7 @@ class GitGitzTest(unittest.TestCase):
 
 
 COMMANDS = '\n'.join('    ' + i for i in config.COMMANDS)
+HOME_PAGE = config.HOME_PAGE
 EXECUTABLE_DIRECTORY = str(config.LIBRARY_DIRECTORY.parent)
 LIBRARY_DIRECTORY = str(config.LIBRARY_DIRECTORY)
 VERSION = config.VERSION
@@ -66,6 +67,9 @@ Defaults:
 
 Executable directory:
     {EXECUTABLE_DIRECTORY}
+
+Home page:
+    {HOME_PAGE}
 
 Library directory:
     {LIBRARY_DIRECTORY}

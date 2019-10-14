@@ -25,6 +25,7 @@ ALL = (
     'commands',
     'defaults',
     'executable_directory',
+    'home_page',
     'library_directory',
     'version',
 )
@@ -71,6 +72,10 @@ def _defaults(indent):
 
 def _executable_directory(indent):
     PROGRAM.message(indent + str(config.EXECUTABLE_DIRECTORY))
+
+
+def _home_page(indent):
+    PROGRAM.message(indent + config.HOME_PAGE)
 
 
 def _library_directory(indent):
