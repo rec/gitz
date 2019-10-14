@@ -3,7 +3,7 @@ from gitz import git_functions
 from gitz import git_root
 from gitz import reference_branch
 from gitz.program import PROGRAM
-from gitz.program import quiet_git
+from gitz.program import git
 
 SUMMARY = 'Update branches from the reference branch'
 
@@ -44,13 +44,13 @@ def git_update():
 
     for branch in args.branches or branches:
         try:
-            quiet_git.checkout(branch)
+            git.checkout(branch, quiet=True)
             cid = git_functions.commit_id()
             try:
-                quiet_git.pull('--rebase', *ref_branch)
+                git.pull('--rebase', *ref_branch, quiet=True)
             except Exception:
                 try:
-                    quiet_git.rebase('--abort')
+                    git.rebase('--abort', quiet=True)
                 except Exception:
                     pass
                 raise
@@ -61,13 +61,13 @@ def git_update():
             else:
                 progress(branch)
                 updated.append(branch)
-            quiet_git.push('--force-with-lease')
+            git.push('--force-with-lease', quiet=True)
 
         except Exception:
             failed.append(branch)
 
     PROGRAM.message()
-    quiet_git.checkout(starting_branch)
+    git.checkout(starting_branch, quiet=True)
 
     if updated:
         PROGRAM.message('Updated', *sorted(updated))

@@ -2,7 +2,7 @@
 from gitz import git_functions
 from gitz import git_root
 from gitz.program import PROGRAM
-from gitz.program import quiet_git
+from gitz.program import git
 
 SUMMARY = (
     'Rotate the current branch forward or backward in the list of branches'
@@ -46,8 +46,9 @@ def git_rotate():
 
     branches = git_functions.branches()
     pos = branches.index(git_functions.branch_name()) + steps
+    branch = branches[pos % len(branches)]
 
-    for line in quiet_git.checkout(branches[pos % len(branches)], merged=True):
+    for line in git.checkout(branch, merged=True, quiet=True):
         PROGRAM.message(line)
 
 

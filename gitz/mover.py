@@ -3,8 +3,8 @@ from . import git_root
 from . import guess_origin
 from .env import ENV
 from .program import PROGRAM
+from .program import git
 from .program import safe_git
-from .program import quiet_git
 
 COPY, RENAME = 'copy', 'rename'
 
@@ -86,25 +86,25 @@ class Mover:
     def _move_local(self):
         flag = '-C' if PROGRAM.args.force else '-c'
         if self.in_target:
-            quiet_git.checkout(self.source)
-        quiet_git.branch(flag, self.source, self.target)
+            git.checkout(self.source, quiet=True)
+        git.branch(flag, self.source, self.target, quiet=True)
         if self.action == RENAME:
             if self.in_source:
-                quiet_git.checkout(self.target)
-            quiet_git.branch('-D', self.source)
+                git.checkout(self.target, quiet=True)
+            git.branch('-D', self.source, quiet=True)
 
         if self.in_target:
-            quiet_git.checkout(self.target)
+            git.checkout(self.target, quiet=True)
         msg = '{0.Root}ed {0.source} -> {0.target} [{1}]'
         cid = git_functions.commit_id(self.target, True)
         PROGRAM.message(msg.format(self, cid))
 
     def _move_remote(self):
-        force = git_functions.force_flags()
-        quiet_git.push(*force, '--set-upstream', self.origin, self.target)
+        fl = git_functions.force_flags()
+        git.push(*fl, '--set-upstream', self.origin, self.target, quiet=True)
 
         if self.action == RENAME:
-            quiet_git.push(self.origin, ':' + self.source)
+            git.push(self.origin, ':' + self.source, quiet=True)
 
         target = '%s/%s' % (self.origin, self.target)
         msg = '{0.Root}ed {0.origin}/{0.source} -> {1} [{2}]'
