@@ -112,7 +112,7 @@ class Stripe:
             for remote in self.remotes:
                 if branch in self.remote_branches[remote]:
                     rbranch = '%s/%s' % (remote, branch)
-                    cid = git_functions.show_commit(rbranch)
+                    cid = git_functions.commit_message(rbranch)
                     git.push(remote, refspec, quiet=True)
                     PROGRAM.message('Deleted %s%s' % (rbranch, cid))
 
@@ -139,7 +139,7 @@ class Stripe:
                 git.push(*force, remote, refspec, quiet=True)
                 if not id:
                     striped = '%s/%s' % (remote, branch)
-                    id = git_functions.show_commit(striped)
+                    id = git_functions.commit_message(striped)
 
             PROGRAM.log.message('New %s: %s' % (striped, id))
 

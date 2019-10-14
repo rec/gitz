@@ -4,14 +4,19 @@ from .program import safe_git
 COMMIT_ID_LENGTH = 7
 
 
+def _to_name(name):
+    if isinstance(name, int):
+        return 'HEAD~%d' % name
+    if name.startswith('~'):
+        return 'HEAD' + name
+    if name.isnumeric() and len(name) < COMMIT_ID_LENGTH:
+        return 'HEAD~' + name
+    return name
+
+
 def commit_id(name='HEAD', short=False):
     try:
-        if name.startswith('~'):
-            name = 'HEAD' + name
-        elif name.isnumeric() and len(name) < COMMIT_ID_LENGTH:
-            name = 'HEAD~' + name
-
-        id = safe_git('rev-parse', name, quiet=True)[0]
+        id = safe_git('rev-parse', _to_name(name), quiet=True)[0]
         if short:
             return id[:COMMIT_ID_LENGTH]
         return id
@@ -20,9 +25,7 @@ def commit_id(name='HEAD', short=False):
         return
 
 
-def show_commit(name='HEAD'):
-    if isinstance(name, int):
-        name = 'HEAD~%d' % name
+def commit_message(name='HEAD'):
     cid = commit_id(name)
     if cid:
         message = safe_git('show-branch', '--no-name', cid)[0]
@@ -39,7 +42,7 @@ def fetch(remote):
 
 
 def branch_name(name='HEAD'):
-    return safe_git('symbolic-ref', '-q', '--short', name)[0].strip()
+    return safe_git('symbolic-ref', '-q', '--short', _to_name(name))[0].strip()
 
 
 def branches(*args):

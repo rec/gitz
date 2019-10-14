@@ -41,5 +41,5 @@ EXAMPLES
 ========
 
 ``git combine d2dfe0c a2833bc``
-  Goes to the commit in `master` and then cherry picks the two commits
+  Goes to the commit in `HEAD` and then cherry picks the two commits
   d2dfe0c and a2833bc on top of it.
