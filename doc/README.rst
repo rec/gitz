@@ -21,7 +21,7 @@ gitz commands
   (from https://github.com/moondewio/git-infer)
 
 `git-multi-pick <git-multi-pick.rst>`_
-  Combine multiple commits into one
+  Cherry-pick multiple commits, with an optional squash
 
 `git-new <git-new.rst>`_
   Create and push new branches

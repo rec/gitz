@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git shuffle [-h] [-q] [-v] [-s SQUASH] [-n] [shuffle]
+    git shuffle [-h] [-q] [-v] [-s [SQUASH]] [-n] [shuffle]
 
 Positional arguments
   ``shuffle``: Pattern string to shuffle (defaults to "ba")
@@ -18,7 +18,7 @@ Optional arguments
 
   ``-v, --verbose``: Report all messages in great detail
 
-  ``-s SQUASH, --squash SQUASH``: Squash all commits into one, with a message
+  ``-s [SQUASH], --squash [SQUASH]``: Squash all commits into one. If an argument is provided, use it as the commit message.
 
   ``-n, --no-run``: If set, commands will be printed but not executed
 

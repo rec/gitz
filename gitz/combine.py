@@ -1,39 +1,23 @@
 from . import git_functions
-from . import git_root
 from .program import git
 
 
-def combine(squash, *commit_ids):
-    git_root.check_clean_workspace()
-    ids, errors = [], []
-    for id in commit_ids:
-        try:
-            ids.append(git_functions.commit_id(id))
-        except Exception:
-            errors.append(id)
-
-    if errors:
-        raise ValueError('Not commit IDs:', ' '.join(errors))
-
-    base, *commits = ids
-
+def combine(commits, squash):
     result = []
-    git.reset('--hard', base)
-    if squash:
-        for id in commits:
-            git('cherry-pick', id)
-        git.reset('--soft', base)
-        git.commit('-m', squash)
+    for id in commits:
+        git('cherry-pick', id)
+        result.append(git_functions.commit_id())
+
+    if squash is not None:
+        git.reset('--soft', result[0])
+        args = ['-m', squash] if squash else ['--no-edit']
+        git.commit('--amend', *args)
         result = [git_functions.commit_id()]
-    else:
-        for id in commits:
-            git('cherry-pick', id)
-            result.append(git_functions.commit_id())
 
     return result
 
 
-def shuffle(shuffle, squash=False):
+def shuffle(shuffle, squash=None):
     shuffle = shuffle.replace('-', '_')
     names = shuffle.replace('_', '')
     sorted_names = sorted(names)
@@ -62,7 +46,11 @@ def shuffle(shuffle, squash=False):
 
 
 def add_arguments(parser):
-    parser.add_argument('-s', '--squash', help=_HELP_SQUASH)
+    parser.add_argument(
+        '-s', '--squash', nargs='?', default=None, const='', help=_HELP_SQUASH
+    )
 
 
-_HELP_SQUASH = 'Squash all commits into one, with a message'
+_HELP_SQUASH = """Squash all commits into one.
+If an argument is provided, use it as the commit message.
+"""

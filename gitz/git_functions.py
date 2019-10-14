@@ -20,9 +20,20 @@ def commit_id(name='HEAD', short=False):
         if short:
             return id[:COMMIT_ID_LENGTH]
         return id
-
     except Exception:
         return
+
+
+def commit_ids(names):
+    ids, errors = [], []
+    for id in names:
+        try:
+            ids.append(commit_id(id))
+        except Exception:
+            errors.append(id)
+    if errors:
+        raise ValueError('Not commit IDs:', ' '.join(errors))
+    return ids
 
 
 def commit_message(name='HEAD'):

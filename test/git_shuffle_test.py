@@ -42,6 +42,13 @@ class GitShuffleTest(unittest.TestCase):
         expected = ['a60e28d "0 1 3 4 6"', 'a03c0f8 1', 'c0d1dbb 0']
         self.assertEqual(actual, expected)
 
+    @repo.test
+    def test_empty_squash(self):
+        self._test_files('-s')
+        actual = safe_git.log('--oneline')
+        expected = ['dc12af1 4', 'a03c0f8 1', 'c0d1dbb 0']
+        self.assertEqual(actual, expected)
+
     def _first(self):
         repo.make_commit('1')
         repo.make_commit('2')

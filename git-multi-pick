@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from gitz import combine
-from gitz.git_functions import COMMIT_ID_LENGTH
+from gitz import git_functions
+from gitz import git_root
 from gitz.program import PROGRAM
 
 SUMMARY = 'Cherry-pick multiple commits, with an optional squash'
@@ -22,21 +23,21 @@ git multi-pick d2dfe0c a2833bc --squash='Squashed commit!'
   'Squashed commit!'
 """
 
-DANGER = 'Rewrites history!'
-
 
 def git_multi_pick():
-    args = PROGRAM.args
-    commits = combine.combine(args.squash, 'HEAD', *args.commit_id)
-    n = len(args.commit_id)
+    git_root.check_clean_workspace()
+    commit_ids = git_functions.commit_ids(PROGRAM.args.commit_ids)
+    commits = combine.combine(commit_ids, PROGRAM.args.squash)
+
+    n = len(commit_ids)
     s = '' if n == 1 else 's'
-    names = ', '.join(c[:COMMIT_ID_LENGTH] for c in commits)
+    names = ', '.join(c[:git_functions.COMMIT_ID_LENGTH] for c in commits)
     PROGRAM.message('Combined {n} commit{s} into {names}'.format(**locals()))
 
 
 def add_arguments(parser):
     add_arg = parser.add_argument
-    add_arg('commit_id', nargs='+', help='List of commit IDs to cherry pick')
+    add_arg('commit_ids', nargs='+', help='List of commit IDs to cherry pick')
     combine.add_arguments(parser)
 
 

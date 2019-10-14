@@ -1,15 +1,15 @@
-``git multi-pick``: Combine multiple commits into one
------------------------------------------------------
+``git multi-pick``: Cherry-pick multiple commits, with an optional squash
+-------------------------------------------------------------------------
 
 USAGE
 =====
 
 .. code-block:: bash
 
-    git multi-pick [-h] [-q] [-v] [-b BASE] [-s SQUASH] [-n] commit_id [commit_id ...]
+    git multi-pick [-h] [-q] [-v] [-s [SQUASH]] [-n] commit_ids [commit_ids ...]
 
 Positional arguments
-  ``commit_id``: List of commit IDs to cherry pick
+  ``commit_ids``: List of commit IDs to cherry pick
 
 Optional arguments
   ``-h, --help``: show this help message and exit
@@ -18,23 +18,25 @@ Optional arguments
 
   ``-v, --verbose``: Report all messages in great detail
 
-  ``-b BASE, --base BASE``: Base commit to start from
-
-  ``-s SQUASH, --squash SQUASH``: Squash all commits into one, with a message
+  ``-s [SQUASH], --squash [SQUASH]``: Squash all commits into one. If an argument is provided, use it as the commit message.
 
   ``-n, --no-run``: If set, commands will be printed but not executed
 
 DESCRIPTION
 ===========
 
-Equivalent to hard resetting to the base commit, then cherry picking
-each subsequent commit.
+Cherry pick each commit one after another.
 
-The -s/--squash argument
+If there is a -s/--squash argument, squash the commits down into one,
+using the argument to -s/--squash as the commit message.
 
 EXAMPLES
 ========
 
 ``git multi-pick d2dfe0c a2833bc``
-  Goes to the commit in `HEAD` and then cherry picks the two commits
-  d2dfe0c and a2833bc on top of it.
+  Cherry-picks the commit d2dfe0c and then a2833bc on top of it.
+
+``git multi-pick d2dfe0c a2833bc --squash='Squashed commit!'``
+  Cherry-picks the commit d2dfe0c and then a2833bc on top of it,
+  and then squashes them into one commit with the commit message
+  'Squashed commit!'
