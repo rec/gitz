@@ -3,24 +3,31 @@ from gitz import combine
 from gitz.git_functions import COMMIT_ID_LENGTH
 from gitz.program import PROGRAM
 
-SUMMARY = 'Combine multiple commits into one'
-HELP = """
-Equivalent to hard resetting to the base commit, then cherry picking
-each subsequent commit.
+SUMMARY = 'Cherry-pick multiple commits, with an optional squash'
 
-The -s/--squash argument
+HELP = """
+Cherry pick each commit one after another.
+
+If there is a -s/--squash argument, squash the commits down into one,
+using the argument to -s/--squash as the commit message.
 """
+
 EXAMPLES = """
 git multi-pick d2dfe0c a2833bc
-  Goes to the commit in `HEAD` and then cherry picks the two commits
-  d2dfe0c and a2833bc on top of it.
+  Cherry-picks the commit d2dfe0c and then a2833bc on top of it.
+
+git multi-pick d2dfe0c a2833bc --squash='Squashed commit!'
+  Cherry-picks the commit d2dfe0c and then a2833bc on top of it,
+  and then squashes them into one commit with the commit message
+  'Squashed commit!'
 """
+
 DANGER = 'Rewrites history!'
 
 
 def git_multi_pick():
     args = PROGRAM.args
-    commits = combine.combine(args.squash, args.base, *args.commit_id)
+    commits = combine.combine(args.squash, 'HEAD', *args.commit_id)
     n = len(args.commit_id)
     s = '' if n == 1 else 's'
     names = ', '.join(c[:COMMIT_ID_LENGTH] for c in commits)
@@ -30,7 +37,6 @@ def git_multi_pick():
 def add_arguments(parser):
     add_arg = parser.add_argument
     add_arg('commit_id', nargs='+', help='List of commit IDs to cherry pick')
-    add_arg('-b', '--base', default='HEAD', help='Base commit to start from')
     combine.add_arguments(parser)
 
 

@@ -19,13 +19,15 @@ class GitMultiPickTest(unittest.TestCase):
         self.assertEqual(safe_git.log('--oneline'), expected)
 
     def _get_files(self, *args):
-        one = repo.make_commit('1')
+        git.checkout('-b', 'A')
+        repo.make_commit('1')
         repo.make_commit('2')
         three = repo.make_commit('3')
         repo.make_commit('4')
-        repo.make_commit('5')
+        five = repo.make_commit('5')
         repo.make_commit('6')
 
-        git('multi-pick', '-b=%s~' % one, three, 'HEAD~', *args)
+        git.checkout('master')
+        git('multi-pick', three, five, *args)
         files = sorted(i for i in os.listdir() if not i.startswith('.'))
         self.assertEqual(files, ['0', '3', '5'])
