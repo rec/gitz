@@ -1,10 +1,9 @@
 from . import git_functions
 from . import git_root
-from .program import PROGRAM
 from .program import git
 
 
-def combine(args, *commit_ids):
+def combine(squash, *commit_ids):
     git_root.check_clean_workspace()
     ids, errors = [], []
     for id in commit_ids:
@@ -14,17 +13,17 @@ def combine(args, *commit_ids):
             errors.append(id)
 
     if errors:
-        PROGRAM.exit('Not commit IDs:', *errors)
+        raise ValueError('Not commit IDs:', ' '.join(errors))
 
     base, *commits = ids
 
     result = []
     git.reset('--hard', base)
-    if args.squash:
+    if squash:
         for id in commits:
             git('cherry-pick', id)
         git.reset('--soft', base)
-        git.commit('-m', args.squash)
+        git.commit('-m', squash)
         result = [git_functions.commit_id()]
     else:
         for id in commits:

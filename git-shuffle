@@ -74,7 +74,7 @@ def git_shuffle():
         squashed = commit_messages(shuffle[:-1])
 
     shuffle = ['HEAD~%d' % i for i in reversed(shuffle)]
-    combine.combine(PROGRAM.args, *shuffle)
+    combine.combine(PROGRAM.args.squash, *shuffle)
 
     def report(name, items):
         if items:

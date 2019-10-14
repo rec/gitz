@@ -20,7 +20,7 @@ DANGER = 'Rewrites history!'
 
 def git_combine():
     args = PROGRAM.args
-    commits = combine.combine(args, args.base, *args.commit_id)
+    commits = combine.combine(args.squash, args.base, *args.commit_id)
     n = len(args.commit_id)
     s = '' if n == 1 else 's'
     names = ', '.join(c[:COMMIT_ID_LENGTH] for c in commits)
