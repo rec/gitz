@@ -23,17 +23,21 @@ Optional arguments
 DESCRIPTION
 ===========
 
-`git gitz` lists all the gitz commands, the gitz protected branches
-and remotes, the current gitz version, and the git directories
+`git gitz` lists information about the gitz commands
 
 EXAMPLES
 ========
 
 ``git gitz``
-``git gitz commands defaults directory library version``
-    Prints all the gitz commands, the variable defaults
-    (including protected branches and remotes),
-    the version number, and the git command and library directories
+``git gitz commands defaults exec home_page library version``
+``git gitz c d e h l v``
+  Prints:
+    * all the gitz commands
+    * the variable defaults (including protected branches and remotes)
+    * the gitz executable directory,
+    * the home page of the project
+    * the gitz library directory
+    * the version number
 
-``git gitz version directory``
-    Print just the version number and the git command directory
+``git gitz version exec``
+    Print just the version number and the git executable directory
