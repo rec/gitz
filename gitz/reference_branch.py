@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-from gitz import git_functions
-from gitz.env import ENV
-from gitz.program import PROGRAM
+from . import git_functions
+from .env import ENV
+from .program import PROGRAM
 
 
 def reference_branch(remote_branches=None):
