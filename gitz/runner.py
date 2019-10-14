@@ -1,5 +1,4 @@
 import functools
-import itertools
 import subprocess
 
 _SUBPROCESS_KWDS = {
@@ -18,8 +17,7 @@ class Runner:
         self.no_run = no_run
 
     def __call__(self, *cmd, quiet=None, silent=None, merged=False, **kwds):
-        quiet = quiet or silent
-        self.all_lines, self.output_lines, self.error_lines = [], [], []
+        self.output_lines = []
 
         if self.no_run:
             self.log.message('$', *cmd)
@@ -33,16 +31,15 @@ class Runner:
         proc = subprocess.Popen(cmd, **kwds)
 
         def out(line):
-            if not quiet:
+            if not (quiet or silent):
                 self.log.verbose('>', line)
             self.output_lines.append(line)
-            self.all_lines.append(line)
 
         def error(line):
             if not quiet:
                 self.log.error('!', line)
-            self.error_lines.append(line)
-            self.all_lines.append(line)
+            if merged:
+                self.output_lines.append(line)
 
         run_proc(proc, out, error)
         if proc.returncode:
@@ -51,7 +48,7 @@ class Runner:
                     self.log.error('!', line)
             raise ValueError('Command "%s" failed' % ' '.join(cmd))
 
-        return self.all_lines if merged else self.output_lines
+        return self.output_lines
 
 
 class Git:
@@ -70,11 +67,13 @@ class Git:
 
 def run_proc(pr, out, err):
     def run(fp, callback):
-        for i in itertools.count():
-            line = fp.readline()
-            if not line:
-                return i
+        line = fp.readline()
+        if not line:
+            return False
+        while line:
             callback(line[:-1])
+            line = fp.readline()
+        return True
 
-    while run(pr.stdout, out) + run(pr.stderr, err) + (pr.poll() is None):
+    while run(pr.stdout, out) or run(pr.stderr, err) or (pr.poll() is None):
         pass
