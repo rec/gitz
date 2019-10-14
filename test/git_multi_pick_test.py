@@ -5,7 +5,7 @@ import os
 import unittest
 
 
-class GitCombineTest(unittest.TestCase):
+class GitMultiPickTest(unittest.TestCase):
     @repo.test
     def test_simple(self):
         self._get_files()
@@ -26,6 +26,6 @@ class GitCombineTest(unittest.TestCase):
         repo.make_commit('5')
         repo.make_commit('6')
 
-        git.combine('-b=%s~' % one, three, 'HEAD~', *args)
+        git('multi-pick', '-b=%s~' % one, three, 'HEAD~', *args)
         files = sorted(i for i in os.listdir() if not i.startswith('.'))
         self.assertEqual(files, ['0', '3', '5'])

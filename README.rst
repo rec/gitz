@@ -91,6 +91,9 @@ Informational commands that don't change your repository
   Commit changes with an auto-generated message
   (from https://github.com/moondewio/git-infer)
 
+`git multi-pick <doc/git multi-pick.rst>`_
+  Cherry-pick multiple commits, with an optional squash
+
 `git new <doc/git new.rst>`_
   Create and push new branches
 
@@ -99,7 +102,7 @@ Informational commands that don't change your repository
 
 `git st <doc/git st.rst>`_
   Colorful, compact git status
-  
+
   This version written by https://github.com/PlatyPew/, original
   version by https://www.reddit.com/user/ex1c)
 
@@ -146,9 +149,6 @@ can significantly speed up rapid development on private branches.
 
 `git amp <doc/git amp.rst>`_
   AMend just the last commit message and force-Push, somewhat safely
-
-`git combine <doc/git combine.rst>`_
-  Combine multiple commits into one
 
 `git shuffle <doc/git shuffle.rst>`_
   Reorder and delete commits in the current branch

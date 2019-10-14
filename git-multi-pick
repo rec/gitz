@@ -11,14 +11,14 @@ each subsequent commit.
 The -s/--squash argument
 """
 EXAMPLES = """
-git combine d2dfe0c a2833bc
+git multi-pick d2dfe0c a2833bc
   Goes to the commit in `HEAD` and then cherry picks the two commits
   d2dfe0c and a2833bc on top of it.
 """
 DANGER = 'Rewrites history!'
 
 
-def git_combine():
+def git_multi_pick():
     args = PROGRAM.args
     commits = combine.combine(args.squash, args.base, *args.commit_id)
     n = len(args.commit_id)

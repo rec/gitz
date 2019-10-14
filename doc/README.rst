@@ -7,9 +7,6 @@ gitz commands
 `git-amp <git-amp.rst>`_
   AMend just the last commit message and force-Push, somewhat safely
 
-`git-combine <git-combine.rst>`_
-  Combine multiple commits into one
-
 `git-copy <git-copy.rst>`_
   Copy a git branch locally and on all remotes
 
@@ -22,6 +19,9 @@ gitz commands
 `git-infer <git-infer.rst>`_
   Commit changes with an auto-generated message
   (from https://github.com/moondewio/git-infer)
+
+`git-multi-pick <git-multi-pick.rst>`_
+  Combine multiple commits into one
 
 `git-new <git-new.rst>`_
   Create and push new branches

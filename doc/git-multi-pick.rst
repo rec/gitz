@@ -1,12 +1,12 @@
-``git combine``: Combine multiple commits into one
---------------------------------------------------
+``git multi-pick``: Combine multiple commits into one
+-----------------------------------------------------
 
 USAGE
 =====
 
 .. code-block:: bash
 
-    git combine [-h] [-q] [-v] [-b BASE] [-s SQUASH] [-n] commit_id [commit_id ...]
+    git multi-pick [-h] [-q] [-v] [-b BASE] [-s SQUASH] [-n] commit_id [commit_id ...]
 
 Positional arguments
   ``commit_id``: List of commit IDs to cherry pick
@@ -32,14 +32,9 @@ each subsequent commit.
 
 The -s/--squash argument
 
-DANGER
-======
-
-Rewrites history!
-
 EXAMPLES
 ========
 
-``git combine d2dfe0c a2833bc``
+``git multi-pick d2dfe0c a2833bc``
   Goes to the commit in `HEAD` and then cherry picks the two commits
   d2dfe0c and a2833bc on top of it.
