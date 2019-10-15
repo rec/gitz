@@ -1,14 +1,5 @@
 from .env import ENV
-from .program import safe_git
 from . import git_functions
-
-
-def upstream_remote(branch=None):
-    # https://stackoverflow.com/a/9753364/43839
-    upstream = 'rev-parse --abbrev-ref --symbolic-full-name %s@{u}'
-    cmd = (upstream % (branch or '')).split()
-    lines = safe_git(*cmd, silent=True)
-    return lines[0].split('/', maxsplit=1)[0]
 
 
 def guess_origin(origin=None, branch=None):
@@ -17,7 +8,7 @@ def guess_origin(origin=None, branch=None):
             return origin
         raise ValueError('Unknown remote %s' % origin)
     try:
-        return upstream_remote(branch)
+        return git_functions.upstream_remote(branch)
     except Exception:
         pass
 

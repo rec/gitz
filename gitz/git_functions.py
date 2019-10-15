@@ -74,5 +74,13 @@ def remote_branches(must_fetch=True):
     return result
 
 
+def upstream_remote(branch=None):
+    # https://stackoverflow.com/a/9753364/43839
+    upstream = 'rev-parse --abbrev-ref --symbolic-full-name %s@{u}'
+    cmd = (upstream % (branch or '')).split()
+    lines = safe_git(*cmd, silent=True)
+    return lines[0].split('/', maxsplit=1)[0]
+
+
 def force_flags():
     return ['--force-with-lease'] if PROGRAM.args.force else []
