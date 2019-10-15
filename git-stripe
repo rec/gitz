@@ -165,7 +165,7 @@ class Stripe:
 def add_arguments(parser):
     add = parser.add_argument
 
-    add('count', default='3', nargs='?', help=_HELP_COUNT)
+    add('count', default='1', nargs='?', help=_HELP_COUNT)
     add('commit_id', default='', nargs='?', help=_HELP_COMMIT_ID)
 
     add('-D', '--delete-all', action='store_true', help=_HELP_DELETE_ALL)

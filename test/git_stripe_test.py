@@ -13,7 +13,7 @@ class GitStripeTest(unittest.TestCase):
         repo.make_commit('4')
 
         git.push('-u', 'origin', 'master')
-        git.stripe()
+        git.stripe('3')
 
         actual = git_functions.branches('-r')
         expected = [
@@ -25,7 +25,7 @@ class GitStripeTest(unittest.TestCase):
         ]
         self.assertEqual(actual, expected)
 
-        git.stripe('-d')
+        git.stripe('3', '-d')
         actual = git_functions.branches('-r')
         expected = ['origin/master', 'upstream/master']
         self.assertEqual(actual, expected)
