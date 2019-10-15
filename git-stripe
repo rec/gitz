@@ -114,7 +114,7 @@ class Stripe:
                     rbranch = '%s/%s' % (remote, branch)
                     cid = git_functions.commit_message(rbranch)
                     git.push(remote, refspec, quiet=True)
-                    PROGRAM.message('Deleted %s%s' % (rbranch, cid))
+                    PROGRAM.message('- %s@%s' % (rbranch, cid))
 
     def _stripe(self):
         args = PROGRAM.args
@@ -141,7 +141,7 @@ class Stripe:
                     striped = '%s/%s' % (remote, branch)
                     id = git_functions.commit_message(striped)
 
-            PROGRAM.log.message('New %s: %s' % (striped, id))
+            PROGRAM.log.message('+ %s@%s' % (striped, id))
 
     def _remotes(self):
         for remote in PROGRAM.args.remotes.split(':'):
@@ -159,7 +159,7 @@ class Stripe:
                     rbranch = '%s/%s' % (remote, branch)
                     cid = git_functions.commit_id(rbranch, True)
                     git.push(remote, ':refs/heads/' + branch, quiet=True)
-                    PROGRAM.log.message('Deleted %s (%s)' % (rbranch, cid))
+                    PROGRAM.log.message('- %s@%s' % (rbranch, cid))
 
 
 def add_arguments(parser):
