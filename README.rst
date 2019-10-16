@@ -157,7 +157,7 @@ can significantly speed up rapid development on private branches.
   Split a range of commits into many single-file commits
 
 `git update <doc/git update.rst>`_
-  Update branches from the reference branch
+  Update branches from a reference branch
 
 Dangerous commands that are janky
 =================================

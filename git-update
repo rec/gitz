@@ -4,8 +4,9 @@ from gitz import git_root
 from gitz import reference_branch
 from gitz.program import PROGRAM
 from gitz.program import git
+import os
 
-SUMMARY = 'Update branches from the reference branch'
+SUMMARY = 'Update branches from a reference branch'
 
 DANGER = 'Rewrites history!'
 
@@ -13,7 +14,7 @@ HELP = """
 ``git update`` goes to each branch in turn, then tries to update it
 the reference branch by pulling with --rebase.
 
-If the rebase fails with a conflict, then ``git update``aborts the
+If the rebase fails with a conflict, then ``git update`` aborts the
 rebase and returns that branch to its previous condition.
 
 If the rebase succeeds, ``git update`` force-pushes the result.
@@ -30,53 +31,65 @@ git update foo bar
 
 def git_update():
     git_root.check_clean_workspace()
-    ref_branch = reference_branch.reference_branch()
+    os.chdir(git_root.git_root())
+    # The current directory might not be there in a different branch! (#115)
+
     args = PROGRAM.args
-    branches = git_functions.branches()
-    missing = set(args.branches).difference(branches)
+    local_branches = git_functions.branches()
+    missing = set(args.branches).difference(local_branches)
     if PROGRAM.error_if(missing, 'Missing'):
         PROGRAM.exit()
 
     starting_branch = git_functions.branch_name()
-    failed, updated, unchanged = [], [], []
+    failed = False
 
-    progress = (lambda x: x) if PROGRAM.args.verbose else PROGRAM.message
+    ref_branch = reference_branch.reference_branch()
+    fetched = set()
 
-    for branch in args.branches or branches:
+    for branch in args.branches or local_branches:
         try:
-            git.checkout(branch, quiet=True)
-            cid = git_functions.commit_id()
-            try:
-                git.pull('--rebase', *ref_branch, quiet=True)
-            except Exception:
-                try:
-                    git.rebase('--abort', quiet=True)
-                except Exception:
-                    pass
-                raise
-
-            if git_functions.commit_id() == cid:
-                progress('(%s)' % branch)
-                unchanged.append(branch)
-            else:
-                progress(branch)
-                updated.append(branch)
-            git.push('--force-with-lease', quiet=True)
-
+            _update(branch, ref_branch, fetched)
         except Exception:
-            failed.append(branch)
+            PROGRAM.error('?', branch)
+            import traceback
 
-    PROGRAM.message()
+            traceback.print_exc()
+            failed = True
+
     git.checkout(starting_branch, quiet=True)
 
-    if updated:
-        PROGRAM.message('Updated', *sorted(updated))
-
-    if unchanged:
-        PROGRAM.message('Unchanged', *sorted(unchanged))
-
-    if PROGRAM.error_if(sorted(failed), 'Failed'):
+    if failed:
         PROGRAM.exit()
+
+
+def _update(branch, ref_branch, fetched):
+    git.checkout(branch, quiet=True)
+    cid = git_functions.commit_id()
+    try:
+        git.pull('--rebase', *ref_branch, quiet=True, merged=True)
+    except Exception:
+        git.rebase('--abort', quiet=True)
+        raise
+
+    new_cid = git_functions.commit_id()
+    upstream = git_functions.upstream_remote()
+    if upstream not in fetched:
+        git_functions.fetch(upstream)
+        fetched.add(upstream)
+
+    ubranch = '%s/%s' % (upstream, branch)
+    upstream_cid = git_functions.commit_id(ubranch)
+
+    if new_cid == cid:
+        PROGRAM.message('.', branch)
+    else:
+        PROGRAM.message('* %s..%s %s' % (cid, new_cid, branch))
+
+    if upstream_cid == new_cid:
+        PROGRAM.message('.', ubranch)
+    else:
+        git.push('--force-with-lease', quiet=True)
+        PROGRAM.message('* %s..%s %s' % (upstream_cid, new_cid, ubranch))
 
 
 def add_arguments(parser):

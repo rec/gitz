@@ -6,8 +6,12 @@ import unittest
 class GitUpdateTest(unittest.TestCase):
     @repo.test
     def test_update(self):
-        repo.make_one_commit('file.txt', ORIGINAL, 'original')
-        repo.make_one_commit('file.txt', DELTA3, 'master!')
+        first = repo.make_one_commit('file.txt', ORIGINAL, 'original')
+        self.assertEqual(first, '28da9aa')
+
+        second = repo.make_one_commit('file.txt', DELTA3, 'master!')
+        self.assertEqual(second, 'd1b2fc8')
+
         git.push('--set-upstream', 'upstream', 'master')
         git.reset('--hard', 'HEAD~')
         git.push('--set-upstream', 'origin', 'master')
@@ -35,11 +39,11 @@ class GitUpdateTest(unittest.TestCase):
         git.checkout('master')
         git.update('-v')
 
-        base = ['d1b2fc8 master!', '28da9aa original', 'c0d1dbb 0']
+        lines = [second + ' master!', first + ' original', 'c0d1dbb 0']
 
         def test(branch, *items):
             actual = git.log('--oneline', branch)
-            expected = list(items) + base
+            expected = list(items) + lines
             self.assertEqual(expected, actual)
 
         test('master')

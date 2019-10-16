@@ -48,7 +48,7 @@ gitz commands
   Push a sequence of commit IDs to a remote repository
 
 `git-update <git-update.rst>`_
-  Update branches from the reference branch
+  Update branches from a reference branch
 
 `git-when <git-when.rst>`_
   When did each file change (date, commit, message)?

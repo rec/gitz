@@ -1,5 +1,5 @@
-``git update``: Update branches from the reference branch
----------------------------------------------------------
+``git update``: Update branches from a reference branch
+-------------------------------------------------------
 
 USAGE
 =====
@@ -30,7 +30,7 @@ DESCRIPTION
 ``git update`` goes to each branch in turn, then tries to update it
 the reference branch by pulling with --rebase.
 
-If the rebase fails with a conflict, then ``git update``aborts the
+If the rebase fails with a conflict, then ``git update`` aborts the
 rebase and returns that branch to its previous condition.
 
 If the rebase succeeds, ``git update`` force-pushes the result.
