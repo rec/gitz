@@ -20,7 +20,17 @@ class _Program:
     def start(self, context=None):
         if context is None:
             context = vars(sys.modules['__main__'])
-        self.initialize(**context)
+        self.args, self.log = parser.parse(self, **context)
+
+        self.run_info = runner.Runner(self.log)
+        if self.ALLOW_NO_RUN and self.args.no_run:
+            self.run = runner.Runner(self.log, no_run=True)
+        else:
+            self.run = self.run_info
+
+        self.git = self.run.git
+        self.git_info = self.run_info.git
+
         exe = self.executable.replace('-', '_')
         main = context.get(exe) or context.get('main')
         if not main:
@@ -32,18 +42,6 @@ class _Program:
         except Exception as e:
             self.log.verbose(traceback.format_exc(), file=sys.stderr)
             self.exit('%s: %s' % (e.__class__.__name__, e))
-
-    def initialize(self, **context):
-        self.args, self.log = parser.parse(self, **context)
-        self.run_info = runner.Runner(self.log)
-        if self.ALLOW_NO_RUN and self.args.no_run:
-            self.run = runner.Runner(self.log, no_run=True)
-        else:
-            self.run = self.run_info
-
-        self.git = self.run.git
-        self.git_info = self.run_info.git
-        return self.args
 
     def exit(self, *messages):
         if messages:
@@ -59,15 +57,7 @@ class _Program:
             self._error([message, s, ', '.join(errors)], 'error')
             return True
 
-    def progress(self, *messages):
-        self.has_progress = True
-        self.log.message(*messages, end=' ')
-        self.log.flush()
-
     def message(self, *messages):
-        if getattr(self, 'has_progress', False):
-            self.log.message()
-            self.has_progress = True
         self.log.message(*messages)
 
     def _error(self, messages, category):

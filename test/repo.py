@@ -25,14 +25,16 @@ DEFAULT_ORIGINS = 'origin', 'upstream'
 def test(f):
     @functools.wraps(f)
     def wrapper(self):
+        def main():
+            with _with_tmpdir(), _with_env_variables(**ENV_VARIABLES):
+                PROGRAM.git.init()
+                make_commit('0')
+                with clone(*DEFAULT_ORIGINS):
+                    with _with_attr(self, 'program', PROGRAM):
+                        f(self)
+
         PROGRAM.argv.clear()
-        PROGRAM.initialize()
-        with _with_tmpdir(), _with_env_variables(**ENV_VARIABLES):
-            PROGRAM.git.init()
-            make_commit('0')
-            with clone(*DEFAULT_ORIGINS):
-                with _with_attr(self, 'program', PROGRAM):
-                    f(self)
+        PROGRAM.start({'main': main})
 
     return wrapper
 
