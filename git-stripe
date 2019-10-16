@@ -106,17 +106,6 @@ class Stripe:
         else:
             self._stripe()
 
-    def _delete(self):
-        for i in self.indexes:
-            branch = '%s%d' % (self.prefix, i)
-            refspec = ':refs/heads/' + branch
-            for remote in self.remotes:
-                if branch in self.remote_branches[remote]:
-                    rbranch = '%s/%s' % (remote, branch)
-                    cid = git_functions.commit_message(rbranch)
-                    PROGRAM.git.push(remote, refspec, quiet=True)
-                    PROGRAM.message('- %s@%s' % (rbranch, cid))
-
     def _stripe(self):
         args = PROGRAM.args
         if not args.force:
@@ -152,6 +141,17 @@ class Stripe:
                 yield remote
             else:
                 PROGRAM.exit('Unknown remote', remote)
+
+    def _delete(self):
+        for i in self.indexes:
+            branch = '%s%d' % (self.prefix, i)
+            refspec = ':refs/heads/' + branch
+            for remote in self.remotes:
+                if branch in self.remote_branches[remote]:
+                    rbranch = '%s/%s' % (remote, branch)
+                    cid = git_functions.commit_message(rbranch)
+                    PROGRAM.git.push(remote, refspec, quiet=True)
+                    PROGRAM.message('- %s@%s' % (rbranch, cid))
 
     def _delete_all(self):
         for remote in self.remotes:
