@@ -76,7 +76,7 @@ class Stripe:
             commit_id, count = count, commit_id
 
         try:
-            self.count = int(count)
+            self.count = int(count or 1)
         except ValueError:
             PROGRAM.exit('Cannot understand count:', count)
 
@@ -167,7 +167,7 @@ class Stripe:
 def add_arguments(parser):
     add = parser.add_argument
 
-    add('count', default='1', nargs='?', help=_HELP_COUNT)
+    add('count', default='', nargs='?', help=_HELP_COUNT)
     add('commit_id', default='', nargs='?', help=_HELP_COMMIT_ID)
 
     add('-D', '--delete-all', action='store_true', help=_HELP_DELETE_ALL)
@@ -182,7 +182,7 @@ _ERROR_BRANCH_NAME = 'Illegal character in branch name'
 _ERROR_DELETE = 'Cannot set both of -d/--delete and -D/--delete-all'
 
 _HELP_COMMIT_ID = 'Branch/commit ID of the first stripe (or HEAD~ if none)'
-_HELP_COUNT = 'The number of stripe branches to be created'
+_HELP_COUNT = 'The number of striped branches to be created: default is 1'
 _HELP_DELETE = 'Delete the striped branches for this request'
 _HELP_DELETE_ALL = 'Delete all striped branches'
 _HELP_FORCE = 'Force push over existing stripes'
