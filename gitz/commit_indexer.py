@@ -1,5 +1,5 @@
 from . import git_functions
-from .program import safe_git
+from .program import git_info
 
 
 class CommitIndexer:
@@ -13,7 +13,7 @@ class CommitIndexer:
                 return i
 
         commits = '%s~..%s~' % (commit_id, self.commit_ids[-1])
-        for line in safe_git.log('--oneline', commits):
+        for line in git_info.log('--oneline', commits):
             if line.strip():
                 commit, *_ = line.split(maxsplit=1)
                 self.commit_ids.append(commit.lower())

@@ -1,5 +1,5 @@
 from .. import config
-from ..program import safe_run
+from ..program import PROGRAM
 
 NONE = '(none)'
 INDENT = 4
@@ -10,7 +10,7 @@ def read_one(command):
     full_usage = False
     help = {'COMMAND': command}
     section = NONE
-    for line in safe_run(command, '-h'):
+    for line in PROGRAM.run_info(command, '-h'):
         if full_usage:
             help.setdefault(section, []).append(line)
 

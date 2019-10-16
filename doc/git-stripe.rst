@@ -10,7 +10,7 @@ USAGE
                   [count] [commit_id]
 
 Positional arguments
-  ``count``: The number of stripe branches to be created
+  ``count``: The number of striped branches to be created: default is 1
   ``commit_id``: Branch/commit ID of the first stripe (or HEAD~ if none)
 
 Optional arguments

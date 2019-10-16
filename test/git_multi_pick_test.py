@@ -1,6 +1,6 @@
 from . import repo
 from gitz.program import git
-from gitz.program import safe_git
+from gitz.program import git_info
 import os
 import unittest
 
@@ -10,13 +10,13 @@ class GitMultiPickTest(unittest.TestCase):
     def test_simple(self):
         self._get_files()
         expected = ['a023846 5', '2511fd4 3', 'c0d1dbb 0']
-        self.assertEqual(safe_git.log('--oneline'), expected)
+        self.assertEqual(git_info.log('--oneline'), expected)
 
     @repo.test
     def test_squash(self):
         self._get_files('-s="0 3 5"')
         expected = ['ad627aa "0 3 5"', 'c0d1dbb 0']
-        self.assertEqual(safe_git.log('--oneline'), expected)
+        self.assertEqual(git_info.log('--oneline'), expected)
 
     def _get_files(self, *args):
         git.checkout('-b', 'A')

@@ -1,6 +1,6 @@
 from . import repo
 from gitz import config
-from gitz.program import safe_git
+from gitz.program import git_info
 import unittest
 
 
@@ -9,43 +9,43 @@ class GitGitzTest(unittest.TestCase):
 
     @repo.test
     def test_all(self):
-        self.assertEqual(safe_git.gitz(), RESULTS)
+        self.assertEqual(git_info.gitz(), RESULTS)
 
     @repo.test
     def test_version(self):
         for v in 'v', 've', 'version':
-            self.assertEqual(safe_git.gitz(v), [config.VERSION])
+            self.assertEqual(git_info.gitz(v), [config.VERSION])
 
     @repo.test
     def test_commands(self):
         for c in 'c', 'com', 'commands':
-            self.assertEqual(safe_git.gitz(c), list(config.COMMANDS))
+            self.assertEqual(git_info.gitz(c), list(config.COMMANDS))
 
     @repo.test
     def test_executable_directory(self):
         # The configs for the child process and for us are different!
         for d in 'e', 'exec', 'executable_directory':
             self.assertEqual(
-                safe_git.gitz(d), [str(config.LIBRARY_DIRECTORY.parent)]
+                git_info.gitz(d), [str(config.LIBRARY_DIRECTORY.parent)]
             )
 
     @repo.test
     def test_library_directory(self):
         for d in 'l', 'lib', 'library_directory':
-            self.assertEqual(safe_git.gitz(d), [str(config.LIBRARY_DIRECTORY)])
+            self.assertEqual(git_info.gitz(d), [str(config.LIBRARY_DIRECTORY)])
 
     @repo.test
     def test_defaults(self):
         for d in 'd', 'def', 'defaults':
-            self.assertEqual(safe_git.gitz(d), DEFAULTS)
+            self.assertEqual(git_info.gitz(d), DEFAULTS)
 
     @repo.test
     def test_error(self):
         with self.assertRaises(ValueError):
-            safe_git.gitz('var')
+            git_info.gitz('var')
 
         with self.assertRaises(ValueError):
-            safe_git.gitz('Com')
+            git_info.gitz('Com')
 
 
 COMMANDS = '\n'.join('    ' + i for i in config.COMMANDS)

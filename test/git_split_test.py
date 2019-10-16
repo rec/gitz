@@ -1,11 +1,11 @@
 from . import repo
 from gitz.program import git
-from gitz.program import safe_git
+from gitz.program import git_info
 import unittest
 
 
 def psp():
-    print(*safe_git.status('--porcelain'), sep='\n')
+    print(*git_info.status('--porcelain'), sep='\n')
 
 
 class GitSplitTest(unittest.TestCase):
@@ -19,7 +19,7 @@ class GitSplitTest(unittest.TestCase):
         with self.assertRaises(Exception):
             git.split('HEAD~~~~')
         git.split('HEAD~~~')
-        actual = safe_git.log('--oneline')
+        actual = git_info.log('--oneline')
         expected = [
             '78923d2 [split] Renamed 0 -> 6',
             'ed73fa3 [split] Added 5',
@@ -36,7 +36,7 @@ class GitSplitTest(unittest.TestCase):
         repo.make_commit('1', '2')
         repo.make_commit('3', '4', '5')
         git.split()
-        actual = safe_git.log('--oneline', '-10')
+        actual = git_info.log('--oneline', '-10')
         expected = [
             'a804db6 [split] Added 5',
             '125a73b [split] Added 4',
@@ -55,7 +55,7 @@ class GitSplitTest(unittest.TestCase):
         git.mv('1', '5')
         git.rm('0')
         git.split()
-        actual = safe_git.log('--oneline', '-10')
+        actual = git_info.log('--oneline', '-10')
         expected = [
             '05ecff4 [split] Renamed 1 -> 5',
             'e6b7f89 [split] Added 3',

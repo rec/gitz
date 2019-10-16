@@ -1,6 +1,6 @@
 from . import repo
 from gitz.program import git
-from gitz.program import safe_git
+from gitz.program import git_info
 import unittest
 
 
@@ -10,13 +10,13 @@ class GitNewTest(unittest.TestCase):
         git.new('one')
         repo.make_commit('1')
         git.push()
-        actual = safe_git.log('--oneline', 'origin/one')
+        actual = git_info.log('--oneline', 'origin/one')
         expected = ['a03c0f8 1', 'c0d1dbb 0']
         self.assertEqual(actual, expected)
 
         git.new('two')
         repo.make_commit('2')
         git.push()
-        actual = safe_git.log('--oneline', 'origin/two')
+        actual = git_info.log('--oneline', 'origin/two')
         expected = ['aff4d90 2', 'c0d1dbb 0']
         self.assertEqual(actual, expected)

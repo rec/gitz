@@ -1,6 +1,6 @@
 from . import repo
 from gitz.program import git
-from gitz.program import safe_git
+from gitz.program import git_info
 import os
 import unittest
 
@@ -18,7 +18,7 @@ class GitStTest(unittest.TestCase):
             fp.write('100\n')
         os.remove('1')
 
-        actual = safe_git.st()
+        actual = git_info.st()
         expected = [
             '\x1b[32mmaster\x1b[m',
             ' \x1b[31mM\x1b[m 0  | 2 \x1b[32m+\x1b[m\x1b[31m-\x1b[m',
