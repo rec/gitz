@@ -1,7 +1,6 @@
 from . import repo
 from gitz import git_functions
-from gitz.program import git
-from gitz.program import git_info
+from gitz.program import PROGRAM
 from pathlib import Path
 import os
 import unittest
@@ -11,19 +10,19 @@ class GitAllTest(unittest.TestCase):
     @repo.test
     def test_directories(self):
         os.chdir(Path(__file__).parent.parent)
-        actual = git.all('test/data/*', '-', 'ls', '-1', shell=True)
+        actual = PROGRAM.git.all('test/data/*', '-', 'ls', '-1', shell=True)
         self.assertEqual(actual, _DIRECTORIES.split('\n'))
 
     @repo.test
     def test_branches(self):
         self.assertEqual('44dac6b', repo.make_commit('one.txt'))
         current = git_functions.branch_name()
-        git_info.checkout('-b', 'foo')
+        PROGRAM.git_info.checkout('-b', 'foo')
         self.assertEqual(repo.make_commit('two.txt'), '393ad1c')
-        git_info.checkout(current)
-        git_info.checkout('-b', 'bar')
+        PROGRAM.git_info.checkout(current)
+        PROGRAM.git_info.checkout('-b', 'bar')
         self.assertEqual(repo.make_commit('three.txt'), 'b6aee43')
-        actual = git_info.all('-', 'git', 'log', '--oneline')
+        actual = PROGRAM.git_info.all('-', 'git', 'log', '--oneline')
         print(*actual, sep='\n')
         self.assertEqual(actual, _BRANCHES.split('\n'))
 

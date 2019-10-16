@@ -3,8 +3,6 @@ from . import git_root
 from . import guess_origin
 from .env import ENV
 from .program import PROGRAM
-from .program import git
-from .program import git_info
 
 COPY, RENAME = 'copy', 'rename'
 
@@ -78,7 +76,7 @@ class Mover:
         if not PROGRAM.args.force:
             if self.target in branches:
                 PROGRAM.exit(_ERROR_TARGET_EXISTS % self.target)
-            git_info.fetch(self.origin)
+            PROGRAM.git_info.fetch(self.origin)
             ubranches = git_functions.remote_branches(False)[self.origin]
             if self.target in ubranches:
                 PROGRAM.exit(_ERROR_TARGET_EXISTS % self.target)
@@ -86,25 +84,27 @@ class Mover:
     def _move_local(self):
         flag = '-C' if PROGRAM.args.force else '-c'
         if self.in_target:
-            git.checkout(self.source, quiet=True)
-        git.branch(flag, self.source, self.target, quiet=True)
+            PROGRAM.git.checkout(self.source, quiet=True)
+        PROGRAM.git.branch(flag, self.source, self.target, quiet=True)
         if self.action == RENAME:
             if self.in_source:
-                git.checkout(self.target, quiet=True)
-            git.branch('-D', self.source, quiet=True)
+                PROGRAM.git.checkout(self.target, quiet=True)
+            PROGRAM.git.branch('-D', self.source, quiet=True)
 
         if self.in_target:
-            git.checkout(self.target, quiet=True)
+            PROGRAM.git.checkout(self.target, quiet=True)
         msg = '{0.Root}ed {0.source} -> {0.target} [{1}]'
         cid = git_functions.commit_id(self.target)
         PROGRAM.message(msg.format(self, cid))
 
     def _move_remote(self):
         fl = git_functions.force_flags()
-        git.push(*fl, '--set-upstream', self.origin, self.target, quiet=True)
+        PROGRAM.git.push(
+            *fl, '--set-upstream', self.origin, self.target, quiet=True
+        )
 
         if self.action == RENAME:
-            git.push(self.origin, ':' + self.source, quiet=True)
+            PROGRAM.git.push(self.origin, ':' + self.source, quiet=True)
 
         target = '%s/%s' % (self.origin, self.target)
         msg = '{0.Root}ed {0.origin}/{0.source} -> {1} [{2}]'

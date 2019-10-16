@@ -1,19 +1,19 @@
 from . import repo
 from gitz import git_functions
-from gitz.program import git
+from gitz.program import PROGRAM
 import unittest
 
 
 class GitDeleteTest(unittest.TestCase):
     @repo.test
     def test_delete(self):
-        git.new('one')
+        PROGRAM.git.new('one')
         repo.make_commit('1')
-        git.push()
+        PROGRAM.git.push()
 
-        git.new('two')
+        PROGRAM.git.new('two')
         repo.make_commit('2')
-        git.push()
+        PROGRAM.git.push()
 
         actual = git_functions.branches('-r')
         expected = [
@@ -24,7 +24,7 @@ class GitDeleteTest(unittest.TestCase):
         ]
         self.assertEqual(actual, expected)
 
-        git.delete('-v', 'one', 'two')
+        PROGRAM.git.delete('-v', 'one', 'two')
         actual = git_functions.branches('-r')
         expected = ['origin/master', 'upstream/master']
         self.assertEqual(actual, expected)

@@ -6,7 +6,8 @@ USAGE
 
 .. code-block:: bash
 
-    git multi-pick [-h] [-q] [-v] [-s [SQUASH]] [-n] commit_ids [commit_ids ...]
+    git multi-pick [-h] [-q] [-v] [-s [SQUASH]] [-n]
+                      commit_ids [commit_ids ...]
 
 Positional arguments
   ``commit_ids``: List of commit IDs to cherry pick

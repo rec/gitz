@@ -35,22 +35,15 @@ class _Program:
 
     def initialize(self, **context):
         self.args, self.log = parser.parse(self, **context)
-        self._run_info = runner.Runner(self.log)
+        self.run_info = runner.Runner(self.log)
         if self.ALLOW_NO_RUN and self.args.no_run:
-            self._run = runner.Runner(self.log, no_run=True)
+            self.run = runner.Runner(self.log, no_run=True)
         else:
-            self._run = self._run_info
+            self.run = self.run_info
 
+        self.git = self.run.git
+        self.git_info = self.run_info.git
         return self.args
-
-    def run_info(self, *command, **kwds):
-        """Run commands that have no side effects and should be run even in
-           dry mode"""
-        return self._run_info(*command, **kwds)
-
-    def run(self, *command, **kwds):
-        """Run commands with side effects that should not be run in dry mode"""
-        return self._run(*command, **kwds)
 
     def exit(self, *messages):
         if messages:
@@ -85,8 +78,3 @@ class _Program:
 
 
 PROGRAM = _Program()
-
-git_info = runner.Git(PROGRAM.run_info)
-
-run = PROGRAM.run
-git = runner.Git(run)

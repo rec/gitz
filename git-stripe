@@ -2,7 +2,6 @@
 from gitz import git_functions
 from gitz import guess_origin
 from gitz.program import PROGRAM
-from gitz.program import git
 
 SUMMARY = 'Push a sequence of commit IDs to a remote repository'
 
@@ -115,7 +114,7 @@ class Stripe:
                 if branch in self.remote_branches[remote]:
                     rbranch = '%s/%s' % (remote, branch)
                     cid = git_functions.commit_message(rbranch)
-                    git.push(remote, refspec, quiet=True)
+                    PROGRAM.git.push(remote, refspec, quiet=True)
                     PROGRAM.message('- %s@%s' % (rbranch, cid))
 
     def _stripe(self):
@@ -138,7 +137,7 @@ class Stripe:
 
             id = ''
             for remote in self.remotes:
-                git.push(*force, remote, refspec, quiet=True)
+                PROGRAM.git.push(*force, remote, refspec, quiet=True)
                 if not id:
                     striped = '%s/%s' % (remote, branch)
                     id = git_functions.commit_message(striped)
@@ -160,7 +159,9 @@ class Stripe:
                 if branch.startswith(self.prefix):
                     rbranch = '%s/%s' % (remote, branch)
                     cid = git_functions.commit_id(rbranch, True)
-                    git.push(remote, ':refs/heads/' + branch, quiet=True)
+                    PROGRAM.git.push(
+                        remote, ':refs/heads/' + branch, quiet=True
+                    )
                     PROGRAM.log.message('- %s@%s' % (rbranch, cid))
 
 

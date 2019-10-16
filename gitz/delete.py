@@ -1,7 +1,6 @@
 from . import guess_origin
 from . import git_functions
 from .program import PROGRAM
-from .program import git
 
 
 def delete(branches):
@@ -38,7 +37,7 @@ def delete(branches):
         raise ValueError('This would delete all the branches')
 
     if git_functions.branch_name() in branches:
-        git.checkout(sorted(remaining_branches, quiet=True)[0])
+        PROGRAM.git.checkout(sorted(remaining_branches, quiet=True)[0])
 
     deleted_count = 0
     PROGRAM.message('Deleting:')
@@ -50,7 +49,7 @@ def delete(branches):
         if upstream and b in remote_branches[upstream]:
             branch_name = '%s/%s' % (upstream, b)
             cid = git_functions.commit_id(branch_name)
-            git.push(upstream, '--delete', b, quiet=True)
+            PROGRAM.git.push(upstream, '--delete', b, quiet=True)
             PROGRAM.message('  %s: %s' % (cid, branch_name))
             deleted_count += 1
 
@@ -59,7 +58,7 @@ def delete(branches):
     if local_branches:
         locals_cid = git_functions.commit_ids(local_branches)
 
-        git.branch('-D', *local_branches, quiet=True)
+        PROGRAM.git.branch('-D', *local_branches, quiet=True)
         for branch, cid in zip(local_branches, locals_cid):
             PROGRAM.message('  %s: %s' % (cid, branch))
             deleted_count += 1

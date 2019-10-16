@@ -2,8 +2,6 @@
 from gitz import git_functions
 from gitz import git_root
 from gitz.program import PROGRAM
-from gitz.program import git
-from gitz.program import git_info
 import os
 
 SUMMARY = 'Split a range of commits into many single-file commits'
@@ -30,7 +28,7 @@ def git_split():
     os.chdir(git_root.git_root())
     not_added = []
 
-    for line in git_info.status('--porcelain'):
+    for line in PROGRAM.git_info.status('--porcelain'):
         mode, filenames = line.split(maxsplit=1)
         if mode == '??':
             not_added.append(filenames)
@@ -43,10 +41,10 @@ def git_split():
         commit = 'HEAD~'
 
     commit = git_functions.commit_id(commit)
-    git.reset('--soft', commit)
-    lines = git_info.status('--porcelain')
+    PROGRAM.git.reset('--soft', commit)
+    lines = PROGRAM.git_info.status('--porcelain')
 
-    git.reset(commit)
+    PROGRAM.git.reset(commit)
     commit_count = 0
 
     for line in lines:
@@ -62,9 +60,10 @@ def git_split():
         # Renaming is a special case with two files on a line
         # separated by -> and with mode = '??'
         try:
-            git.add(*filenames_split)
+            PROGRAM.git.add(*filenames_split)
             pre = PROGRAM.args.prefix
-            lines = git.commit('-m', '%s %s %s' % (pre, mode_name, filenames))
+            msg = '%s %s %s' % (pre, mode_name, filenames)
+            lines = PROGRAM.git.commit('-m', msg)
             PROGRAM.message(lines[0])
             commit_count += 1
 

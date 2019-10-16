@@ -1,6 +1,6 @@
 from . import repo
 from gitz import git_functions
-from gitz.program import git
+from gitz.program import PROGRAM
 import unittest
 
 
@@ -12,8 +12,8 @@ class GitStripeTest(unittest.TestCase):
         repo.make_commit('3')
         repo.make_commit('4')
 
-        git.push('-u', 'origin', 'master')
-        git.stripe('3')
+        PROGRAM.git.push('-u', 'origin', 'master')
+        PROGRAM.git.stripe('3')
 
         actual = git_functions.branches('-r')
         expected = [
@@ -25,7 +25,7 @@ class GitStripeTest(unittest.TestCase):
         ]
         self.assertEqual(actual, expected)
 
-        git.stripe('3', '-d')
+        PROGRAM.git.stripe('3', '-d')
         actual = git_functions.branches('-r')
         expected = ['origin/master', 'upstream/master']
         self.assertEqual(actual, expected)

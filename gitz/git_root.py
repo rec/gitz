@@ -1,5 +1,4 @@
 from . program import PROGRAM
-from .program import git_info
 from pathlib import Path
 
 
@@ -21,7 +20,7 @@ def is_workspace_dirty():
     if not git_root():
         return False
     try:
-        git_info('diff-index', '--quiet', 'HEAD', '--')
+        PROGRAM.git_info('diff-index', '--quiet', 'HEAD', '--')
     except Exception:
         # Also returns true if workspace is broken for some other reason
         return True

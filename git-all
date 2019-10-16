@@ -3,8 +3,6 @@
 from gitz import git_functions
 from gitz import git_root
 from gitz.program import PROGRAM
-from gitz.program import git
-from gitz.program import run
 from pathlib import Path
 import os
 import sys
@@ -83,11 +81,11 @@ def _run_command(args, name, branches):
         if not args.quiet:
             print('Branch %s:' % name)
         saved_branch = git_functions.branch_name()
-        git.checkout('-q', name)
+        PROGRAM.git.checkout('-q', name)
         try:
-            lines = run(*_COMMAND)
+            lines = PROGRAM.run(*_COMMAND)
         finally:
-            git.checkout('-q', saved_branch)
+            PROGRAM.git.checkout('-q', saved_branch)
     else:
         name = _expand_path(name)
         if name.name.startswith('.'):
@@ -96,7 +94,7 @@ def _run_command(args, name, branches):
             return
         if not args.quiet:
             print('Directory %s:' % name)
-        lines = run(*_COMMAND, cwd=str(name))
+        lines = PROGRAM.run(*_COMMAND, cwd=str(name))
     indent = ' ' * args.indent
     for line in lines:
         print(indent, line, sep='')

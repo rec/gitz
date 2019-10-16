@@ -1,11 +1,10 @@
 from . import repo
-from gitz.program import git
-from gitz.program import git_info
+from gitz.program import PROGRAM
 import unittest
 
 
 def psp():
-    print(*git_info.status('--porcelain'), sep='\n')
+    print(*PROGRAM.git_info.status('--porcelain'), sep='\n')
 
 
 class GitSplitTest(unittest.TestCase):
@@ -14,12 +13,12 @@ class GitSplitTest(unittest.TestCase):
         repo.make_commit('1', '2')
         repo.make_commit('3', '4')
         repo.make_commit('5')
-        git.mv('0', '6')
-        git.commit('-am', '6')
+        PROGRAM.git.mv('0', '6')
+        PROGRAM.git.commit('-am', '6')
         with self.assertRaises(Exception):
-            git.split('HEAD~~~~')
-        git.split('HEAD~~~')
-        actual = git_info.log('--oneline')
+            PROGRAM.git.split('HEAD~~~~')
+        PROGRAM.git.split('HEAD~~~')
+        actual = PROGRAM.git_info.log('--oneline')
         expected = [
             '78923d2 [split] Renamed 0 -> 6',
             'ed73fa3 [split] Added 5',
@@ -35,8 +34,8 @@ class GitSplitTest(unittest.TestCase):
     def test_single(self):
         repo.make_commit('1', '2')
         repo.make_commit('3', '4', '5')
-        git.split()
-        actual = git_info.log('--oneline', '-10')
+        PROGRAM.git.split()
+        actual = PROGRAM.git_info.log('--oneline', '-10')
         expected = [
             'a804db6 [split] Added 5',
             '125a73b [split] Added 4',
@@ -52,10 +51,10 @@ class GitSplitTest(unittest.TestCase):
         repo.make_commit('2')
         repo.write_files('3', '4')
         repo.add_files('3')
-        git.mv('1', '5')
-        git.rm('0')
-        git.split()
-        actual = git_info.log('--oneline', '-10')
+        PROGRAM.git.mv('1', '5')
+        PROGRAM.git.rm('0')
+        PROGRAM.git.split()
+        actual = PROGRAM.git_info.log('--oneline', '-10')
         expected = [
             '05ecff4 [split] Renamed 1 -> 5',
             'e6b7f89 [split] Added 3',
