@@ -14,33 +14,20 @@ def _to_name(name):
     return name
 
 
-def commit_id(name='HEAD', short=False):
-    try:
-        id = safe_git('rev-parse', _to_name(name), quiet=True)[0]
-        if short:
-            return id[:COMMIT_ID_LENGTH]
-        return id
-    except Exception:
-        return
+def commit_id(name='HEAD', short=True):
+    id = safe_git('rev-parse', _to_name(name))[0]
+    return id[:COMMIT_ID_LENGTH] if short else id
 
 
-def commit_ids(names):
-    ids, errors = [], []
-    for id in names:
-        try:
-            ids.append(commit_id(id))
-        except Exception:
-            errors.append(id)
-    if errors:
-        raise ValueError('Not commit IDs:', ' '.join(errors))
-    return ids
+def commit_ids(names, short=True):
+    ids = safe_git('rev-parse', *(_to_name(n) for n in names))
+    return [i[:COMMIT_ID_LENGTH] for i in ids] if short else ids
 
 
-def commit_message(name='HEAD'):
-    cid = commit_id(name)
-    if cid:
-        message = safe_git('show-branch', '--no-name', cid)[0]
-        return '%s: %s' % (cid[:COMMIT_ID_LENGTH], message)
+def commit_message(name='HEAD', short=True):
+    cid = commit_id(name, short)
+    message = safe_git('show-branch', '--no-name', cid)[0]
+    return '%s: %s' % (cid, message)
 
 
 def fetch(remote):

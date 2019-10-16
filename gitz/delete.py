@@ -49,7 +49,7 @@ def delete(branches):
             upstream = origin
         if upstream and b in remote_branches[upstream]:
             branch_name = '%s/%s' % (upstream, b)
-            cid = git_functions.commit_id(branch_name, True)
+            cid = git_functions.commit_id(branch_name)
             git.push(upstream, '--delete', b, quiet=True)
             PROGRAM.message('  %s: %s' % (cid, branch_name))
             deleted_count += 1
@@ -57,7 +57,8 @@ def delete(branches):
     local_branches = [b for b in branches if b not in unknown]
 
     if local_branches:
-        locals_cid = [git_functions.commit_id(b, True) for b in local_branches]
+        locals_cid = git_functions.commit_ids(local_branches)
+
         git.branch('-D', *local_branches, quiet=True)
         for branch, cid in zip(local_branches, locals_cid):
             PROGRAM.message('  %s: %s' % (cid, branch))

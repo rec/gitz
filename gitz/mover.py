@@ -96,7 +96,7 @@ class Mover:
         if self.in_target:
             git.checkout(self.target, quiet=True)
         msg = '{0.Root}ed {0.source} -> {0.target} [{1}]'
-        cid = git_functions.commit_id(self.target, True)
+        cid = git_functions.commit_id(self.target)
         PROGRAM.message(msg.format(self, cid))
 
     def _move_remote(self):
@@ -108,7 +108,7 @@ class Mover:
 
         target = '%s/%s' % (self.origin, self.target)
         msg = '{0.Root}ed {0.origin}/{0.source} -> {1} [{2}]'
-        cid = git_functions.commit_id(target, True)
+        cid = git_functions.commit_id(target)
         PROGRAM.message(msg.format(self, target, cid))
 
     def _add_arguments(self, parser):

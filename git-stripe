@@ -81,7 +81,9 @@ class Stripe:
             PROGRAM.exit('Cannot understand count:', count)
 
         self.commit_id = commit_id or 'HEAD~'
-        if not git_functions.commit_id(self.commit_id, short=True):
+        try:
+            git_functions.commit_id(self.commit_id)
+        except Exception:
             PROGRAM.exit('Cannot resolve to a commit ID:', self.commit_id)
 
         if BAD_BRANCH_CHARS.intersection(args.prefix):
