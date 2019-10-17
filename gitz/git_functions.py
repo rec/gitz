@@ -65,7 +65,7 @@ def upstream_remote(branch=None):
     # https://stackoverflow.com/a/9753364/43839
     upstream = 'rev-parse --abbrev-ref --symbolic-full-name %s@{u}'
     cmd = (upstream % (branch or '')).split()
-    lines = PROGRAM.git_info(*cmd, silent=True)
+    lines = PROGRAM.git_info(*cmd, quiet=True)
     return lines[0].split('/', maxsplit=1)[0]
 
 

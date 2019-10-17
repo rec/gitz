@@ -16,7 +16,7 @@ class Runner:
         self.git = Git(self)
         self.no_run = no_run
 
-    def __call__(self, *cmd, quiet=None, silent=None, merged=False, **kwds):
+    def __call__(self, *cmd, quiet=None, merged=False, **kwds):
         self.output_lines = []
 
         if self.no_run:
@@ -31,21 +31,18 @@ class Runner:
         proc = subprocess.Popen(cmd, **kwds)
 
         def out(line):
-            if not (quiet or silent):
+            if not quiet:
                 self.log.verbose('>', line)
             self.output_lines.append(line)
 
         def error(line):
-            if not (quiet or silent):
+            if not quiet:
                 self.log.error('!', line)
             if merged:
                 self.output_lines.append(line)
 
         run_proc(proc, out, error)
         if proc.returncode:
-            if quiet and not silent:
-                for line in self.error_lines:
-                    self.log.error('!', line)
             raise ValueError('Command "%s" failed' % ' '.join(cmd))
 
         return self.output_lines
