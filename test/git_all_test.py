@@ -1,7 +1,6 @@
 from . import repo
 from gitz import git_functions
 from gitz.runner import GIT
-from gitz.runner import GIT_INFO
 from pathlib import Path
 import os
 import unittest
@@ -18,12 +17,12 @@ class GitAllTest(unittest.TestCase):
     def test_branches(self):
         self.assertEqual('44dac6b', repo.make_commit('one.txt'))
         current = git_functions.branch_name()
-        GIT_INFO.checkout('-b', 'foo')
+        GIT.checkout('-b', 'foo', info=True)
         self.assertEqual(repo.make_commit('two.txt'), '393ad1c')
-        GIT_INFO.checkout(current)
-        GIT_INFO.checkout('-b', 'bar')
+        GIT.checkout(current, info=True)
+        GIT.checkout('-b', 'bar', info=True)
         self.assertEqual(repo.make_commit('three.txt'), 'b6aee43')
-        actual = GIT_INFO.all('-', 'git', 'log', '--oneline')
+        actual = GIT.all('-', 'git', 'log', '--oneline')
         print(*actual, sep='\n')
         self.assertEqual(actual, _BRANCHES.split('\n'))
 

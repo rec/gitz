@@ -23,7 +23,6 @@ class _Program:
         self.args, self.log = parser.parse(self, **context)
         no_run = self.ALLOW_NO_RUN and self.args.no_run
         runner.RUN.start(self.log, no_run)
-        runner.RUN_INFO.start(self.log)
 
         exe = self.executable.replace('-', '_')
         main = context.get(exe) or context.get('main')

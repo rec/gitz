@@ -1,6 +1,6 @@
 from . import repo
 from gitz import config
-from gitz.runner import GIT_INFO
+from gitz.runner import GIT
 import unittest
 
 
@@ -9,43 +9,45 @@ class GitGitzTest(unittest.TestCase):
 
     @repo.test
     def test_all(self):
-        self.assertEqual(GIT_INFO.gitz(), RESULTS)
+        self.assertEqual(GIT.gitz(info=True), RESULTS)
 
     @repo.test
     def test_version(self):
         for v in 'v', 've', 'version':
-            self.assertEqual(GIT_INFO.gitz(v), [config.VERSION])
+            self.assertEqual(GIT.gitz(v, info=True), [config.VERSION])
 
     @repo.test
     def test_commands(self):
         for c in 'c', 'com', 'commands':
-            self.assertEqual(GIT_INFO.gitz(c), list(config.COMMANDS))
+            self.assertEqual(GIT.gitz(c, info=True), list(config.COMMANDS))
 
     @repo.test
     def test_executable_directory(self):
         # The configs for the child process and for us are different!
         for d in 'e', 'exec', 'executable_directory':
             self.assertEqual(
-                GIT_INFO.gitz(d), [str(config.LIBRARY_DIRECTORY.parent)]
+                GIT.gitz(d, info=True), [str(config.LIBRARY_DIRECTORY.parent)]
             )
 
     @repo.test
     def test_library_directory(self):
         for d in 'l', 'lib', 'library_directory':
-            self.assertEqual(GIT_INFO.gitz(d), [str(config.LIBRARY_DIRECTORY)])
+            self.assertEqual(
+                GIT.gitz(d, info=True), [str(config.LIBRARY_DIRECTORY)]
+            )
 
     @repo.test
     def test_defaults(self):
         for d in 'd', 'def', 'defaults':
-            self.assertEqual(GIT_INFO.gitz(d), DEFAULTS)
+            self.assertEqual(GIT.gitz(d, info=True), DEFAULTS)
 
     @repo.test
     def test_error(self):
         with self.assertRaises(ValueError):
-            GIT_INFO.gitz('var')
+            GIT.gitz('var', info=True)
 
         with self.assertRaises(ValueError):
-            GIT_INFO.gitz('Com')
+            GIT.gitz('Com', info=True)
 
 
 COMMANDS = '\n'.join('    ' + i for i in config.COMMANDS)

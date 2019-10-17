@@ -1,7 +1,6 @@
 from . import repo
 from gitz import git_functions
 from gitz.runner import GIT
-from gitz.runner import GIT_INFO
 import unittest
 
 
@@ -22,7 +21,7 @@ class RepoTest(unittest.TestCase):
 
         with repo.clone('foo', 'bar'):
             expected = ['bar', 'foo', 'origin', 'upstream']
-            self.assertEqual(sorted(GIT_INFO.remote()), expected)
+            self.assertEqual(sorted(GIT.remote(info=True)), expected)
             git_functions.fetch('foo')
             git_functions.fetch('bar')
             actual = git_functions.branches('-r')

@@ -1,5 +1,4 @@
 from . import repo
-from gitz.runner import GIT_INFO
 from gitz.runner import GIT
 import os
 import unittest
@@ -18,7 +17,7 @@ class GitStTest(unittest.TestCase):
             fp.write('100\n')
         os.remove('1')
 
-        actual = GIT_INFO.st()
+        actual = GIT.st(info=True)
         expected = [
             '\x1b[32mmaster\x1b[m',
             ' \x1b[31mM\x1b[m 0  | 2 \x1b[32m+\x1b[m\x1b[31m-\x1b[m',

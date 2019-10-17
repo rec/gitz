@@ -5,7 +5,6 @@ from . import run_proc
 
 class Runner:
     def start(self, log, no_run=False):
-        self.git = Git(self)
         self.log = log
         self.no_run = no_run
 
@@ -52,6 +51,4 @@ class Git:
 
 
 RUN = Runner()
-RUN_INFO = Runner()
 GIT = Git(RUN)
-GIT_INFO = Git(RUN_INFO)

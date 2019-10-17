@@ -1,5 +1,5 @@
 from .. import config
-from ..runner import RUN_INFO
+from ..runner import RUN
 
 NONE = '(none)'
 INDENT = 4
@@ -10,7 +10,7 @@ def read_one(command):
     full_usage = False
     help = {'COMMAND': command}
     section = NONE
-    for line in RUN_INFO(command, '-h'):
+    for line in RUN(command, '-h', info=True):
         if full_usage:
             help.setdefault(section, []).append(line)
 
