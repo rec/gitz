@@ -36,7 +36,7 @@ class Runner:
             self.output_lines.append(line)
 
         def error(line):
-            if not quiet:
+            if not (quiet or silent):
                 self.log.error('!', line)
             if merged:
                 self.output_lines.append(line)
