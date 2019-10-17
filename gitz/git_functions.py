@@ -1,4 +1,5 @@
 from .program import PROGRAM
+from .runner import GIT_INFO
 
 COMMIT_ID_LENGTH = 7
 
@@ -14,23 +15,23 @@ def _to_name(name):
 
 
 def commit_id(name='HEAD', short=True):
-    id = PROGRAM.git_info('rev-parse', _to_name(name))[0]
+    id = GIT_INFO('rev-parse', _to_name(name))[0]
     return id[:COMMIT_ID_LENGTH] if short else id
 
 
 def commit_ids(names, short=True):
-    ids = PROGRAM.git_info('rev-parse', *(_to_name(n) for n in names))
+    ids = GIT_INFO('rev-parse', *(_to_name(n) for n in names))
     return [i[:COMMIT_ID_LENGTH] for i in ids] if short else ids
 
 
 def commit_message(name='HEAD', short=True):
     cid = commit_id(name, short)
-    message = PROGRAM.git_info('show-branch', '--no-name', cid)[0]
+    message = GIT_INFO('show-branch', '--no-name', cid)[0]
     return '%s: %s' % (cid, message)
 
 
 def fetch(remote):
-    fetched = PROGRAM.git_info.fetch(remote)
+    fetched = GIT_INFO.fetch(remote)
     while fetched and not fetched.startswith('From '):
         fetched.pop(0)
     if fetched:
@@ -39,16 +40,16 @@ def fetch(remote):
 
 
 def branch_name(name='HEAD'):
-    lines = PROGRAM.git_info('symbolic-ref', '-q', '--short', _to_name(name))
+    lines = GIT_INFO('symbolic-ref', '-q', '--short', _to_name(name))
     return lines[0].strip()
 
 
 def branches(*args):
-    return PROGRAM.git_info.branch('--format=%(refname:short)', *args)
+    return GIT_INFO.branch('--format=%(refname:short)', *args)
 
 
 def remote_branches(must_fetch=True):
-    remotes = PROGRAM.git_info.remote()
+    remotes = GIT_INFO.remote()
 
     if must_fetch:
         for remote in remotes:
@@ -65,7 +66,7 @@ def upstream_remote(branch=None):
     # https://stackoverflow.com/a/9753364/43839
     upstream = 'rev-parse --abbrev-ref --symbolic-full-name %s@{u}'
     cmd = (upstream % (branch or '')).split()
-    lines = PROGRAM.git_info(*cmd, quiet=True)
+    lines = GIT_INFO(*cmd, quiet=True)
     return lines[0].split('/', maxsplit=1)[0]
 
 

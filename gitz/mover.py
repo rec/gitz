@@ -3,6 +3,7 @@ from . import git_root
 from . import guess_origin
 from .env import ENV
 from .program import PROGRAM
+from .runner import GIT_INFO
 
 COPY, RENAME = 'copy', 'rename'
 
@@ -76,7 +77,7 @@ class Mover:
         if not PROGRAM.args.force:
             if self.target in branches:
                 PROGRAM.exit(_ERROR_TARGET_EXISTS % self.target)
-            PROGRAM.git_info.fetch(self.origin)
+            GIT_INFO.fetch(self.origin)
             ubranches = git_functions.remote_branches(False)[self.origin]
             if self.target in ubranches:
                 PROGRAM.exit(_ERROR_TARGET_EXISTS % self.target)

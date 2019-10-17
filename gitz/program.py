@@ -29,7 +29,6 @@ class _Program:
         self.run = runner.RUN
 
         self.git = runner.GIT
-        self.git_info = runner.GIT_INFO
 
         exe = self.executable.replace('-', '_')
         main = context.get(exe) or context.get('main')

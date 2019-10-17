@@ -2,6 +2,7 @@
 from gitz import git_functions
 from gitz import git_root
 from gitz.program import PROGRAM
+from gitz.runner import GIT_INFO
 import os
 
 SUMMARY = 'Split a range of commits into many single-file commits'
@@ -28,7 +29,7 @@ def git_split():
     os.chdir(git_root.git_root())
     not_added = []
 
-    for line in PROGRAM.git_info.status('--porcelain'):
+    for line in GIT_INFO.status('--porcelain'):
         mode, filenames = line.split(maxsplit=1)
         if mode == '??':
             not_added.append(filenames)
@@ -42,7 +43,7 @@ def git_split():
 
     commit = git_functions.commit_id(commit)
     PROGRAM.git.reset('--soft', commit)
-    lines = PROGRAM.git_info.status('--porcelain')
+    lines = GIT_INFO.status('--porcelain')
 
     PROGRAM.git.reset(commit)
     commit_count = 0

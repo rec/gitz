@@ -1,5 +1,5 @@
 from . import repo
-from gitz.program import PROGRAM
+from gitz.runner import GIT_INFO
 import unittest
 
 
@@ -7,13 +7,13 @@ class GitAmpTest(unittest.TestCase):
     @repo.test
     def test_simple(self):
         repo.make_commit('1')
-        PROGRAM.git_info.checkout('-b', 'develop')
+        GIT_INFO.checkout('-b', 'develop')
 
-        PROGRAM.git_info.push('--set-upstream', 'origin', 'develop')
-        PROGRAM.git_info.amp('Hello', 'there', 'mates')
-        actual = PROGRAM.git_info.log('--oneline')
+        GIT_INFO.push('--set-upstream', 'origin', 'develop')
+        GIT_INFO.amp('Hello', 'there', 'mates')
+        actual = GIT_INFO.log('--oneline')
         expected = ['1974b10 Hello there mates', 'c0d1dbb 0']
         self.assertEqual(actual, expected)
 
-        actual = PROGRAM.git_info.log('--oneline', 'origin/develop')
+        actual = GIT_INFO.log('--oneline', 'origin/develop')
         self.assertEqual(actual, expected)
