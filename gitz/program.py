@@ -25,9 +25,6 @@ class _Program:
         runner.RUN.start(self.log, no_run)
         runner.RUN_INFO.start(self.log)
 
-        self.run_info = runner.RUN_INFO
-        self.run = runner.RUN
-
         exe = self.executable.replace('-', '_')
         main = context.get(exe) or context.get('main')
         if not main:

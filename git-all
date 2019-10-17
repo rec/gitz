@@ -4,6 +4,7 @@ from gitz import git_functions
 from gitz import git_root
 from gitz.program import PROGRAM
 from gitz.runner import GIT
+from gitz.runner import RUN
 from pathlib import Path
 import os
 import sys
@@ -84,7 +85,7 @@ def _run_command(args, name, branches):
         saved_branch = git_functions.branch_name()
         GIT.checkout('-q', name)
         try:
-            lines = PROGRAM.run(*_COMMAND)
+            lines = RUN(*_COMMAND)
         finally:
             GIT.checkout('-q', saved_branch)
     else:
@@ -95,7 +96,7 @@ def _run_command(args, name, branches):
             return
         if not args.quiet:
             print('Directory %s:' % name)
-        lines = PROGRAM.run(*_COMMAND, cwd=str(name))
+        lines = RUN(*_COMMAND, cwd=str(name))
     indent = ' ' * args.indent
     for line in lines:
         print(indent, line, sep='')
