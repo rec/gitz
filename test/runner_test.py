@@ -7,7 +7,8 @@ class RunnerTest(unittest.TestCase):
     @repo.test
     def test_simple(self):
         logger = MockLogger()
-        run = runner.Runner(logger)
+        run = runner.Runner()
+        run.start(logger)
         stdout = run('ls')
         self.assertEqual(stdout, ['0'])
         self.assertEqual(logger.errors, [])
@@ -15,12 +16,14 @@ class RunnerTest(unittest.TestCase):
         self.assertEqual(logger.verboses, [('$', 'ls'), ('>', '0')])
         with open('X', 'w') as fp:
             fp.write('X\n')
-        run.git.add('X')
+        git = runner.Git(run)
+        git.add('X')
 
     @repo.test
     def test_multiline(self):
         logger = MockLogger()
-        run = runner.Runner(logger)
+        run = runner.Runner()
+        run.start(logger)
         with open('X', 'w') as fp:
             fp.write('X\n')
         stdout = run('ls')

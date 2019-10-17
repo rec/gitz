@@ -21,15 +21,15 @@ class _Program:
         if context is None:
             context = vars(sys.modules['__main__'])
         self.args, self.log = parser.parse(self, **context)
+        no_run = self.ALLOW_NO_RUN and self.args.no_run
+        runner.RUN.start(self.log, no_run)
+        runner.RUN_INFO.start(self.log)
 
-        self.run_info = runner.Runner(self.log)
-        if self.ALLOW_NO_RUN and self.args.no_run:
-            self.run = runner.Runner(self.log, no_run=True)
-        else:
-            self.run = self.run_info
+        self.run_info = runner.RUN_INFO
+        self.run = runner.RUN
 
-        self.git = self.run.git
-        self.git_info = self.run_info.git
+        self.git = runner.GIT
+        self.git_info = runner.GIT_INFO
 
         exe = self.executable.replace('-', '_')
         main = context.get(exe) or context.get('main')
