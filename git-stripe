@@ -2,6 +2,7 @@
 from gitz import git_functions
 from gitz import guess_origin
 from gitz.program import PROGRAM
+from gitz.runner import GIT
 
 SUMMARY = 'Push a sequence of commit IDs to a remote repository'
 
@@ -126,7 +127,7 @@ class Stripe:
 
             id = ''
             for remote in self.remotes:
-                PROGRAM.git.push(*force, remote, refspec, quiet=True)
+                GIT.push(*force, remote, refspec, quiet=True)
                 if not id:
                     striped = '%s/%s' % (remote, branch)
                     id = git_functions.commit_message(striped)
@@ -150,7 +151,7 @@ class Stripe:
                 if branch in self.remote_branches[remote]:
                     rbranch = '%s/%s' % (remote, branch)
                     cid = git_functions.commit_message(rbranch)
-                    PROGRAM.git.push(remote, refspec, quiet=True)
+                    GIT.push(remote, refspec, quiet=True)
                     PROGRAM.message('- %s@%s' % (rbranch, cid))
 
     def _delete_all(self):
@@ -159,9 +160,7 @@ class Stripe:
                 if branch.startswith(self.prefix):
                     rbranch = '%s/%s' % (remote, branch)
                     cid = git_functions.commit_id(rbranch, True)
-                    PROGRAM.git.push(
-                        remote, ':refs/heads/' + branch, quiet=True
-                    )
+                    GIT.push(remote, ':refs/heads/' + branch, quiet=True)
                     PROGRAM.log.message('- %s@%s' % (rbranch, cid))
 
 

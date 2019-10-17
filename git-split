@@ -2,6 +2,7 @@
 from gitz import git_functions
 from gitz import git_root
 from gitz.program import PROGRAM
+from gitz.runner import GIT
 from gitz.runner import GIT_INFO
 import os
 
@@ -42,10 +43,10 @@ def git_split():
         commit = 'HEAD~'
 
     commit = git_functions.commit_id(commit)
-    PROGRAM.git.reset('--soft', commit)
+    GIT.reset('--soft', commit)
     lines = GIT_INFO.status('--porcelain')
 
-    PROGRAM.git.reset(commit)
+    GIT.reset(commit)
     commit_count = 0
 
     for line in lines:
@@ -61,10 +62,10 @@ def git_split():
         # Renaming is a special case with two files on a line
         # separated by -> and with mode = '??'
         try:
-            PROGRAM.git.add(*filenames_split)
+            GIT.add(*filenames_split)
             pre = PROGRAM.args.prefix
             msg = '%s %s %s' % (pre, mode_name, filenames)
-            lines = PROGRAM.git.commit('-m', msg)
+            lines = GIT.commit('-m', msg)
             PROGRAM.message(lines[0])
             commit_count += 1
 

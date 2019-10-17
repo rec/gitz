@@ -1,5 +1,5 @@
 from . import repo
-from gitz.program import PROGRAM
+from gitz.runner import GIT
 from gitz.runner import GIT_INFO
 import os
 import unittest
@@ -19,7 +19,7 @@ class GitMultiPickTest(unittest.TestCase):
         self.assertEqual(GIT_INFO.log('--oneline'), expected)
 
     def _get_files(self, *args):
-        PROGRAM.git.checkout('-b', 'A')
+        GIT.checkout('-b', 'A')
         repo.make_commit('1')
         repo.make_commit('2')
         three = repo.make_commit('3')
@@ -27,7 +27,7 @@ class GitMultiPickTest(unittest.TestCase):
         five = repo.make_commit('5')
         repo.make_commit('6')
 
-        PROGRAM.git.checkout('master')
-        PROGRAM.git('multi-pick', three, five, *args)
+        GIT.checkout('master')
+        GIT('multi-pick', three, five, *args)
         files = sorted(i for i in os.listdir() if not i.startswith('.'))
         self.assertEqual(files, ['0', '3', '5'])

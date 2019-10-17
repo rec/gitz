@@ -3,6 +3,7 @@ from gitz import git_functions
 from gitz import git_root
 from gitz import reference_branch
 from gitz.program import PROGRAM
+from gitz.runner import GIT
 import os
 
 SUMMARY = 'Update branches from a reference branch'
@@ -55,19 +56,19 @@ def git_update():
             traceback.print_exc()
             failed = True
 
-    PROGRAM.git.checkout(starting_branch, quiet=True)
+    GIT.checkout(starting_branch, quiet=True)
 
     if failed:
         PROGRAM.exit()
 
 
 def _update(branch, ref_branch, fetched):
-    PROGRAM.git.checkout(branch, quiet=True)
+    GIT.checkout(branch, quiet=True)
     cid = git_functions.commit_id()
     try:
-        PROGRAM.git.pull('--rebase', *ref_branch, quiet=True, merged=True)
+        GIT.pull('--rebase', *ref_branch, quiet=True, merged=True)
     except Exception:
-        PROGRAM.git.rebase('--abort', quiet=True)
+        GIT.rebase('--abort', quiet=True)
         raise
 
     new_cid = git_functions.commit_id()
@@ -87,7 +88,7 @@ def _update(branch, ref_branch, fetched):
     if upstream_cid == new_cid:
         PROGRAM.message('.', ubranch)
     else:
-        PROGRAM.git.push('--force-with-lease', quiet=True)
+        GIT.push('--force-with-lease', quiet=True)
         PROGRAM.message('* %s..%s %s' % (upstream_cid, new_cid, ubranch))
 
 

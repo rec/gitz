@@ -3,6 +3,7 @@ from gitz import combine
 from gitz import git_functions
 from gitz import git_root
 from gitz.program import PROGRAM
+from gitz.runner import GIT
 
 SUMMARY = 'Reorder and delete commits in the current branch'
 
@@ -74,7 +75,7 @@ def git_shuffle():
         squashed = commit_messages(shuffle[:-1])
 
     base, *shuffle = git_functions.commit_ids(reversed(shuffle))
-    PROGRAM.git.reset('--hard', base)
+    GIT.reset('--hard', base)
     combine.combine(shuffle, PROGRAM.args.squash)
 
     def report(name, items):

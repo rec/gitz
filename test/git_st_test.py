@@ -1,6 +1,6 @@
 from . import repo
 from gitz.runner import GIT_INFO
-from gitz.program import PROGRAM
+from gitz.runner import GIT
 import os
 import unittest
 
@@ -11,7 +11,7 @@ class GitStTest(unittest.TestCase):
         repo.make_commit('1', '2')
         with open('3', 'w') as fp:
             fp.write('3\n')
-        PROGRAM.git.add('3')
+        GIT.add('3')
         with open('4', 'w') as fp:
             fp.write('4\n')
         with open('0', 'w') as fp:

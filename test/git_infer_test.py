@@ -1,5 +1,5 @@
 from . import repo
-from gitz.program import PROGRAM
+from gitz.runner import GIT
 import os
 import unittest
 
@@ -8,14 +8,14 @@ class GitInferTest(unittest.TestCase):
     @repo.test
     def test_change(self):
         with self.assertRaises(Exception):
-            PROGRAM.git.infer()
+            GIT.infer()
 
         with open('0', 'w') as fp:
             fp.write('1\n')
 
         with self.assertRaises(Exception):
-            PROGRAM.git.infer()
-        actual = PROGRAM.git.infer('-a')
+            GIT.infer()
+        actual = GIT.infer('-a')
         expected = [
             '[master 9fbfd4a] Update 0',
             ' 1 file changed, 1 insertion(+), 1 deletion(-)',
@@ -26,8 +26,8 @@ class GitInferTest(unittest.TestCase):
     def test_add(self):
         with open('1', 'w') as fp:
             fp.write('1\n')
-        PROGRAM.git.add('1')
-        actual = PROGRAM.git.infer()
+        GIT.add('1')
+        actual = GIT.infer()
         expected = [
             '[master 0ae685e] Add 1',
             ' 1 file changed, 1 insertion(+)',
@@ -39,7 +39,7 @@ class GitInferTest(unittest.TestCase):
     def test_remove(self):
         repo.make_commit('1')
         os.remove('0')
-        actual = PROGRAM.git.infer('-a')
+        actual = GIT.infer('-a')
         expected = [
             '[master 3897048] Delete 0',
             ' 1 file changed, 1 deletion(-)',
@@ -49,8 +49,8 @@ class GitInferTest(unittest.TestCase):
 
     @repo.test
     def test_rename(self):
-        PROGRAM.git.mv('0', '1')
-        actual = PROGRAM.git.infer()
+        GIT.mv('0', '1')
+        actual = GIT.infer()
         expected = [
             '[master e147e06] Rename 0 -> 1',
             ' 1 file changed, 0 insertions(+), 0 deletions(-)',
@@ -62,7 +62,7 @@ class GitInferTest(unittest.TestCase):
     def test_multiple(self):
         repo.make_commit('1')
         repo.make_commit('2')
-        PROGRAM.git.mv('0', '3')
+        GIT.mv('0', '3')
         os.remove('1')
 
         with open('4', 'w') as fp:
@@ -70,9 +70,9 @@ class GitInferTest(unittest.TestCase):
 
         with open('2', 'w') as fp:
             fp.write('6\n')
-        PROGRAM.git.add('2', '4')
+        GIT.add('2', '4')
 
-        actual = PROGRAM.git.infer()
+        actual = GIT.infer()
         expected = [
             '[master 624f20c] Several changes',
             ' 3 files changed, 2 insertions(+), 1 deletion(-)',

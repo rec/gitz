@@ -28,8 +28,6 @@ class _Program:
         self.run_info = runner.RUN_INFO
         self.run = runner.RUN
 
-        self.git = runner.GIT
-
         exe = self.executable.replace('-', '_')
         main = context.get(exe) or context.get('main')
         if not main:

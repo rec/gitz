@@ -5,6 +5,7 @@ from gitz import guess_origin
 from gitz import reference_branch
 from gitz.env import ENV
 from gitz.program import PROGRAM
+from gitz.runner import GIT
 
 SUMMARY = 'Create and push new branches'
 
@@ -73,13 +74,13 @@ def git_new():
     for new_branch in PROGRAM.args.branches:
         if new_branch in branches:
             original_id = git_functions.commit_id(new_branch)
-            PROGRAM.git.checkout(new_branch, '--quiet')
-            PROGRAM.git.reset('--hard', reference)
+            GIT.checkout(new_branch, '--quiet')
+            GIT.reset('--hard', reference)
         else:
             original_id = None
-            PROGRAM.git.checkout('-b', new_branch, reference, quiet=True)
+            GIT.checkout('-b', new_branch, reference, quiet=True)
 
-        PROGRAM.git.push('-fu', origin, new_branch, quiet=True)
+        GIT.push('-fu', origin, new_branch, quiet=True)
         id = git_functions.commit_id(new_branch)
         PROGRAM.message(
             'New {0}..{1} {2} -> {2}'.format(original_id or id, id, new_branch)

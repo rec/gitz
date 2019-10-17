@@ -1,5 +1,5 @@
 from . import repo
-from gitz.program import PROGRAM
+from gitz.runner import GIT
 from gitz.runner import GIT_INFO
 import os
 import unittest
@@ -22,7 +22,7 @@ class GitShuffleTest(unittest.TestCase):
     @repo.test
     def TODO_test_example(self):
         # Why does this fail?  Debugging gives nonsensical results!
-        PROGRAM.git.shuffle('__cba_')
+        GIT.shuffle('__cba_')
         actual = GIT_INFO.log('--oneline')[:4]
         expected = []
         self.assertEqual(actual, expected)
@@ -30,7 +30,7 @@ class GitShuffleTest(unittest.TestCase):
     @repo.test
     def test_no_arguments(self):
         self._first()
-        PROGRAM.git.shuffle()
+        GIT.shuffle()
         actual = GIT_INFO.log('--oneline')[:4]
         expected = ['85af3d4 6', 'd9b4446 7', '8a4a4e2 5', 'a7c7e8f 4']
         self.assertEqual(actual, expected)
@@ -73,6 +73,6 @@ class GitShuffleTest(unittest.TestCase):
 
     def _test_files(self, *args):
         self._first()
-        PROGRAM.git.shuffle('_c_ab_', *args)
+        GIT.shuffle('_c_ab_', *args)
         files = [i for i in os.listdir() if not i.startswith('.')]
         self.assertEqual(sorted(files), ['0', '1', '3', '4', '6'])

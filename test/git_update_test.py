@@ -1,5 +1,5 @@
 from . import repo
-from gitz.program import PROGRAM
+from gitz.runner import GIT
 import unittest
 
 
@@ -12,37 +12,37 @@ class GitUpdateTest(unittest.TestCase):
         second = repo.make_one_commit('file.txt', DELTA3, 'master!')
         self.assertEqual(second, 'd1b2fc8')
 
-        PROGRAM.git.push('--set-upstream', 'upstream', 'master')
-        PROGRAM.git.reset('--hard', 'HEAD~')
-        PROGRAM.git.push('--set-upstream', 'origin', 'master')
+        GIT.push('--set-upstream', 'upstream', 'master')
+        GIT.reset('--hard', 'HEAD~')
+        GIT.push('--set-upstream', 'origin', 'master')
 
         # No conflicts
-        PROGRAM.git.new('one')
+        GIT.new('one')
         repo.make_commit('one')
-        PROGRAM.git.push()
+        GIT.push()
 
         # Resolvable conflict
-        PROGRAM.git.new('two')
+        GIT.new('two')
         repo.make_one_commit('file.txt', DELTA1, 'two')
-        PROGRAM.git.push()
+        GIT.push()
 
         # Unresolvable conflict
         # TODO: this didn't work
-        PROGRAM.git.new('three')
+        GIT.new('three')
         repo.make_one_commit('file.txt', DELTA2, 'three')
-        PROGRAM.git.push()
+        GIT.push()
 
         # Local differs from origin
-        PROGRAM.git.new('four')
+        GIT.new('four')
         repo.make_one_commit('file.txt', 'four', 'four')
 
-        PROGRAM.git.checkout('master')
-        PROGRAM.git.update('-v')
+        GIT.checkout('master')
+        GIT.update('-v')
 
         lines = [second + ' master!', first + ' original', 'c0d1dbb 0']
 
         def test(branch, *items):
-            actual = PROGRAM.git.log('--oneline', branch)
+            actual = GIT.log('--oneline', branch)
             expected = list(items) + lines
             self.assertEqual(expected, actual)
 
