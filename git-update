@@ -2,6 +2,7 @@
 from gitz import git_functions
 from gitz import git_root
 from gitz import reference_branch
+from gitz.env import ENV
 from gitz.program import PROGRAM
 from gitz.runner import GIT
 import os
@@ -40,13 +41,25 @@ def git_update():
     if PROGRAM.error_if(missing, 'Missing'):
         PROGRAM.exit()
 
+    protected_branches = ENV.protected_branches()
+    protected = set(args.branches).intersection(protected_branches)
+    if PROGRAM.error_if(protected, 'Protected'):
+        PROGRAM.exit()
+
+    branches = args.branches or local_branches
+    branches = [b for b in branches if b not in protected_branches]
+
+    if not branches:
+        PROGRAM.message('No branches to update')
+        return
+
     starting_branch = git_functions.branch_name()
     failed = False
 
     ref_branch = reference_branch.reference_branch()
     fetched = set()
 
-    for branch in args.branches or local_branches:
+    for branch in branches:
         try:
             _update(branch, ref_branch, fetched)
         except Exception:

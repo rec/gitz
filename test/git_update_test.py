@@ -39,7 +39,7 @@ class GitUpdateTest(unittest.TestCase):
         GIT.checkout('master')
         GIT.update('-v')
 
-        lines = [second + ' master!', first + ' original', 'c0d1dbb 0']
+        lines = [first + ' original', 'c0d1dbb 0']
 
         def test(branch, *items):
             actual = GIT.log('--oneline', branch)
@@ -48,6 +48,9 @@ class GitUpdateTest(unittest.TestCase):
 
         test('master')
         test('origin/master')
+
+        lines.insert(0, second + ' master!')
+
         test('upstream/master')
 
         test('one', '2b7979a one')
