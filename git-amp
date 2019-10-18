@@ -4,7 +4,7 @@ set -Eeo pipefail
 usage() {
     cat <<EOF
 git amp:
-    AMend just the last commit message and force-Push, somewhat safely
+    AMend the last commit message and force-Push, somewhat safely
 
 USAGE:
     git amp [commit message here]

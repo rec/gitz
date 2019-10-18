@@ -5,7 +5,7 @@ gitz commands
   Perform a command on each of multiple branches or directories
 
 `git-amp <git-amp.rst>`_
-  AMend just the last commit message and force-Push, somewhat safely
+  AMend the last commit message and force-Push, somewhat safely
 
 `git-copy <git-copy.rst>`_
   Copy a git branch locally and on all remotes

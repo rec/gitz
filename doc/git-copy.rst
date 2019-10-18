@@ -6,11 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git copy [-h] [-q] [-v] [-a] [-f] [-n] source [target]
-
-Positional arguments
-  ``source``: 
-  ``target``: 
+    git copy [-h] [-q] [-v] [-n]
 
 Optional arguments
   ``-h, --help``: show this help message and exit
@@ -18,10 +14,6 @@ Optional arguments
   ``-q, --quiet``: Suppress all output
 
   ``-v, --verbose``: Report all messages in great detail
-
-  ``-a, --all``: Copy all, even protected remotes or branches
-
-  ``-f, --force``: Force copy over existing branches
 
   ``-n, --no-run``: If set, commands will be printed but not executed
 

@@ -26,20 +26,14 @@ class Mover:
         self.Root = self.root.capitalize()
 
         self.error = PROGRAM.error
+        for k, v in NAMES.items():
+            setattr(self, k, v.format(self))
 
     def __call__(self):
-        PROGRAM.start(
-            {
-                'add_arguments': self._add_arguments,
-                'HELP': HELP.format(self),
-                'SUMMARY': SUMMARY.format(self),
-                'EXAMPLES': EXAMPLES.format(self),
-                'DANGER': DANGER.format(self),
-                'main': self.run,
-            }
-        )
+        keys = tuple(NAMES) + ('add_arguments', 'main')
+        PROGRAM.start({k: getattr(self, k) for k in keys})
 
-    def run(self):
+    def main(self):
         source = PROGRAM.args.source
         self.starting_branch = git_functions.branch_name()
 
@@ -112,7 +106,7 @@ class Mover:
         cid = git_functions.commit_id(target)
         PROGRAM.message(msg.format(self, target, cid))
 
-    def _add_arguments(self, parser):
+    def add_arguments(self, parser):
         add_arg = parser.add_argument
         add_arg('source')
         add_arg('target', nargs='?', default='')
@@ -161,6 +155,13 @@ git {0.action} --force old new
 
     Overwrites "new" if it exists locally or in the remote repositories.
 """
+
+NAMES = {
+    'HELP': HELP,
+    'SUMMARY': SUMMARY,
+    'EXAMPLES': EXAMPLES,
+    'DANGER': DANGER,
+}
 
 _ERROR_CANNOT_DELETE = 'Cannot delete remote'
 _ERROR_INCONSISTENT_COMMITS = 'Inconsistent commits IDs'

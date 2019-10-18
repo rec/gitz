@@ -148,7 +148,7 @@ These commands are not intended for use on a shared or production branch, but
 can significantly speed up rapid development on private branches.
 
 `git amp <doc/git amp.rst>`_
-  AMend just the last commit message and force-Push, somewhat safely
+  AMend the last commit message and force-Push, somewhat safely
 
 `git shuffle <doc/git shuffle.rst>`_
   Reorder and delete commits in the current branch

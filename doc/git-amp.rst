@@ -1,5 +1,5 @@
-``git amp``: AMend just the last commit message and force-Push, somewhat safely
--------------------------------------------------------------------------------
+``git amp``: AMend the last commit message and force-Push, somewhat safely
+--------------------------------------------------------------------------
 
 USAGE
 =====

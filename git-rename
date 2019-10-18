@@ -2,6 +2,7 @@
 from gitz import mover
 
 git_rename = mover.Mover('rename')
+SUMMARY = git_rename.SUMMARY
 
 
 if __name__ == '__main__':
