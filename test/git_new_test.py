@@ -9,13 +9,13 @@ class GitNewTest(unittest.TestCase):
         GIT.new('one')
         repo.make_commit('1')
         GIT.push()
-        actual = GIT.log('--oneline', 'origin/one', info=True)
+        actual = GIT.log('--oneline', 'origin/one')
         expected = ['a03c0f8 1', 'c0d1dbb 0']
         self.assertEqual(actual, expected)
 
         GIT.new('two')
         repo.make_commit('2')
         GIT.push()
-        actual = GIT.log('--oneline', 'origin/two', info=True)
+        actual = GIT.log('--oneline', 'origin/two')
         expected = ['aff4d90 2', 'c0d1dbb 0']
         self.assertEqual(actual, expected)

@@ -8,7 +8,7 @@ class GitLsTest(unittest.TestCase):
     def test_change(self):
         repo.make_commit('1')
         repo.make_commit('2')
-        actual = GIT.when(info=True)
+        actual = GIT.when()
         expected = [
             r'0.* ago.*c0d1dbb.*0.*',
             r'1.* ago.*a03c0f8.*1.*',

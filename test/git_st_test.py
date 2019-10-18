@@ -17,7 +17,7 @@ class GitStTest(unittest.TestCase):
             fp.write('100\n')
         os.remove('1')
 
-        actual = GIT.st(info=True)
+        actual = GIT.st()
         expected = [
             '\x1b[32mmaster\x1b[m',
             ' \x1b[31mM\x1b[m 0  | 2 \x1b[32m+\x1b[m\x1b[31m-\x1b[m',

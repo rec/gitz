@@ -8,7 +8,7 @@ class GitShuffleTest(unittest.TestCase):
     @repo.test
     def test_test_files(self):
         self._test_files()
-        actual = GIT.log('--oneline', info=True)
+        actual = GIT.log('--oneline')
         expected = [
             '2a2c087 3',
             '4fbc0b7 6',
@@ -22,7 +22,7 @@ class GitShuffleTest(unittest.TestCase):
     def TODO_test_example(self):
         # Why does this fail?  Debugging gives nonsensical results!
         GIT.shuffle('__cba_')
-        actual = GIT.log('--oneline', info=True)[:4]
+        actual = GIT.log('--oneline')[:4]
         expected = []
         self.assertEqual(actual, expected)
 
@@ -30,21 +30,21 @@ class GitShuffleTest(unittest.TestCase):
     def test_no_arguments(self):
         self._first()
         GIT.shuffle()
-        actual = GIT.log('--oneline', info=True)[:4]
+        actual = GIT.log('--oneline')[:4]
         expected = ['85af3d4 6', 'd9b4446 7', '8a4a4e2 5', 'a7c7e8f 4']
         self.assertEqual(actual, expected)
 
     @repo.test
     def test_squash(self):
         self._test_files('-s="0 1 3 4 6"')
-        actual = GIT.log('--oneline', info=True)
+        actual = GIT.log('--oneline')
         expected = ['a60e28d "0 1 3 4 6"', 'a03c0f8 1', 'c0d1dbb 0']
         self.assertEqual(actual, expected)
 
     @repo.test
     def test_empty_squash(self):
         self._test_files('-s')
-        actual = GIT.log('--oneline', info=True)
+        actual = GIT.log('--oneline')
         expected = ['dc12af1 4', 'a03c0f8 1', 'c0d1dbb 0']
         self.assertEqual(actual, expected)
 
@@ -57,7 +57,7 @@ class GitShuffleTest(unittest.TestCase):
         repo.make_commit('6')
         repo.make_commit('7')
 
-        actual = GIT.log('--oneline', info=True)
+        actual = GIT.log('--oneline')
         expected = [
             'e487041 7',
             'e1e931a 6',

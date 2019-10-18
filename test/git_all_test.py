@@ -17,10 +17,10 @@ class GitAllTest(unittest.TestCase):
     def test_branches(self):
         self.assertEqual('44dac6b', repo.make_commit('one.txt'))
         current = git_functions.branch_name()
-        GIT.checkout('-b', 'foo', info=True)
+        GIT.checkout('-b', 'foo')
         self.assertEqual(repo.make_commit('two.txt'), '393ad1c')
-        GIT.checkout(current, info=True)
-        GIT.checkout('-b', 'bar', info=True)
+        GIT.checkout(current)
+        GIT.checkout('-b', 'bar')
         self.assertEqual(repo.make_commit('three.txt'), 'b6aee43')
         actual = GIT.all('-', 'git', 'log', '--oneline')
         print(*actual, sep='\n')

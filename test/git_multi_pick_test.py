@@ -9,13 +9,13 @@ class GitMultiPickTest(unittest.TestCase):
     def test_simple(self):
         self._get_files()
         expected = ['a023846 5', '2511fd4 3', 'c0d1dbb 0']
-        self.assertEqual(GIT.log('--oneline', info=True), expected)
+        self.assertEqual(GIT.log('--oneline'), expected)
 
     @repo.test
     def test_squash(self):
         self._get_files('-s="0 3 5"')
         expected = ['ad627aa "0 3 5"', 'c0d1dbb 0']
-        self.assertEqual(GIT.log('--oneline', info=True), expected)
+        self.assertEqual(GIT.log('--oneline'), expected)
 
     def _get_files(self, *args):
         GIT.checkout('-b', 'A')
