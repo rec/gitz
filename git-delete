@@ -55,7 +55,7 @@ def git_delete():
                 GIT.checkout(b, quiet=True)
                 break
         else:
-            GIT.checkout(sorted(remaining_branches, quiet=True)[0])
+            GIT.checkout(min(remaining_branches), quiet=True)
 
     deleted = delete.delete(args.target)
     if deleted:

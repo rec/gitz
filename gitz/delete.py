@@ -38,10 +38,10 @@ def delete(branches):
         raise ValueError('This would delete all the branches')
 
     if git_functions.branch_name() in branches:
-        GIT.checkout(sorted(remaining_branches, quiet=True)[0])
+        GIT.checkout(min(remaining_branches), quiet=True)
 
     deleted_count = 0
-    PROGRAM.message('Deleting:')
+    PROGRAM.message('Deleted:')
     for b in branches:
         try:
             upstream = guess_origin.guess_origin(branch=b)

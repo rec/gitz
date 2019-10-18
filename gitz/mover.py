@@ -94,9 +94,7 @@ class Mover:
 
     def _move_remote(self):
         fl = git_functions.force_flags()
-        GIT.push(
-            *fl, '--set-upstream', self.origin, self.target, quiet=True
-        )
+        GIT.push(*fl, '--set-upstream', self.origin, self.target, quiet=True)
 
         if self.action == RENAME:
             GIT.push(self.origin, ':' + self.source, quiet=True)

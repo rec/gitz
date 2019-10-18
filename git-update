@@ -79,7 +79,7 @@ def _update(branch, ref_branch, fetched):
     GIT.checkout(branch, quiet=True)
     cid = git_functions.commit_id()
     try:
-        GIT.pull('--rebase', *ref_branch, quiet=True, merged=True)
+        GIT.pull('--rebase', *ref_branch, merged=True, quiet=True)
     except Exception:
         GIT.rebase('--abort', quiet=True)
         raise
