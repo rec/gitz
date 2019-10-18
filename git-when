@@ -4,10 +4,16 @@ usage() {
     cat <<EOF
 git when:
     When did each file change (date, commit, message)?
+    Dotfiles are ignored by default
+
     Nice use of color - from an unknown source.
 
 USAGE:
-    git when [-a] [directory]
+    git when [-a] [item [..item]]
+
+Optional arguments
+    -a    Also include dotfiles
+
 EOF
 }
 
@@ -26,16 +32,6 @@ then
     dotfiles=1
 fi
 
-if [ "$#" -ne 0 ]
-then
-    if [ ! -d "$1" ]
-    then
-        >&2 echo ""
-        exit 1
-    fi
-    cd "$1"
-fi
-
 if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1
 then
     git rev-parse --is-inside-work-tree
@@ -52,7 +48,15 @@ then
     shopt -s dotglob
 fi
 
-for file in *
+if [ "$#" -ne 0 ]
+then
+    files=$@
+else
+    files=*
+fi
+
+
+for file in $files
 do
     if [ "$file" = ".git" ]
     then
@@ -73,7 +77,7 @@ do
     then
         echo -en "${Cgrey}Gitignored$Creset"
     else
-        git log -1 --color=always --pretty=format:'%C(bold green)%<(20)%ar%C(reset)%C(bold blue)%h%C(reset)%n%C(white)%s%C(reset)' "$file" | tr "\n" "\t"
+        git log -1 --color=always --pretty=format:'%C(bold green)%<(20)%ar%C(reset)%C(bold blue)%h%C(reset)%n%C(yellow)%s%C(reset)' "$file" | tr "\n" "\t"
     fi
 
     echo ""
