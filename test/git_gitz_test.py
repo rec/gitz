@@ -54,41 +54,41 @@ EXECUTABLE_DIRECTORY = str(config.LIBRARY_DIRECTORY.parent)
 LIBRARY_DIRECTORY = str(config.LIBRARY_DIRECTORY)
 VERSION = config.VERSION
 COMMANDS = """\
-git-all:
-    Perform a command on each of multiple branches or directories
-git-amp:
-    AMend the last commit message and force-Push, somewhat safely
-git-copy:
-    Copy a git branch locally and on all remotes
-git-delete:
-    Delete one or more branches locally and on all remotes
-
-git-gitz:
-    Print information about the gitz environment
-git-infer:
-    Commit changes with an auto-generated message
-git-multi-pick:
-    Cherry-pick multiple commits, with an optional squash
-git-new:
-    Create and push new branches
-
-git-rename:
-    Rename a git branch locally and on all remotes
-git-rotate:
-    Rotate the current branch forward or backward in the list of branches
-git-shuffle:
-    Reorder and delete commits in the current branch
-git-split:
-    Split a range of commits into many single-file commits
-
-git-st:
-    Colorful, compact git status
-git-stripe:
-    Push a sequence of commit IDs to a remote repository
-git-update:
-    Update branches from a reference branch
 git-when:
     When did each file change (date, commit, message)?
+git-update:
+    Update branches from a reference branch
+git-stripe:
+    Push a sequence of commit IDs to a remote repository
+git-st:
+    Colorful, compact git status
+
+git-split:
+    Split a range of commits into many single-file commits
+git-shuffle:
+    Reorder and delete commits in the current branch
+git-rotate:
+    Rotate the current branch forward or backward in the list of branches
+git-rename:
+    Rename a git branch locally and on all remotes
+
+git-new:
+    Create and push new branches
+git-multi-pick:
+    Cherry-pick multiple commits, with an optional squash
+git-infer:
+    Commit changes with an auto-generated message
+git-gitz:
+    Print information about the gitz environment
+
+git-delete:
+    Delete one or more branches locally and on all remotes
+git-copy:
+    Copy a git branch locally and on all remotes
+git-amp:
+    AMend the last commit message and force-Push, somewhat safely
+git-all:
+    Perform a command on each of multiple branches or directories
 """.splitlines()
 
 INDENT_COMMANDS = '\n'.join(('    ' if c else '') + c for c in COMMANDS)

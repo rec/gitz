@@ -75,7 +75,7 @@ SKIP_EVERY = 4
 
 
 def _commands(indent):
-    for i, c in enumerate(config.COMMANDS):
+    for i, c in enumerate(reversed(config.COMMANDS)):
         try:
             file = Path(__file__).parent / c
             source = file.read_text()
