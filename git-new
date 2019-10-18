@@ -50,12 +50,21 @@ _HELP_BRANCHES = 'Names of branches to create'
 
 
 def git_new():
+    args = PROGRAM.args
+
     git_root.check_clean_workspace()
     branches = git_functions.branches()
     remote_branches = git_functions.remote_branches()
-    origin = guess_origin.guess_origin(PROGRAM.args.origin)
+    origin = guess_origin.guess_origin(args.origin)
 
-    new_branches = set(PROGRAM.args.branches)
+    new_branches = set(args.branches)
+    current = git_functions.branch_name()
+    if current in args.branches:
+        if args.force or args.force_protected:
+            branches = set(git_functions.branches()).difference(args.branches)
+            if not branches:
+                PROGRAM.exit('Cannot overwrite all branches')
+            GIT.checkout(min(branches))
 
     def check(branches, name):
         branches = new_branches.intersection(branches)
@@ -63,15 +72,15 @@ def git_new():
             s = 'branch:' if len(branches) == 1 else 'branches:'
             PROGRAM.exit('Cannot overwrite', name, s, *branches)
 
-    if not PROGRAM.args.force_protected:
+    if not args.force_protected:
         check(ENV.protected_branches(), 'protected')
-        if not PROGRAM.args.force:
+        if not args.force:
             check(branches, 'local')
             remote_msg = 'remote branches on origin ' + origin
             check(remote_branches[origin], remote_msg)
 
     reference = '/'.join(reference_branch.reference_branch(remote_branches))
-    for new_branch in PROGRAM.args.branches:
+    for new_branch in args.branches:
         if new_branch in branches:
             original_id = git_functions.commit_id(new_branch)
             GIT.checkout(new_branch, '--quiet')
@@ -82,10 +91,9 @@ def git_new():
 
         GIT.push('-fu', origin, new_branch, quiet=True)
         id = git_functions.commit_id(new_branch)
-        PROGRAM.message(
-            'New {0}..{1} {2} -> {2}'.format(original_id or id, id, new_branch)
-        )
-
+        PROGRAM.message('+ {0}..{1} {2} -> {3}/{2}'.format(
+            original_id or id, id, new_branch, origin
+        ))
 
 def add_arguments(parser):
     add = parser.add_argument
