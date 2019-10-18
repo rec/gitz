@@ -6,13 +6,16 @@ from gitz.env import ENV
 from gitz.program import PROGRAM
 from gitz.runner import GIT
 
-SUMMARY = 'Delete one or more branches locally and on all remotes'
+SUMMARY = 'Delete one or more branches locally and remotely'
+
 DANGER = 'Deletes remote branches!'
 
 HELP = """
-By default, the branches `master` and `develop` and the remote
-`upstream` are protected, which means that they are not allowed
-to be delete.
+Delete each branch specified together with its remote branch.
+
+By default, branches named `master` and `develop` are protected,
+which means they cannot be deleted, and the remote `upstream` is protected,
+which means that no branches on that remote can be deleted.
 
 Using the --all/-a flag allows protected branches and remotes
 to be deleted.
@@ -22,10 +25,10 @@ by setting the environment variable GITZ_PROTECTED_BRANCHES or
 GITZ_PROTECTED_REMOTES to a list separated by colons, or to an empty
 string to turn off protection entirely.
 """
+
 EXAMPLES = """
 git delete foo bar
-    Delete the branches foo and bar locally and on every upstream
-    except (by default) upstream
+    Delete the branches foo and bar locally and remotely
 """
 
 _HELP_FORCE = 'Delete all, even protected remotes or branches'
