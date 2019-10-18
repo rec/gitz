@@ -6,8 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git new [-h] [-q] [-v] [-f] [-F] [-o ORIGIN] [-r REFERENCE_BRANCH] [-n]
-               branches [branches ...]
+    git new [-h] [-q] [-v] [-f] [-F] [-o ORIGIN] [-r REFERENCE_BRANCH] [-n] branches [branches ...]
 
 Positional arguments
   ``branches``: Names of branches to create
