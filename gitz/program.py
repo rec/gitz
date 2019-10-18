@@ -15,6 +15,8 @@ class _Program:
         self.code = -1
         self.executable = Path(sys.argv[0]).name
         self.argv = sys.argv[1:]
+        if '--help' in self.argv:
+            self.argv[self.argv.index('--help')] = '-h'
         self.called = collections.Counter()
 
     def start(self, context=None):
