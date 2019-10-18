@@ -11,5 +11,3 @@ flake8
 flake8 $FILES
 export PATH=`pwd`:$PATH
 pytest $@
-
-source test/_help.sh
