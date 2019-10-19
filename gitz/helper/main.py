@@ -1,4 +1,5 @@
 from . import directory
+from . import manpages
 from . import pages
 from . import reader
 from . import summary
@@ -10,6 +11,7 @@ def main():
     directory.main(help)
     pages.main(help)
     summary.main(help)
+    manpages.main(help)
 
 
 if __name__ == '__main__':

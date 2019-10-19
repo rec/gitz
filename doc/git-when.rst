@@ -1,9 +1,8 @@
-``git when``: When did each file change (date, commit, message)?
-----------------------------------------------------------------
+``git when``: When did each file change (date, commit, message), or
+-------------------------------------------------------------------
+
 
 Dotfiles are ignored by default
-
-Nice use of color - from an unknown source.
 USAGE
 =====
 

@@ -14,13 +14,13 @@ EXAMPLES = """
 git gitz
 git gitz commands defaults exec home_page library version
 git gitz c d e h l v
-  Prints:
-    * all the gitz commands
-    * the variable defaults (including protected branches and remotes)
-    * the gitz executable directory,
-    * the home page of the project
-    * the gitz library directory
-    * the version number
+      Prints:
+        * all the gitz commands
+        * the variable defaults (including protected branches and remotes)
+        * the gitz executable directory,
+        * the home page of the project
+        * the gitz library directory
+        * the version number
 
 git gitz version exec
     Print just the version number and the git executable directory

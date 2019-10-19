@@ -1,6 +1,5 @@
-from pathlib import Path
+from . import dirs
 
-_HELP_DIRECTORY = Path(__file__).parent.parent.parent / 'doc'
 _HOME_LINK = '`Gitz home page <https://github.com/rec/gitz/>`_'
 SECTIONS = (
     'TITLE',
@@ -15,7 +14,7 @@ SECTIONS = (
 
 def main(commands):
     for command, help in commands.items():
-        help_file = (_HELP_DIRECTORY / command).with_suffix('.rst')
+        help_file = (dirs.DOC / command).with_suffix('.rst')
         with open(help_file, 'w') as fp:
             Writer(help, fp).write()
 

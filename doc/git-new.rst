@@ -57,12 +57,12 @@ EXAMPLES
 ========
 
 ``git new foo``
-   Create a new branch foo from the reference branch and push to the origin
+    Create a new branch foo from the reference branch and push to the origin
 
 ``git new foo --origin=remote_1``
 ``git new foo -o remote_1``
-   Create a new branch foo from the reference branch and push to remote_1
+    Create a new branch foo from the reference branch and push to remote_1
 
 ``git new one two three --reference-branch=some-remote/master``
 ``git new one two three -r some-remote/master``
-   Create three new branches from the remote branch some-remote/master
+    Create three new branches from the remote branch some-remote/master
