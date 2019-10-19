@@ -91,9 +91,9 @@ def git_new():
 
         GIT.push('-fu', origin, new_branch, quiet=True)
         id = git_functions.commit_id(new_branch)
-        PROGRAM.message('+ {0}..{1} {2} -> {3}/{2}'.format(
-            original_id or id, id, new_branch, origin
-        ))
+        fmt = '+ {0}..{1} {2} -> {3}/{2}'
+        PROGRAM.message(fmt.format(original_id or id, id, new_branch, origin))
+
 
 def add_arguments(parser):
     add = parser.add_argument
