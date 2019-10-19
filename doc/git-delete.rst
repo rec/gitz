@@ -1,5 +1,5 @@
-``git delete``: Delete one or more branches locally and on all remotes
-----------------------------------------------------------------------
+``git delete``: Delete one or more branches locally and remotely
+----------------------------------------------------------------
 
 USAGE
 =====
@@ -25,9 +25,11 @@ Optional arguments
 DESCRIPTION
 ===========
 
-By default, the branches `master` and `develop` and the remote
-`upstream` are protected, which means that they are not allowed
-to be delete.
+Delete each branch specified together with its remote branch.
+
+By default, branches named `master` and `develop` are protected,
+which means they cannot be deleted, and the remote `upstream` is protected,
+which means that no branches on that remote can be deleted.
 
 Using the --all/-a flag allows protected branches and remotes
 to be deleted.
@@ -46,5 +48,4 @@ EXAMPLES
 ========
 
 ``git delete foo bar``
-    Delete the branches foo and bar locally and on every upstream
-    except (by default) upstream
+    Delete the branches foo and bar locally and remotely

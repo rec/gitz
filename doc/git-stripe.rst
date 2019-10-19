@@ -6,8 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git stripe [-h] [-q] [-v] [-D] [-d] [-f] [-o OFFSET] [-p PREFIX] [-r REMOTES] [-n]
-                  [count] [commit_id]
+    git stripe [-h] [-q] [-v] [-c] [-D] [-d] [-o OFFSET] [-p PREFIX] [-r REMOTES] [-n] [count] [commit_id]
 
 Positional arguments
   ``count``: The number of striped branches to be created: default is 1
@@ -20,11 +19,11 @@ Optional arguments
 
   ``-v, --verbose``: Report all messages in great detail
 
+  ``-c, --careful``: Do not force push over existing stripes
+
   ``-D, --delete-all``: Delete all striped branches
 
   ``-d, --delete``: Delete the striped branches for this request
-
-  ``-f, --force``: Force push over existing stripes
 
   ``-o OFFSET, --offset OFFSET``: Offset to start numbering stripes
 

@@ -101,7 +101,7 @@ Informational commands that don't change your repository
 
 `git st <doc/git st.rst>`_
   Colorful, compact git status
-
+  
   This version written by https://github.com/PlatyPew/, original
   version by https://www.reddit.com/user/ex1c)
 
@@ -110,6 +110,8 @@ Informational commands that don't change your repository
 
 `git when <doc/git when.rst>`_
   When did each file change (date, commit, message)?
+  Dotfiles are ignored by default
+  
   Nice use of color - from an unknown source.
 
 Dangerous commands that delete, rename or overwrite branches
@@ -119,7 +121,7 @@ Dangerous commands that delete, rename or overwrite branches
   Copy a git branch locally and on all remotes
 
 `git delete <doc/git delete.rst>`_
-  Delete one or more branches locally and on all remotes
+  Delete one or more branches locally and remotely
 
 `git rename <doc/git rename.rst>`_
   Rename a git branch locally and on all remotes

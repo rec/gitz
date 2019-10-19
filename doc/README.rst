@@ -11,7 +11,7 @@ gitz commands
   Copy a git branch locally and on all remotes
 
 `git-delete <git-delete.rst>`_
-  Delete one or more branches locally and on all remotes
+  Delete one or more branches locally and remotely
 
 `git-gitz <git-gitz.rst>`_
   Print information about the gitz environment
@@ -52,6 +52,8 @@ gitz commands
 
 `git-when <git-when.rst>`_
   When did each file change (date, commit, message)?
+  Dotfiles are ignored by default
+  
   Nice use of color - from an unknown source.
 
 `Gitz home page <https://github.com/rec/gitz/>`_
