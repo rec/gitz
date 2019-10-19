@@ -71,5 +71,7 @@ def upstream_remote(branch=None):
     return lines[0].split('/', maxsplit=1)[0]
 
 
-def force_flags():
-    return ['--force-with-lease'] if PROGRAM.args.force else []
+def force_flags(force=None):
+    if force is None:
+        force = PROGRAM.args.force
+    return ['--force-with-lease'] if force else []

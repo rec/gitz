@@ -90,6 +90,10 @@ class Stripe:
             PROGRAM.exit(_ERROR_BRANCH_NAME, args.prefix)
 
         self.prefix = args.prefix
+        if not self.prefix.startswith('_'):
+            self.prefix = '_' + self.prefix
+        if not self.prefix.endswith('_'):
+            self.prefix += '_'
 
         self.remotes = list(self._remotes())
         self.indexes = range(args.offset, args.offset + self.count)
@@ -109,7 +113,7 @@ class Stripe:
 
     def _stripe(self):
         args = PROGRAM.args
-        if not args.force:
+        if args.careful:
             branches = {self.prefix + str(i) for i in self.indexes}
             remote_branches = set()
             for remote in self.remotes:
@@ -123,7 +127,7 @@ class Stripe:
             branch = '%s%d' % (self.prefix, i)
             i_offset = i - args.offset
             refspec = _STRIPE_FMT.format(**locals())
-            force = git_functions.force_flags()
+            force = git_functions.force_flags(not args.careful)
 
             id = ''
             for remote in self.remotes:
@@ -170,9 +174,9 @@ def add_arguments(parser):
     add('count', default='', nargs='?', help=_HELP_COUNT)
     add('commit_id', default='', nargs='?', help=_HELP_COMMIT_ID)
 
+    add('-c', '--careful', action='store_true', help=_HELP_CAREFUL)
     add('-D', '--delete-all', action='store_true', help=_HELP_DELETE_ALL)
     add('-d', '--delete', action='store_true', help=_HELP_DELETE)
-    add('-f', '--force', action='store_true', help=_HELP_FORCE)
     add('-o', '--offset', default=0, type=int, help=_HELP_OFFSET)
     add('-p', '--prefix', default=PREFIX, help=_HELP_PREFIX)
     add('-r', '--remotes', default='^', help=_HELP_REMOTE)
@@ -181,11 +185,11 @@ def add_arguments(parser):
 _ERROR_BRANCH_NAME = 'Illegal character in branch name'
 _ERROR_DELETE = 'Cannot set both of -d/--delete and -D/--delete-all'
 
+_HELP_CAREFUL = 'Do not force push over existing stripes'
 _HELP_COMMIT_ID = 'Branch/commit ID of the first stripe (or HEAD~ if none)'
 _HELP_COUNT = 'The number of striped branches to be created: default is 1'
 _HELP_DELETE = 'Delete the striped branches for this request'
 _HELP_DELETE_ALL = 'Delete all striped branches'
-_HELP_FORCE = 'Force push over existing stripes'
 _HELP_PREFIX = 'Base name for stripe branches (%s if none)' % PREFIX
 _HELP_OFFSET = 'Offset to start numbering stripes'
 _HELP_REMOTE = (
