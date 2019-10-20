@@ -1,7 +1,7 @@
 from pathlib import Path
 import sys
 
-VERSION = '0.9.12'
+VERSION = '0.9.13'
 LIBRARY_DIRECTORY = Path(__file__).absolute().parent
 EXECUTABLE_DIRECTORY = Path(sys.argv[0]).absolute().parent
 HOME_PAGE = 'https://github.com/rec/gitz/blob/master/README.rst'
