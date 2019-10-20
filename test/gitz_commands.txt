@@ -12,7 +12,7 @@ git-split:
 git-shuffle:
     Reorder and delete commits in the current branch
 git-rotate:
-    Rotate the current branch forward or backward in the list of branches
+    Rotate through all the branches, backwards or forwards
 git-rename:
     Rename a git branch locally and on all remotes
 

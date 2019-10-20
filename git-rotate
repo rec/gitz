@@ -4,32 +4,37 @@ from gitz import git_root
 from gitz.program import PROGRAM
 from gitz.runner import GIT
 
-SUMMARY = (
-    'Rotate the current branch forward or backward in the list of branches'
-)
+SUMMARY = 'Rotate through branches in a Git repository'
 
 HELP = """
-Rotate through the branches in a repo, one at a time, in the order given by
-the `git branch` command.
+Move through the branches in a Git repository in the order
+given by the `git branch` command, wrapping around at the end.
 
-If x is a number, ``git-rotate x`` rotates x branches forward,
-and ``git-rotate -x`` rotates x branches forward.
+If N is a number, ``git-rotate N`` rotates N branches forward,
+and ``git-rotate -N`` rotates N branches backward.
 
-Great for quickly browsing all the branches one at a time.
+``git-rotate`` on its own rotates one branch forward, and
+``git-rotate -`` rotates one branch backward.
 
+Useful for quickly browsing each branch in a repository one at a time.
 """
 
 EXAMPLES = """
 git rotate
 git rotate 1
+git rotate +
     Rotates to the next branch
 
 git rotate 3
+git rotate +3
     Rotates 3 branches ahead
 
 git rotate -1
 git rotate -
     Rotates 1 branch backward
+
+git rotate -2
+    Rotates 2 branches backward
 """
 
 
@@ -38,6 +43,8 @@ def git_rotate():
 
     if PROGRAM.args.steps == '-':
         steps = -1
+    elif PROGRAM.args.steps == '+':
+        steps = 1
     else:
         try:
             steps = int(PROGRAM.args.steps)
