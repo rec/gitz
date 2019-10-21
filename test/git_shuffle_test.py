@@ -27,9 +27,9 @@ class GitShuffleTest(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     @repo.test
-    def test_no_arguments(self):
+    def test_reverse(self):
         self._first()
-        GIT.shuffle()
+        GIT.shuffle('ba')
         actual = GIT.log('--oneline')[:4]
         expected = ['85af3d4 6', 'd9b4446 7', '8a4a4e2 5', 'a7c7e8f 4']
         self.assertEqual(actual, expected)
