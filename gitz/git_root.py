@@ -21,7 +21,7 @@ def is_workspace_dirty():
     if not git_root():
         return False
     try:
-        GIT('diff-index', '--quiet', 'HEAD', '--', info=True)
+        GIT.diff_index('--quiet', 'HEAD', '--', info=True)
     except Exception:
         # Also returns true if workspace is broken for some other reason
         return True

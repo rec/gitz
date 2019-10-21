@@ -44,7 +44,7 @@ class Git:
         self.runner = runner
 
     def __getattr__(self, command):
-        return functools.partial(self, command)
+        return functools.partial(self, command.replace('_', '-'))
 
     def __call__(self, *cmd, **kwds):
         return self.runner('git', *cmd, **kwds)

@@ -15,19 +15,19 @@ def _to_name(name):
 
 
 def commit_id(name='HEAD', short=True):
-    id = GIT('rev-parse', _to_name(name), info=True)[0]
+    id = GIT.rev_parse(_to_name(name), info=True)[0]
     return id[:COMMIT_ID_LENGTH] if short else id
 
 
 def commit_ids(names, short=True):
     names = (_to_name(n) for n in names)
-    ids = GIT('rev-parse', *names, info=True)
+    ids = GIT.rev_parse(*names, info=True)
     return [i[:COMMIT_ID_LENGTH] for i in ids] if short else ids
 
 
 def commit_message(name='HEAD', short=True):
     cid = commit_id(name, short)
-    message = GIT('show-branch', '--no-name', cid, info=True)[0]
+    message = GIT.show_branch('--no-name', cid, info=True)[0]
     return '%s: %s' % (cid, message)
 
 
@@ -41,7 +41,7 @@ def fetch(remote):
 
 
 def branch_name(name='HEAD'):
-    lines = GIT('symbolic-ref', '-q', '--short', _to_name(name), info=True)
+    lines = GIT.symbolic_ref('-q', '--short', _to_name(name), info=True)
     return lines[0].strip()
 
 

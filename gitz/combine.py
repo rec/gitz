@@ -5,7 +5,7 @@ from .runner import GIT
 def combine(commits, squash):
     result = []
     for id in commits:
-        GIT('cherry-pick', id)
+        GIT.cherry_pick(id)
         result.append(git_functions.commit_id())
 
     if squash is not None:
