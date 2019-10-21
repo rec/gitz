@@ -41,13 +41,26 @@ def git_split():
     else:
         commit = 'HEAD~'
 
-    commit = git_functions.commit_id(commit)
-    GIT.reset('--soft', commit)
+    commit_id = git_functions.commit_id(commit)
+
+    try:
+        GIT.merge_base('--is-ancestor', commit_id, 'HEAD')
+    except Exception:
+        PROGRAM.exit(commit, 'is not an ancestor of HEAD')
+
+    removed_commits = []
+    cid = git_functions.commit_id()
+    while cid != commit_id:
+        removed_commits.append(git_functions.commit_message(cid))
+        cid = git_functions.commit_id(cid + '~')
+
+    GIT.reset('--soft', commit_id)
     lines = GIT.status('--porcelain', info=True)
 
-    GIT.reset(commit)
+    GIT.reset(commit_id)
     commit_count = 0
 
+    PROGRAM.message('Added:')
     for line in lines:
         mode, filenames = line.split(maxsplit=1)
         filenames_split = filenames.split(' -> ')
@@ -64,15 +77,19 @@ def git_split():
             GIT.add(*filenames_split)
             pre = PROGRAM.args.prefix
             msg = '%s %s %s' % (pre, mode_name, filenames)
-            lines = GIT.commit('-m', msg)
-            PROGRAM.message(lines[0])
+            GIT.commit('-m', msg)
+            PROGRAM.message('+', git_functions.commit_id() + ':', msg)
             commit_count += 1
 
         except Exception:
             PROGRAM.error("couldn't commit filenames", filenames)
+            raise
 
-    s = '' if commit_count == 1 else 's'
-    print('%d commit%s generated' % (commit_count, s))
+    if removed_commits:
+        PROGRAM.message('')
+        PROGRAM.message('Deleted:')
+        for rc in removed_commits:
+            PROGRAM.message('-', rc)
 
 
 def add_arguments(parser):
