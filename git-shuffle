@@ -59,41 +59,47 @@ git shuffle __cba_ --squash="My message"
 
 
 def git_shuffle():
-    def commit_messages(names):
-        return [git_functions.commit_message(name) for name in names]
+    def commit_messages(count):
+        return [git_functions.commit_message(i) for i in range(count)]
+
+    def report(name, items, symbol):
+        if items:
+            s = '' if len(items) == 1 else 's'
+            PROGRAM.message(len(items), 'commit%s %s' % (s, name))
+            for id, msg in items:
+                PROGRAM.message('%s %s: %s' % (symbol, id, msg))
+            return True
 
     git_root.check_clean_workspace()
-    squash = PROGRAM.args.squash
-    shuffle = combine.shuffle(PROGRAM.args.shuffle, squash)
+    shuffle = combine.shuffle(PROGRAM.args.shuffle, PROGRAM.args.squash)
     if not shuffle:
         PROGRAM.message('No change')
         return
 
-    deleted = sorted(set(range(max(shuffle))) - set(shuffle))
-    deleted = commit_messages(deleted)
-    if squash:
-        squashed = commit_messages(shuffle[:-1])
+    count = max(shuffle) + 1
+    id_msgs = commit_messages(count)
+    ids = [id for id, _ in id_msgs]
 
-    base, *shuffle = git_functions.commit_ids(reversed(shuffle))
+    base, *shuffle_ids = (ids[i] for i in reversed(shuffle))
+
     GIT.reset('--hard', base)
-    combine.combine(shuffle, PROGRAM.args.squash)
+    combine.combine(shuffle_ids, PROGRAM.args.squash)
 
-    def report(name, items):
-        if items:
-            s = '' if len(items) == 1 else 's'
-            PROGRAM.message(len(items), 'commit%s %s' % (s, name))
-            for i in items:
-                PROGRAM.message(' ', i)
+    if PROGRAM.args.squash:
+        report('squashed', id_msgs[:-1], '-')
+        PROGRAM.message('->')
+        PROGRAM.message(' ', git_functions.commit_message())
 
-    report('deleted', deleted)
-    if squash:
-        report('squashed', squashed)
-        if squashed:
-            PROGRAM.message('->')
-            PROGRAM.message(' ', git_functions.commit_message())
     else:
-        shuffled = commit_messages(range(len(shuffle) - 1))
-        report('shuffled', shuffled)
+        deleted = [id_msgs[i] for i in range(count) if i not in shuffle]
+        if report('deleted', deleted, '-'):
+            PROGRAM.message()
+
+        shuffled = commit_messages(len(shuffle) - 1)
+        for i, (id, msg) in enumerate(shuffled):
+            shuffled[i] = '%s -> %s' % (ids[shuffle[i]], id), msg
+
+        report('shuffled', shuffled, '+')
 
 
 def add_arguments(parser):

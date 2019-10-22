@@ -32,10 +32,6 @@ def commit_message(name='HEAD', short=True):
     return cid, message
 
 
-def commit_messages(count, base='HEAD'):
-    return [commit_message('%s~%d' % (base, i)) for i in range(count)]
-
-
 def fetch(remote):
     fetched = GIT.fetch(remote, info=True)
     while fetched and not fetched.startswith('From '):
