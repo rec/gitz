@@ -51,7 +51,7 @@ def git_split():
     removed_commits = []
     cid = git_functions.commit_id()
     while cid != commit_id:
-        removed_commits.append(git_functions.commit_message(cid))
+        removed_commits.append('%s: %s' % git_functions.commit_message(cid))
         cid = git_functions.commit_id(cid + '~')
 
     GIT.reset('--soft', commit_id)

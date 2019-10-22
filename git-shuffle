@@ -64,7 +64,7 @@ def git_shuffle():
 
     git_root.check_clean_workspace()
     squash = PROGRAM.args.squash
-    shuffle, _ = combine.shuffle(PROGRAM.args.shuffle, squash)
+    shuffle = combine.shuffle(PROGRAM.args.shuffle, squash)
     if not shuffle:
         PROGRAM.message('No change')
         return

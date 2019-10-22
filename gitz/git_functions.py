@@ -28,7 +28,12 @@ def commit_ids(names, short=True):
 def commit_message(name='HEAD', short=True):
     cid = commit_id(name, short)
     message = GIT.show_branch('--no-name', cid, info=True)[0]
-    return '%s: %s' % (cid, message)
+    # return '%s: %s' % (cid, message)
+    return cid, message
+
+
+def commit_messages(count, base='HEAD'):
+    return [commit_message('%s~%d' % (base, i)) for i in range(count)]
 
 
 def fetch(remote):

@@ -134,9 +134,9 @@ class Stripe:
                 GIT.push(*force, remote, refspec, quiet=True)
                 if not id:
                     striped = '%s/%s' % (remote, branch)
-                    id = git_functions.commit_message(striped)
+                    id, msg = git_functions.commit_message(striped)
 
-            PROGRAM.log.message('+ %s@%s' % (striped, id))
+            PROGRAM.log.message('+ %s@%s: %s' % (striped, id, msg))
 
     def _remotes(self):
         for remote in PROGRAM.args.remotes.split(':'):
@@ -154,9 +154,9 @@ class Stripe:
             for remote in self.remotes:
                 if branch in self.remote_branches[remote]:
                     rbranch = '%s/%s' % (remote, branch)
-                    cid = git_functions.commit_message(rbranch)
+                    cid, cmsg = git_functions.commit_message(rbranch)
                     GIT.push(remote, refspec, quiet=True)
-                    PROGRAM.message('- %s@%s' % (rbranch, cid))
+                    PROGRAM.message('- %s@%s: %s' % (rbranch, cid, cmsg))
 
     def _delete_all(self):
         for remote in self.remotes:
