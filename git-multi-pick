@@ -29,12 +29,10 @@ def git_multi_pick():
     commit_ids = git_functions.commit_ids(PROGRAM.args.commit_ids)
     commits = combine.combine(commit_ids, PROGRAM.args.squash)
 
-    n = len(commit_ids)
-    s = '' if n == 1 else 's'
-    names = ', '.join(commits)
-    PROGRAM.message(
-        'Cherry-picked {n} commit{s} into {names}'.format(**locals())
-    )
+    if commits:
+        PROGRAM.message('Cherry-picked:')
+        for id, msg in git_functions.commit_messages(len(commits)):
+            PROGRAM.message('+ %s: %s' % (id, msg))
 
 
 def add_arguments(parser):
