@@ -42,19 +42,14 @@ class Mover:
         else:
             self.source, self.target = self.starting_branch, source
 
+        if self.source == self.target:
+            PROGRAM.exit('Source and target must be different')
+
         self._check_branches()
         self._move_local()
         self._move_remote()
 
     def _check_branches(self):
-        if self.source == self.target:
-            PROGRAM.exit('Source and target must be different')
-
-        self.in_source = self.starting_branch == self.source
-        self.in_target = self.starting_branch == self.target
-        if self.in_source or self.in_target:
-            git_root.check_clean_workspace()
-
         branches = git_functions.branches()
         if self.source not in branches:
             PROGRAM.exit(_ERROR_LOCAL_REPO % self.source)
@@ -77,16 +72,22 @@ class Mover:
                 PROGRAM.exit(_ERROR_TARGET_EXISTS % self.target)
 
     def _move_local(self):
+        in_source = (self.starting_branch == self.source)
+        in_target = (self.starting_branch == self.target)
+
+        if in_source or in_target:
+            git_root.check_clean_workspace()
+
         flag = '-C' if PROGRAM.args.force else '-c'
-        if self.in_target:
+        if in_target:
             GIT.checkout(self.source, quiet=True)
         GIT.branch(flag, self.source, self.target, quiet=True)
         if self.action == RENAME:
-            if self.in_source:
+            if in_source:
                 GIT.checkout(self.target, quiet=True)
             GIT.branch('-D', self.source, quiet=True)
 
-        if self.in_target:
+        if in_target:
             GIT.checkout(self.target, quiet=True)
         msg = '{0.Root}ed {0.source} -> {0.target} [{1}]'
         cid = git_functions.commit_id(self.target)
