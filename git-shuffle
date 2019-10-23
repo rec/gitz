@@ -59,9 +59,6 @@ git shuffle __cba_ --squash="My message"
 
 
 def git_shuffle():
-    def commit_messages(count):
-        return [git_functions.commit_message(i) for i in range(count)]
-
     def report(name, items, symbol):
         if items:
             s = '' if len(items) == 1 else 's'
@@ -77,7 +74,7 @@ def git_shuffle():
         return
 
     count = max(shuffle) + 1
-    id_msgs = commit_messages(count)
+    id_msgs = git_functions.commit_messages(count)
     ids = [id for id, _ in id_msgs]
 
     base, *shuffle_ids = (ids[i] for i in reversed(shuffle))
@@ -95,7 +92,7 @@ def git_shuffle():
         if report('deleted', deleted, '-'):
             PROGRAM.message()
 
-        shuffled = commit_messages(len(shuffle) - 1)
+        shuffled = git_functions.commit_messages(len(shuffle) - 1)
         for i, (id, msg) in enumerate(shuffled):
             shuffled[i] = '%s -> %s' % (ids[shuffle[i]], id), msg
 
