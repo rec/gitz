@@ -1,5 +1,6 @@
-``git infer``: Commit changes with an auto-generated message
-------------------------------------------------------------
+``git infer``: Commit changes with an automatically generated message
+---------------------------------------------------------------------
+
 
 (from https://github.com/moondewio/git-infer)
 USAGE
@@ -10,5 +11,5 @@ USAGE
     git infer [-a] [-A] [-h]
     
        -a    Include all tracked files
-       -A    Include all files, even the untracked
-       -h    See this help message
+       -A    Include all files, even untracked ones
+       -h    Show this help message

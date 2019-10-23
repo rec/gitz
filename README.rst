@@ -87,7 +87,8 @@ Informational commands that don't change your repository
   Print information about the gitz environment
 
 `git infer <doc/git infer.rst>`_
-  Commit changes with an auto-generated message
+  Commit changes with an automatically generated message
+  
   (from https://github.com/moondewio/git-infer)
 
 `git multi-pick <doc/git multi-pick.rst>`_
@@ -97,7 +98,7 @@ Informational commands that don't change your repository
   Create and push new branches
 
 `git rotate <doc/git rotate.rst>`_
-  Rotate the current branch forward or backward in the list of branches
+  Rotate through branches in a Git repository
 
 `git st <doc/git st.rst>`_
   Colorful, compact git status

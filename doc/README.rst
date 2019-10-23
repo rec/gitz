@@ -17,7 +17,8 @@ gitz commands
   Print information about the gitz environment
 
 `git-infer <git-infer.rst>`_
-  Commit changes with an auto-generated message
+  Commit changes with an automatically generated message
+  
   (from https://github.com/moondewio/git-infer)
 
 `git-multi-pick <git-multi-pick.rst>`_
@@ -30,7 +31,7 @@ gitz commands
   Rename a git branch locally and on all remotes
 
 `git-rotate <git-rotate.rst>`_
-  Rotate the current branch forward or backward in the list of branches
+  Rotate through branches in a Git repository
 
 `git-shuffle <git-shuffle.rst>`_
   Reorder and delete commits in the current branch
