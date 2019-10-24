@@ -2,6 +2,7 @@
 from gitz import git_functions
 from gitz import git_root
 from gitz import guess_origin
+from gitz.program import ARGS
 from gitz.program import PROGRAM
 from gitz.runner import GIT
 
@@ -71,8 +72,7 @@ def git_stripe():
 class Stripe:
     def __init__(self):
         self.remote_branches = git_functions.remote_branches()
-        args = PROGRAM.args
-        commit_id, count = args.commit_id, args.count
+        commit_id, count = ARGS.commit_id, ARGS.count
 
         if len(count) >= 7 or not count.isnumeric():
             commit_id, count = count, commit_id
@@ -88,34 +88,32 @@ class Stripe:
         except Exception:
             PROGRAM.exit('Cannot resolve to a commit ID:', self.commit_id)
 
-        if BAD_BRANCH_CHARS.intersection(args.prefix):
-            PROGRAM.exit(_ERROR_BRANCH_NAME, args.prefix)
+        if BAD_BRANCH_CHARS.intersection(ARGS.prefix):
+            PROGRAM.exit(_ERROR_BRANCH_NAME, ARGS.prefix)
 
-        self.prefix = args.prefix
+        self.prefix = ARGS.prefix
         if not self.prefix.startswith('_'):
             self.prefix = '_' + self.prefix
         if not self.prefix.endswith('_'):
             self.prefix += '_'
 
         self.remotes = list(self._remotes())
-        self.indexes = range(args.offset, args.offset + self.count)
+        self.indexes = range(ARGS.offset, ARGS.offset + self.count)
 
     def stripe(self):
-        args = PROGRAM.args
-        if args.delete:
-            if args.delete_all:
+        if ARGS.delete:
+            if ARGS.delete_all:
                 PROGRAM.exit(_ERROR_DELETE)
             self._delete()
 
-        elif args.delete_all:
+        elif ARGS.delete_all:
             self._delete_all()
 
         else:
             self._stripe()
 
     def _stripe(self):
-        args = PROGRAM.args
-        if args.careful:
+        if ARGS.careful:
             branches = {self.prefix + str(i) for i in self.indexes}
             remote_branches = set()
             for remote in self.remotes:
@@ -127,9 +125,9 @@ class Stripe:
 
         for i in self.indexes:
             branch = '%s%d' % (self.prefix, i)
-            i_offset = i - args.offset
+            i_offset = i - ARGS.offset
             refspec = _STRIPE_FMT.format(**locals())
-            force = git_functions.force_flags(not args.careful)
+            force = git_functions.force_flags(not ARGS.careful)
 
             id = ''
             for remote in self.remotes:
@@ -141,7 +139,7 @@ class Stripe:
             PROGRAM.log.message('+ %s@%s: %s' % (striped, id, msg))
 
     def _remotes(self):
-        for remote in PROGRAM.args.remotes.split(':'):
+        for remote in ARGS.remotes.split(':'):
             if remote == '^':
                 yield guess_origin.guess_origin()
             elif remote == '.' or remote in self.remote_branches:

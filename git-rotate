@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from gitz import git_functions
 from gitz import git_root
+from gitz.program import ARGS
 from gitz.program import PROGRAM
 from gitz.runner import GIT
 
@@ -41,15 +42,15 @@ git rotate -2
 def git_rotate():
     git_root.check_clean_workspace()
 
-    if PROGRAM.args.steps == '-':
+    if ARGS.steps == '-':
         steps = -1
-    elif PROGRAM.args.steps == '+':
+    elif ARGS.steps == '+':
         steps = 1
     else:
         try:
-            steps = int(PROGRAM.args.steps)
+            steps = int(ARGS.steps)
         except ValueError:
-            PROGRAM.exit('steps must be an integer, not', PROGRAM.args.steps)
+            PROGRAM.exit('steps must be an integer, not', ARGS.steps)
 
     branches = git_functions.branches()
     pos = branches.index(git_functions.branch_name()) + steps

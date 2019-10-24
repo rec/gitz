@@ -3,6 +3,7 @@ from gitz import delete
 from gitz import git_functions
 from gitz import git_root
 from gitz.env import ENV
+from gitz.program import ARGS
 from gitz.program import PROGRAM
 from gitz.runner import GIT
 
@@ -35,16 +36,15 @@ _HELP_FORCE = 'Delete all, even protected remotes or branches'
 
 
 def git_delete():
-    args = PROGRAM.args
     branch = git_functions.branch_name()
     branches = git_functions.branches()
 
-    remaining_branches = set(branches).difference(args.target)
+    remaining_branches = set(branches).difference(ARGS.target)
     if not remaining_branches:
         PROGRAM.exit('This would delete all the branches')
 
-    if not args.force:
-        protected = set(ENV.protected_branches()).intersection(args.target)
+    if not ARGS.force:
+        protected = set(ENV.protected_branches()).intersection(ARGS.target)
         if protected:
             PROGRAM.exit('Protected:', *protected)
 
@@ -57,7 +57,7 @@ def git_delete():
         else:
             GIT.checkout(min(remaining_branches), quiet=True)
 
-    deleted = delete.delete(args.target)
+    deleted = delete.delete(ARGS.target)
     if deleted:
         s = '' if deleted == 1 else 'es'
         PROGRAM.message('git-delete: %d branch%s deleted' % (deleted, s))

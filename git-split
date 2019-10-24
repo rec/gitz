@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from gitz import git_functions
 from gitz import git_root
+from gitz.program import ARGS
 from gitz.program import PROGRAM
 from gitz.runner import GIT
 import os
@@ -34,8 +35,8 @@ def git_split():
         if mode == '??':
             not_added.append(filenames)
 
-    if PROGRAM.args.commit:
-        commit = PROGRAM.args.commit + '~'
+    if ARGS.commit:
+        commit = ARGS.commit + '~'
     elif git_root.is_workspace_dirty():
         commit = 'HEAD'
     else:
@@ -71,7 +72,7 @@ def git_split():
         # separated by -> and with mode = '??'
         try:
             GIT.add(*filenames_split)
-            pre = PROGRAM.args.prefix
+            pre = ARGS.prefix
             msg = '%s %s %s' % (pre, mode_name, filenames)
             GIT.commit('-m', msg)
             PROGRAM.message('+', git_functions.commit_id() + ':', msg)

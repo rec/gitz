@@ -2,6 +2,7 @@
 from gitz import combine
 from gitz import git_functions
 from gitz import git_root
+from gitz.program import ARGS
 from gitz.program import PROGRAM
 
 SUMMARY = 'Cherry-pick multiple commits, with an optional squash'
@@ -26,8 +27,8 @@ git multi-pick d2dfe0c a2833bc --squash='Squashed commit!'
 
 def git_multi_pick():
     git_root.check_clean_workspace()
-    commit_ids = git_functions.commit_ids(PROGRAM.args.commit_ids)
-    commits = combine.combine(commit_ids, PROGRAM.args.squash)
+    commit_ids = git_functions.commit_ids(ARGS.commit_ids)
+    commits = combine.combine(commit_ids, ARGS.squash)
 
     if commits:
         PROGRAM.message('Cherry-picked:')

@@ -2,6 +2,7 @@
 
 from gitz import git_functions
 from gitz import git_root
+from gitz.program import ARGS
 from gitz.program import PROGRAM
 from gitz.runner import GIT
 from gitz.runner import RUN
@@ -40,25 +41,24 @@ def git_all():
         print(USAGE, file=sys.stderr)
         PROGRAM.exit()
 
-    args = PROGRAM.args
     branches = git_functions.branches() if git_root.git_root() else []
-    names = args.name or branches
+    names = ARGS.name or branches
 
-    if not args.all:
+    if not ARGS.all:
         names = [n for n in names if not n.startswith('.')]
 
     if set(branches).intersection(names):
         git_root.check_clean_workspace()
 
     errors, names = [], []
-    for name in args.name or branches:
+    for name in ARGS.name or branches:
         p = _expand_path(name)
         if name in branches:
             names.append(name)
         elif not p.is_dir():
             errors.append(str(p))
         elif not p.name.startswith('.'):
-            if args.all or git_root.git_root(p):
+            if ARGS.all or git_root.git_root(p):
                 names.append(str(p))
 
     if errors:
@@ -67,10 +67,10 @@ def git_all():
 
     for name in names:
         try:
-            _run_command(args, name, branches)
+            _run_command(name, branches)
         except Exception as e:
             PROGRAM.error('Exception', e, 'for name', name)
-            if args.fail:
+            if ARGS.fail:
                 PROGRAM.exit()
 
 
@@ -78,9 +78,9 @@ def _expand_path(s):
     return Path(os.path.expandvars(s)).expanduser().resolve()
 
 
-def _run_command(args, name, branches):
+def _run_command(name, branches):
     if name in branches:
-        if not args.quiet:
+        if not ARGS.quiet:
             print('Branch %s:' % name)
         saved_branch = git_functions.branch_name()
         GIT.checkout('-q', name)
@@ -92,15 +92,15 @@ def _run_command(args, name, branches):
         name = _expand_path(name)
         if name.name.startswith('.'):
             return
-        if not (args.all or git_root.git_root(name)):
+        if not (ARGS.all or git_root.git_root(name)):
             return
-        if not args.quiet:
+        if not ARGS.quiet:
             print('Directory %s:' % name)
         lines = RUN(*_COMMAND, cwd=str(name))
-    indent = ' ' * args.indent
+    indent = ' ' * ARGS.indent
     for line in lines:
         print(indent, line, sep='')
-    if not args.quiet:
+    if not ARGS.quiet:
         print()
 
 

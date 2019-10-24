@@ -1,13 +1,14 @@
 #!/usr/bin/env python3
 from . import git_functions
 from .env import ENV
+from .program import ARGS
 from .program import PROGRAM
 
 
 def reference_branch(remote_branches=None):
     remote_branches = remote_branches or git_functions.remote_branches()
 
-    remote, *rest = PROGRAM.args.reference_branch.split('/', maxsplit=1)
+    remote, *rest = ARGS.reference_branch.split('/', maxsplit=1)
     if rest:
         if remote not in remote_branches:
             PROGRAM.exit('Unknown remote', remote)

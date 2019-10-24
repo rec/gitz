@@ -2,6 +2,7 @@
 from gitz import combine
 from gitz import git_functions
 from gitz import git_root
+from gitz.program import ARGS
 from gitz.program import PROGRAM
 from gitz.runner import GIT
 
@@ -68,7 +69,7 @@ def git_shuffle():
             return True
 
     git_root.check_clean_workspace()
-    shuffle = combine.shuffle(PROGRAM.args.shuffle, PROGRAM.args.squash)
+    shuffle = combine.shuffle(ARGS.shuffle, ARGS.squash)
     if not shuffle:
         PROGRAM.message('No change')
         return
@@ -80,9 +81,9 @@ def git_shuffle():
     base, *shuffle_ids = (ids[i] for i in reversed(shuffle))
 
     GIT.reset('--hard', base)
-    combine.combine(shuffle_ids, PROGRAM.args.squash)
+    combine.combine(shuffle_ids, ARGS.squash)
 
-    if PROGRAM.args.squash:
+    if ARGS.squash:
         report('squashed', id_msgs[:-1], '-')
         PROGRAM.message('->')
         PROGRAM.message(' ', git_functions.commit_message())

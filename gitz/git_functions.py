@@ -1,3 +1,4 @@
+from .program import ARGS
 from .program import PROGRAM
 from .runner import GIT
 
@@ -84,5 +85,5 @@ def upstream_remote(branch=None):
 
 def force_flags(force=None):
     if force is None:
-        force = PROGRAM.args.force
+        force = ARGS.force
     return ['--force-with-lease'] if force else []

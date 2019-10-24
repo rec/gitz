@@ -3,6 +3,7 @@ from gitz import git_functions
 from gitz import git_root
 from gitz import reference_branch
 from gitz.env import ENV
+from gitz.program import ARGS
 from gitz.program import PROGRAM
 from gitz.runner import GIT
 import os
@@ -35,18 +36,17 @@ def git_update():
     os.chdir(git_root.git_root())
     # The current directory might not be there in a different branch! (#115)
 
-    args = PROGRAM.args
     local_branches = git_functions.branches()
-    missing = set(args.branches).difference(local_branches)
+    missing = set(ARGS.branches).difference(local_branches)
     if PROGRAM.error_if(missing, 'Missing'):
         PROGRAM.exit()
 
     protected_branches = ENV.protected_branches()
-    protected = set(args.branches).intersection(protected_branches)
+    protected = set(ARGS.branches).intersection(protected_branches)
     if PROGRAM.error_if(protected, 'Protected'):
         PROGRAM.exit()
 
-    branches = args.branches or local_branches
+    branches = ARGS.branches or local_branches
     branches = [b for b in branches if b not in protected_branches]
 
     if not branches:

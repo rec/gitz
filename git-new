@@ -4,6 +4,7 @@ from gitz import git_root
 from gitz import guess_origin
 from gitz import reference_branch
 from gitz.env import ENV
+from gitz.program import ARGS
 from gitz.program import PROGRAM
 from gitz.runner import GIT
 
@@ -50,18 +51,16 @@ _HELP_BRANCHES = 'Names of branches to create'
 
 
 def git_new():
-    args = PROGRAM.args
-
     git_root.check_clean_workspace()
     branches = git_functions.branches()
     remote_branches = git_functions.remote_branches()
-    origin = guess_origin.guess_origin(args.origin)
+    origin = guess_origin.guess_origin(ARGS.origin)
 
-    new_branches = set(args.branches)
+    new_branches = set(ARGS.branches)
     current = git_functions.branch_name()
-    if current in args.branches:
-        if args.force or args.force_protected:
-            branches = set(git_functions.branches()).difference(args.branches)
+    if current in ARGS.branches:
+        if ARGS.force or ARGS.force_protected:
+            branches = set(git_functions.branches()).difference(ARGS.branches)
             if not branches:
                 PROGRAM.exit('Cannot overwrite all branches')
             GIT.checkout(min(branches))
@@ -72,15 +71,15 @@ def git_new():
             s = 'branch:' if len(branches) == 1 else 'branches:'
             PROGRAM.exit('Cannot overwrite', name, s, *branches)
 
-    if not args.force_protected:
+    if not ARGS.force_protected:
         check(ENV.protected_branches(), 'protected')
-        if not args.force:
+        if not ARGS.force:
             check(branches, 'local')
             remote_msg = 'remote branches on origin ' + origin
             check(remote_branches[origin], remote_msg)
 
     reference = '/'.join(reference_branch.reference_branch(remote_branches))
-    for new_branch in args.branches:
+    for new_branch in ARGS.branches:
         if new_branch in branches:
             original_id = git_functions.commit_id(new_branch)
             GIT.checkout(new_branch, '--quiet')

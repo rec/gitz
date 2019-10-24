@@ -62,4 +62,10 @@ class _Program:
         self.log.error(caption, *messages, file=sys.stderr)
 
 
+class _Args:
+    def __getattr__(self, attr):
+        return getattr(PROGRAM.args, attr)
+
+
 PROGRAM = _Program()
+ARGS = _Args()

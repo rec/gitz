@@ -2,6 +2,7 @@ from . import git_functions
 from . import git_root
 from . import guess_origin
 from .env import ENV
+from .program import ARGS
 from .program import PROGRAM
 from .runner import GIT
 
@@ -34,11 +35,11 @@ class Mover:
         PROGRAM.start({k: getattr(self, k) for k in keys})
 
     def main(self):
-        source = PROGRAM.args.source
+        source = ARGS.source
         self.starting_branch = git_functions.branch_name()
 
-        if PROGRAM.args.target:
-            self.source, self.target = source, PROGRAM.args.target
+        if ARGS.target:
+            self.source, self.target = source, ARGS.target
         else:
             self.source, self.target = self.starting_branch, source
 
@@ -56,14 +57,14 @@ class Mover:
 
         self.origin = guess_origin.guess_origin(branch=self.source)
 
-        if not PROGRAM.args.all:
+        if not ARGS.all:
             p = ENV.protected_branches()
             if self.target in p:
                 PROGRAM.exit(_ERROR_PROTECTED_BRANCHES % self.target)
             if self.action == RENAME and self.source in p:
                 PROGRAM.exit(_ERROR_PROTECTED_BRANCHES % self.source)
 
-        if not PROGRAM.args.force:
+        if not ARGS.force:
             if self.target in branches:
                 PROGRAM.exit(_ERROR_TARGET_EXISTS % self.target)
             GIT.fetch(self.origin, info=True)
@@ -78,7 +79,7 @@ class Mover:
         if in_source or in_target:
             git_root.check_clean_workspace()
 
-        flag = '-C' if PROGRAM.args.force else '-c'
+        flag = '-C' if ARGS.force else '-c'
         if in_target:
             GIT.checkout(self.source, quiet=True)
         GIT.branch(flag, self.source, self.target, quiet=True)
