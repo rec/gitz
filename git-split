@@ -42,11 +42,7 @@ def git_split():
         commit = 'HEAD~'
 
     commit_id = git_functions.commit_id(commit)
-
-    try:
-        GIT.merge_base('--is-ancestor', commit_id, 'HEAD')
-    except Exception:
-        PROGRAM.exit(commit, 'is not an ancestor of HEAD')
+    git_functions.check_is_ancestor(commit_id)
 
     removed_commits = []
     cid = git_functions.commit_id()

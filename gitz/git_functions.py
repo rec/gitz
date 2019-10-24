@@ -67,6 +67,13 @@ def remote_branches(must_fetch=True):
     return result
 
 
+def check_is_ancestor(parent, child='HEAD'):
+    try:
+        GIT.merge_base('--is-ancestor', parent, child, quiet=True)
+    except Exception:
+        PROGRAM.exit(parent, 'is not an ancestor of', child)
+
+
 def upstream_remote(branch=None):
     # https://stackoverflow.com/a/9753364/43839
     upstream = 'rev-parse --abbrev-ref --symbolic-full-name %s@{u}'
