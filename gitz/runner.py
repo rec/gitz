@@ -1,6 +1,9 @@
 from . import run_proc
 import functools
 
+OUT = '>'
+ERR = '!'
+
 
 class Runner:
     def start(self, log, no_run=False):
@@ -9,7 +12,7 @@ class Runner:
 
     def __call__(self, *cmd, quiet=True, merged=False, info=False, **kwds):
         """
-        quiet: If True, no output is printed
+        quiet: If True, no output is printed unless an exception is thrown
         merged: If True, error data is merged into the output
         info: If False, do not execute the command in dry run mode
               If True, always execute the command, even in dry run mode
@@ -18,31 +21,28 @@ class Runner:
             self.log.message('$', *cmd)
             return []
 
-        errors, output, merge = [], [], []
+        items = []
+        error_log = self.log.verbose if quiet else self.log.error
 
         def out(line):
-            self.log.verbose('>', line)
-            output.append(line)
-            merge.append(('>', line))
+            self.log.verbose(OUT, line)
+            items.append((OUT, line))
 
         def err(line):
-            if quiet:
-                self.log.verbose('!', line)
-            else:
-                self.log.error('!', line)
-            errors.append(line)
-            merge.append(('!', line))
+            error_log((ERR, line))
+            items.append((ERR, line))
 
         self.log.verbose('$', *cmd)
         try:
             run_proc.run_proc(cmd, kwds, out, err)
         except Exception:
             if quiet:
-                for symbol, line in merge:
+                for symbol, line in items:
                     self.log.error(symbol, line)
             raise
 
-        return [line for _, line in merge] if merged else output
+        accept = (OUT + ERR) if merged else OUT
+        return [line for (symbol, line) in items if symbol in accept]
 
 
 class Git:
