@@ -81,25 +81,25 @@ class Mover:
 
         flag = '-C' if ARGS.force else '-c'
         if in_target:
-            GIT.checkout(self.source, quiet=True)
-        GIT.branch(flag, self.source, self.target, quiet=True)
+            GIT.checkout(self.source)
+        GIT.branch(flag, self.source, self.target)
         if self.action == RENAME:
             if in_source:
-                GIT.checkout(self.target, quiet=True)
-            GIT.branch('-D', self.source, quiet=True)
+                GIT.checkout(self.target)
+            GIT.branch('-D', self.source)
 
         if in_target:
-            GIT.checkout(self.target, quiet=True)
+            GIT.checkout(self.target)
         msg = '{0.Root}ed {0.source} -> {0.target} [{1}]'
         cid = git_functions.commit_id(self.target)
         PROGRAM.message(msg.format(self, cid))
 
     def _move_remote(self):
         fl = git_functions.force_flags()
-        GIT.push(*fl, '--set-upstream', self.origin, self.target, quiet=True)
+        GIT.push(*fl, '--set-upstream', self.origin, self.target)
 
         if self.action == RENAME:
-            GIT.push(self.origin, ':' + self.source, quiet=True)
+            GIT.push(self.origin, ':' + self.source)
 
         target = '%s/%s' % (self.origin, self.target)
         msg = '{0.Root}ed {0.origin}/{0.source} -> {1} [{2}]'

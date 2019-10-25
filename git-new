@@ -86,9 +86,9 @@ def git_new():
             GIT.reset('--hard', reference)
         else:
             original_id = None
-            GIT.checkout('-b', new_branch, reference, quiet=True)
+            GIT.checkout('-b', new_branch, reference)
 
-        GIT.push('-fu', origin, new_branch, quiet=True)
+        GIT.push('-fu', origin, new_branch)
         id = git_functions.commit_id(new_branch)
         fmt = '+ {0}..{1} {2} -> {3}/{2}'
         PROGRAM.message(fmt.format(original_id or id, id, new_branch, origin))

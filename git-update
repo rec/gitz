@@ -69,19 +69,19 @@ def git_update():
             traceback.print_exc()
             failed = True
 
-    GIT.checkout(starting_branch, quiet=True)
+    GIT.checkout(starting_branch)
 
     if failed:
         PROGRAM.exit()
 
 
 def _update(branch, ref_branch, fetched):
-    GIT.checkout(branch, quiet=True)
+    GIT.checkout(branch)
     cid = git_functions.commit_id()
     try:
-        GIT.pull('--rebase', *ref_branch, merged=True, quiet=True)
+        GIT.pull('--rebase', *ref_branch, merged=True)
     except Exception:
-        GIT.rebase('--abort', quiet=True)
+        GIT.rebase('--abort')
         raise
 
     new_cid = git_functions.commit_id()
@@ -101,7 +101,7 @@ def _update(branch, ref_branch, fetched):
     if upstream_cid == new_cid:
         PROGRAM.message('.', ubranch)
     else:
-        GIT.push('--force-with-lease', quiet=True)
+        GIT.push('--force-with-lease')
         PROGRAM.message('* %s..%s %s' % (upstream_cid, new_cid, ubranch))
 
 

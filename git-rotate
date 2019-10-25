@@ -56,7 +56,7 @@ def git_rotate():
     pos = branches.index(git_functions.branch_name()) + steps
     branch = branches[pos % len(branches)]
 
-    for line in GIT.checkout(branch, merged=True, quiet=True):
+    for line in GIT.checkout(branch, merged=True):
         PROGRAM.message(line)
 
 

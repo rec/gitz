@@ -52,10 +52,10 @@ def git_delete():
         git_root.check_clean_workspace()
         for b in ENV.reference_branches():
             if b in remaining_branches:
-                GIT.checkout(b, quiet=True)
+                GIT.checkout(b)
                 break
         else:
-            GIT.checkout(min(remaining_branches), quiet=True)
+            GIT.checkout(min(remaining_branches))
 
     deleted = delete.delete(ARGS.target)
     if deleted:

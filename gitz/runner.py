@@ -7,7 +7,7 @@ class Runner:
         self.log = log
         self.no_run = no_run
 
-    def __call__(self, *cmd, quiet=None, merged=False, info=False, **kwds):
+    def __call__(self, *cmd, quiet=True, merged=False, info=False, **kwds):
         """
         quiet: If True, no output is printed
         merged: If True, error data is merged into the output
@@ -21,13 +21,14 @@ class Runner:
         errors, output, merge = [], [], []
 
         def out(line):
-            if not quiet:
-                self.log.verbose('>', line)
+            self.log.verbose('>', line)
             output.append(line)
             merge.append(('>', line))
 
         def err(line):
-            if not quiet:
+            if quiet:
+                self.log.verbose('!', line)
+            else:
                 self.log.error('!', line)
             errors.append(line)
             merge.append(('!', line))
@@ -37,7 +38,7 @@ class Runner:
             run_proc.run_proc(cmd, kwds, out, err)
         except Exception:
             if quiet:
-                for symbol, line in merged:
+                for symbol, line in merge:
                     self.log.error(symbol, line)
             raise
 

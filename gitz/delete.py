@@ -38,7 +38,7 @@ def delete(branches):
         raise ValueError('This would delete all the branches')
 
     if git_functions.branch_name() in branches:
-        GIT.checkout(min(remaining_branches), quiet=True)
+        GIT.checkout(min(remaining_branches))
 
     deleted_count = 0
     PROGRAM.message('Deleted:')
@@ -50,7 +50,7 @@ def delete(branches):
         if upstream and b in remote_branches[upstream]:
             branch_name = '%s/%s' % (upstream, b)
             cid = git_functions.commit_id(branch_name)
-            GIT.push(upstream, '--delete', b, quiet=True)
+            GIT.push(upstream, '--delete', b)
             PROGRAM.message('  %s: %s' % (cid, branch_name))
             deleted_count += 1
 
@@ -59,7 +59,7 @@ def delete(branches):
     if local_branches:
         locals_cid = git_functions.commit_ids(local_branches)
 
-        GIT.branch('-D', *local_branches, quiet=True)
+        GIT.branch('-D', *local_branches)
         for branch, cid in zip(local_branches, locals_cid):
             PROGRAM.message('  %s: %s' % (cid, branch))
             deleted_count += 1
