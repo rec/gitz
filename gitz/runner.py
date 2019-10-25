@@ -1,6 +1,5 @@
-import functools
-
 from . import run_proc
+import functools
 
 
 class Runner:
@@ -12,31 +11,37 @@ class Runner:
         """
         quiet: If True, no output is printed
         merged: If True, error data is merged into the output
-        info: If info is False, do not execute the command in dry run mode.
-              If info is True, always execute this command.
+        info: If False, do not execute the command in dry run mode
+              If True, always execute the command, even in dry run mode
         """
-
         if self.no_run and not info:
             self.log.message('$', *cmd)
             return []
 
-        output_lines = []
+        errors, output, merge = [], [], []
 
         def out(line):
             if not quiet:
                 self.log.verbose('>', line)
-            output_lines.append(line)
+            output.append(line)
+            merge.append(('>', line))
 
-        def error(line):
+        def err(line):
             if not quiet:
                 self.log.error('!', line)
-            if merged:
-                output_lines.append(line)
+            errors.append(line)
+            merge.append(('!', line))
 
         self.log.verbose('$', *cmd)
-        run_proc.run_proc(cmd, kwds, out, error)
+        try:
+            run_proc.run_proc(cmd, kwds, out, err)
+        except Exception:
+            if quiet:
+                for symbol, line in merged:
+                    self.log.error(symbol, line)
+            raise
 
-        return output_lines
+        return [line for _, line in merge] if merged else output
 
 
 class Git:
