@@ -9,17 +9,16 @@ import io
 
 DESCRIPTION = ('Generates unix manual pages for gitz. ' + default_description)
 HEADINGS = 'Positional arguments', 'Optional arguments'
-'.TH ABC-DEF 1 02/24/2019 "Git 2.21.0" "Gitz Manual"'
 
 FMT = '.TH GIT-{command} 1 "{date}" "Gitz {version}" "Gitz Manual"\n'
 
 
 def main(commands):
-    # Deal with vagaries of rst2man :-/
-
     for command in commands:
         src = (dirs.DOC / command).with_suffix('.rst')
         dest = (dirs.MAN / command).with_suffix('.1')
+
+        # Simplify the RST a bit so rst2man understands it
         contents = fix_rst(src)
 
         publish_file(
@@ -29,7 +28,10 @@ def main(commands):
             destination=dest.open('w'),
         )
 
-        lines = list(fix_manpage(dest))
+        # Fix the results
+        with dest.open() as fp:
+            lines = fix_manpage(fp)
+
         with dest.open('w') as fp:
             fp.writelines(lines)
 
@@ -64,22 +66,15 @@ def fix_rst(src):
     return '\n'.join(lines) + '\n'
 
 
-def fix_manpage(dest):
-    done = False
-
-    for line in dest.open():
-        if done:
-            yield line
-
-        elif line.startswith('.TH'):
+def fix_manpage(lines):
+    lines = list(lines)
+    for i, line in enumerate(lines):
+        if line.startswith('.TH'):
             command = line.split()[2].strip(':')
             date = format(datetime.datetime.now(), '%d %B, %Y')
             version = config.VERSION
-            yield FMT.format(**locals())
+            lines[i] = FMT.format(**locals())
 
         elif line.startswith('git '):
-            yield line.replace(r' \-', '')
-            done = True
-
-        else:
-            yield line
+            lines[i] = line.replace(r' \-', '')
+            return lines
