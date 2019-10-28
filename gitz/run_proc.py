@@ -21,7 +21,7 @@ def run_proc(cmd, kwds, out, err):
         if not line:
             return False
         while line:
-            callback(line[:-1])
+            callback(line.rstrip('\n'))
             line = fp.readline()
         return True
 
