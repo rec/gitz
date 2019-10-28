@@ -33,3 +33,6 @@ git-amp:
     AMend the last commit message and force-Push, somewhat safely
 git-all:
     Perform a command on each of multiple branches or directories
+
+git-adjust:
+    Amend any commit

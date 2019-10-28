@@ -1,0 +1,97 @@
+#!/usr/bin/env python3
+from gitz import git_functions
+from gitz import git_root
+from gitz.program import ARGS
+from gitz.program import PROGRAM
+from gitz.runner import GIT
+
+SUMMARY = 'Amend any commit'
+
+HELP = """
+Amend any commit in the current branch - either with another commit,
+or with the contents of the staging area.
+"""
+
+EXAMPLES = """
+git adjust
+    Amends HEAD with the contents of the staging area.
+
+    Equivalent to ``git commit --amend --no-edit``
+
+git adjust HEAD~
+    Amends HEAD~ with the contents of the staging area and
+    then cherry-picks HEAD on top of it
+
+git adjust HEAD~3
+     Amends HEAD~3 with the contents of the staging area and then
+    cherry-picks HEAD~2, HEAD~ and HEAD on top of it
+
+git adjust HEAD~3 HEAD~
+    Amends HEAD~3 with HEAD~ and then cherry-picks HEAD~2 and HEAD
+    on top of it
+"""
+
+DANGER = 'Rewrites history!'
+
+
+def git_adjust():
+    git_root.check_git()
+
+    if git_root.is_workspace_dirty():
+        if ARGS.edit:
+            PROGRAM.exit(_ERROR_EDIT)
+    else:
+        if not ARGS.edit:
+            PROGRAM.exit(_ERROR_NO_EDIT)
+
+    git_functions.check_is_ancestor(ARGS.target)
+    target_id = git_functions.commit_id(ARGS.target)
+
+    # Create a list of commit IDS [HEAD, HEAD~, ..., target]
+    ids = [git_functions.commit_id('HEAD')]
+    while ids[-1] != target_id:
+        ids.append(git_functions.commit_id(ids[-1] + '~'))
+
+    if ARGS.edit:
+        edit_id = git_functions.commit_id(ARGS.edit)
+    else:
+        GIT.commit('-m', '[adjust]')
+        edit_id = git_functions.commit_id()
+
+    GIT.reset('--hard', target_id)
+    GIT.cherry_pick(edit_id)
+    GIT.reset('--soft', target_id)
+    if ARGS.message:
+        GIT.commit('--amend', '-m', ARGS.message)
+    else:
+        GIT.commit('--amend', '--no-edit')
+
+    for id in reversed(ids):
+        if id != edit_id:
+            if id == target_id:
+                symbol = '!'
+            else:
+                symbol = '>'
+                GIT.cherry_pick(id)
+            PROGRAM.message(symbol, id, '->', *git_functions.commit_message())
+
+
+def add_arguments(parser):
+    parser.add_argument('target', nargs='?', default='HEAD', help=_HELP_TARGET)
+    parser.add_argument('edit', nargs='?', default='', help=_HELP_EDIT)
+    parser.add_argument('-m', '--message', help=_HELP_MESSAGE)
+
+
+_HELP_EDIT = """\
+Edit commit that is used to amend the target.
+
+If empty, use the changes in the staging area
+"""
+_HELP_MESSAGE = 'If set, use this for the message of the amended commit'
+_HELP_TARGET = 'Target commit that gets amended'
+
+_ERROR_EDIT = 'Staging area not empty, but an edit commit is specified'
+_ERROR_NO_EDIT = 'Staging area is empty and no edit commit is specified'
+
+if __name__ == '__main__':
+    PROGRAM.start()
