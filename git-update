@@ -6,7 +6,6 @@ from gitz.env import ENV
 from gitz.program import ARGS
 from gitz.program import PROGRAM
 from gitz.runner import GIT
-import os
 
 SUMMARY = 'Update branches from a reference branch'
 
@@ -33,7 +32,8 @@ git update foo bar
 
 def git_update():
     git_root.check_clean_workspace()
-    os.chdir(git_root.git_root())
+    git_root.cd_git_root()
+
     # The current directory might not be there in a different branch! (#115)
 
     local_branches = git_functions.branches()

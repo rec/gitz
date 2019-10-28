@@ -35,7 +35,7 @@ DANGER = 'Rewrites history!'
 
 
 def git_adjust():
-    git_root.check_git()
+    git_root.cd_git_root()
 
     if git_root.is_workspace_dirty():
         if ARGS.edit:

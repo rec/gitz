@@ -1,6 +1,7 @@
 from . program import PROGRAM
 from .runner import GIT
 from pathlib import Path
+import os
 
 
 def git_root(p='.'):
@@ -13,8 +14,15 @@ def git_root(p='.'):
 
 
 def check_git():
-    if not git_root():
-        PROGRAM.exit(_ERROR_NOT_GIT_REPOSITORY)
+    root = git_root()
+    if root:
+        return root
+
+    PROGRAM.exit(_ERROR_NOT_GIT_REPOSITORY)
+
+
+def cd_git_root():
+    os.chdir(check_git())
 
 
 def is_workspace_dirty():

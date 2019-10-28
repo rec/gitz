@@ -4,7 +4,6 @@ from gitz import git_root
 from gitz.program import ARGS
 from gitz.program import PROGRAM
 from gitz.runner import GIT
-import os
 
 SUMMARY = 'Split a range of commits into many single-file commits'
 
@@ -26,8 +25,7 @@ git split HEAD~
 
 
 def git_split():
-    git_root.check_git()
-    os.chdir(git_root.git_root())
+    git_root.cd_git_root()
     not_added = []
 
     for line in GIT.status('--porcelain', info=True):
