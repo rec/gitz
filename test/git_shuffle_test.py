@@ -28,7 +28,7 @@ class GitShuffleTest(unittest.TestCase):
 
     @repo.test
     def test_reverse(self):
-        self._first()
+        repo.make_seven_commits(self)
         GIT.shuffle('ba')
         actual = GIT.log('--oneline')[:4]
         expected = ['85af3d4 6', 'd9b4446 7', '8a4a4e2 5', 'a7c7e8f 4']
@@ -48,30 +48,8 @@ class GitShuffleTest(unittest.TestCase):
         expected = ['dc12af1 4', 'a03c0f8 1', 'c0d1dbb 0']
         self.assertEqual(actual, expected)
 
-    def _first(self):
-        repo.make_commit('1')
-        repo.make_commit('2')
-        repo.make_commit('3')
-        repo.make_commit('4')
-        repo.make_commit('5')
-        repo.make_commit('6')
-        repo.make_commit('7')
-
-        actual = GIT.log('--oneline')
-        expected = [
-            'e487041 7',
-            'e1e931a 6',
-            '8a4a4e2 5',
-            'a7c7e8f 4',
-            '9ab30c5 3',
-            '043df1f 2',
-            'a03c0f8 1',
-            'c0d1dbb 0',
-        ]
-        self.assertEqual(actual, expected)
-
     def _test_files(self, *args):
-        self._first()
+        repo.make_seven_commits(self)
         GIT.shuffle('_c_ab_', *args)
         files = [i for i in os.listdir() if not i.startswith('.')]
         self.assertEqual(sorted(files), ['0', '1', '3', '4', '6'])

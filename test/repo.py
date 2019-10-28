@@ -89,6 +89,31 @@ def make_one_commit(filename, contents, message):
     return commit(message)
 
 
+def make_seven_commits(testcase):
+    testcase.assertEqual(GIT.log('--oneline'), ['c0d1dbb 0'])
+
+    make_commit('1')
+    make_commit('2')
+    make_commit('3')
+    make_commit('4')
+    make_commit('5')
+    make_commit('6')
+    make_commit('7')
+
+    actual = GIT.log('--oneline')
+    expected = [
+        'e487041 7',
+        'e1e931a 6',
+        '8a4a4e2 5',
+        'a7c7e8f 4',
+        '9ab30c5 3',
+        '043df1f 2',
+        'a03c0f8 1',
+        'c0d1dbb 0',
+    ]
+    testcase.assertEqual(actual, expected)
+
+
 @contextlib.contextmanager
 def _with_tmpdir():
     with TemporaryDirectory() as root:
