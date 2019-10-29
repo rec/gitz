@@ -4,7 +4,7 @@ from . import guess_origin
 from ..program import ENV
 from ..program import ARGS
 from ..program import PROGRAM
-from ..program import GIT
+from . import GIT
 
 COPY, RENAME = 'copy', 'rename'
 

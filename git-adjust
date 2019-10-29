@@ -3,7 +3,7 @@ from gitz.git import functions
 from gitz.git import root
 from gitz.program import ARGS
 from gitz.program import PROGRAM
-from gitz.program import GIT
+from gitz.git import GIT
 
 SUMMARY = 'Amend any commit'
 

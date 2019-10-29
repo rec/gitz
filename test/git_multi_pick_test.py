@@ -1,5 +1,5 @@
 from . import repo
-from gitz.program import GIT
+from gitz.git import GIT
 import os
 import unittest
 

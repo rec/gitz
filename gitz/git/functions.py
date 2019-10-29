@@ -1,6 +1,6 @@
 from ..program import ARGS
 from ..program import PROGRAM
-from ..program import GIT
+from . import GIT
 
 COMMIT_ID_LENGTH = 7
 

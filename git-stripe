@@ -4,7 +4,7 @@ from gitz.git import root
 from gitz.git import guess_origin
 from gitz.program import ARGS
 from gitz.program import PROGRAM
-from gitz.program import GIT
+from gitz.git import GIT
 
 SUMMARY = 'Push a sequence of commit IDs to a remote repository'
 

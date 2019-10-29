@@ -1,7 +1,7 @@
 from . import guess_origin
 from . import functions
 from ..program import PROGRAM
-from ..program import GIT
+from . import GIT
 
 
 def delete(branches):

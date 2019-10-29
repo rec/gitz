@@ -5,7 +5,7 @@ from gitz.git import reference_branch
 from gitz.program import ENV
 from gitz.program import ARGS
 from gitz.program import PROGRAM
-from gitz.program import GIT
+from gitz.git import GIT
 
 SUMMARY = 'Update branches from a reference branch'
 
