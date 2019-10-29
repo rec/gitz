@@ -14,9 +14,9 @@ def git_root(p='.'):
 
 
 def check_git():
-    root = git_root()
-    if root:
-        return root
+    gr = git_root()
+    if gr:
+        return gr
 
     PROGRAM.exit(_ERROR_NOT_GIT_REPOSITORY)
 

@@ -17,14 +17,14 @@ class Mover:
 
         self.action = action
         if action == COPY:
-            self.root = 'copi'
+            self.word_root = 'copi'
             self.direction = 'over'
         else:
-            self.root = 'renam'
+            self.word_root = 'renam'
             self.direction = 'from or to'
 
         self.Action = self.action.capitalize()
-        self.Root = self.root.capitalize()
+        self.Word_root = self.word_root.capitalize()
 
         self.error = PROGRAM.error
         for k, v in NAMES.items():
@@ -90,7 +90,7 @@ class Mover:
 
         if in_target:
             GIT.checkout(self.target)
-        msg = '{0.Root}ed {0.source} -> {0.target} [{1}]'
+        msg = '{0.Word_root}ed {0.source} -> {0.target} [{1}]'
         cid = git_functions.commit_id(self.target)
         PROGRAM.message(msg.format(self, cid))
 
@@ -102,7 +102,7 @@ class Mover:
             GIT.push(self.origin, ':' + self.source)
 
         target = '%s/%s' % (self.origin, self.target)
-        msg = '{0.Root}ed {0.origin}/{0.source} -> {1} [{2}]'
+        msg = '{0.Word_root}ed {0.origin}/{0.source} -> {1} [{2}]'
         cid = git_functions.commit_id(target)
         PROGRAM.message(msg.format(self, target, cid))
 
@@ -124,10 +124,10 @@ used.
 
 By default, the branches `master` and `develop` and the remote
 `upstream` are protected, which means that they are not allowed
-to be {0.root}ed {0.direction}.
+to be {0.word_root}ed {0.direction}.
 
 Using the --all/-a flag allows protected branches and remotes
-to be {0.root}ed.
+to be {0.word_root}ed.
 
 It's also possible to override the protected branches or the
 protected remotes by setting one of the environment variables

@@ -28,10 +28,10 @@ class Env:
         if value is not None:
             return value
 
-        root = git_root.git_root()
+        groot = git_root.git_root()
         value = None
-        if root and (root / CONFIG_FILE).exists():
-            config = json.load(open(str(root / CONFIG_FILE)))
+        if groot and (groot / CONFIG_FILE).exists():
+            config = json.load(open(str(groot / CONFIG_FILE)))
             value = config.get(key, config.get(key.lower()))
 
         if value is None:

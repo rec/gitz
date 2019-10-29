@@ -116,11 +116,11 @@ def make_seven_commits(testcase):
 
 @contextlib.contextmanager
 def _with_tmpdir():
-    with TemporaryDirectory() as root:
+    with TemporaryDirectory() as td:
         original_dir = os.getcwd()
-        os.chdir(root)
+        os.chdir(td)
         try:
-            yield root
+            yield td
         finally:
             os.chdir(original_dir)
 
