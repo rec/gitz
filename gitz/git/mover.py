@@ -1,10 +1,10 @@
-from . import git_functions
-from . import git_root
+from . import functions
+from . import root
 from . import guess_origin
-from .env import ENV
-from .program import ARGS
-from .program import PROGRAM
-from .runner import GIT
+from ..env import ENV
+from ..program import ARGS
+from ..program import PROGRAM
+from ..runner import GIT
 
 COPY, RENAME = 'copy', 'rename'
 
@@ -36,7 +36,7 @@ class Mover:
 
     def main(self):
         source = ARGS.source
-        self.starting_branch = git_functions.branch_name()
+        self.starting_branch = functions.branch_name()
 
         if ARGS.target:
             self.source, self.target = source, ARGS.target
@@ -51,7 +51,7 @@ class Mover:
         self._move_remote()
 
     def _check_branches(self):
-        branches = git_functions.branches()
+        branches = functions.branches()
         if self.source not in branches:
             PROGRAM.exit(_ERROR_LOCAL_REPO % self.source)
 
@@ -68,7 +68,7 @@ class Mover:
             if self.target in branches:
                 PROGRAM.exit(_ERROR_TARGET_EXISTS % self.target)
             GIT.fetch(self.origin, info=True)
-            ubranches = git_functions.remote_branches(False)[self.origin]
+            ubranches = functions.remote_branches(False)[self.origin]
             if self.target in ubranches:
                 PROGRAM.exit(_ERROR_TARGET_EXISTS % self.target)
 
@@ -77,7 +77,7 @@ class Mover:
         in_target = (self.starting_branch == self.target)
 
         if in_source or in_target:
-            git_root.check_clean_workspace()
+            root.check_clean_workspace()
 
         flag = '-C' if ARGS.force else '-c'
         if in_target:
@@ -91,11 +91,11 @@ class Mover:
         if in_target:
             GIT.checkout(self.target)
         msg = '{0.Word_root}ed {0.source} -> {0.target} [{1}]'
-        cid = git_functions.commit_id(self.target)
+        cid = functions.commit_id(self.target)
         PROGRAM.message(msg.format(self, cid))
 
     def _move_remote(self):
-        fl = git_functions.force_flags()
+        fl = functions.force_flags()
         GIT.push(*fl, '--set-upstream', self.origin, self.target)
 
         if self.action == RENAME:
@@ -103,7 +103,7 @@ class Mover:
 
         target = '%s/%s' % (self.origin, self.target)
         msg = '{0.Word_root}ed {0.origin}/{0.source} -> {1} [{2}]'
-        cid = git_functions.commit_id(target)
+        cid = functions.commit_id(target)
         PROGRAM.message(msg.format(self, target, cid))
 
     def add_arguments(self, parser):

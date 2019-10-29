@@ -1,18 +1,18 @@
-from . import git_functions
-from .runner import GIT
+from . import functions
+from ..runner import GIT
 
 
 def combine(commits, squash):
     result = []
     for id in commits:
         GIT.cherry_pick(id)
-        result.append(git_functions.commit_id())
+        result.append(functions.commit_id())
 
     if squash is not None:
         GIT.reset('--soft', result[0])
         args = ['-m', squash] if squash else ['--no-edit']
         GIT.commit('--amend', *args)
-        result = [git_functions.commit_id()]
+        result = [functions.commit_id()]
 
     return result
 

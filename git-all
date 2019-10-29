@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
-from gitz import git_functions
-from gitz import git_root
+from gitz.git import functions
+from gitz.git import root
 from gitz.program import ARGS
 from gitz.program import PROGRAM
 from gitz.runner import GIT
@@ -41,14 +41,14 @@ def git_all():
         print(USAGE, file=sys.stderr)
         PROGRAM.exit()
 
-    branches = git_functions.branches() if git_root.git_root() else []
+    branches = functions.branches() if root.root() else []
     names = ARGS.name or branches
 
     if not ARGS.all:
         names = [n for n in names if not n.startswith('.')]
 
     if set(branches).intersection(names):
-        git_root.check_clean_workspace()
+        root.check_clean_workspace()
 
     errors, names = [], []
     for name in ARGS.name or branches:
@@ -58,7 +58,7 @@ def git_all():
         elif not p.is_dir():
             errors.append(str(p))
         elif not p.name.startswith('.'):
-            if ARGS.all or git_root.git_root(p):
+            if ARGS.all or root.root(p):
                 names.append(str(p))
 
     if errors:
@@ -82,7 +82,7 @@ def _run_command(name, branches):
     if name in branches:
         if not ARGS.quiet:
             print('Branch %s:' % name)
-        saved_branch = git_functions.branch_name()
+        saved_branch = functions.branch_name()
         GIT.checkout('-q', name)
         try:
             lines = RUN(*_COMMAND)
@@ -92,7 +92,7 @@ def _run_command(name, branches):
         name = _expand_path(name)
         if name.name.startswith('.'):
             return
-        if not (ARGS.all or git_root.git_root(name)):
+        if not (ARGS.all or root.root(name)):
             return
         if not ARGS.quiet:
             print('Directory %s:' % name)

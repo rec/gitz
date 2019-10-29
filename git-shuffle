@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-from gitz import combine
-from gitz import git_functions
-from gitz import git_root
+from gitz.git import combine
+from gitz.git import functions
+from gitz.git import root
 from gitz.program import ARGS
 from gitz.program import PROGRAM
 from gitz.runner import GIT
@@ -68,14 +68,14 @@ def git_shuffle():
                 PROGRAM.message('%s %s: %s' % (symbol, id, msg))
             return True
 
-    git_root.check_clean_workspace()
+    root.check_clean_workspace()
     shuffle = combine.shuffle(ARGS.shuffle, ARGS.squash)
     if not shuffle:
         PROGRAM.message('No change')
         return
 
     count = max(shuffle) + 1
-    id_msgs = git_functions.commit_messages(count)
+    id_msgs = functions.commit_messages(count)
     ids = [id for id, _ in id_msgs]
 
     base, *shuffle_ids = (ids[i] for i in reversed(shuffle))
@@ -86,14 +86,14 @@ def git_shuffle():
     if ARGS.squash:
         report('squashed', id_msgs[:-1], '-')
         PROGRAM.message('->')
-        PROGRAM.message(' ', git_functions.commit_message())
+        PROGRAM.message(' ', functions.commit_message())
 
     else:
         deleted = [id_msgs[i] for i in range(count) if i not in shuffle]
         if report('deleted', deleted, '-'):
             PROGRAM.message()
 
-        shuffled = git_functions.commit_messages(len(shuffle) - 1)
+        shuffled = functions.commit_messages(len(shuffle) - 1)
         for i, (id, msg) in enumerate(shuffled):
             shuffled[i] = '%s -> %s' % (ids[shuffle[i]], id), msg
 

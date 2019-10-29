@@ -1,4 +1,4 @@
-from gitz import git_functions
+from gitz.git import functions
 from gitz.program import PROGRAM
 from gitz.runner import GIT
 from tempfile import TemporaryDirectory
@@ -48,7 +48,7 @@ def clone(*names):
             clones.append(stack.enter_context(TemporaryDirectory()))
             GIT.clone('--mirror', '.', clones[-1])
             GIT.remote('add', name, 'file://' + clones[-1])
-            git_functions.fetch(name)
+            functions.fetch(name)
 
         yield clones
 
@@ -80,7 +80,7 @@ def make_commit(*names, **kwds):
 
 def commit(message):
     GIT.commit('-m', message)
-    return git_functions.commit_id()[: git_functions.COMMIT_ID_LENGTH]
+    return functions.commit_id()[: functions.COMMIT_ID_LENGTH]
 
 
 def make_one_commit(filename, contents, message):

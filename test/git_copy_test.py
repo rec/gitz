@@ -1,5 +1,5 @@
 from . import repo
-from gitz import git_functions
+from gitz.git import functions
 from gitz.runner import GIT
 import unittest
 
@@ -11,4 +11,4 @@ class GitCopyTest(unittest.TestCase):
         GIT.new('one')
         GIT.copy('two')
         expected = {'origin': ['master', 'one', 'two'], 'upstream': ['master']}
-        self.assertEqual(git_functions.remote_branches(), expected)
+        self.assertEqual(functions.remote_branches(), expected)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-from gitz import git_functions
-from gitz import git_root
-from gitz import guess_origin
+from gitz.git import functions
+from gitz.git import root
+from gitz.git import guess_origin
 from gitz.program import ARGS
 from gitz.program import PROGRAM
 from gitz.runner import GIT
@@ -65,13 +65,13 @@ _STRIPE_FMT = '{self.commit_id}~{i_offset}:refs/heads/{branch}'
 
 
 def git_stripe():
-    git_root.check_git()
+    root.check_git()
     Stripe().stripe()
 
 
 class Stripe:
     def __init__(self):
-        self.remote_branches = git_functions.remote_branches()
+        self.remote_branches = functions.remote_branches()
         commit_id, count = ARGS.commit_id, ARGS.count
 
         if len(count) >= 7 or not count.isnumeric():
@@ -84,7 +84,7 @@ class Stripe:
 
         self.commit_id = commit_id or 'HEAD~'
         try:
-            git_functions.commit_id(self.commit_id)
+            functions.commit_id(self.commit_id)
         except Exception:
             PROGRAM.exit('Cannot resolve to a commit ID:', self.commit_id)
 
@@ -127,14 +127,14 @@ class Stripe:
             branch = '%s%d' % (self.prefix, i)
             i_offset = i - ARGS.offset
             refspec = _STRIPE_FMT.format(**locals())
-            force = git_functions.force_flags(not ARGS.careful)
+            force = functions.force_flags(not ARGS.careful)
 
             id = ''
             for remote in self.remotes:
                 GIT.push(*force, remote, refspec)
                 if not id:
                     striped = '%s/%s' % (remote, branch)
-                    id, msg = git_functions.commit_message(striped)
+                    id, msg = functions.commit_message(striped)
 
             PROGRAM.log.message('+ %s@%s: %s' % (striped, id, msg))
 
@@ -154,7 +154,7 @@ class Stripe:
             for remote in self.remotes:
                 if branch in self.remote_branches[remote]:
                     rbranch = '%s/%s' % (remote, branch)
-                    cid, cmsg = git_functions.commit_message(rbranch)
+                    cid, cmsg = functions.commit_message(rbranch)
                     GIT.push(remote, refspec)
                     PROGRAM.message('- %s@%s: %s' % (rbranch, cid, cmsg))
 
@@ -163,7 +163,7 @@ class Stripe:
             for branch in self.remote_branches[remote]:
                 if branch.startswith(self.prefix):
                     rbranch = '%s/%s' % (remote, branch)
-                    cid = git_functions.commit_id(rbranch, True)
+                    cid = functions.commit_id(rbranch, True)
                     GIT.push(remote, ':refs/heads/' + branch)
                     PROGRAM.log.message('- %s@%s' % (rbranch, cid))
 

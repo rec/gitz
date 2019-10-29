@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-from gitz import git_functions
-from gitz import git_root
-from gitz import reference_branch
+from gitz.git import functions
+from gitz.git import root
+from gitz.git import reference_branch
 from gitz.env import ENV
 from gitz.program import ARGS
 from gitz.program import PROGRAM
@@ -31,12 +31,12 @@ git update foo bar
 
 
 def git_update():
-    git_root.check_clean_workspace()
-    git_root.cd_git_root()
+    root.check_clean_workspace()
+    root.cd_root()
 
     # The current directory might not be there in a different branch! (#115)
 
-    local_branches = git_functions.branches()
+    local_branches = functions.branches()
     missing = set(ARGS.branches).difference(local_branches)
     if PROGRAM.error_if(missing, 'Missing'):
         PROGRAM.exit()
@@ -53,7 +53,7 @@ def git_update():
         PROGRAM.message('No branches to update')
         return
 
-    starting_branch = git_functions.branch_name()
+    starting_branch = functions.branch_name()
     failed = False
 
     ref_branch = reference_branch.reference_branch()
@@ -77,21 +77,21 @@ def git_update():
 
 def _update(branch, ref_branch, fetched):
     GIT.checkout(branch)
-    cid = git_functions.commit_id()
+    cid = functions.commit_id()
     try:
         GIT.pull('--rebase', *ref_branch, merged=True)
     except Exception:
         GIT.rebase('--abort')
         raise
 
-    new_cid = git_functions.commit_id()
-    upstream = git_functions.upstream_remote()
+    new_cid = functions.commit_id()
+    upstream = functions.upstream_remote()
     if upstream not in fetched:
-        git_functions.fetch(upstream)
+        functions.fetch(upstream)
         fetched.add(upstream)
 
     ubranch = '%s/%s' % (upstream, branch)
-    upstream_cid = git_functions.commit_id(ubranch)
+    upstream_cid = functions.commit_id(ubranch)
 
     if new_cid == cid:
         PROGRAM.message('.', branch)

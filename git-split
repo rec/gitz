@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from gitz import git_functions
-from gitz import git_root
+from gitz.git import functions
+from gitz.git import root
 from gitz.program import ARGS
 from gitz.program import PROGRAM
 from gitz.runner import GIT
@@ -25,7 +25,7 @@ git split HEAD~
 
 
 def git_split():
-    git_root.cd_git_root()
+    root.cd_root()
     not_added = []
 
     for line in GIT.status('--porcelain', info=True):
@@ -35,19 +35,19 @@ def git_split():
 
     if ARGS.commit:
         commit = ARGS.commit + '~'
-    elif git_root.is_workspace_dirty():
+    elif root.is_workspace_dirty():
         commit = 'HEAD'
     else:
         commit = 'HEAD~'
 
-    commit_id = git_functions.commit_id(commit)
-    git_functions.check_is_ancestor(commit_id)
+    commit_id = functions.commit_id(commit)
+    functions.check_is_ancestor(commit_id)
 
     removed_commits = []
-    cid = git_functions.commit_id()
+    cid = functions.commit_id()
     while cid != commit_id:
-        removed_commits.append('%s: %s' % git_functions.commit_message(cid))
-        cid = git_functions.commit_id(cid + '~')
+        removed_commits.append('%s: %s' % functions.commit_message(cid))
+        cid = functions.commit_id(cid + '~')
 
     GIT.reset('--soft', commit_id)
     lines = GIT.status('--porcelain', info=True)
@@ -73,7 +73,7 @@ def git_split():
             pre = ARGS.prefix
             msg = '%s %s %s' % (pre, mode_name, filenames)
             GIT.commit('-m', msg)
-            PROGRAM.message('+', git_functions.commit_id() + ':', msg)
+            PROGRAM.message('+', functions.commit_id() + ':', msg)
             commit_count += 1
 
         except Exception:

@@ -1,5 +1,5 @@
 from . import repo
-from gitz import git_functions
+from gitz.git import functions
 from gitz.runner import GIT
 import unittest
 
@@ -15,25 +15,25 @@ class GitRotateTest(unittest.TestCase):
 
         GIT.checkout('-b', 'C')
         repo.make_commit('3')
-        self.assertEqual(git_functions.branch_name(), 'C')
+        self.assertEqual(functions.branch_name(), 'C')
 
         GIT.rotate('0')
-        self.assertEqual(git_functions.branch_name(), 'C')
+        self.assertEqual(functions.branch_name(), 'C')
 
         GIT.rotate()
-        self.assertEqual(git_functions.branch_name(), 'master')
+        self.assertEqual(functions.branch_name(), 'master')
 
         GIT.rotate()
-        self.assertEqual(git_functions.branch_name(), 'A')
+        self.assertEqual(functions.branch_name(), 'A')
 
         GIT.rotate('2')
-        self.assertEqual(git_functions.branch_name(), 'C')
+        self.assertEqual(functions.branch_name(), 'C')
 
         GIT.rotate('-1')
-        self.assertEqual(git_functions.branch_name(), 'B')
+        self.assertEqual(functions.branch_name(), 'B')
 
         GIT.rotate('-')
-        self.assertEqual(git_functions.branch_name(), 'A')
+        self.assertEqual(functions.branch_name(), 'A')
 
         GIT.rotate('-2')
-        self.assertEqual(git_functions.branch_name(), 'C')
+        self.assertEqual(functions.branch_name(), 'C')

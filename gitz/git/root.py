@@ -1,10 +1,10 @@
-from . program import PROGRAM
-from .runner import GIT
+from ..program import PROGRAM
+from ..runner import GIT
 from pathlib import Path
 import os
 
 
-def git_root(p='.'):
+def root(p='.'):
     p = Path(p).absolute()
     while not (p / '.git' / 'config').exists():
         if p.parent == p:
@@ -14,19 +14,19 @@ def git_root(p='.'):
 
 
 def check_git():
-    gr = git_root()
+    gr = root()
     if gr:
         return gr
 
     PROGRAM.exit(_ERROR_NOT_GIT_REPOSITORY)
 
 
-def cd_git_root():
+def cd_root():
     os.chdir(check_git())
 
 
 def is_workspace_dirty():
-    if not git_root():
+    if not root():
         return False
     try:
         GIT.diff_index('--quiet', 'HEAD', '--', info=True)

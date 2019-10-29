@@ -1,5 +1,5 @@
 from . import repo
-from gitz import git_functions
+from gitz.git import functions
 from gitz.runner import GIT
 from pathlib import Path
 import os
@@ -16,7 +16,7 @@ class GitAllTest(unittest.TestCase):
     @repo.test
     def test_branches(self):
         self.assertEqual('44dac6b', repo.make_commit('one.txt'))
-        current = git_functions.branch_name()
+        current = functions.branch_name()
         GIT.checkout('-b', 'foo')
         self.assertEqual(repo.make_commit('two.txt'), '393ad1c')
         GIT.checkout(current)

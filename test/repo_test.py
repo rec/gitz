@@ -1,5 +1,5 @@
 from . import repo
-from gitz import git_functions
+from gitz.git import functions
 from gitz.runner import GIT
 import unittest
 
@@ -22,9 +22,9 @@ class RepoTest(unittest.TestCase):
         with repo.clone('foo', 'bar'):
             expected = ['bar', 'foo', 'origin', 'upstream']
             self.assertEqual(sorted(GIT.remote()), expected)
-            git_functions.fetch('foo')
-            git_functions.fetch('bar')
-            actual = git_functions.branches('-r')
+            functions.fetch('foo')
+            functions.fetch('bar')
+            actual = functions.branches('-r')
             expected = [
                 'bar/master',
                 'bar/working',
@@ -36,5 +36,5 @@ class RepoTest(unittest.TestCase):
             self.assertEqual(actual, expected)
             self.assertEqual('efc4ce6', repo.make_commit('three.txt'))
             GIT.push('foo', 'HEAD:working')
-            self.assertEqual(git_functions.commit_id('bar/working'), '393ad1c')
-            self.assertEqual(git_functions.commit_id('foo/working'), 'efc4ce6')
+            self.assertEqual(functions.commit_id('bar/working'), '393ad1c')
+            self.assertEqual(functions.commit_id('foo/working'), 'efc4ce6')

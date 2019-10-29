@@ -1,7 +1,7 @@
 from . import guess_origin
-from . import git_functions
-from .program import PROGRAM
-from .runner import GIT
+from . import functions
+from ..program import PROGRAM
+from ..runner import GIT
 
 
 def delete(branches):
@@ -24,10 +24,10 @@ def delete(branches):
 
     branches = deduped
 
-    existing_branches = set(git_functions.branches())
+    existing_branches = set(functions.branches())
     unknown = set(branches).difference(existing_branches)
 
-    remote_branches = git_functions.remote_branches()
+    remote_branches = functions.remote_branches()
     if unknown:
         remotes = remote_branches.get(origin, [])
         missing = unknown.difference(remotes)
@@ -37,7 +37,7 @@ def delete(branches):
     if not remaining_branches:
         raise ValueError('This would delete all the branches')
 
-    if git_functions.branch_name() in branches:
+    if functions.branch_name() in branches:
         GIT.checkout(min(remaining_branches))
 
     deleted_count = 0
@@ -49,7 +49,7 @@ def delete(branches):
             upstream = origin
         if upstream and b in remote_branches[upstream]:
             branch_name = '%s/%s' % (upstream, b)
-            cid = git_functions.commit_id(branch_name)
+            cid = functions.commit_id(branch_name)
             GIT.push(upstream, '--delete', b)
             PROGRAM.message('  %s: %s' % (cid, branch_name))
             deleted_count += 1
@@ -57,7 +57,7 @@ def delete(branches):
     local_branches = [b for b in branches if b not in unknown]
 
     if local_branches:
-        locals_cid = git_functions.commit_ids(local_branches)
+        locals_cid = functions.commit_ids(local_branches)
 
         GIT.branch('-D', *local_branches)
         for branch, cid in zip(local_branches, locals_cid):

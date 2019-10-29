@@ -1,4 +1,4 @@
-from gitz import combine
+from gitz.git import combine
 import unittest
 
 

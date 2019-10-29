@@ -1,5 +1,5 @@
 from . import repo
-from gitz import git_functions
+from gitz.git import functions
 from gitz.runner import GIT
 import unittest
 
@@ -15,7 +15,7 @@ class GitDeleteTest(unittest.TestCase):
         repo.make_commit('2')
         GIT.push()
 
-        actual = git_functions.branches('-r')
+        actual = functions.branches('-r')
         expected = [
             'origin/master',
             'origin/one',
@@ -25,6 +25,6 @@ class GitDeleteTest(unittest.TestCase):
         self.assertEqual(actual, expected)
 
         GIT.delete('-v', 'one', 'two')
-        actual = git_functions.branches('-r')
+        actual = functions.branches('-r')
         expected = ['origin/master', 'upstream/master']
         self.assertEqual(actual, expected)

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
-from gitz import delete
-from gitz import git_functions
-from gitz import git_root
+from gitz.git import delete
+from gitz.git import functions
+from gitz.git import root
 from gitz.env import ENV
 from gitz.program import ARGS
 from gitz.program import PROGRAM
@@ -36,8 +36,8 @@ _HELP_FORCE = 'Delete all, even protected remotes or branches'
 
 
 def git_delete():
-    branch = git_functions.branch_name()
-    branches = git_functions.branches()
+    branch = functions.branch_name()
+    branches = functions.branches()
 
     remaining_branches = set(branches).difference(ARGS.target)
     if not remaining_branches:
@@ -49,7 +49,7 @@ def git_delete():
             PROGRAM.exit('Protected:', *protected)
 
     if branch not in remaining_branches:
-        git_root.check_clean_workspace()
+        root.check_clean_workspace()
         for b in ENV.reference_branches():
             if b in remaining_branches:
                 GIT.checkout(b)
