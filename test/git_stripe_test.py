@@ -1,6 +1,6 @@
 from . import repo
 from gitz.git import functions
-from gitz.runner import GIT
+from gitz.program import GIT
 import unittest
 
 

@@ -1,6 +1,6 @@
 from gitz.git import functions
 from gitz.program import PROGRAM
-from gitz.runner import GIT
+from gitz.program import GIT
 from tempfile import TemporaryDirectory
 import contextlib
 import functools

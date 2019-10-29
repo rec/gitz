@@ -2,10 +2,10 @@
 from gitz.git import delete
 from gitz.git import functions
 from gitz.git import root
-from gitz.env import ENV
+from gitz.program import ENV
 from gitz.program import ARGS
 from gitz.program import PROGRAM
-from gitz.runner import GIT
+from gitz.program import GIT
 
 SUMMARY = 'Delete one or more branches locally and remotely'
 

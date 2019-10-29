@@ -1,10 +1,10 @@
 from . import functions
 from . import root
 from . import guess_origin
-from ..env import ENV
+from ..program import ENV
 from ..program import ARGS
 from ..program import PROGRAM
-from ..runner import GIT
+from ..program import GIT
 
 COPY, RENAME = 'copy', 'rename'
 

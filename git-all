@@ -4,8 +4,8 @@ from gitz.git import functions
 from gitz.git import root
 from gitz.program import ARGS
 from gitz.program import PROGRAM
-from gitz.runner import GIT
-from gitz.runner import RUN
+from gitz.program import GIT
+from gitz.program import RUN
 from pathlib import Path
 import os
 import sys

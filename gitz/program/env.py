@@ -1,4 +1,3 @@
-from .git import root
 import json
 import os
 
@@ -28,6 +27,7 @@ class Env:
         if value is not None:
             return value
 
+        from ..git import root
         groot = root.root()
         value = None
         if groot and (groot / CONFIG_FILE).exists():

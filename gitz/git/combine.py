@@ -1,5 +1,5 @@
 from . import functions
-from ..runner import GIT
+from ..program import GIT
 
 
 def combine(commits, squash):

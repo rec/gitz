@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from gitz import config
-from gitz import env
+from gitz.program import env
 from gitz.program import PROGRAM
 from pathlib import Path
 

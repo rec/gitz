@@ -1,5 +1,5 @@
 from .. import config
-from ..runner import RUN
+from ..program import RUN
 
 NONE = '(none)'
 INDENT = 4

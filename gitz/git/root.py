@@ -1,5 +1,5 @@
 from ..program import PROGRAM
-from ..runner import GIT
+from ..program import GIT
 from pathlib import Path
 import os
 

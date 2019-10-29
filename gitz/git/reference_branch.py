@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 from . import functions
-from ..env import ENV
+from ..program import ENV
 from ..program import ARGS
 from ..program import PROGRAM
 
