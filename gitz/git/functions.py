@@ -26,10 +26,12 @@ def commit_ids(names, short=True):
     return [i[:COMMIT_ID_LENGTH] for i in ids] if short else ids
 
 
+def message(name='HEAD'):
+    return GIT.show_branch('--no-name', _to_name(name), info=True)[0]
+
+
 def commit_message(name='HEAD', short=True):
-    cid = commit_id(name, short)
-    message = GIT.show_branch('--no-name', cid, info=True)[0]
-    return cid, message
+    return commit_id(name, short), message(name)
 
 
 def commit_messages(count):

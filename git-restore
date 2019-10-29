@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+# from gitz.git import functions
+# from gitz.git.state import State
+from gitz.git import save
+from gitz.program import ARGS
+from gitz.program import PROGRAM
+
+SUMMARY = 'Save and restore state of the git repository'
+
+HELP = """
+Saves and restores the exact state of the git repository
+including files staged but not commited and unknown files.
+"""
+
+EXAMPLES = """
+git restore
+    Prints the commit ID that represents this current state
+
+
+"""
+
+DANGER = 'Rewrites history!'
+
+
+def git_restore():
+    if ARGS.state:
+        save.restore(ARGS.state)
+    else:
+        print(save.save(ARGS.all))
+
+
+def add_arguments(parser):
+    parser.add_argument('state', nargs='?', default='', help=_HELP_STATE)
+    parser.add_argument('-a', '--all', action='store_true', help=_HELP_ALL)
+
+
+_HELP_ALL = 'Restore even untracked files'
+_HELP_STATE = """\
+Restore to this state if set. Otherwise, print a commit ID that saves this \
+state."""
+
+
+if __name__ == '__main__':
+    PROGRAM.start()
