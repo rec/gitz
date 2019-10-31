@@ -1,4 +1,4 @@
-python -m gitz.helper.main
+python -m gitz.make_doc.main
 
 if [ ! "" ] ; then
     for i in git-*; do
