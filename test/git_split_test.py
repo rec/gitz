@@ -17,7 +17,7 @@ class GitSplitTest(unittest.TestCase):
         GIT.commit('-am', '6')
         with self.assertRaises(Exception):
             GIT.split('HEAD~~~~')
-        GIT.split('HEAD~~~')
+        GIT.split('HEAD~~~', '-v')
         actual = GIT.log('--oneline')
         expected = [
             '78923d2 [split] Renamed 0 -> 6',
@@ -34,7 +34,7 @@ class GitSplitTest(unittest.TestCase):
     def test_single(self):
         repo.make_commit('1', '2')
         repo.make_commit('3', '4', '5')
-        GIT.split()
+        GIT.split('-v')
         actual = GIT.log('--oneline', '-10')
         expected = [
             'a804db6 [split] Added 5',
@@ -53,7 +53,7 @@ class GitSplitTest(unittest.TestCase):
         repo.add_files('3')
         GIT.mv('1', '5')
         GIT.rm('0')
-        GIT.split()
+        GIT.split('-v')
         actual = GIT.log('--oneline', '-10')
         expected = [
             '05ecff4 [split] Renamed 1 -> 5',

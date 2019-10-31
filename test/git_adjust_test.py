@@ -8,7 +8,7 @@ class GitAdjustTest(unittest.TestCase):
     def test_default(self):
         repo.make_seven_commits(self)
         GIT.reset('--soft', 'HEAD~')
-        GIT.adjust()
+        GIT.adjust('-v')
         actual = GIT.log('--oneline')[:4]
         expected = ['84e8ee1 6', '8a4a4e2 5', 'a7c7e8f 4', '9ab30c5 3']
         self.assertEqual(expected, actual)
@@ -19,7 +19,7 @@ class GitAdjustTest(unittest.TestCase):
     def test_simple(self):
         repo.make_seven_commits(self)
         GIT.reset('--soft', 'HEAD~')
-        GIT.adjust('HEAD~')
+        GIT.adjust('HEAD~', '-v')
         actual = GIT.log('--oneline')[:4]
         expected = ['0e103e7 6', '207bd13 5', 'a7c7e8f 4', '9ab30c5 3']
         self.assertEqual(expected, actual)
@@ -30,7 +30,7 @@ class GitAdjustTest(unittest.TestCase):
     @repo.test
     def test_edit(self):
         repo.make_seven_commits(self)
-        GIT.adjust('HEAD~3', 'HEAD~')
+        GIT.adjust('HEAD~3', 'HEAD~', '-v')
         actual = GIT.log('--oneline')[:4]
         expected = ['18f631a 7', '6c901a6 5', '9375333 4', '9ab30c5 3']
         self.assertEqual(expected, actual)
@@ -42,7 +42,7 @@ class GitAdjustTest(unittest.TestCase):
     @repo.test
     def test_message(self):
         repo.make_seven_commits(self)
-        GIT.adjust('HEAD~3', 'HEAD~', '-m', '4 and 6')
+        GIT.adjust('HEAD~3', 'HEAD~', '-m', '4 and 6', '-v')
         actual = GIT.log('--oneline')[:4]
         expected = ['d43e4a8 7', 'e38207c 5', 'ac920db 4 and 6', '9ab30c5 3']
         self.assertEqual(expected, actual)

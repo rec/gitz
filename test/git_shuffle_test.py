@@ -21,7 +21,7 @@ class GitShuffleTest(unittest.TestCase):
     @repo.test
     def TODO_test_example(self):
         # Why does this fail?  Debugging gives nonsensical results!
-        GIT.shuffle('__cba_')
+        GIT.shuffle('__cba_', '-v')
         actual = GIT.log('--oneline')[:4]
         expected = []
         self.assertEqual(actual, expected)
@@ -29,7 +29,7 @@ class GitShuffleTest(unittest.TestCase):
     @repo.test
     def test_reverse(self):
         repo.make_seven_commits(self)
-        GIT.shuffle('ba')
+        GIT.shuffle('ba', '-v')
         actual = GIT.log('--oneline')[:4]
         expected = ['85af3d4 6', 'd9b4446 7', '8a4a4e2 5', 'a7c7e8f 4']
         self.assertEqual(actual, expected)
@@ -50,6 +50,6 @@ class GitShuffleTest(unittest.TestCase):
 
     def _test_files(self, *args):
         repo.make_seven_commits(self)
-        GIT.shuffle('_c_ab_', *args)
+        GIT.shuffle('_c_ab_', '-v', *args)
         files = [i for i in os.listdir() if not i.startswith('.')]
         self.assertEqual(sorted(files), ['0', '1', '3', '4', '6'])

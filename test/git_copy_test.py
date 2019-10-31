@@ -9,6 +9,6 @@ class GitCopyTest(unittest.TestCase):
     def test_simple(self):
         repo.make_commit('1')
         GIT.new('one')
-        GIT.copy('two')
+        GIT.copy('two', '-v')
         expected = {'origin': ['master', 'one', 'two'], 'upstream': ['master']}
         self.assertEqual(functions.remote_branches(), expected)
