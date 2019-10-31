@@ -1,4 +1,4 @@
-from ..make_doc import helper
+from ..make_doc import print_help
 from . import log
 import argparse
 
@@ -15,7 +15,7 @@ def parse(program, add_arguments=None, **context):
         )
 
     # If -h or --help are set, this next call terminates the program
-    helper.helper(program, context, parser)
+    print_help.print_help(program, context, parser)
     args = parser.parse_args(program.argv)
     return args, log.Log(args)
 

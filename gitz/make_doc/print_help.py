@@ -8,7 +8,7 @@ _REPLACEMENTS = {
 }
 
 
-def helper(program, context, parser):
+def print_help(program, context, parser):
     if not ('-h' in program.argv or '--h' in program.argv):
         return
 
