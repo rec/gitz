@@ -6,7 +6,7 @@ INDENT = 4
 FULL_USAGE = '---'
 
 
-def read_one(command):
+def get_one(command):
     full_usage = False
     help = {'COMMAND': command}
     section = NONE
@@ -39,5 +39,5 @@ def read_one(command):
     return help
 
 
-def read():
-    return {c: read_one(c) for c in config.COMMANDS}
+def get_command_help():
+    return {c: get_one(c) for c in config.COMMANDS}

@@ -1,4 +1,4 @@
-from . import reader
+from . import get_command_help
 from . import screenshot
 import os
 
@@ -7,7 +7,7 @@ LINK = '`{0} <doc/{0}.rst>`_'
 SAFE = 'safe'
 
 
-def summary(fp, command_help):
+def readme(fp, command_help):
     for i, (danger, message) in enumerate(MESSAGES.items()):
         if i:
             print(file=fp)
@@ -36,7 +36,7 @@ def summary(fp, command_help):
 def sort_by_danger(commands):
     command_help = {}
     for command, data in commands.items():
-        data = reader.read_one(command)
+        data = get_command_help.read_one(command)
         danger = data.get('DANGER', '')
         if danger:
             for d in MESSAGES:
@@ -57,7 +57,7 @@ def main(commands):
             if not line.startswith('Safe commands'):
                 fp.write(line)
             else:
-                summary(fp, sort_by_danger(commands))
+                readme(fp, sort_by_danger(commands))
                 break
     os.rename(tmpfile, README)
 

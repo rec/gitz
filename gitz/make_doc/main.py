@@ -1,16 +1,16 @@
-from . import directory
+from . import command_pages
+from . import doc_index
 from . import manpages
-from . import reader
-from . import rsts
-from . import summary
+from . import get_command_help
+from . import readme
 from ..program import PROGRAM
 
 
 def main():
-    help = reader.read()
-    directory.main(help)
-    rsts.main(help)
-    summary.main(help)
+    help = get_command_help.get_command_help()
+    doc_index.main(help)
+    command_pages.main(help)
+    readme.main(help)
     manpages.main(help)
 
 
