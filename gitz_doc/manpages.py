@@ -1,5 +1,5 @@
 from . import dirs
-from .. import config
+from gitz import config
 from docutils.core import publish_file, default_description
 from docutils.writers import manpage
 import datetime

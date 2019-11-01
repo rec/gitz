@@ -1,5 +1,5 @@
-from .. import config
-from ..program import RUN
+from gitz import config
+from gitz.program import RUN
 
 NONE = '(none)'
 INDENT = 4

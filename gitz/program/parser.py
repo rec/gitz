@@ -1,4 +1,4 @@
-from ..make_doc import print_help
+from . import print_help
 from . import log
 import argparse
 
