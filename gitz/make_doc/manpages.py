@@ -30,7 +30,7 @@ def main(commands):
 
         # Fix the results
         with dest.open() as fp:
-            lines = fix_manpage(fp)
+            lines = list(fix_manpage(fp))
 
         with dest.open('w') as fp:
             fp.writelines(lines)
@@ -67,14 +67,26 @@ def fix_rst(src):
 
 
 def fix_manpage(lines):
-    lines = list(lines)
-    for i, line in enumerate(lines):
+    seen_indent = False
+
+    for line in lines:
         if line.startswith('.TH'):
             command = line.split()[2].strip(':')
             date = format(datetime.datetime.now(), '%d %B, %Y')
             version = config.VERSION
-            lines[i] = FMT.format(**locals())
+            yield FMT.format(**locals())
 
         elif line.startswith('git '):
-            lines[i] = line.replace(r' \-', '')
-            return lines
+            yield line.replace(r' \-', '')
+
+        elif line.startswith('.INDENT 3.5'):
+            seen_index = True
+
+        elif line.startswith('.UNINDENT'):
+            if seen_index:
+                seen_index = False
+            else:
+                yield line
+
+        else:
+            yield line
