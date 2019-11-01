@@ -73,7 +73,7 @@ EXAMPLES
     Deletes the most recent two commeits, reverses the next three, and
     deletes the sixth.
 
-``git shuffle __cba_ -s "My message"``
-``git shuffle __cba_ --squash="My message"``
+``git shuffle __cba_ -s 'My message'``
+``git shuffle __cba_ --squash='My message'``
     Same as the previous command, but squashes the three commits into
-    one with the commit message "My message"
+    one with the commit message 'My message'

@@ -6,8 +6,8 @@ USAGE
 
 .. code-block:: bash
 
-    git stripe [-h] [-q] [-v] [-c] [-D] [-d] [-o OFFSET] [-p PREFIX]
-                  [-r REMOTES] [-n]
+    git stripe [-h] [-q] [-v] [-c] [-D] [-d] [-o OFFSET] [-p PREFIX] [-r REMOTES]
+                  [-n]
                   [count] [commit_id]
 
 Positional arguments
@@ -72,6 +72,10 @@ EXAMPLES
 
     git stripe -d does not fail if some or all of the branches
     to be deleted are missing
+
+``git stripe --delete-all``
+``git stripe -D``
+    Delete any remote branches starting with _gitz_stripe_
 
 ``git stripe --prefix=MINE``
 ``git stripe -p MINE``

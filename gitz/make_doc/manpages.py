@@ -61,6 +61,7 @@ def fix_rst(src):
             pop_example_stack()
     if examples[1:]:
         lines.append('')
+
     pop_example_stack()
 
     return '\n'.join(lines) + '\n'

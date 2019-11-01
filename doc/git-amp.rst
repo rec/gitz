@@ -42,4 +42,4 @@ EXAMPLES
 ``git amp "Commit message! (fix #127)"``
     Amend and push with message "Commit message! (fix #127)"
     (You need quotes if the message includes special shell
-    characters like (, ), #, !, ', ", *, ?, !)
+    characters like (, ), #, !, etc.)

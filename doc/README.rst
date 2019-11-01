@@ -1,6 +1,9 @@
 gitz commands
 -------------
 
+`git-adjust <git-adjust.rst>`_
+  Amend any commit
+
 `git-all <git-all.rst>`_
   Perform a command on each of multiple branches or directories
 
@@ -30,6 +33,9 @@ gitz commands
 `git-rename <git-rename.rst>`_
   Rename a git branch locally and on all remotes
 
+`git-restore <git-restore.rst>`_
+  Save and restore state of the git repository
+
 `git-rotate <git-rotate.rst>`_
   Rotate through branches in a Git repository
 
@@ -41,9 +47,6 @@ gitz commands
 
 `git-st <git-st.rst>`_
   Colorful, compact git status
-  
-  This version written by https://github.com/PlatyPew/,
-  original version by https://www.reddit.com/user/ex1c)
 
 `git-stripe <git-stripe.rst>`_
   Push a sequence of commit IDs to a remote repository

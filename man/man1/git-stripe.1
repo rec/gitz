@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH GIT-STRIPE 1 "23 October, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-STRIPE 1 "01 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 .SH NAME
 git stripe: Push a sequence of commit IDs to a remote repository 
 .
@@ -32,27 +32,22 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 ..
 .SH USAGE
 .INDENT 0.0
-.INDENT 3.5
 .sp
 .nf
 .ft C
-git stripe [\-h] [\-q] [\-v] [\-c] [\-D] [\-d] [\-o OFFSET] [\-p PREFIX]
-              [\-r REMOTES] [\-n]
+git stripe [\-h] [\-q] [\-v] [\-c] [\-D] [\-d] [\-o OFFSET] [\-p PREFIX] [\-r REMOTES]
+              [\-n]
               [count] [commit_id]
 .ft P
 .fi
 .UNINDENT
-.UNINDENT
 .SH POSITIONAL ARGUMENTS
 .INDENT 0.0
-.INDENT 3.5
 \fBcount\fP: The number of striped branches to be created: default is 1
 \fBcommit_id\fP: Branch/commit ID of the first stripe (or HEAD~ if none)
 .UNINDENT
-.UNINDENT
 .SH OPTIONAL ARGUMENTS
 .INDENT 0.0
-.INDENT 3.5
 \fB\-h, \-\-help\fP: show this help message and exit
 .sp
 \fB\-q, \-\-quiet\fP: Suppress all output
@@ -72,7 +67,6 @@ git stripe [\-h] [\-q] [\-v] [\-c] [\-D] [\-d] [\-o OFFSET] [\-p PREFIX]
 \fB\-r REMOTES, \-\-remotes REMOTES\fP: One or more remote remotes to push to, separated by colon. "." means the local repo, "^" means the upstream repo
 .sp
 \fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
-.UNINDENT
 .UNINDENT
 .SH DESCRIPTION
 .sp
@@ -113,8 +107,14 @@ aor _gitz_stripe_2
 .B \fBgit stripe \-d\fP
 (same)
 .sp
-git stripe \-d does not fail if some or all of the branches
+git striped does not fail if some or all of the branches
 to be deleted are missing
+.TP
+.B \fBgit stripe \-\-delete\-all\fP
+Delete any remote branches starting with _gitz_stripe_
+.TP
+.B \fBgit stripe \-D\fP
+(same)
 .TP
 .B \fBgit stripe \-\-prefix=MINE\fP
 Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named

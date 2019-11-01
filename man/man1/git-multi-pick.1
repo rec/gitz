@@ -1,6 +1,6 @@
 .\" Man page generated from reStructuredText.
 .
-.TH GIT-MULTI-PICK 1 "23 October, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-MULTI-PICK 1 "01 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 .SH NAME
 git multi-pick: Cherry-pick multiple commits, with an optional squash 
 .
@@ -32,25 +32,19 @@ level margin: \\n[rst2man-indent\\n[rst2man-indent-level]]
 ..
 .SH USAGE
 .INDENT 0.0
-.INDENT 3.5
 .sp
 .nf
 .ft C
-git multi\-pick [\-h] [\-q] [\-v] [\-s [SQUASH]] [\-n]
-                  commit_ids [commit_ids ...]
+git multi\-pick [\-h] [\-q] [\-v] [\-s [SQUASH]] [\-n] commit_ids [commit_ids ...]
 .ft P
 .fi
 .UNINDENT
-.UNINDENT
 .SH POSITIONAL ARGUMENTS
 .INDENT 0.0
-.INDENT 3.5
 \fBcommit_ids\fP: List of commit IDs to cherry pick
-.UNINDENT
 .UNINDENT
 .SH OPTIONAL ARGUMENTS
 .INDENT 0.0
-.INDENT 3.5
 \fB\-h, \-\-help\fP: show this help message and exit
 .sp
 \fB\-q, \-\-quiet\fP: Suppress all output
@@ -60,7 +54,6 @@ git multi\-pick [\-h] [\-q] [\-v] [\-s [SQUASH]] [\-n]
 \fB\-s [SQUASH], \-\-squash [SQUASH]\fP: Squash all commits into one. If an argument is provided, use it as the commit message.
 .sp
 \fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
-.UNINDENT
 .UNINDENT
 .SH DESCRIPTION
 .sp
