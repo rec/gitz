@@ -1,6 +1,6 @@
-python -m gitz.make_doc.main
+python -m gitz.make_doc.main $@
 
-if [ ! "" ] ; then
+if [ "" ] ; then
     for i in git-*; do
         echo '----------------------------------------------------------------'
         $i -h
