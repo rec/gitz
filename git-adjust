@@ -23,7 +23,7 @@ git adjust HEAD~
     then cherry-picks HEAD on top of it
 
 git adjust HEAD~3
-     Amends HEAD~3 with the contents of the staging area and then
+    Amends HEAD~3 with the contents of the staging area and then
     cherry-picks HEAD~2, HEAD~ and HEAD on top of it
 
 git adjust HEAD~3 HEAD~
@@ -83,9 +83,8 @@ def add_arguments(parser):
 
 
 _HELP_EDIT = """\
-Edit commit that is used to amend the target.
-
-If empty, use the changes in the staging area
+Edit commit that is used to amend the target.\
+If empty, use the changes in the staging area.\
 """
 _HELP_MESSAGE = 'If set, use this for the message of the amended commit'
 _HELP_TARGET = 'Target commit that gets amended'
