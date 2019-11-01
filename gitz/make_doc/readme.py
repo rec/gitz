@@ -1,6 +1,6 @@
 from . import get_command_help
+from . import safe_writer
 from . import screenshot
-import os
 
 README = 'README.rst'
 LINK = '`{0} <doc/{0}.rst>`_'
@@ -36,7 +36,7 @@ def readme(fp, command_help):
 def sort_by_danger(commands):
     command_help = {}
     for command, data in commands.items():
-        data = get_command_help.read_one(command)
+        data = get_command_help.get_one(command)
         danger = data.get('DANGER', '')
         if danger:
             for d in MESSAGES:
@@ -51,15 +51,13 @@ def sort_by_danger(commands):
 
 
 def main(commands):
-    tmpfile = README + '.tmp'
-    with open(tmpfile, 'w') as fp:
+    with safe_writer.safe_writer(README) as fp:
         for line in open(README):
             if not line.startswith('Safe commands'):
                 fp.write(line)
             else:
                 readme(fp, sort_by_danger(commands))
                 break
-    os.rename(tmpfile, README)
 
 
 MESSAGES = {
