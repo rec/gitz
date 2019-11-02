@@ -1,93 +1,108 @@
+from . import clean_manpage
 from . import dirs
+from . import safe_writer
 from gitz import config
-from docutils.core import publish_file, default_description
-from docutils.writers import manpage
 import datetime
-import io
-
-# Taken from rst2man.py
-
-DESCRIPTION = 'Generates unix manual pages for gitz. ' + default_description
-HEADINGS = 'Positional arguments', 'Optional arguments'
-
-FMT = '.TH GIT-{command} 1 "{date}" "Gitz {version}" "Gitz Manual"\n'
 
 
 def main(commands):
-    for command in commands:
-        src = (dirs.DOC / command).with_suffix('.rst')
-        dest = (dirs.MAN / command).with_suffix('.1')
+    date = format(datetime.datetime.now(), '%d %B, %Y')
 
-        # Simplify the RST a bit so rst2man understands it
-        contents = fix_rst(src)
-
-        publish_file(
-            writer=manpage.Writer(),
-            source=io.StringIO(contents),
-            source_path=str(src),
-            destination=dest.open('w'),
-        )
-
-        # Fix the results
-        with dest.open() as fp:
-            lines = list(fix_manpage(fp))
-
-        with dest.open('w') as fp:
-            fp.writelines(lines)
+    for command, sections in commands.items():
+        Manpage(command, sections, date).write()
 
 
-def fix_rst(src):
-    lines = []
-    in_examples = False
-    examples = []
+class Manpage:
+    def __init__(self, command, sections, date):
+        self.command = command
+        self.sections = clean_manpage.clean_sections(sections)
+        self.date = date
+        self.COMMAND = command.upper()
+        self.description = sections[command.replace('-', ' ', 1)][0]
+        self.usage = sections['USAGE'][0]
+        self.version = config.VERSION
 
-    def pop_example_stack():
-        for example in examples[1:]:
-            lines.extend((example, '    (same)', ''))
-        examples.clear()
+    def write(self):
+        dirs.MAN.mkdir(exist_ok=True, parents=True)
+        manfile = (dirs.MAN / self.command).with_suffix('.1')
+        with safe_writer.safe_writer(manfile) as self.fp:
+            self._print(HEADER.format(**vars(self)))
+            for field in FIELDS:
+                if field in self.sections:
+                    self._write_field(field)
 
-    for line in src.open():
-        line = line[:-1]
-        lines.append(line)
-        if line in HEADINGS:
-            lines.append('=' * len(line))
-        elif not in_examples:
-            in_examples = line == 'EXAMPLES'
-        elif line.startswith('`'):
-            if examples:
-                lines.pop()
-            examples.append(line)
-        elif not line.strip():
-            pop_example_stack()
-    if examples[1:]:
-        lines.append('')
+    def _write_field(self, field):
+        self._print('.SH', field.upper())
+        attrname = '_' + field.lower().split()[0]
+        method = getattr(self, attrname, self._section)
+        method(self.sections[field])
+        self._print()
 
-    pop_example_stack()
+    def _positional(self, lines):
+        for line in lines:
+            word, *rest = line.strip().split(maxsplit=1)
+            self._argument(word, rest[0] if rest else '')
 
-    return '\n'.join(lines) + '\n'
-
-
-def fix_manpage(lines):
-    seen_indent = False
-
-    for line in lines:
-        if line.startswith('.TH'):
-            command = line.split()[2].strip(':')
-            date = format(datetime.datetime.now(), '%d %B, %Y')
-            version = config.VERSION
-            yield FMT.format(**locals())
-
-        elif line.startswith('git '):
-            yield line.replace(r' \-', '')
-
-        elif line.startswith('.INDENT 3.5'):
-            seen_index = True
-
-        elif line.startswith('.UNINDENT'):
-            if seen_index:
-                seen_index = False
+    def _optional(self, lines):
+        optionals = []
+        for line in lines:
+            if not optionals or line.strip().startswith(r'\-'):
+                optionals.append(line)
             else:
-                yield line
+                optionals[-1] += line
 
-        else:
-            yield line
+        for i, o in enumerate(optionals):
+            word, *rest = (i for i in o.strip().split('  ') if i)
+            self._argument(word.strip(), ' '.join(rest).strip())
+
+    def _examples(self, lines):
+        for line in lines:
+            if not line:
+                self._print()
+                self._print('.sp')
+            elif line.startswith(' '):
+                self._print(line.strip())
+            else:
+                self._print('.TP')
+                self._print('.B', clean_manpage.START, line, clean_manpage.END)
+
+    def _section(self, lines):
+        for line in lines:
+            self._print(line)
+            if not line:
+                self._print('.sp')
+
+    def _print(self, *args, **kwds):
+        print(*args, **kwds, file=self.fp)
+
+    def _argument(self, word, rest):
+        self._print(
+            r'%s%s%s: %s'
+            % (clean_manpage.START, word, clean_manpage.END, rest)
+        )
+        self._print()
+
+
+HEADER = """\
+.TH {COMMAND} 1 "{date}" "Gitz {version}" "Gitz Manual"
+
+.SH NAME
+{command} - {description}
+
+.SH USAGE
+.sp
+.nf
+.ft C
+{usage}
+.ft P
+.fi
+
+"""
+
+FIELDS = (
+    'Positional arguments',
+    'Optional arguments',
+    'DESCRIPTION',
+    'DANGER',
+    'EXAMPLES',
+)

@@ -1,6 +1,5 @@
 black
 coverage
-docutils
 flake8
 import_all
 pyfakefs
