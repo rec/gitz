@@ -13,7 +13,7 @@ including files staged but not commited and unknown files.
 """
 
 EXAMPLES = """
-git restore
+git save
     Prints the commit ID that represents this current state
 
 
@@ -22,9 +22,9 @@ git restore
 DANGER = 'Rewrites history!'
 
 
-def git_restore():
+def git_save():
     if ARGS.state:
-        save.restore(ARGS.state)
+        save.save(ARGS.state)
     else:
         print(save.save(ARGS.all))
 
@@ -34,9 +34,9 @@ def add_arguments(parser):
     parser.add_argument('-a', '--all', action='store_true', help=_HELP_ALL)
 
 
-_HELP_ALL = 'Restore even untracked files'
+_HELP_ALL = 'Save even untracked files'
 _HELP_STATE = """\
-Restore to this state if set. Otherwise, print a commit ID that saves this \
+Save to this state if set. Otherwise, print a commit ID that saves this \
 state."""
 
 
