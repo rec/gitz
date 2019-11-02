@@ -11,10 +11,10 @@ git-split:
     Split a range of commits into many single-file commits
 git-shuffle:
     Reorder and delete commits in the current branch
+git-save:
+    Save and restore state of the git repository
 git-rotate:
     Rotate through branches in a Git repository
-git-restore:
-    Save and restore state of the git repository
 
 git-rename:
     Rename a git branch locally and on all remotes

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from gitz import config
 from gitz.program import env
+from gitz.program import summaries
 from gitz.program import PROGRAM
-from pathlib import Path
 
 SUMMARY = 'Print information about the gitz environment'
 
@@ -49,6 +49,7 @@ git gitz version exec
 )
 
 INDENT = '    '
+SKIP_EVERY = 4
 
 
 def git_gitz():
@@ -78,31 +79,12 @@ def add_arguments(parser):
     parser.add_argument('items', nargs='*', default=ALL)
 
 
-SUMMARIES = {
-    'git-amp': 'AMend the last commit message and force-Push, somewhat safely',
-    'git-infer': 'Commit changes with an auto-generated message',
-    'git-st': 'Colorful, compact git status',
-    'git-when': 'When did each file change (date, commit, message)?',
-}
-SKIP_EVERY = 4
-
-
 def _commands(indent):
     for i, c in enumerate(reversed(config.COMMANDS)):
-        try:
-            file = Path(__file__).parent / c
-            source = file.read_text()
-            compiled = compile(source, str(file), 'exec')
-            local = {}
-            exec(compiled, local)
-            msg = local['SUMMARY']
-
-        except Exception:
-            msg = SUMMARIES.get(c, '')
-
         if i and not (i % SKIP_EVERY):
             PROGRAM.message()
 
+        msg = summaries.SUMMARIES[c]
         PROGRAM.message('%s%s:' % (indent, c))
         PROGRAM.message('%s    %s' % (indent, msg))
 

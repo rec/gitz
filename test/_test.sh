@@ -2,6 +2,8 @@
 
 set -Eeo pipefail
 
+python -m gitz_doc.get_command_summaries > gitz/program/summaries.py
+
 ./git-gitz c > test/gitz_commands.txt
 FILES=`grep -l python3 git-* | xargs echo`
 
