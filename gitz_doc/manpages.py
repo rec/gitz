@@ -7,7 +7,7 @@ import io
 
 # Taken from rst2man.py
 
-DESCRIPTION = ('Generates unix manual pages for gitz. ' + default_description)
+DESCRIPTION = 'Generates unix manual pages for gitz. ' + default_description
 HEADINGS = 'Positional arguments', 'Optional arguments'
 
 FMT = '.TH GIT-{command} 1 "{date}" "Gitz {version}" "Gitz Manual"\n'
@@ -52,7 +52,7 @@ def fix_rst(src):
         if line in HEADINGS:
             lines.append('=' * len(line))
         elif not in_examples:
-            in_examples = (line == 'EXAMPLES')
+            in_examples = line == 'EXAMPLES'
         elif line.startswith('`'):
             if examples:
                 lines.pop()

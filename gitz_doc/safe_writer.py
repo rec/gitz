@@ -1,11 +1,12 @@
 import contextlib
 import os
+
 SUFFIX = '.tmp'
 
 
 @contextlib.contextmanager
 def safe_writer(filename, suffix=SUFFIX):
-    tempfile = filename + suffix
+    tempfile = str(filename) + suffix
     with open(tempfile, 'w') as fp:
         try:
             yield fp

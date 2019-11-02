@@ -1,12 +1,13 @@
 from . import command_pages  # noqa: F401
 from . import doc_index  # noqa: F401
 from . import manpages  # noqa: F401
-from . import get_command_help
+from . import template_manpages  # noqa: F401
+from . import get_command_help  # noqa: F401
 from . import readme  # noqa: F401
-from ..program import ARGS
-from ..program import PROGRAM
+from gitz.program import ARGS
+from gitz.program import PROGRAM
 
-SYMBOLS = 'doc_index command_pages readme manpages'.split()
+SYMBOLS = 'doc_index command_pages readme manpages template_manpages'.split()
 
 
 def add_arguments(parser):
