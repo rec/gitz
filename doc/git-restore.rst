@@ -9,8 +9,7 @@ USAGE
     git restore [-h] [-q] [-v] [-a] [-n] [state]
 
 Positional arguments
-  ``state``: Restore to this state if set. Otherwise, print a commit ID that saves
-  ``this``: state.
+  ``state``: Restore to this state if set. Otherwise, print a commit ID that saves this state.
 
 Optional arguments
   ``-h, --help``: show this help message and exit
