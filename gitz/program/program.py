@@ -35,6 +35,9 @@ class _Program:
             main()
 
         except Exception as e:
+            for line in getattr(e, '_runner_output', []):
+                self.log.error(*line)
+
             self.log.verbose(traceback.format_exc(), file=sys.stderr)
             self.exit('%s: %s' % (e.__class__.__name__, e))
 

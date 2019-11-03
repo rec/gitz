@@ -35,10 +35,8 @@ class Runner:
         self.log.verbose('$', *cmd)
         try:
             run_proc.run_proc(cmd, kwds, out, err)
-        except Exception:
-            if quiet:
-                for symbol, line in items:
-                    self.log.error(symbol, line)
+        except Exception as e:
+            e._runner_output = items
             raise
 
         accept = (OUT + ERR) if merged else OUT
