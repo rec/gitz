@@ -1,4 +1,4 @@
-from . import safe_writer
+from gitz.program import safe_writer
 
 README = 'doc/README.rst'
 LINK = '`{0} <{0}.rst>`_'

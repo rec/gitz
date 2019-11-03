@@ -1,6 +1,6 @@
 from . import get_command_help
-from . import safe_writer
 from . import screenshot
+from gitz.program import safe_writer
 
 README = 'README.rst'
 LINK = '`{0} <doc/{0}.rst>`_'

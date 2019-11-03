@@ -1,7 +1,7 @@
 from . import clean_manpage
 from . import dirs
-from . import safe_writer
 from gitz import config
+from gitz.program import safe_writer
 import datetime
 
 
