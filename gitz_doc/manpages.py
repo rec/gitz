@@ -32,7 +32,11 @@ class Manpage:
                     self._write_field(field)
 
     def _write_field(self, field):
-        self._print('.SH', field.upper())
+        if field != POSITIONAL:
+            if field == OPTIONAL:
+                self._print('.SH OPTIONS')
+            else:
+                self._print('.SH', field.upper())
         attrname = '_' + field.lower().split()[0]
         method = getattr(self, attrname, self._section)
         method(self.sections[field])
@@ -89,7 +93,7 @@ HEADER = """\
 .SH NAME
 {command} - {description}
 
-.SH USAGE
+.SH SYNOPSIS
 .sp
 .nf
 .ft C
@@ -99,10 +103,7 @@ HEADER = """\
 
 """
 
-FIELDS = (
-    'Positional arguments',
-    'Optional arguments',
-    'DESCRIPTION',
-    'DANGER',
-    'EXAMPLES',
-)
+POSITIONAL = 'Positional arguments'
+OPTIONAL = 'Optional arguments'
+
+FIELDS = ('DESCRIPTION', OPTIONAL, POSITIONAL, 'DANGER', 'EXAMPLES')
