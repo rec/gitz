@@ -29,17 +29,13 @@ If omitted, the default pattern is ``ba``.  Only the order of the
 letters matter so ``cba``, ``ZYX`` and ``zma`` mean the same thing."""
 
 EXAMPLES = """
-git shuffle
 git shuffle ba
 git shuffle YX
-git shuffle 10
 git shuffle 21
     Switches the first and second most recent commits
 
 git shuffle ab
 git shuffle abc
-git shuffle ADE
-git shuffle 01
 git shuffle 12
     Do nothing
 
