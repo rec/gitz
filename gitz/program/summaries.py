@@ -1,9 +1,9 @@
 SUMMARIES = {
     'git-adjust': 'Amend any commit',
-    'git-all': 'Perform a command on each of multiple branches or directories',
     'git-amp': 'AMend the last commit message and force-Push, somewhat safely',
     'git-copy': 'Copy a git branch locally and on all remotes',
     'git-delete': 'Delete one or more branches locally and remotely',
+    'git-for-each': 'Perform a command for each branch or directory',
     'git-gitz': 'Print information about the gitz environment',
     'git-infer': 'Commit changes with an auto-generated message',
     'git-multi-pick': 'Cherry-pick multiple commits, with an optional squash',

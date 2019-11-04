@@ -10,7 +10,7 @@ class GitAllTest(unittest.TestCase):
     @repo.test
     def test_directories(self):
         os.chdir(Path(__file__).parent.parent)
-        actual = GIT.all('test/data/*', '-', 'ls', '-1', '-v', shell=True)
+        actual = GIT.for_each('test/data/*', '-', 'ls', '-1', '-v', shell=True)
         self.assertEqual(actual, _DIRECTORIES.split('\n'))
 
     @repo.test
@@ -22,7 +22,7 @@ class GitAllTest(unittest.TestCase):
         GIT.checkout(current)
         GIT.checkout('-b', 'bar')
         self.assertEqual(repo.make_commit('three.txt'), 'b6aee43')
-        actual = GIT.all('-', 'git', 'log', '--oneline', '-v')
+        actual = GIT.for_each('-', 'git', 'log', '--oneline', '-v')
         print(*actual, sep='\n')
         self.assertEqual(actual, _BRANCHES.split('\n'))
 

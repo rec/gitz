@@ -27,14 +27,14 @@ git-infer:
 
 git-gitz:
     Print information about the gitz environment
+git-for-each:
+    Perform a command for each branch or directory
 git-delete:
     Delete one or more branches locally and remotely
 git-copy:
     Copy a git branch locally and on all remotes
+
 git-amp:
     AMend the last commit message and force-Push, somewhat safely
-
-git-all:
-    Perform a command on each of multiple branches or directories
 git-adjust:
     Amend any commit
