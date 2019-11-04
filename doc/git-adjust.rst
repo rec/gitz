@@ -1,5 +1,5 @@
-``git adjust``: Amend any commit
---------------------------------
+``git adjust``: Amend any commit, not just the last
+---------------------------------------------------
 
 USAGE
 =====
@@ -10,7 +10,8 @@ USAGE
 
 Positional arguments
   ``target``: Target commit that gets amended
-  ``edit``: Edit commit that is used to amend the target.If empty, use the changes in the staging area.
+  ``edit``: Edit commit that is used to amend the target.If empty, use the changes
+  ``in``: the staging area.
 
 Optional arguments
   ``-h, --help``: show this help message and exit

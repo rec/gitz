@@ -1,7 +1,7 @@
-.TH GIT-ADJUST 1 "02 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-ADJUST 1 "04 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
-git-adjust - Amend any commit
+git-adjust - Amend any commit, not just the last
 
 .SH USAGE
 .sp
@@ -15,7 +15,9 @@ git adjust [-h] [-q] [-v] [-m MESSAGE] [-n] [target] [edit]
 .SH POSITIONAL ARGUMENTS
 \fBtarget\fP: Target commit that gets amended
 
-\fBedit\fP: Edit commit that is used to amend the target.If empty, use the changes in the staging area.
+\fBedit\fP: Edit commit that is used to amend the target.If empty, use the changes
+
+\fBin\fP: the staging area.
 
 
 .SH OPTIONAL ARGUMENTS

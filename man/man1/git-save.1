@@ -1,19 +1,21 @@
-.TH GIT-RESTORE 1 "02 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-SAVE 1 "04 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
-git-restore - Save and restore state of the git repository
+git-save - Save and restore state of the git repository
 
 .SH USAGE
 .sp
 .nf
 .ft C
-git restore [-h] [-q] [-v] [-a] [-n] [state]
+git save [-h] [-q] [-v] [-a] [-d] [-n] [state]
 .ft P
 .fi
 
 
 .SH POSITIONAL ARGUMENTS
-\fBstate\fP: Restore to this state if set. Otherwise, print a commit ID that saves this state.
+\fBstate\fP: Save to this state if set. Otherwise, print a commit ID that saves this
+
+\fBstate.\fP: 
 
 
 .SH OPTIONAL ARGUMENTS
@@ -23,7 +25,9 @@ git restore [-h] [-q] [-v] [-a] [-n] [state]
 
 \fB\-v, \-\-verbose\fP: Report all messages in great detail
 
-\fB\-a, \-\-all\fP: Restore even untracked files
+\fB\-a, \-\-all\fP: Save even untracked files
+
+\fB\-d, \-\-do_not_stash\fP: If set, do not stash the commit ID, just print it out
 
 \fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 
@@ -37,6 +41,6 @@ Rewrites history!
 
 .SH EXAMPLES
 .TP
-.B \fB git restore \fP
+.B \fB git save \fP
 Prints the commit ID that represents this current state
 

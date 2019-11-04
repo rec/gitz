@@ -1,12 +1,12 @@
-``git all``: Perform a command on each of multiple branches or directories
---------------------------------------------------------------------------
+``git for-each``: Perform a command for each branch or directory
+----------------------------------------------------------------
 
 USAGE
 =====
 
 .. code-block:: bash
 
-    git all [-h] [-q] [-v] [-a] [-f] [-i INDENT] [-n] [name [name ...]]
+    git for-each [-h] [-q] [-v] [-a] [-f] [-i INDENT] [-n] [name [name ...]]
 
 Positional arguments
   ``name``: Names of branches or directories to iterate over

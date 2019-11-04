@@ -84,7 +84,7 @@ Safe commands
 Informational commands that don't change your repository
 
 `git gitz <doc/git gitz.rst>`_
-  Print information about the gitz environment
+  Print information about the gitz git commands
 
 `git infer <doc/git infer.rst>`_
   Commit changes with an automatically generated message
@@ -115,13 +115,13 @@ Dangerous commands that delete, rename or overwrite branches
 ============================================================
 
 `git copy <doc/git copy.rst>`_
-  Copy a git branch locally and on all remotes
+  Copy a git branch locally and remotely
 
 `git delete <doc/git delete.rst>`_
   Delete one or more branches locally and remotely
 
 `git rename <doc/git rename.rst>`_
-  Rename a git branch locally and on all remotes
+  Rename a git branch locally and remotely
 
 By default, the branches ``develop`` and ``master`` and the remote ``upstream``
 are protected - they are not allowed to be copied to, renamed, or deleted.
@@ -146,12 +146,12 @@ These commands are not intended for use on a shared or production branch, but
 can significantly speed up rapid development on private branches.
 
 `git adjust <doc/git adjust.rst>`_
-  Amend any commit
+  Amend any commit, not just the last
 
 `git amp <doc/git amp.rst>`_
   AMend the last commit message and force-Push, somewhat safely
 
-`git restore <doc/git restore.rst>`_
+`git save <doc/git save.rst>`_
   Save and restore state of the git repository
 
 `git shuffle <doc/git shuffle.rst>`_
@@ -170,5 +170,5 @@ Dangerous commands that are janky
 simple cases, and I don't see a good path to making it do complicated
 things in a sane way.
 
-`git all <doc/git all.rst>`_
-  Perform a command on each of multiple branches or directories
+`git for-each <doc/git for-each.rst>`_
+  Perform a command for each branch or directory

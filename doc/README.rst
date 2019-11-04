@@ -2,22 +2,22 @@ gitz commands
 -------------
 
 `git-adjust <git-adjust.rst>`_
-  Amend any commit
-
-`git-all <git-all.rst>`_
-  Perform a command on each of multiple branches or directories
+  Amend any commit, not just the last
 
 `git-amp <git-amp.rst>`_
   AMend the last commit message and force-Push, somewhat safely
 
 `git-copy <git-copy.rst>`_
-  Copy a git branch locally and on all remotes
+  Copy a git branch locally and remotely
 
 `git-delete <git-delete.rst>`_
   Delete one or more branches locally and remotely
 
+`git-for-each <git-for-each.rst>`_
+  Perform a command for each branch or directory
+
 `git-gitz <git-gitz.rst>`_
-  Print information about the gitz environment
+  Print information about the gitz git commands
 
 `git-infer <git-infer.rst>`_
   Commit changes with an automatically generated message
@@ -31,13 +31,13 @@ gitz commands
   Create and push new branches
 
 `git-rename <git-rename.rst>`_
-  Rename a git branch locally and on all remotes
-
-`git-restore <git-restore.rst>`_
-  Save and restore state of the git repository
+  Rename a git branch locally and remotely
 
 `git-rotate <git-rotate.rst>`_
   Rotate through branches in a Git repository
+
+`git-save <git-save.rst>`_
+  Save and restore state of the git repository
 
 `git-shuffle <git-shuffle.rst>`_
   Reorder and delete commits in the current branch

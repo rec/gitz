@@ -1,15 +1,16 @@
-``git restore``: Save and restore state of the git repository
--------------------------------------------------------------
+``git save``: Save and restore state of the git repository
+----------------------------------------------------------
 
 USAGE
 =====
 
 .. code-block:: bash
 
-    git restore [-h] [-q] [-v] [-a] [-n] [state]
+    git save [-h] [-q] [-v] [-a] [-d] [-n] [state]
 
 Positional arguments
-  ``state``: Restore to this state if set. Otherwise, print a commit ID that saves this state.
+  ``state``: Save to this state if set. Otherwise, print a commit ID that saves this
+  ``state.``: 
 
 Optional arguments
   ``-h, --help``: show this help message and exit
@@ -18,7 +19,9 @@ Optional arguments
 
   ``-v, --verbose``: Report all messages in great detail
 
-  ``-a, --all``: Restore even untracked files
+  ``-a, --all``: Save even untracked files
+
+  ``-d, --do_not_stash``: If set, do not stash the commit ID, just print it out
 
   ``-n, --no-run``: If set, commands will be printed but not executed
 
@@ -36,5 +39,5 @@ Rewrites history!
 EXAMPLES
 ========
 
-``git restore``
+``git save``
     Prints the commit ID that represents this current state

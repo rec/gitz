@@ -1,7 +1,7 @@
-.TH GIT-COPY 1 "02 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-COPY 1 "04 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
-git-copy - Copy a git branch locally and on all remotes
+git-copy - Copy a git branch locally and remotely
 
 .SH USAGE
 .sp
@@ -40,15 +40,15 @@ used.
 .sp
 By default, the branches \fBmaster\fP and \fBdevelop\fP and the remote
 \fBupstream\fP are protected, which means that they are not allowed
-to be copied over.
+to be copied over to.
 
 .sp
 Using the \-\-all/\-a flag allows protected branches and remotes
 to be copied.
 
 .sp
-It's also possible to override the protected branches or the
-protected remotes by setting one of the environment variables
+It's also possible to override the protected branches or a
+protected remote by setting one of the environment variables
 GITZ_PROTECTED_BRANCHES or GITZ_PROTECTED_REMOTES
 to a list separated by colons, or an empty string for no protection.
 
@@ -58,8 +58,8 @@ Changes remote branches!
 .SH EXAMPLES
 .TP
 .B \fB git copy old new \fP
-Copy the branch "old" to "new", both locally and in remote
-repositories where the branch "old" exists.
+Copy the branch "old" to "new", both locally and the remote
+repository.
 
 .sp
 Fails if "new" exists locally or in the remote repositories.
@@ -69,8 +69,8 @@ Fails if "new" exists locally or in the remote repositories.
 .B \fB git copy \-a old new \fP
 .TP
 .B \fB git copy \-\-all old new \fP
-Copy the branch "old" to "new", both locally and in remote
-repositories, even protected branches or repositories.
+Copy the branch "old" to "new", both locally and on the
+remote repository, even protected branches or repositories.
 
 .sp
 Fails if "new" exists locally or in the remote repositories.
@@ -80,9 +80,9 @@ Fails if "new" exists locally or in the remote repositories.
 .B \fB git copy \-f old new \fP
 .TP
 .B \fB git copy \-\-force old new \fP
-Copy the branch "old" to "new", both locally and in remote
-repositories where the branch "old" exists.
+Copy the branch "old" to "new", both locally and on the upstream
+remote repository.
 
 .sp
-Overwrites "new" if it exists locally or in the remote repositories.
+Overwrites "new" if it exists locally or in the remote repository.
 

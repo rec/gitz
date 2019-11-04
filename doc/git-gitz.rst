@@ -1,5 +1,5 @@
-``git gitz``: Print information about the gitz environment
-----------------------------------------------------------
+``git gitz``: Print information about the gitz git commands
+-----------------------------------------------------------
 
 USAGE
 =====
