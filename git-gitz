@@ -4,7 +4,7 @@ from gitz.program import env
 from gitz.program import summaries
 from gitz.program import PROGRAM
 
-SUMMARY = 'Print information about the gitz environment'
+SUMMARY = 'Print information about the gitz git commands'
 
 COMMANDS = (
     ('commands', 'All the gitz commands'),
@@ -80,7 +80,7 @@ def add_arguments(parser):
 
 
 def _commands(indent):
-    for i, c in enumerate(reversed(config.COMMANDS)):
+    for i, c in enumerate(config.COMMANDS):
         if i and not (i % SKIP_EVERY):
             PROGRAM.message()
 
