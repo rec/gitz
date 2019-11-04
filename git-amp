@@ -6,13 +6,13 @@ usage() {
 git amp:
     AMend the last commit message and force-Push, somewhat safely
 
-USAGE:
+USAGE
     git amp [commit message here]
 
-DANGER:
+DANGER
     Rewrites history!
 
-DESCRIPTION:
+DESCRIPTION
     AMend the last commit message and force-Push to its upstream branch.
 
     If arguments are given, they are used as the commit message,
@@ -27,7 +27,7 @@ DESCRIPTION:
     any changes in your workspace which would get accidentally mixed into
     the previous commit.
 
-EXAMPLES:
+EXAMPLES
     git amp
         Bring up an editor for a new commit message, then amend and push
 

@@ -32,7 +32,7 @@ git all * - git all - git log --oneline -5
 DANGER = 'This is a bit janky'
 
 USAGE = """
-USAGE:
+USAGE
     git all - <command> [argument argument...]
 """
 

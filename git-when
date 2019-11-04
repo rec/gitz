@@ -11,7 +11,7 @@ git when:
 
     Dotfiles are ignored by default
 
-USAGE:
+USAGE
     git when [-a] [item [..item]]
 
 Optional arguments
