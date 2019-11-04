@@ -5,7 +5,7 @@ from gitz.program import ARGS
 from gitz.program import PROGRAM
 from gitz.git import GIT
 
-SUMMARY = 'Amend any commit'
+SUMMARY = 'Amend any commit, not just the last'
 
 HELP = """
 Amend any commit in the current branch - either with another commit,

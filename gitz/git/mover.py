@@ -116,7 +116,7 @@ class Mover:
 
 
 DANGER = 'Changes remote branches!'
-SUMMARY = '{0.Action} a git branch locally and on all remotes'
+SUMMARY = '{0.Action} a git branch locally and remotely'
 HELP = """
 {0.Action} one branch to another, both locally and in remote
 branches.  If no source branch is given, the current branch is
@@ -124,36 +124,36 @@ used.
 
 By default, the branches `master` and `develop` and the remote
 `upstream` are protected, which means that they are not allowed
-to be {0.word_root}ed {0.direction}.
+to be {0.word_root}ed {0.direction} to.
 
 Using the --all/-a flag allows protected branches and remotes
 to be {0.word_root}ed.
 
-It's also possible to override the protected branches or the
-protected remotes by setting one of the environment variables
+It's also possible to override the protected branches or a
+protected remote by setting one of the environment variables
 GITZ_PROTECTED_BRANCHES or GITZ_PROTECTED_REMOTES
 to a list separated by colons, or an empty string for no protection.
 """
 EXAMPLES = """
 git {0.action} old new
-    {0.Action} the branch "old" to "new", both locally and in remote
-    repositories where the branch "old" exists.
+    {0.Action} the branch "old" to "new", both locally and the remote
+    repository.
 
     Fails if "new" exists locally or in the remote repositories.
 
 git {0.action} -a old new
 git {0.action} --all old new
-    {0.Action} the branch "old" to "new", both locally and in remote
-    repositories, even protected branches or repositories.
+    {0.Action} the branch "old" to "new", both locally and on the
+    remote repository, even protected branches or repositories.
 
     Fails if "new" exists locally or in the remote repositories.
 
 git {0.action} -f old new
 git {0.action} --force old new
-    {0.Action} the branch "old" to "new", both locally and in remote
-    repositories where the branch "old" exists.
+    {0.Action} the branch "old" to "new", both locally and on the upstream
+    remote repository.
 
-    Overwrites "new" if it exists locally or in the remote repositories.
+    Overwrites "new" if it exists locally or in the remote repository.
 """
 
 NAMES = {
