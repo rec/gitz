@@ -1,6 +1,4 @@
 #!/usr/bin/env python3
-# from gitz.git import functions
-# from gitz.git.state import State
 from gitz.git import save
 from gitz.program import ARGS
 from gitz.program import PROGRAM
@@ -24,20 +22,26 @@ DANGER = 'Rewrites history!'
 
 def git_save():
     if ARGS.state:
-        save.save(ARGS.state)
+        save.restore(ARGS.state)
     else:
-        print(save.save(ARGS.all))
+        print(save.save(ARGS.all, not ARGS.do_not_stash))
 
 
 def add_arguments(parser):
     parser.add_argument('state', nargs='?', default='', help=_HELP_STATE)
     parser.add_argument('-a', '--all', action='store_true', help=_HELP_ALL)
+    parser.add_argument(
+        '-d', '--do_not_stash', action='store_true', help=_HELP_STASH
+    )
 
 
 _HELP_ALL = 'Save even untracked files'
 _HELP_STATE = """\
 Save to this state if set. Otherwise, print a commit ID that saves this \
 state."""
+_HELP_STASH = """\
+If set, do not stash the commit ID, just print it out
+"""
 
 
 if __name__ == '__main__':

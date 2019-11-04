@@ -1,6 +1,7 @@
 from ..program import PROGRAM
 from . import GIT
 from pathlib import Path
+import functools
 import os
 
 
@@ -23,6 +24,19 @@ def check_git():
 
 def cd_root():
     os.chdir(check_git())
+
+
+def run_in_root(fn):
+    @functools.wraps(fn)
+    def wrapped(*args, **kwds):
+        saved = os.getcwd()
+        cd_root()
+        try:
+            fn(*args, **kwds)
+        finally:
+            os.chdir(saved)
+
+    return wrapped
 
 
 def is_workspace_dirty():
