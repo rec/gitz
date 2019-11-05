@@ -1,7 +1,7 @@
 from . import repo
 from gitz import config
 from gitz.git import GIT
-from pathlib import Path
+from gitz.program import summaries
 import unittest
 
 
@@ -21,7 +21,9 @@ class GitGitzTest(unittest.TestCase):
     def test_commands(self):
         expected = COMMANDS
         for c in 'c', 'com', 'commands':
-            self.assertEqual(GIT.gitz(c, '-v'), expected)
+            actual = GIT.gitz(c, '-v')
+            self.assertEqual(actual, expected)
+            self.assertEqual(len(actual), len(expected))
 
     @repo.test
     def test_executable_directory(self):
@@ -52,12 +54,22 @@ class GitGitzTest(unittest.TestCase):
             GIT.gitz('Com', '-v')
 
 
+def _commands():
+    for i, (cmd, summary) in enumerate(sorted(summaries.SUMMARIES.items())):
+        if i and not (i % 4):
+            yield ''
+
+        yield cmd + ':'
+        yield '    ' + summary
+
+
 HOME_PAGE = config.HOME_PAGE
 EXECUTABLE_DIRECTORY = str(config.LIBRARY_DIRECTORY.parent)
 LIBRARY_DIRECTORY = str(config.LIBRARY_DIRECTORY)
 VERSION = config.VERSION
-COMMANDS_FILE = Path(__file__).parent / 'gitz_commands.txt'
-COMMANDS = COMMANDS_FILE.read_text().splitlines()
+
+
+COMMANDS = list(_commands())
 INDENT_COMMANDS = '\n'.join(('    ' if c else '') + c for c in COMMANDS)
 
 RESULTS = """\
