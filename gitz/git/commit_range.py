@@ -27,7 +27,7 @@ def commit_range(c1, c2):
     else:
         raise ValueError('%s, %s not in the same history' % (count, commit_id))
 
-    count = 0
+    count = 1
     node = child
     while node != parent:
         count += 1
