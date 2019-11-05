@@ -70,10 +70,16 @@ def remote_branches(must_fetch=True):
     return result
 
 
-def check_is_ancestor(parent, child='HEAD'):
+def is_ancestor(parent, child='HEAD'):
     try:
         GIT.merge_base('--is-ancestor', parent, child)
+        return True
     except Exception:
+        return False
+
+
+def check_is_ancestor(parent, child='HEAD'):
+    if not is_ancestor(parent, child):
         PROGRAM.exit(parent, 'is not an ancestor of', child)
 
 

@@ -80,7 +80,7 @@ def make_commit(*names, **kwds):
 
 def commit(message):
     GIT.commit('-m', message)
-    return functions.commit_id()[: functions.COMMIT_ID_LENGTH]
+    return functions.commit_id()
 
 
 def make_one_commit(filename, contents, message):
