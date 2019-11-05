@@ -33,11 +33,11 @@ def save(untracked=False, stash=True):
         GIT.add(SAVE_FILE)
         GIT.stash()
 
-    restore(state)
+    restore(state, clean=False)
     return state
 
 
-def restore(state):
+def restore(state, clean=True):
     if state == 'pop':
         GIT.stash('pop')
         if not SAVE_FILE.exists():
@@ -48,7 +48,8 @@ def restore(state):
         os.remove(str(SAVE_FILE))
 
     GIT.reset('--hard', state)
-    GIT.clean('-f')
+    if clean:
+        GIT.clean('-f')
     msg = functions.message('HEAD')
 
     while msg.startswith(PREFIX):
