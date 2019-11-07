@@ -2,6 +2,7 @@ from . import repo
 from gitz import config
 from gitz.git import GIT
 from gitz.program import summaries
+import platform
 import unittest
 
 
@@ -67,7 +68,8 @@ HOME_PAGE = config.HOME_PAGE
 EXECUTABLE_DIRECTORY = str(config.LIBRARY_DIRECTORY.parent)
 LIBRARY_DIRECTORY = str(config.LIBRARY_DIRECTORY)
 VERSION = config.VERSION
-
+PYTHON_VERSION = platform.python_version()
+PLATFORM = platform.platform()
 
 COMMANDS = list(_commands())
 INDENT_COMMANDS = '\n'.join(('    ' if c else '') + c for c in COMMANDS)
@@ -91,6 +93,9 @@ Home page:
 
 Library directory:
     {LIBRARY_DIRECTORY}
+
+Python:
+    Python v{PYTHON_VERSION} on {PLATFORM}
 
 Version:
     {VERSION}

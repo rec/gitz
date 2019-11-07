@@ -3,6 +3,7 @@ from gitz import config
 from gitz.program import env
 from gitz.program import summaries
 from gitz.program import PROGRAM
+import platform
 
 SUMMARY = 'Print information about the gitz git commands'
 
@@ -12,7 +13,8 @@ COMMANDS = (
     ('executable_directory', 'The path to the gitz executable directory,'),
     ('home_page', 'The home page of the gitz project'),
     ('library_directory', 'The gitz library directory'),
-    ('version', 'The version number'),
+    ('python', 'About the version of Python used'),
+    ('version', 'The version number of gitz'),
 )
 
 ALL = tuple(c for c, d in COMMANDS)
@@ -104,6 +106,11 @@ def _home_page(indent):
 
 def _library_directory(indent):
     PROGRAM.message(indent + str(config.LIBRARY_DIRECTORY))
+
+
+def _python(indent):
+    pv = platform.python_version()
+    PROGRAM.message(indent + 'Python v%s on %s' % (pv, platform.platform()))
 
 
 def _version(indent):
