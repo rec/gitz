@@ -1,4 +1,7 @@
 from pathlib import Path
+from termtosvg import config
+from termtosvg import main as ts_main
+
 
 FILE = Path(__file__)
 ROOT = FILE.parent.parent
@@ -9,7 +12,7 @@ SVG_SUFFIX = '.svg'
 CAST_DIR = ROOT / 'cast'
 CAST_SUFFIX = '.cast'
 
-TEMPLATE = 'dracula'
+TEMPLATE = 'base16_default_dark'
 
 
 def main(commands):
@@ -27,20 +30,14 @@ def main(commands):
 
 
 def _render(cast_file, svg_file):
-    from termtosvg.main import (
-        DEFAULT_LOOP_DELAY,
-        render_subcommand,
-    )  # , logger
-    from termtosvg.config import default_templates
-
-    render_subcommand(
+    ts_main.render_subcommand(
         still=False,
-        template=default_templates()[TEMPLATE],
+        template=config.default_templates()[TEMPLATE],
         cast_filename=cast_file,
         output_path=svg_file,
         min_frame_duration=1,
         max_frame_duration=None,
-        loop_delay=DEFAULT_LOOP_DELAY,
+        loop_delay=ts_main.DEFAULT_LOOP_DELAY,
     )
 
     print('+', svg_file)

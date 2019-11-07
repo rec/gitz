@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="terminal" baseProfile="full" viewBox="0 0 768 410" width="768" version="1.1">
+    <defs>
+        <termtosvg:template_settings xmlns:termtosvg="https://github.com/nbedos/termtosvg">
+            <termtosvg:screen_geometry columns="96" rows="24"/>
+            <termtosvg:animation type="css"/>
+        </termtosvg:template_settings>
+        <style type="text/css" id="generated-style"><![CDATA[#screen {
+                font-family: 'DejaVu Sans Mono', monospace;
+                font-style: normal;
+                font-size: 14px;
+            }
+
+        text {
+            dominant-baseline: text-before-edge;
+            white-space: pre;
+        }
+    
+            :root {
+                --animation-duration: 8095ms;
+            }
+
+            @keyframes roll {
+                0.000%{transform:translateY(0px)}
+7.869%{transform:translateY(-442px)}
+10.624%{transform:translateY(-884px)}
+12.119%{transform:translateY(-1326px)}
+14.873%{transform:translateY(-1768px)}
+23.471%{transform:translateY(-2210px)}
+27.054%{transform:translateY(-2652px)}
+28.820%{transform:translateY(-3094px)}
+30.513%{transform:translateY(-3536px)}
+45.917%{transform:translateY(-3978px)}
+46.411%{transform:translateY(-4420px)}
+46.547%{transform:translateY(-4862px)}
+87.647%{transform:translateY(-5304px)}
+100.000%{transform:translateY(-5304px)}
+            }
+
+            #screen_view {
+                animation-duration: 8095ms;
+                animation-iteration-count:infinite;
+                animation-name:roll;
+                animation-timing-function: steps(1,end);
+                animation-fill-mode: forwards;
+            }
+        ]]></style>
+        <style type="text/css" id="user-style">
+            /* The colors defined below are the default 16 colors used for rendering text of the terminal. Adjust
+               them as needed.
+               base16-default-dark color theme (source: http://chriskempson.com/projects/base16/) */
+            .foreground {fill: #d8d8d8;}
+            .background {fill: #181818;}
+            .color0 {fill: #181818;}
+            .color1 {fill: #ab4642;}
+            .color2 {fill: #a1b56c;}
+            .color3 {fill: #f7ca88;}
+            .color4 {fill: #7cafc2;}
+            .color5 {fill: #ba8baf;}
+            .color6 {fill: #86c1b9;}
+            .color7 {fill: #d8d8d8;}
+            .color8 {fill: #585858;}
+            .color9 {fill: #ab4642;}
+            .color10 {fill: #a1b56C;}
+            .color11 {fill: #f7ca88;}
+            .color12 {fill: #7cafc2;}
+            .color13 {fill: #ba8baf;}
+            .color14 {fill: #86c1b9;}
+            .color15 {fill: #f8f8f8;}
+        </style>
+    </defs>
+    <svg id="screen" width="768" height="408" viewBox="0 0 768 408" preserveAspectRatio="xMidYMin slice">
+    <rect class="background" height="100%" width="100%" x="0" y="0"/><defs><g id="g1"><text x="0" textLength="312" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ </text><text x="312" textLength="8" class="background"> </text></g><g id="g2"><text x="0" textLength="320" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ g</text><text x="320" textLength="8" class="background"> </text></g><g id="g3"><text x="0" textLength="328" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ gi</text><text x="328" textLength="8" class="background"> </text></g><g id="g4"><text x="0" textLength="336" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git</text><text x="336" textLength="8" class="background"> </text></g><g id="g5"><text x="0" textLength="344" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git-</text><text x="344" textLength="8" class="background"> </text></g><g id="g6"><text x="0" textLength="336" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git</text><text x="336" textLength="8" class="background"> </text><text x="344" textLength="424" class="foreground">                                                     </text></g><g id="g7"><text x="0" textLength="344" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git </text><text x="344" textLength="8" class="background"> </text><text x="352" textLength="416" class="foreground">                                                    </text></g><g id="g8"><text x="0" textLength="352" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git s</text><text x="352" textLength="8" class="background"> </text><text x="360" textLength="408" class="foreground">                                                   </text></g><g id="g9"><text x="0" textLength="360" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git st</text><text x="360" textLength="8" class="background"> </text><text x="368" textLength="400" class="foreground">                                                  </text></g><g id="g10"><text x="0" textLength="768" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git st                                                   </text></g><g id="g11"><text x="0" textLength="8" class="background"> </text></g><g id="g12"><text x="0" textLength="48" class="color2">master</text><text x="48" textLength="24" class="foreground">...</text><text x="72" textLength="104" class="color1">origin/master</text></g><g id="g13"><text x="0" textLength="8" class="color2">A</text><text x="8" textLength="224" class="foreground">  cast/git-gitz.cast  |  79 </text><text x="232" textLength="280" class="color2">+++++++++++++++++++++++++++++++++++</text></g><g id="g14"><text x="0" textLength="8" class="color2">A</text><text x="8" textLength="224" class="foreground">  cast/git-when.cast  | 118 </text><text x="232" textLength="424" class="color2">+++++++++++++++++++++++++++++++++++++++++++++++++++++</text></g><g id="g15"><text x="0" textLength="8" class="color2">A</text><text x="8" textLength="224" class="foreground">  cast/script.txt     |  52 </text><text x="232" textLength="184" class="color2">+++++++++++++++++++++++</text></g><g id="g16"><text x="0" textLength="8" class="foreground"> </text><text x="8" textLength="8" class="color1">M</text><text x="16" textLength="216" class="foreground"> gitz_doc/movies.py  |  17 </text><text x="232" textLength="32" class="color2">++++</text><text x="264" textLength="32" class="color1">----</text></g><g id="g17"><text x="0" textLength="16" class="color1">??</text><text x="16" textLength="168" class="foreground"> cast/git-st.cast    </text></g><g id="g18"><text x="0" textLength="16" class="color1">??</text><text x="16" textLength="168" class="foreground"> doc/movies/         </text></g></defs><g id="screen_view"><g><rect x="312" y="0" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="0"/></g><g><rect x="320" y="442" width="8" height="17" class="foreground"/><use xlink:href="#g2" y="442"/></g><g><rect x="328" y="884" width="8" height="17" class="foreground"/><use xlink:href="#g3" y="884"/></g><g><rect x="336" y="1326" width="8" height="17" class="foreground"/><use xlink:href="#g4" y="1326"/></g><g><rect x="344" y="1768" width="8" height="17" class="foreground"/><use xlink:href="#g5" y="1768"/></g><g><rect x="336" y="2210" width="8" height="17" class="foreground"/><use xlink:href="#g6" y="2210"/></g><g><rect x="344" y="2652" width="8" height="17" class="foreground"/><use xlink:href="#g7" y="2652"/></g><g><rect x="352" y="3094" width="8" height="17" class="foreground"/><use xlink:href="#g8" y="3094"/></g><g><rect x="360" y="3536" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="3536"/></g><g><use xlink:href="#g10" y="3978"/><rect x="0" y="3995" width="8" height="17" class="foreground"/><use xlink:href="#g11" y="3995"/></g><g><use xlink:href="#g10" y="4420"/><use xlink:href="#g12" y="4437"/><use xlink:href="#g13" y="4454"/><use xlink:href="#g14" y="4471"/><use xlink:href="#g15" y="4488"/><use xlink:href="#g16" y="4505"/><use xlink:href="#g17" y="4522"/><use xlink:href="#g18" y="4539"/><rect x="0" y="4556" width="8" height="17" class="foreground"/><use xlink:href="#g11" y="4556"/></g><g><use xlink:href="#g10" y="4862"/><use xlink:href="#g12" y="4879"/><use xlink:href="#g13" y="4896"/><use xlink:href="#g14" y="4913"/><use xlink:href="#g15" y="4930"/><use xlink:href="#g16" y="4947"/><use xlink:href="#g17" y="4964"/><use xlink:href="#g18" y="4981"/><rect x="312" y="4998" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="4998"/></g><g><use xlink:href="#g10" y="5304"/><use xlink:href="#g12" y="5321"/><use xlink:href="#g13" y="5338"/><use xlink:href="#g14" y="5355"/><use xlink:href="#g15" y="5372"/><use xlink:href="#g16" y="5389"/><use xlink:href="#g17" y="5406"/><use xlink:href="#g18" y="5423"/><rect x="312" y="5440" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="5440"/></g></g></svg>
+</svg>
