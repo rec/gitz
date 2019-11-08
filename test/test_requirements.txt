@@ -1,7 +1,2 @@
-black
-coverage
 flake8
 import_all
-pyfakefs
-pygments
-pytest
