@@ -1,31 +1,15 @@
-.TH GIT-SHUFFLE 1 "04 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-SHUFFLE 1 "08 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-shuffle - Reorder and delete commits in the current branch
 
-.SH USAGE
+.SH SYNOPSIS
 .sp
 .nf
 .ft C
 git shuffle [-h] [-q] [-v] [-s [SQUASH]] [-n] shuffle
 .ft P
 .fi
-
-
-.SH POSITIONAL ARGUMENTS
-\fBshuffle\fP: Pattern string to shuffle (defaults to "ba")
-
-
-.SH OPTIONAL ARGUMENTS
-\fB\-h, \-\-help\fP: show this help message and exit
-
-\fB\-q, \-\-quiet\fP: Suppress all output
-
-\fB\-v, \-\-verbose\fP: Report all messages in great detail
-
-\fB\-s [SQUASH], \-\-squash [SQUASH]\fP: Squash all commits into one. If an argument is provided, use it as the commit message.
-
-\fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 
 
 .SH DESCRIPTION
@@ -50,18 +34,29 @@ third most recent and the fifth most recent commit from the branch.
 If omitted, the default pattern is \fBba\fP.  Only the order of the
 letters matter so \fBcba\fP, \fBZYX\fP and \fBzma\fP mean the same thing.
 
+.SH OPTIONS
+\fB\-h, \-\-help\fP: show this help message and exit
+
+\fB\-q, \-\-quiet\fP: Suppress all output
+
+\fB\-v, \-\-verbose\fP: Report all messages in great detail
+
+\fB\-s [SQUASH], \-\-squash [SQUASH]\fP: Squash all commits into one. If an argument is provided, use it as the commit message.
+
+\fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
+
+
+\fBshuffle\fP: Pattern string to shuffle (defaults to "ba")
+
+
 .SH DANGER
 Rewrites history!
 
 .SH EXAMPLES
 .TP
-.B \fB git shuffle \fP
-.TP
 .B \fB git shuffle ba \fP
 .TP
 .B \fB git shuffle YX \fP
-.TP
-.B \fB git shuffle 10 \fP
 .TP
 .B \fB git shuffle 21 \fP
 Switches the first and second most recent commits
@@ -71,10 +66,6 @@ Switches the first and second most recent commits
 .B \fB git shuffle ab \fP
 .TP
 .B \fB git shuffle abc \fP
-.TP
-.B \fB git shuffle ADE \fP
-.TP
-.B \fB git shuffle 01 \fP
 .TP
 .B \fB git shuffle 12 \fP
 Do nothing

@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" id="terminal" baseProfile="full" viewBox="0 0 712 784" width="712" version="1.1">
+    <defs>
+        <termtosvg:template_settings xmlns:termtosvg="https://github.com/nbedos/termtosvg">
+            <termtosvg:screen_geometry columns="89" rows="46"/>
+            <termtosvg:animation type="css"/>
+        </termtosvg:template_settings>
+        <style type="text/css" id="generated-style"><![CDATA[#screen {
+                font-family: 'DejaVu Sans Mono', monospace;
+                font-style: normal;
+                font-size: 14px;
+            }
+
+        text {
+            dominant-baseline: text-before-edge;
+            white-space: pre;
+        }
+    
+            :root {
+                --animation-duration: 8199ms;
+            }
+
+            @keyframes roll {
+                0.000%{transform:translateY(0px)}
+18.112%{transform:translateY(-816px)}
+20.356%{transform:translateY(-1632px)}
+20.759%{transform:translateY(-2448px)}
+21.820%{transform:translateY(-3264px)}
+31.565%{transform:translateY(-4080px)}
+34.785%{transform:translateY(-4896px)}
+35.797%{transform:translateY(-5712px)}
+37.151%{transform:translateY(-6528px)}
+38.993%{transform:translateY(-7344px)}
+41.529%{transform:translateY(-8160px)}
+42.993%{transform:translateY(-8976px)}
+44.274%{transform:translateY(-9792px)}
+46.030%{transform:translateY(-10608px)}
+47.884%{transform:translateY(-11424px)}
+49.726%{transform:translateY(-12240px)}
+52.165%{transform:translateY(-13056px)}
+55.470%{transform:translateY(-13872px)}
+66.228%{transform:translateY(-14688px)}
+67.789%{transform:translateY(-15504px)}
+69.460%{transform:translateY(-16320px)}
+71.704%{transform:translateY(-17136px)}
+71.814%{transform:translateY(-17952px)}
+78.717%{transform:translateY(-18768px)}
+81.559%{transform:translateY(-19584px)}
+87.803%{transform:translateY(-20400px)}
+100.000%{transform:translateY(-20400px)}
+            }
+
+            #screen_view {
+                animation-duration: 8199ms;
+                animation-iteration-count:infinite;
+                animation-name:roll;
+                animation-timing-function: steps(1,end);
+                animation-fill-mode: forwards;
+            }
+        ]]></style>
+        <style type="text/css" id="user-style">
+            /* The colors defined below are the default 16 colors used for rendering text of the terminal. Adjust
+               them as needed.
+               base16-default-dark color theme (source: http://chriskempson.com/projects/base16/) */
+            .foreground {fill: #d8d8d8;}
+            .background {fill: #181818;}
+            .color0 {fill: #181818;}
+            .color1 {fill: #ab4642;}
+            .color2 {fill: #a1b56c;}
+            .color3 {fill: #f7ca88;}
+            .color4 {fill: #7cafc2;}
+            .color5 {fill: #ba8baf;}
+            .color6 {fill: #86c1b9;}
+            .color7 {fill: #d8d8d8;}
+            .color8 {fill: #585858;}
+            .color9 {fill: #ab4642;}
+            .color10 {fill: #a1b56C;}
+            .color11 {fill: #f7ca88;}
+            .color12 {fill: #7cafc2;}
+            .color13 {fill: #ba8baf;}
+            .color14 {fill: #86c1b9;}
+            .color15 {fill: #f8f8f8;}
+        </style>
+    </defs>
+    <svg id="screen" width="712" height="782" viewBox="0 0 712 782" preserveAspectRatio="xMidYMin slice">
+    <rect class="background" height="100%" width="100%" x="0" y="0"/><defs><g id="g1"><text x="0" textLength="312" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ </text><text x="312" textLength="8" class="background"> </text></g><g id="g2"><text x="0" textLength="320" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ g</text><text x="320" textLength="8" class="background"> </text></g><g id="g3"><text x="0" textLength="328" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ gi</text><text x="328" textLength="8" class="background"> </text></g><g id="g4"><text x="0" textLength="336" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ giu</text><text x="336" textLength="8" class="background"> </text></g><g id="g5"><text x="0" textLength="344" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ giut</text><text x="344" textLength="8" class="background"> </text></g><g id="g6"><text x="0" textLength="336" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ giu</text><text x="336" textLength="8" class="background"> </text><text x="344" textLength="368" class="foreground">                                              </text></g><g id="g7"><text x="0" textLength="328" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ gi</text><text x="328" textLength="8" class="background"> </text><text x="336" textLength="376" class="foreground">                                               </text></g><g id="g8"><text x="0" textLength="336" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git</text><text x="336" textLength="8" class="background"> </text><text x="344" textLength="368" class="foreground">                                              </text></g><g id="g9"><text x="0" textLength="344" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git </text><text x="344" textLength="8" class="background"> </text><text x="352" textLength="360" class="foreground">                                             </text></g><g id="g10"><text x="0" textLength="352" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git l</text><text x="352" textLength="8" class="background"> </text><text x="360" textLength="352" class="foreground">                                            </text></g><g id="g11"><text x="0" textLength="360" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git lo</text><text x="360" textLength="8" class="background"> </text><text x="368" textLength="344" class="foreground">                                           </text></g><g id="g12"><text x="0" textLength="368" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git log</text><text x="368" textLength="8" class="background"> </text><text x="376" textLength="336" class="foreground">                                          </text></g><g id="g13"><text x="0" textLength="376" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git log </text><text x="376" textLength="8" class="background"> </text><text x="384" textLength="328" class="foreground">                                         </text></g><g id="g14"><text x="0" textLength="384" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git log -</text><text x="384" textLength="8" class="background"> </text><text x="392" textLength="320" class="foreground">                                        </text></g><g id="g15"><text x="0" textLength="392" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git log --</text><text x="392" textLength="8" class="background"> </text><text x="400" textLength="312" class="foreground">                                       </text></g><g id="g16"><text x="0" textLength="400" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git log --o</text><text x="400" textLength="8" class="background"> </text><text x="408" textLength="304" class="foreground">                                      </text></g><g id="g17"><text x="0" textLength="408" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git log --on</text><text x="408" textLength="8" class="background"> </text><text x="416" textLength="296" class="foreground">                                     </text></g><g id="g18"><text x="0" textLength="416" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git log --onl</text><text x="416" textLength="8" class="background"> </text><text x="424" textLength="288" class="foreground">                                    </text></g><g id="g19"><text x="0" textLength="416" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git log --one</text><text x="416" textLength="8" class="background"> </text><text x="424" textLength="288" class="foreground">                                    </text></g><g id="g20"><text x="0" textLength="424" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git log --one;</text><text x="424" textLength="8" class="background"> </text><text x="432" textLength="280" class="foreground">                                   </text></g><g id="g21"><text x="0" textLength="432" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git log --one;i</text><text x="432" textLength="8" class="background"> </text><text x="440" textLength="272" class="foreground">                                  </text></g><g id="g22"><text x="0" textLength="440" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ git log --one;io</text><text x="440" textLength="8" class="background"> </text><text x="448" textLength="264" class="foreground">                                 </text></g><g id="g23"><text x="0" textLength="312" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ </text><text x="312" textLength="8" class="background">g</text><text x="320" textLength="392" class="foreground">it log --one;io                                  </text></g><g id="g24"><text x="0" textLength="312" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ </text><text x="312" textLength="8" class="background"> </text><text x="320" textLength="392" class="foreground">                                                 </text></g><g id="g25"><text x="0" textLength="712" class="foreground">[gitz] (master) tom@bantam:/code/gitz$ exit                                              </text></g><g id="g26"><text x="0" textLength="8" class="background"> </text></g></defs><g id="screen_view"><g><rect x="312" y="0" width="8" height="17" class="foreground"/><use xlink:href="#g1" y="0"/></g><g><rect x="320" y="816" width="8" height="17" class="foreground"/><use xlink:href="#g2" y="816"/></g><g><rect x="328" y="1632" width="8" height="17" class="foreground"/><use xlink:href="#g3" y="1632"/></g><g><rect x="336" y="2448" width="8" height="17" class="foreground"/><use xlink:href="#g4" y="2448"/></g><g><rect x="344" y="3264" width="8" height="17" class="foreground"/><use xlink:href="#g5" y="3264"/></g><g><rect x="336" y="4080" width="8" height="17" class="foreground"/><use xlink:href="#g6" y="4080"/></g><g><rect x="328" y="4896" width="8" height="17" class="foreground"/><use xlink:href="#g7" y="4896"/></g><g><rect x="336" y="5712" width="8" height="17" class="foreground"/><use xlink:href="#g8" y="5712"/></g><g><rect x="344" y="6528" width="8" height="17" class="foreground"/><use xlink:href="#g9" y="6528"/></g><g><rect x="352" y="7344" width="8" height="17" class="foreground"/><use xlink:href="#g10" y="7344"/></g><g><rect x="360" y="8160" width="8" height="17" class="foreground"/><use xlink:href="#g11" y="8160"/></g><g><rect x="368" y="8976" width="8" height="17" class="foreground"/><use xlink:href="#g12" y="8976"/></g><g><rect x="376" y="9792" width="8" height="17" class="foreground"/><use xlink:href="#g13" y="9792"/></g><g><rect x="384" y="10608" width="8" height="17" class="foreground"/><use xlink:href="#g14" y="10608"/></g><g><rect x="392" y="11424" width="8" height="17" class="foreground"/><use xlink:href="#g15" y="11424"/></g><g><rect x="400" y="12240" width="8" height="17" class="foreground"/><use xlink:href="#g16" y="12240"/></g><g><rect x="408" y="13056" width="8" height="17" class="foreground"/><use xlink:href="#g17" y="13056"/></g><g><rect x="416" y="13872" width="8" height="17" class="foreground"/><use xlink:href="#g18" y="13872"/></g><g><rect x="408" y="14688" width="8" height="17" class="foreground"/><use xlink:href="#g17" y="14688"/></g><g><rect x="416" y="15504" width="8" height="17" class="foreground"/><use xlink:href="#g19" y="15504"/></g><g><rect x="424" y="16320" width="8" height="17" class="foreground"/><use xlink:href="#g20" y="16320"/></g><g><rect x="432" y="17136" width="8" height="17" class="foreground"/><use xlink:href="#g21" y="17136"/></g><g><rect x="440" y="17952" width="8" height="17" class="foreground"/><use xlink:href="#g22" y="17952"/></g><g><rect x="312" y="18768" width="8" height="17" class="foreground"/><use xlink:href="#g23" y="18768"/></g><g><rect x="312" y="19584" width="8" height="17" class="foreground"/><use xlink:href="#g24" y="19584"/></g><g><use xlink:href="#g25" y="20400"/><rect x="0" y="20417" width="8" height="17" class="foreground"/><use xlink:href="#g26" y="20417"/></g></g></svg>
+</svg>

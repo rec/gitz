@@ -1,9 +1,9 @@
-.TH GIT-SPLIT 1 "04 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-SPLIT 1 "08 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-split - Split a range of commits into many single-file commits
 
-.SH USAGE
+.SH SYNOPSIS
 .sp
 .nf
 .ft C
@@ -12,11 +12,11 @@ git split [-h] [-q] [-v] [-p PREFIX] [commit]
 .fi
 
 
-.SH POSITIONAL ARGUMENTS
-\fBcommit\fP: Optional commit ID to split from
+.SH DESCRIPTION
+\fBgit split\fP squashes together a range of commits and the staging area, then
+splits out a sequence of individual commits, one for each file changed.
 
-
-.SH OPTIONAL ARGUMENTS
+.SH OPTIONS
 \fB\-h, \-\-help\fP: show this help message and exit
 
 \fB\-q, \-\-quiet\fP: Suppress all output
@@ -26,9 +26,8 @@ git split [-h] [-q] [-v] [-p PREFIX] [commit]
 \fB\-p PREFIX, \-\-prefix PREFIX\fP: Prefix for each commit message
 
 
-.SH DESCRIPTION
-\fBgit split\fP squashes together a range of commits and the staging area, then
-splits out a sequence of individual commits, one for each file changed.
+\fBcommit\fP: Optional commit ID to split from
+
 
 .SH DANGER
 Rewrites history!

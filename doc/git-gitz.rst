@@ -42,8 +42,11 @@ By default it lists everything, or you can select one or more subcommands:
     library_directory:
         The gitz library directory
 
+    python:
+        About the version of Python used
+
     version:
-        The version number
+        The version number of gitz
 
 EXAMPLES
 ========
@@ -53,15 +56,16 @@ EXAMPLES
     Prints the list of gitz commands
 
 ``git gitz``
-``git gitz commands defaults executable_directory home_page library_directory version``
-``git gitz c d e h l v``
+``git gitz commands defaults executable_directory home_page library_directory python version``
+``git gitz c d e h l p v``
     Prints everything:
         * All the gitz commands
         * Default values: protected branches and remotes
         * The path to the gitz executable directory,
         * The home page of the gitz project
         * The gitz library directory
-        * The version number
+        * About the version of Python used
+        * The version number of gitz
 
 ``git gitz version exec``
     Print just the version number and the git executable directory

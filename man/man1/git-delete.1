@@ -1,31 +1,15 @@
-.TH GIT-DELETE 1 "04 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-DELETE 1 "08 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-delete - Delete one or more branches locally and remotely
 
-.SH USAGE
+.SH SYNOPSIS
 .sp
 .nf
 .ft C
 git delete [-h] [-q] [-v] [-f] [-n] target [target ...]
 .ft P
 .fi
-
-
-.SH POSITIONAL ARGUMENTS
-\fBtarget\fP: 
-
-
-.SH OPTIONAL ARGUMENTS
-\fB\-h, \-\-help\fP: show this help message and exit
-
-\fB\-q, \-\-quiet\fP: Suppress all output
-
-\fB\-v, \-\-verbose\fP: Report all messages in great detail
-
-\fB\-f, \-\-force\fP: Delete all, even protected remotes or branches
-
-\fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 
 
 .SH DESCRIPTION
@@ -45,6 +29,21 @@ It's also possible to change which branches or remotes are protected
 by setting the environment variable GITZ_PROTECTED_BRANCHES or
 GITZ_PROTECTED_REMOTES to a list separated by colons, or to an empty
 string to turn off protection entirely.
+
+.SH OPTIONS
+\fB\-h, \-\-help\fP: show this help message and exit
+
+\fB\-q, \-\-quiet\fP: Suppress all output
+
+\fB\-v, \-\-verbose\fP: Report all messages in great detail
+
+\fB\-f, \-\-force\fP: Delete all, even protected remotes or branches
+
+\fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
+
+
+\fBtarget\fP: 
+
 
 .SH DANGER
 Deletes remote branches!

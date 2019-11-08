@@ -6,9 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git stripe [-h] [-q] [-v] [-c] [-D] [-d] [-o OFFSET] [-p PREFIX] [-r REMOTES]
-                  [-n]
-                  [count] [commit_id]
+    git stripe [-h] [-q] [-v] [-c] [-D] [-d] [-o OFFSET] [-p PREFIX] [-r REMOTES] [-n] [count] [commit_id]
 
 Positional arguments
   ``count``: The number of striped branches to be created: default is 1
@@ -49,11 +47,11 @@ EXAMPLES
 ========
 
 ``git stripe``
+    Pushes HEAD~ into its own branch named _gitz_stripe_0
+
+``git stripe 3``
     Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
     _gitz_stripe_0, _gitz_stripe_1 and _gitz_stripe_2
-
-``git stripe 1``
-    Pushes HEAD~ into its own branch named _gitz_stripe_0
 
 ``git stripe --offset=5``
 ``git stripe -o5``
@@ -65,8 +63,8 @@ EXAMPLES
     Pushes HEAD~3 and HEAD~4 into two branches named _gitz_stripe_0
     and  _gitz_stripe_1
 
-``git stripe --delete``
-``git stripe -d``
+``git stripe 3 --delete``
+``git stripe 3 -d``
     Delete any branches named _gitz_stripe_0, _gitz_stripe_1
     aor _gitz_stripe_2
 
@@ -80,14 +78,14 @@ EXAMPLES
 ``git stripe --prefix=MINE``
 ``git stripe -p MINE``
     Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
-    MINE_0, MINE_1, MINE_2
+    _MINE_0, _MINE_1, _MINE_2
 
 ``git stripe 2 --prefix=MINE``
 ``git stripe 2 -p=MINE``
-    Pushes HEAD~ and HEAD~2 into their own branches named MINE_0
-    and MINE_1
+    Pushes HEAD~ and HEAD~2 into their own branches named _MINE_0
+    and _MINE_1
 
 ``git stripe 2 --prefix=MINE --offset``
 ``git stripe 2 -p MINE -o10``
-    Pushes HEAD~ and HEAD~2 into their own branches named MINE_10
-    and MINE_11
+    Pushes HEAD~ and HEAD~2 into their own branches named _MINE_10
+    and _MINE_11

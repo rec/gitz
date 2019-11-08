@@ -50,17 +50,13 @@ Rewrites history!
 EXAMPLES
 ========
 
-``git shuffle``
 ``git shuffle ba``
 ``git shuffle YX``
-``git shuffle 10``
 ``git shuffle 21``
     Switches the first and second most recent commits
 
 ``git shuffle ab``
 ``git shuffle abc``
-``git shuffle ADE``
-``git shuffle 01``
 ``git shuffle 12``
     Do nothing
 

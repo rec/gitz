@@ -1,37 +1,15 @@
-.TH GIT-NEW 1 "04 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-NEW 1 "08 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-new - Create and push new branches
 
-.SH USAGE
+.SH SYNOPSIS
 .sp
 .nf
 .ft C
-git new [-h] [-q] [-v] [-f] [-F] [-o ORIGIN] [-r REFERENCE_BRANCH] [-n]
+git new [-h] [-q] [-v] [-f] [-F] [-o ORIGIN] [-r REFERENCE_BRANCH] [-n] branches [branches ...]
 .ft P
 .fi
-
-
-.SH POSITIONAL ARGUMENTS
-\fBbranches\fP: Names of branches to create
-
-
-.SH OPTIONAL ARGUMENTS
-\fB\-h, \-\-help\fP: show this help message and exit
-
-\fB\-q, \-\-quiet\fP: Suppress all output
-
-\fB\-v, \-\-verbose\fP: Report all messages in great detail
-
-\fB\-f, \-\-force\fP: Force push over existing branches
-
-\fB\-F, \-\-force\-protected\fP: Force push over existing or protected branches
-
-\fB\-o ORIGIN, \-\-origin ORIGIN\fP: Remote origin to push to
-
-\fB\-r REFERENCE_BRANCH, \-\-reference\-branch REFERENCE_BRANCH\fP: Branch to create from, in the form \fBbranch\fP or \fBremote/branch\fP
-
-\fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 
 
 .SH DESCRIPTION
@@ -63,6 +41,27 @@ gitz can guess what the reference branch and remote origin are, and for
 nearly all projects this will be correct, or this can be specified at the
 command line, per project, or through environment variables \- see \fBgit gitz\fP
 for more details.
+
+.SH OPTIONS
+\fB\-h, \-\-help\fP: show this help message and exit
+
+\fB\-q, \-\-quiet\fP: Suppress all output
+
+\fB\-v, \-\-verbose\fP: Report all messages in great detail
+
+\fB\-f, \-\-force\fP: Force push over existing branches
+
+\fB\-F, \-\-force\-protected\fP: Force push over existing or protected branches
+
+\fB\-o ORIGIN, \-\-origin ORIGIN\fP: Remote origin to push to
+
+\fB\-r REFERENCE_BRANCH, \-\-reference\-branch REFERENCE_BRANCH\fP: Branch to create from, in the form \fBbranch\fP or \fBremote/branch\fP
+
+\fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
+
+
+\fBbranches\fP: Names of branches to create
+
 
 .SH EXAMPLES
 .TP

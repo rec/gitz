@@ -1,29 +1,15 @@
-.TH GIT-ROTATE 1 "04 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-ROTATE 1 "08 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-rotate - Rotate through branches in a Git repository
 
-.SH USAGE
+.SH SYNOPSIS
 .sp
 .nf
 .ft C
 git rotate [-h] [-q] [-v] [-n] [steps]
 .ft P
 .fi
-
-
-.SH POSITIONAL ARGUMENTS
-\fBsteps\fP: Number of steps to rotate (positive or negative)
-
-
-.SH OPTIONAL ARGUMENTS
-\fB\-h, \-\-help\fP: show this help message and exit
-
-\fB\-q, \-\-quiet\fP: Suppress all output
-
-\fB\-v, \-\-verbose\fP: Report all messages in great detail
-
-\fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 
 
 .SH DESCRIPTION
@@ -40,6 +26,19 @@ and \fBgit\-rotate \-N\fP rotates N branches backward.
 
 .sp
 Useful for quickly browsing each branch in a repository one at a time.
+
+.SH OPTIONS
+\fB\-h, \-\-help\fP: show this help message and exit
+
+\fB\-q, \-\-quiet\fP: Suppress all output
+
+\fB\-v, \-\-verbose\fP: Report all messages in great detail
+
+\fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
+
+
+\fBsteps\fP: Number of steps to rotate (positive or negative)
+
 
 .SH EXAMPLES
 .TP

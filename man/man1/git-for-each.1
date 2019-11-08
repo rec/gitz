@@ -1,9 +1,9 @@
-.TH GIT-FOR-EACH 1 "04 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-FOR-EACH 1 "08 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-for-each - Perform a command for each branch or directory
 
-.SH USAGE
+.SH SYNOPSIS
 .sp
 .nf
 .ft C
@@ -12,11 +12,15 @@ git for-each [-h] [-q] [-v] [-a] [-f] [-i INDENT] [-n] [name [name ...]]
 .fi
 
 
-.SH POSITIONAL ARGUMENTS
-\fBname\fP: Names of branches or directories to iterate over
+.SH DESCRIPTION
+Performs <command> [argument ...] for each \fBname\fP, or over all
+branches if no \fBname\fP is given.
 
+.sp
+Note that this does not handle aliases within commands and might do
+unexpected things with complex commands.  Please handle with care.
 
-.SH OPTIONAL ARGUMENTS
+.SH OPTIONS
 \fB\-h, \-\-help\fP: show this help message and exit
 
 \fB\-q, \-\-quiet\fP: Suppress all output
@@ -32,13 +36,8 @@ git for-each [-h] [-q] [-v] [-a] [-f] [-i INDENT] [-n] [name [name ...]]
 \fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 
 
-.SH DESCRIPTION
-Performs <command> [argument ...] for each \fBname\fP, or over all
-branches if no \fBname\fP is given.
+\fBname\fP: Names of branches or directories to iterate over
 
-.sp
-Note that this does not handle aliases within commands and might do
-unexpected things with complex commands.  Please handle with care.
 
 .SH DANGER
 This is a bit janky

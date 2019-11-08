@@ -1,29 +1,15 @@
-.TH GIT-GITZ 1 "04 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-GITZ 1 "08 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-gitz - Print information about the gitz git commands
 
-.SH USAGE
+.SH SYNOPSIS
 .sp
 .nf
 .ft C
 git gitz [-h] [-q] [-v] [-n] [items [items ...]]
 .ft P
 .fi
-
-
-.SH POSITIONAL ARGUMENTS
-\fBitems\fP: 
-
-
-.SH OPTIONAL ARGUMENTS
-\fB\-h, \-\-help\fP: show this help message and exit
-
-\fB\-q, \-\-quiet\fP: Suppress all output
-
-\fB\-v, \-\-verbose\fP: Report all messages in great detail
-
-\fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 
 
 .SH DESCRIPTION
@@ -53,8 +39,25 @@ By default it lists everything, or you can select one or more subcommands:
         The gitz library directory
 
 .sp
+    python:
+        About the version of Python used
+
+.sp
     version:
-        The version number
+        The version number of gitz
+
+.SH OPTIONS
+\fB\-h, \-\-help\fP: show this help message and exit
+
+\fB\-q, \-\-quiet\fP: Suppress all output
+
+\fB\-v, \-\-verbose\fP: Report all messages in great detail
+
+\fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
+
+
+\fBitems\fP: 
+
 
 .SH EXAMPLES
 .TP
@@ -67,16 +70,17 @@ Prints the list of gitz commands
 .TP
 .B \fB git gitz \fP
 .TP
-.B \fB git gitz commands defaults executable_directory home_page library_directory version \fP
+.B \fB git gitz commands defaults executable_directory home_page library_directory python version \fP
 .TP
-.B \fB git gitz c d e h l v \fP
+.B \fB git gitz c d e h l p v \fP
 Prints everything:
 * All the gitz commands
 * Default values: protected branches and remotes
 * The path to the gitz executable directory,
 * The home page of the gitz project
 * The gitz library directory
-* The version number
+* About the version of Python used
+* The version number of gitz
 
 .sp
 .TP

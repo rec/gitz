@@ -1,9 +1,9 @@
-.TH GIT-MULTI-PICK 1 "04 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-MULTI-PICK 1 "08 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-multi-pick - Cherry-pick multiple commits, with an optional squash
 
-.SH USAGE
+.SH SYNOPSIS
 .sp
 .nf
 .ft C
@@ -12,11 +12,14 @@ git multi-pick [-h] [-q] [-v] [-s [SQUASH]] [-n] commit_ids [commit_ids ...]
 .fi
 
 
-.SH POSITIONAL ARGUMENTS
-\fBcommit_ids\fP: List of commit IDs to cherry pick
+.SH DESCRIPTION
+Cherry pick each commit one after another.
 
+.sp
+If there is a \-s/\-\-squash argument, squash the commits down into one,
+using the argument to \-s/\-\-squash as the commit message.
 
-.SH OPTIONAL ARGUMENTS
+.SH OPTIONS
 \fB\-h, \-\-help\fP: show this help message and exit
 
 \fB\-q, \-\-quiet\fP: Suppress all output
@@ -28,12 +31,8 @@ git multi-pick [-h] [-q] [-v] [-s [SQUASH]] [-n] commit_ids [commit_ids ...]
 \fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 
 
-.SH DESCRIPTION
-Cherry pick each commit one after another.
+\fBcommit_ids\fP: List of commit IDs to cherry pick
 
-.sp
-If there is a \-s/\-\-squash argument, squash the commits down into one,
-using the argument to \-s/\-\-squash as the commit message.
 
 .SH EXAMPLES
 .TP

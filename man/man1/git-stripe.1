@@ -1,24 +1,27 @@
-.TH GIT-STRIPE 1 "04 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-STRIPE 1 "08 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-stripe - Push a sequence of commit IDs to a remote repository
 
-.SH USAGE
+.SH SYNOPSIS
 .sp
 .nf
 .ft C
-git stripe [-h] [-q] [-v] [-c] [-D] [-d] [-o OFFSET] [-p PREFIX] [-r REMOTES]
+git stripe [-h] [-q] [-v] [-c] [-D] [-d] [-o OFFSET] [-p PREFIX] [-r REMOTES] [-n] [count] [commit_id]
 .ft P
 .fi
 
 
-.SH POSITIONAL ARGUMENTS
-\fBcount\fP: The number of striped branches to be created: default is 1
+.SH DESCRIPTION
+Starting with a given commit ID, and moving backwards from there,
+push each commit ID to its own disposable branch name.
 
-\fBcommit_id\fP: Branch/commit ID of the first stripe (or HEAD~ if none)
+.sp
+Useful to bring these commits to the attention of your continuous integration
+if it has missed some of your commit IDs because you rebased or pushed a
+sequences of commits too fast.
 
-
-.SH OPTIONAL ARGUMENTS
+.SH OPTIONS
 \fB\-h, \-\-help\fP: show this help message and exit
 
 \fB\-q, \-\-quiet\fP: Suppress all output
@@ -40,25 +43,21 @@ git stripe [-h] [-q] [-v] [-c] [-D] [-d] [-o OFFSET] [-p PREFIX] [-r REMOTES]
 \fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 
 
-.SH DESCRIPTION
-Starting with a given commit ID, and moving backwards from there,
-push each commit ID to its own disposable branch name.
+\fBcount\fP: The number of striped branches to be created: default is 1
 
-.sp
-Useful to bring these commits to the attention of your continuous integration
-if it has missed some of your commit IDs because you rebased or pushed a
-sequences of commits too fast.
+\fBcommit_id\fP: Branch/commit ID of the first stripe (or HEAD~ if none)
+
 
 .SH EXAMPLES
 .TP
 .B \fB git stripe \fP
-Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
-_gitz_stripe_0, _gitz_stripe_1 and _gitz_stripe_2
+Pushes HEAD~ into its own branch named _gitz_stripe_0
 
 .sp
 .TP
-.B \fB git stripe 1 \fP
-Pushes HEAD~ into its own branch named _gitz_stripe_0
+.B \fB git stripe 3 \fP
+Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
+_gitz_stripe_0, _gitz_stripe_1 and _gitz_stripe_2
 
 .sp
 .TP
@@ -78,9 +77,9 @@ and  _gitz_stripe_1
 
 .sp
 .TP
-.B \fB git stripe \-\-delete \fP
+.B \fB git stripe 3 \-\-delete \fP
 .TP
-.B \fB git stripe \-d \fP
+.B \fB git stripe 3 \-d \fP
 Delete any branches named _gitz_stripe_0, _gitz_stripe_1
 aor _gitz_stripe_2
 
@@ -101,21 +100,21 @@ Delete any remote branches starting with _gitz_stripe_
 .TP
 .B \fB git stripe \-p MINE \fP
 Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
-MINE_0, MINE_1, MINE_2
+_MINE_0, _MINE_1, _MINE_2
 
 .sp
 .TP
 .B \fB git stripe 2 \-\-prefix=MINE \fP
 .TP
 .B \fB git stripe 2 \-p=MINE \fP
-Pushes HEAD~ and HEAD~2 into their own branches named MINE_0
-and MINE_1
+Pushes HEAD~ and HEAD~2 into their own branches named _MINE_0
+and _MINE_1
 
 .sp
 .TP
 .B \fB git stripe 2 \-\-prefix=MINE \-\-offset \fP
 .TP
 .B \fB git stripe 2 \-p MINE \-o10 \fP
-Pushes HEAD~ and HEAD~2 into their own branches named MINE_10
-and MINE_11
+Pushes HEAD~ and HEAD~2 into their own branches named _MINE_10
+and _MINE_11
 

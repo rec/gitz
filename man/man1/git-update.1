@@ -1,9 +1,9 @@
-.TH GIT-UPDATE 1 "04 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-UPDATE 1 "08 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-update - Update branches from a reference branch
 
-.SH USAGE
+.SH SYNOPSIS
 .sp
 .nf
 .ft C
@@ -12,11 +12,18 @@ git update [-h] [-q] [-v] [-f] [-r REFERENCE_BRANCH] [-n] [branches]
 .fi
 
 
-.SH POSITIONAL ARGUMENTS
-\fBbranches\fP: A list of branches to update \- default is all branches
+.SH DESCRIPTION
+\fBgit update\fP goes to each branch in turn, then tries to update it
+the reference branch by pulling with \-\-rebase.
 
+.sp
+If the rebase fails with a conflict, then \fBgit update\fP aborts the
+rebase and returns that branch to its previous condition.
 
-.SH OPTIONAL ARGUMENTS
+.sp
+If the rebase succeeds, \fBgit update\fP force\-pushes the result.
+
+.SH OPTIONS
 \fB\-h, \-\-help\fP: show this help message and exit
 
 \fB\-q, \-\-quiet\fP: Suppress all output
@@ -30,16 +37,8 @@ git update [-h] [-q] [-v] [-f] [-r REFERENCE_BRANCH] [-n] [branches]
 \fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 
 
-.SH DESCRIPTION
-\fBgit update\fP goes to each branch in turn, then tries to update it
-the reference branch by pulling with \-\-rebase.
+\fBbranches\fP: A list of branches to update \- default is all branches
 
-.sp
-If the rebase fails with a conflict, then \fBgit update\fP aborts the
-rebase and returns that branch to its previous condition.
-
-.sp
-If the rebase succeeds, \fBgit update\fP force\-pushes the result.
 
 .SH DANGER
 Rewrites history!
