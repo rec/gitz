@@ -29,7 +29,7 @@ class Runner:
             items.append((OUT, line))
 
         def err(line):
-            error_log((ERR, line))
+            error_log(ERR, line)
             items.append((ERR, line))
 
         self.log.verbose('$', *cmd)
