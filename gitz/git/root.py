@@ -23,7 +23,7 @@ def check_git():
 
 
 def cd_root():
-    os.chdir(check_git())
+    os.chdir(str(check_git()))
 
 
 def run_in_root(fn):

@@ -1,7 +1,6 @@
 import subprocess
 
 _SUBPROCESS_KWDS = {
-    'encoding': 'utf-8',
     'shell': False,
     'stderr': subprocess.PIPE,
     'stdout': subprocess.PIPE,
@@ -14,19 +13,19 @@ def run_proc(cmd, kwds, out, err):
     if kwds.get('shell'):
         cmd = ' '.join(cmd)
 
-    p = subprocess.Popen(cmd, **kwds)
-
     def run(fp, callback):
         line = fp.readline()
         if not line:
             return False
         while line:
-            callback(line.rstrip('\n'))
+            s = line.decode('utf-8')
+            callback(s.rstrip('\n'))
             line = fp.readline()
         return True
 
-    while run(p.stdout, out) or run(p.stderr, err) or (p.poll() is None):
-        pass
+    with subprocess.Popen(cmd, **kwds) as p:
+        while run(p.stdout, out) or run(p.stderr, err) or (p.poll() is None):
+            pass
 
     if p.returncode:
         raise ValueError('Command "%s" failed' % ' '.join(cmd))

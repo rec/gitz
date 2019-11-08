@@ -77,7 +77,7 @@ class Manpage:
                 self._print('.sp')
 
     def _print(self, *args, **kwds):
-        print(*args, **kwds, file=self.fp)
+        print(*args, file=self.fp, **kwds)
 
     def _argument(self, word, rest):
         self._print(

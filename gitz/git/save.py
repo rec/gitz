@@ -29,8 +29,9 @@ def save(untracked=False, stash=True):
 
     state = functions.commit_id()
     if stash:
-        SAVE_FILE.write_text(state)
-        GIT.add(SAVE_FILE)
+        with SAVE_FILE.open('w') as fp:
+            fp.write(state)
+        GIT.add(str(SAVE_FILE))
         GIT.stash()
 
     restore(state, clean=False)
@@ -44,7 +45,8 @@ def restore(state, clean=True):
             GIT.stash()
             raise ValueError('Stash was not built with gitz-save')
 
-        state = SAVE_FILE.read_text().strip()
+        with SAVE_FILE.open() as fp:
+            state = fp.read().strip()
         os.remove(str(SAVE_FILE))
 
     GIT.reset('--hard', state)

@@ -11,7 +11,10 @@ class GitGitzTest(unittest.TestCase):
 
     @repo.test
     def test_all(self):
-        self.assertEqual(GIT.gitz('-v'), RESULTS)
+        # See #170
+        expected = [r for r in RESULTS if not r.startswith('    Python')]
+        actual = [r for r in GIT.gitz('-v') if not r.startswith('    Python')]
+        self.assertEqual(expected, actual)
 
     @repo.test
     def test_version(self):

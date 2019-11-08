@@ -125,7 +125,7 @@ class Stripe:
 
             id = ''
             for remote in self.remotes:
-                GIT.push(*force, remote, refspec)
+                GIT.push(*(force + [remote, refspec]))
                 if not id:
                     striped = '%s/%s' % (remote, branch)
                     id, msg = functions.commit_message(striped)

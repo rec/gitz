@@ -77,7 +77,10 @@ def git_for_each():
 
 
 def _expand_path(s):
-    return Path(os.path.expandvars(s)).expanduser().resolve()
+    s = os.path.expandvars(s)
+    s = os.path.expanduser(s)
+    s = os.path.abspath(s)
+    return Path(s)
 
 
 def _run_command(name, branches):
@@ -91,14 +94,14 @@ def _run_command(name, branches):
         finally:
             GIT.checkout('-q', saved_branch)
     else:
-        name = _expand_path(name)
-        if name.name.startswith('.'):
+        name = str(_expand_path(name))
+        if name.startswith('.'):
             return
         if not (ARGS.all or root.root(name)):
             return
         if not ARGS.quiet:
             print('Directory %s:' % name)
-        lines = RUN(*_COMMAND, cwd=str(name))
+        lines = RUN(*_COMMAND, cwd=name)
     indent = ' ' * ARGS.indent
     for line in lines:
         print(indent, line, sep='')
