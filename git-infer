@@ -64,7 +64,7 @@ END {
       updatedMsg = updatedMsg updated[i] ", "
     };
     updatedMsg = updatedMsg updated[updatedCount - 1]
-    updatedMsg = "Modified " updatedMsg
+    updatedMsg = "Modify " updatedMsg
   }
 
   if (addedCount > 0) {
@@ -73,7 +73,7 @@ END {
       addedMsg = addedMsg added[i] ", "
     };
     addedMsg = addedMsg added[addedCount - 1]
-    addedMsg = "Added " addedMsg
+    addedMsg = "Add " addedMsg
   }
 
   if (deletedCount > 0) {
@@ -82,7 +82,7 @@ END {
       deletedMsg = deletedMsg deleted[i] ", "
     };
     deletedMsg = deletedMsg deleted[deletedCount - 1]
-    deletedMsg = "Deleted " deletedMsg
+    deletedMsg = "Delete " deletedMsg
   }
 
   if (renamedCount > 0) {
@@ -91,7 +91,7 @@ END {
       renamedMsg = renamedMsg renamed[i] ", "
     };
     renamedMsg = renamedMsg renamed[renamedCount - 1]
-    renamedMsg = "Renamed " renamedMsg
+    renamedMsg = "Rename " renamedMsg
   }
 
   changesCount = 0;
