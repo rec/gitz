@@ -26,6 +26,11 @@ def main(commands):
             svg_file = (SVG_DIR / command).with_suffix(SVG_SUFFIX)
             if _time(svg_file) < max(_time(cast_file), _time(FILE)):
                 _render(cast_file, svg_file)
+                print('+', svg_file)
+            else:
+                print('.', svg_file)
+        else:
+            print('?', cast_file)
 
 
 def _render(cast_file, svg_file):
@@ -40,5 +45,3 @@ def _render(cast_file, svg_file):
         max_frame_duration=None,
         loop_delay=ts_main.DEFAULT_LOOP_DELAY,
     )
-
-    print('+', svg_file)
