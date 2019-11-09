@@ -57,12 +57,12 @@ class Mover:
 
         self.origin = guess_origin.guess_origin(branch=self.source)
 
-        if not ARGS.all:
+        if not ARGS.protected:
             p = ENV.protected_branches()
             if self.target in p:
-                PROGRAM.exit(_ERROR_PROTECTED_BRANCHES % self.target)
+                PROGRAM.exit(_ERROR_PROTECTED % (self.action, self.target))
             if self.action == RENAME and self.source in p:
-                PROGRAM.exit(_ERROR_PROTECTED_BRANCHES % self.source)
+                PROGRAM.exit(_ERROR_PROTECTED % (self.action, self.source))
 
         if not ARGS.force:
             if self.target in branches:
@@ -114,7 +114,8 @@ class Mover:
         add_arg('target', nargs='?', default='')
 
         for f, h in BOOLEAN_FLAGS.items():
-            add_arg(f[1:3], f, action='store_true', help=h.format(self))
+            args = [f] if f == 'protected' else [f[1:3], f]
+            add_arg(*args, action='store_true', help=h.format(self))
 
 
 DANGER = 'Changes remote branches!'
@@ -168,11 +169,11 @@ NAMES = {
 _ERROR_CANNOT_DELETE = 'Cannot delete remote'
 _ERROR_INCONSISTENT_COMMITS = 'Inconsistent commits IDs'
 _ERROR_LOCAL_REPO = 'Branch %s does not exist in the local repository'
-_ERROR_PROTECTED_BRANCHES = 'Protected: %s'
+_ERROR_PROTECTED = 'Cannot %s over protected branch: %s'
 _ERROR_TARGET_EXISTS = 'Branch %s already exists'
 
 
 BOOLEAN_FLAGS = {
-    '--all': '{0.Action} all, even protected remotes or branches',
+    '--protected': '{0.Action} all, even protected remotes or branches',
     '--force': 'Force {0.action} over existing branches',
 }
