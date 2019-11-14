@@ -32,7 +32,7 @@ def run_in_root(fn):
         saved = os.getcwd()
         cd_root()
         try:
-            fn(*args, **kwds)
+            return fn(*args, **kwds)
         finally:
             os.chdir(saved)
 
