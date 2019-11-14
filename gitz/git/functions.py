@@ -27,10 +27,12 @@ def commit_ids(names, short=True):
 
 
 def message(name='HEAD'):
+    # TODO: this is a misleading name
     return GIT.show_branch('--no-name', _to_name(name), info=True)[0]
 
 
 def commit_message(name='HEAD', short=True):
+    # TODO: this is a misleading name
     return commit_id(name, short), message(name)
 
 
@@ -65,7 +67,7 @@ def remote_branches(must_fetch=True):
 
     result = {}
     for rb in branches('-r'):
-        remote, branch = rb.split('/')
+        remote, branch = rb.split('/', maxsplit=1)
         result.setdefault(remote, []).append(branch)
     return result
 
