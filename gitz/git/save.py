@@ -35,9 +35,10 @@ def save(untracked=False, stash=True):
         GIT.stash()
 
     restore(state, clean=False)
-    return state
+    return state, functions.message(state)
 
 
+@root.run_in_root
 def restore(state, clean=True):
     if state == 'pop':
         GIT.stash('pop')
@@ -60,3 +61,5 @@ def restore(state, clean=True):
             GIT.reset('--mixed', 'HEAD~')
         else:
             GIT.reset('--soft', 'HEAD~')
+
+    return state, functions.message(state)

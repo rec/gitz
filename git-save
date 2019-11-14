@@ -52,9 +52,12 @@ DANGER = 'Rewrites history!'
 
 def git_save():
     if ARGS.state:
-        save.restore(ARGS.state)
+        commit_id, msg = save.restore(ARGS.state)
     else:
-        print(save.save(ARGS.all, not ARGS.do_not_stash))
+        commit_id, msg = save.save(ARGS.all, not ARGS.do_not_stash)
+
+    label = 'Restored from' if ARGS.state else 'Saved as'
+    PROGRAM.message(label, '%s: %s' % (commit_id, msg))
 
 
 def add_arguments(parser):
