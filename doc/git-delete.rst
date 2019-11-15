@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git delete [-h] [-q] [-v] [-f] [-n] target [target ...]
+    git delete [-h] [-q] [-v] [--protected] [-n] target [target ...]
 
 Positional arguments
   ``target``: 
@@ -18,7 +18,7 @@ Optional arguments
 
   ``-v, --verbose``: Report all messages in great detail
 
-  ``-f, --force``: Delete all, even protected remotes or branches
+  ``--protected``: Delete all, even protected remotes or branches
 
   ``-n, --no-run``: If set, commands will be printed but not executed
 

@@ -1,4 +1,4 @@
-.TH GIT-DELETE 1 "08 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-DELETE 1 "15 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-delete - Delete one or more branches locally and remotely
@@ -7,7 +7,7 @@ git-delete - Delete one or more branches locally and remotely
 .sp
 .nf
 .ft C
-git delete [-h] [-q] [-v] [-f] [-n] target [target ...]
+git delete [-h] [-q] [-v] [--protected] [-n] target [target ...]
 .ft P
 .fi
 
@@ -37,7 +37,7 @@ string to turn off protection entirely.
 
 \fB\-v, \-\-verbose\fP: Report all messages in great detail
 
-\fB\-f, \-\-force\fP: Delete all, even protected remotes or branches
+\fB\-\-protected\fP: Delete all, even protected remotes or branches
 
 \fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 

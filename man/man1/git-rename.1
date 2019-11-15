@@ -1,4 +1,4 @@
-.TH GIT-RENAME 1 "08 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-RENAME 1 "15 November, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-rename - Rename a git branch locally and remotely
@@ -7,7 +7,7 @@ git-rename - Rename a git branch locally and remotely
 .sp
 .nf
 .ft C
-git rename [-h] [-q] [-v] [-a] [-f] [-n] source [target]
+git rename [-h] [-q] [-v] [-p] [-f] [-n] source [target]
 .ft P
 .fi
 
@@ -39,7 +39,7 @@ to a list separated by colons, or an empty string for no protection.
 
 \fB\-v, \-\-verbose\fP: Report all messages in great detail
 
-\fB\-a, \-\-all\fP: Rename all, even protected remotes or branches
+\fB\-p, \-\-protected\fP: Rename all, even protected remotes or branches
 
 \fB\-f, \-\-force\fP: Force rename over existing branches
 

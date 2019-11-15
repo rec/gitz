@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git rename [-h] [-q] [-v] [-a] [-f] [-n] source [target]
+    git rename [-h] [-q] [-v] [-p] [-f] [-n] source [target]
 
 Positional arguments
   ``source``: 
@@ -19,7 +19,7 @@ Optional arguments
 
   ``-v, --verbose``: Report all messages in great detail
 
-  ``-a, --all``: Rename all, even protected remotes or branches
+  ``-p, --protected``: Rename all, even protected remotes or branches
 
   ``-f, --force``: Force rename over existing branches
 

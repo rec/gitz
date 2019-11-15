@@ -9,7 +9,8 @@ USAGE
     git save [-h] [-q] [-v] [-a] [-d] [-n] [state]
 
 Positional arguments
-  ``state``: Save to this state if set. Otherwise, print a commit ID that saves this state.
+  ``state``: Save to this state if set. Otherwise, print a commit ID that saves
+  ``this``: state.
 
 Optional arguments
   ``-h, --help``: show this help message and exit

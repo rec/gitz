@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git copy [-h] [-q] [-v] [-a] [-f] [-n] source [target]
+    git copy [-h] [-q] [-v] [-p] [-f] [-n] source [target]
 
 Positional arguments
   ``source``: 
@@ -19,7 +19,7 @@ Optional arguments
 
   ``-v, --verbose``: Report all messages in great detail
 
-  ``-a, --all``: Copy all, even protected remotes or branches
+  ``-p, --protected``: Copy all, even protected remotes or branches
 
   ``-f, --force``: Force copy over existing branches
 
