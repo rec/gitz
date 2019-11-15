@@ -5,13 +5,13 @@ from . import GIT
 COMMIT_ID_LENGTH = 7
 
 
-def _to_name(name):
+def _to_name(name, base='HEAD'):
     if isinstance(name, int):
-        return 'HEAD~%d' % name
+        return '%s~%d' % (base, name)
     if name.startswith('~'):
-        return 'HEAD' + name
+        return base + name
     if name.isnumeric() and len(name) < COMMIT_ID_LENGTH:
-        return 'HEAD~' + name
+        return '%s~%s' % (base, name)
     return name
 
 
