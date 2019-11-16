@@ -1,13 +1,19 @@
-from . import command_pages  # noqa: F401
-from . import doc_index  # noqa: F401
-from . import get_command_help  # noqa: F401
-from . import manpages  # noqa: F401
-from . import movies  # noqa: F401
-from . import readme  # noqa: F401
+from . import command_pages
+from . import doc_index
+from . import get_command_help
+from . import manpages
+from . import readme
+from .cast import movies
 from gitz.program import ARGS
 from gitz.program import PROGRAM
 
-SYMBOLS = 'doc_index command_pages readme manpages movies'.split()
+SYMBOLS = (
+    ('doc_index', doc_index),
+    ('command_pages', command_pages),
+    ('readme', readme),
+    ('manpages', manpages),
+    ('movies', movies),
+)
 
 
 def add_arguments(parser):
@@ -17,9 +23,9 @@ def add_arguments(parser):
 def main():
     help = get_command_help.get_command_help()
     sections = ARGS.sections
-    for s in SYMBOLS:
+    for s, module in SYMBOLS:
         if not sections or any(s.startswith(i) for i in sections):
-            globals()[s].main(help)
+            module.main(help)
             print(s, 'done')
 
 
