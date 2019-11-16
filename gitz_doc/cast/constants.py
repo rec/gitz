@@ -1,5 +1,9 @@
 from pathlib import Path
 
+BACKSPACE = '\x08\x1b[K'
+RETURN = '\r\n'
+CONTROL_L = '\x1b[H\x1b[2J'
+
 FILE = Path(__file__)
 ROOT = FILE.parents[2]
 
@@ -16,3 +20,7 @@ def cast_file(command):
 
 def svg_file(command):
     return (SVG_DIR / command).with_suffix(SVG_SUFFIX)
+
+
+def cast_files():
+    yield from (f for f in CAST_DIR.iterdir() if f.suffix == CAST_SUFFIX)
