@@ -15,25 +15,20 @@ TEMPLATE = 'base16_default_dark'
 
 
 def main(commands):
-    def _time(f):
-        return f.exists() and f.stat().st_mtime
-
     SVG_DIR.mkdir(exist_ok=True, parents=True)
-
     for command in commands:
-        cast_file = (CAST_DIR / command).with_suffix(CAST_SUFFIX)
-        if cast_file.exists():
-            svg_file = (SVG_DIR / command).with_suffix(SVG_SUFFIX)
-            if _time(svg_file) < max(_time(cast_file), _time(FILE)):
-                _render(cast_file, svg_file)
-                print('+', svg_file)
-            else:
-                print('.', svg_file)
-        else:
-            print('?', cast_file)
+        print(*_one_file(command))
 
 
-def _render(cast_file, svg_file):
+def _one_file(command):
+    cast_file = (CAST_DIR / command).with_suffix(CAST_SUFFIX)
+    if not cast_file.exists():
+        return '?', cast_file
+
+    svg_file = (SVG_DIR / command).with_suffix(SVG_SUFFIX)
+    if _time(svg_file) >= max(_time(cast_file), _time(FILE)):
+        return '.', cast_file
+
     template = config.default_templates()[TEMPLATE]
 
     ts_main.render_subcommand(
@@ -45,3 +40,8 @@ def _render(cast_file, svg_file):
         max_frame_duration=None,
         loop_delay=ts_main.DEFAULT_LOOP_DELAY,
     )
+    return '+', cast_file
+
+
+def _time(f):
+    return f.exists() and f.stat().st_mtime
