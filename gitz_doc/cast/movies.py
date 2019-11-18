@@ -7,6 +7,7 @@ import tempfile
 
 TEMPLATE = 'base16_default_dark'
 LAST_MODIFIED = max(f.stat().st_mtime for f in Path(__file__).parent.iterdir())
+PROMPT = '/code/sandbox$ '
 
 
 def main(commands):
@@ -24,8 +25,11 @@ def _one_file(command):
     if svg_file.exists() and svg_file.stat().st_mtime >= LAST_MODIFIED:
         return '.'
 
-    result = keystrokes.fake_text('# ' + cast_file.stem)
-    result.merge(cast.Cast.read(cast_file))
+    original = cast.Cast.read(cast_file)
+    original.replace_prompt(PROMPT)
+
+    result = keystrokes.fake_text('# ' + cast_file.stem, PROMPT)
+    result.merge(original, offset=1)
     result.remove_exit()
 
     with tempfile.TemporaryDirectory() as td:

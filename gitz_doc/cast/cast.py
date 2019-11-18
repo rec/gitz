@@ -29,6 +29,11 @@ class Cast:
             for i in (self.header, *self.lines):
                 print(json.dumps(i), file=fp)
 
+    def replace_prompt(self, prompt):
+        original = self.lines[0][2]
+        for line in self.lines:
+            line[2] = line[2].replace(original, prompt, 1)
+
     def remove_exit(self):
         last = self.lines[-1]
         if last[2] == EXIT:

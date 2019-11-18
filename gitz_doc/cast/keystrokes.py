@@ -35,15 +35,15 @@ def all_keystrokes():
         print(round(d, 3))
 
 
-def fake_text(text, directory='tom@bantam:/code/nc', delay=0):
-    offset = hash(text) % len(TIMES)
-    entries = [directory + '$ '] + list(text) + [constants.RETURN]
+def fake_text(text, prompt, delay=0):
+    index = hash(text) % len(TIMES)
+    entries = [prompt, ''] + list(text) + [constants.RETURN]
 
     time = 0
     lines = []
     for i, e in enumerate(entries):
         lines.append([time, 'o', e])
-        time += TIMES[(offset + i) % len(TIMES)]
+        time += TIMES[(index + i) % len(TIMES)]
 
     if delay:
         lines.append([time + delay, 'o', ''])
