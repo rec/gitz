@@ -5,8 +5,8 @@ EXIT = 'exit' + constants.RETURN
 
 
 class Cast:
-    def __init__(self, lines, header=None):
-        self.lines = lines
+    def __init__(self, lines=None, header=None):
+        self.lines = lines or []
         self.header = header or {'version': 2}
 
     @classmethod
@@ -47,7 +47,10 @@ class Cast:
         for c in 'width', 'height':
             s = self.header.get(c, 0)
             o = other.header.get(c, 0)
-            self.header[c] = max(s, o)
+            m = max(s, o)
+            if m > 0:
+                self.header[c] = m
 
-        offset += self.lines[-1][0]
+        if self.lines:
+            offset += self.lines[-1][0]
         self.lines.extend([t + offset, i, k] for t, i, k in other.lines)
