@@ -78,12 +78,12 @@ def git_adjust():
 
 def add_arguments(parser):
     parser.add_argument('target', nargs='?', default='HEAD', help=_HELP_TARGET)
-    parser.add_argument('edit', nargs='?', default='', help=_HELP_EDIT)
+    parser.add_argument('-e', '--edit', default='', help=_HELP_EDIT)
     parser.add_argument('-m', '--message', help=_HELP_MESSAGE)
 
 
 _HELP_EDIT = """\
-Edit commit that is used to amend the target.\
+Edit commit that is used to amend the target. \
 If empty, use the changes in the staging area.\
 """
 _HELP_MESSAGE = 'If set, use this for the message of the amended commit'
