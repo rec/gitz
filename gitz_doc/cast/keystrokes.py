@@ -24,10 +24,13 @@ def keystroke_times(lines):
 
 
 def all_keystrokes():
-    data = []
     for f in constants.cast_files():
         lines = cast.Cast.read(f).lines
-        data.extend(keystroke_times(lines))
+        yield from keystroke_times(lines)
+
+
+def print_keystrokes():
+    data = list(all_keystrokes())
 
     print(statistics.mean(data), statistics.stdev(data))
     print()
@@ -35,7 +38,7 @@ def all_keystrokes():
         print(round(d, 3))
 
 
-def fake_text(text, prompt, delay=0):
+def fake_text(text, prompt, post_delay=0):
     index = hash(text) % len(TIMES)
     entries = [prompt, ''] + list(text) + [constants.RETURN]
 
@@ -45,10 +48,10 @@ def fake_text(text, prompt, delay=0):
         lines.append([time, 'o', e])
         time += TIMES[(index + i) % len(TIMES)]
 
-    if delay:
-        lines.append([time + delay, 'o', ''])
+    if post_delay:
+        lines.append([time + post_delay, 'o', ''])
     return cast.Cast(lines)
 
 
 if __name__ == '__main__':
-    all_keystrokes()
+    print_keystrokes()
