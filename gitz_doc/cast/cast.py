@@ -29,6 +29,10 @@ class Cast:
             for i in (self.header, *self.lines):
                 print(json.dumps(i), file=fp)
 
+    def scale(self, ratio):
+        for line in self.lines:
+            line[0] *= ratio
+
     def replace_prompt(self, prompt):
         original = self.lines[0][2]
         for line in self.lines:

@@ -8,6 +8,7 @@ import tempfile
 TEMPLATE = 'base16_default_dark'
 LAST_MODIFIED = max(f.stat().st_mtime for f in Path(__file__).parent.iterdir())
 PROMPT = '/code/sandbox$ '
+TIME_SCALE = 0.75
 
 
 def main(commands):
@@ -31,6 +32,7 @@ def _one_file(command):
     result = keystrokes.fake_text('# ' + cast_file.stem, PROMPT)
     result.merge(original, offset=1)
     result.remove_exit()
+    result.scale(TIME_SCALE)
 
     with tempfile.TemporaryDirectory() as td:
         temp_file = Path(td) / 'file.cast'
