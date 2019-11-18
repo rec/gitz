@@ -34,7 +34,7 @@ class Runner:
 
         self.log.verbose('$', *cmd)
         try:
-            run_proc.run_proc(cmd, kwds, out, err)
+            run_proc.run_proc(cmd, out, err, **kwds)
         except Exception as e:
             e._runner_output = items
             raise

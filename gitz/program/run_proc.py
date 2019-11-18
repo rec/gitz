@@ -1,3 +1,4 @@
+import shlex
 import subprocess
 
 _SUBPROCESS_KWDS = {
@@ -7,16 +8,20 @@ _SUBPROCESS_KWDS = {
 }
 
 
-def run_proc(cmd, kwds, out, err):
+def run_proc(cmd, out, err, **kwds):
     """Run a subprocess with error and output callbacks"""
     kwds = dict(_SUBPROCESS_KWDS, **kwds)
     if kwds.get('shell'):
-        cmd = ' '.join(cmd)
+        if not isinstance(cmd, str):
+            cmd = ' '.join(cmd)
+    elif isinstance(cmd, str):
+        cmd = shlex.split(cmd)
 
     def run(fp, callback):
         line = fp.readline()
         if not line:
             return False
+
         while line:
             s = line.decode('utf-8')
             callback(s.rstrip('\n'))
