@@ -1,12 +1,12 @@
 from gitz.program import run_proc
 from . import constants
 from . import keystrokes
+from . import typing_errors
 import time
 import random
 
 MAX_TIME = 1
 NEW_PAGE = '\f'
-ERROR_RATE = 0.2
 EPSILON = 0.001
 
 
@@ -32,15 +32,8 @@ class ScriptRunner:
         self.index = hash(line)
         random.seed(self.index)
         self._add(self.prompt)
-        for k in line:
-            if k == '\n':
-                k = constants.RETURN
-            if random.random() < ERROR_RATE:
-                errors = ERRORS.get(k)
-                if errors:
-                    self._add_key(random.choice(errors))
-                    self._add_key(constants.BACKSPACE)
-            self._add_key(k)
+        for k in typing_errors.with_errors(line):
+            self._add_key(constants.RETURN if k == '\n' else k)
 
         try:
             run_proc.run_proc(line.strip(), self._add, self._add, shell=True)
@@ -58,46 +51,6 @@ class ScriptRunner:
         self.start_time -= self.keystroke_times[self.index]
         self.index += 1
         self._add(key)
-
-
-ERRORS = {
-    'a': 'qzs',
-    'b': ' vfghn',
-    'c': ' xsdfv',
-    'd': 'werfvcxs',
-    'e': 'rfdsw',
-    'f': 'ertgbvcd',
-    'g': 'frtyhnbv',
-    'h': 'gtyujmnb',
-    'i': 'u789olkj',
-    'j': 'hyuikmnh',
-    'k': 'juiol,mj',
-    'l': 'kiop;.,',
-    'm': 'nhjk, ',
-    'n': 'bghjm ',
-    'o': 'oikl;p',
-    'p': 'ol;\'[-',
-    'q': 'wa',
-    'r': 'edfgt',
-    's': 'aqwedcxz',
-    't': 'rfghy',
-    'u': 'yhjki',
-    'v': 'cdfgb ',
-    'w': 'qasde',
-    'x': 'zasdc ',
-    'y': 'tghju',
-    'z': 'asx',
-    '0': '9-',
-    '1': '`2',
-    '2': '13',
-    '3': '24',
-    '4': '35',
-    '5': '46',
-    '6': '57',
-    '7': '68',
-    '8': '79',
-    '9': '80',
-}
 
 
 if __name__ == '__main__':
