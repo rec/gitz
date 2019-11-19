@@ -6,54 +6,58 @@ import random
 
 MAX_TIME = 1
 NEW_PAGE = '\f'
-ERROR_RATE = 0.10
+ERROR_RATE = 0.2
 EPSILON = 0.001
 
 
-def run(lines, prompt):
-    keystroke_times = [k for k in keystrokes.all_keystrokes() if k < MAX_TIME]
-    results = []
-    start_time = time.time()
+class ScriptRunner:
+    def __init__(self, prompt):
+        keystroke_times = keystrokes.all_keystrokes()
+        self.keystroke_times = [k for k in keystroke_times if k < MAX_TIME]
+        self.prompt = prompt
 
-    def append(item):
-        dt = time.time() - start_time
-        if dt < EPSILON:
-            dt = 0
-        results.append([dt, 'o', item])
+    def __call__(self, lines):
+        self.results = []
+        self.start_time = time.time()
+        for line in lines:
+            self._run_one(line)
 
-    for line in lines:
+        return self.results
+
+    def _run_one(self, line):
         if line == NEW_PAGE:
-            append(constants.CONTROL_L)
-            continue
+            self._add(constants.CONTROL_L)
+            return
 
-        index = hash(line)
-
-        def append_key(key):
-            nonlocal index, start_time
-            index %= len(keystroke_times)
-            start_time -= keystroke_times[index]
-            index += 1
-            append(key)
-
-        random.seed(index)
-
-        append(prompt)
+        self.index = hash(line)
+        random.seed(self.index)
+        self._add(self.prompt)
         for k in line:
             if k == '\n':
                 k = constants.RETURN
             if random.random() < ERROR_RATE:
                 errors = ERRORS.get(k)
                 if errors:
-                    append_key(random.choice(errors))
-                    append_key(constants.BACKSPACE)
-            append_key(k)
+                    self._add_key(random.choice(errors))
+                    self._add_key(constants.BACKSPACE)
+            self._add_key(k)
 
         try:
-            run_proc.run_proc(line.strip(), append, append, shell=True)
+            run_proc.run_proc(line.strip(), self._add, self._add, shell=True)
         except Exception:
             pass
 
-    return results
+    def _add(self, item):
+        dt = time.time() - self.start_time
+        if dt < EPSILON:
+            dt = 0
+        self.results.append([dt, 'o', item])
+
+    def _add_key(self, key):
+        self.index %= len(self.keystroke_times)
+        self.start_time -= self.keystroke_times[self.index]
+        self.index += 1
+        self._add(key)
 
 
 ERRORS = {
@@ -97,5 +101,13 @@ ERRORS = {
 
 
 if __name__ == '__main__':
-    for line in run(open('gitz_doc/cast/scripts/test.sh'), '/foo/bar$ '):
-        print(line)
+    import json
+    import sys
+
+    header = {'version': 2, 'width': 80, 'height': 32}
+    print(json.dumps(header), file=sys.stdout)
+
+    runner = ScriptRunner('/foo/bar$ ')
+    with open('gitz_doc/cast/scripts/test.sh') as fp:
+        for line in runner(fp):
+            print(json.dumps(line), file=sys.stdout)
