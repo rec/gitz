@@ -7,8 +7,10 @@ CONTROL_L = '\x1b[H\x1b[2J'
 FILE = Path(__file__)
 ROOT = FILE.parents[2]
 
-SVG_DIR = ROOT / 'doc' / 'movies'
+DOC_DIR = ROOT / 'doc'
+SVG_DIR = DOC_DIR / 'movies'
 CAST_DIR = ROOT / 'cast'
+GENERATED_CAST_DIR = DOC_DIR / 'cast'
 
 SVG_SUFFIX = '.svg'
 CAST_SUFFIX = '.cast'

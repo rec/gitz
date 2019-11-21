@@ -1,7 +1,7 @@
 from . import constants
 import random
 
-ERROR_RATE = 0.2
+ERROR_RATE = 0.023
 
 
 def with_errors(line, error_rate=ERROR_RATE):

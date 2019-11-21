@@ -5,7 +5,6 @@ from . import keystrokes
 from . import render
 import tempfile
 
-TEMPLATE = 'base16_default_dark'
 LAST_MODIFIED = max(f.stat().st_mtime for f in Path(__file__).parent.iterdir())
 PROMPT = '/code/sandbox$ '
 TIME_SCALE = 0.75
