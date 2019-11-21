@@ -14,4 +14,4 @@ install:
 - pip install -r test/test_requirements.txt
 
 script:
-- source test/_test.sh
+- source scripts/run_tests.sh
