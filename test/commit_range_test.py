@@ -22,6 +22,10 @@ class CommitRangeTest(unittest.TestCase):
         self._test_both('e1e931a', '043df1f', 'e1e931a', 5)
 
     @repo.test
+    def test_single_commit_id(self):
+        self._test_one('HEAD~~', '', '8a4a4e2', 1)
+
+    @repo.test
     def test_not_in_range(self):
         repo.make_seven_commits(self)
         GIT.reset('--hard', 'c0d1dbb')

@@ -5,7 +5,9 @@ def commit_range(c1, c2):
     def is_number(x):
         return x.isnumeric() and len(x) < 7
 
-    if not is_number(c1):
+    if not c2:
+        commit_id, count = c1, c2
+    elif not is_number(c1):
         commit_id, count = c1, c2
     elif not is_number(c2):
         commit_id, count = c2, c1
