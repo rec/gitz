@@ -1,7 +1,7 @@
 from gitz import config
 from pathlib import Path
 
-ROOT = Path(__file__).parent.parent
+GITZ_ROOT = Path(__file__).parent.parent
 
 
 def commands():
@@ -9,7 +9,7 @@ def commands():
     for command in config.COMMANDS:
         summary = SUMMARIES.get(command)
         if not summary:
-            file = ROOT / command
+            file = GITZ_ROOT / command
             source = file.read_text()
             compiled = compile(source, str(file), 'exec')
             context = {}

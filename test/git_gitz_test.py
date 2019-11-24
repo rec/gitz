@@ -1,3 +1,5 @@
+from pathlib import Path
+
 from . import repo
 from gitz import config
 from gitz.git import GIT
@@ -10,10 +12,33 @@ class GitGitzTest(unittest.TestCase):
     maxDiff = 100000
 
     @repo.test
-    def test_all(self):
+    def test_all_XXX(self):
         # See #170
-        expected = [r for r in RESULTS if not r.startswith('    Python')]
-        actual = [r for r in GIT.gitz('-v') if not r.startswith('    Python')]
+        indent_commands = (('    ' if c else '') + c for c in COMMANDS)
+        indent_commands = '\n'.join(indent_commands)
+        home_page = config.HOME_PAGE
+        executable_directory = str(config.EXECUTABLE_DIRECTORY)
+        gitz_directory = str(config.GITZ_DIRECTORY)
+        version = config.VERSION
+        python_version = platform.python_version()
+        platform_name = platform.platform()
+        commands = list(_commands())
+        indent_commands = indent_commands
+
+        def filter_results(lines):
+            results = []
+            prev = ''
+            py = '    Python'
+            xd = 'Executable directory:'
+            for line in lines:
+                if not (line.startswith(py) or prev.startswith(xd)):
+                    results.append(line)
+                prev = line
+            return results
+
+        results = RESULTS.format(**locals())
+        expected = filter_results(results.splitlines())
+        actual = filter_results(GIT.gitz('-v'))
         self.assertEqual(expected, actual)
 
     @repo.test
@@ -31,18 +56,17 @@ class GitGitzTest(unittest.TestCase):
 
     @repo.test
     def test_executable_directory(self):
-        # The configs for the child process and for us are different!
-        for d in 'e', 'exec', 'executable_directory':
-            self.assertEqual(
-                GIT.gitz(d, '-v'), [str(config.LIBRARY_DIRECTORY.parent)]
-            )
+        result = {
+            GIT.gitz(d, '-v')[0] for d in ('e', 'exec', 'executable_directory')
+        }
+        self.assertEqual(len(result), 1)
+        result = next(iter(result))
+        self.assertTrue((Path(result) / 'git-gitz').exists())
 
     @repo.test
-    def test_library_directory(self):
-        for d in 'l', 'lib', 'library_directory':
-            self.assertEqual(
-                GIT.gitz(d, '-v'), [str(config.LIBRARY_DIRECTORY)]
-            )
+    def test_gitz_directory(self):
+        for d in 'g', 'gitz', 'gitz_directory':
+            self.assertEqual(GIT.gitz(d, '-v'), [str(config.GITZ_DIRECTORY)])
 
     @repo.test
     def test_defaults(self):
@@ -67,19 +91,11 @@ def _commands():
         yield '    ' + summary
 
 
-HOME_PAGE = config.HOME_PAGE
-EXECUTABLE_DIRECTORY = str(config.LIBRARY_DIRECTORY.parent)
-LIBRARY_DIRECTORY = str(config.LIBRARY_DIRECTORY)
-VERSION = config.VERSION
-PYTHON_VERSION = platform.python_version()
-PLATFORM = platform.platform()
-
 COMMANDS = list(_commands())
-INDENT_COMMANDS = '\n'.join(('    ' if c else '') + c for c in COMMANDS)
 
 RESULTS = """\
 Commands:
-{INDENT_COMMANDS}
+{indent_commands}
 
 Defaults:
     GITZ_ORIGIN = ['origin']
@@ -89,22 +105,20 @@ Defaults:
     GITZ_UPSTREAM = ['upstream', 'origin']
 
 Executable directory:
-    {EXECUTABLE_DIRECTORY}
+    {executable_directory}
+
+Gitz directory:
+    {gitz_directory}
 
 Home page:
-    {HOME_PAGE}
-
-Library directory:
-    {LIBRARY_DIRECTORY}
+    {home_page}
 
 Python:
-    Python v{PYTHON_VERSION} on {PLATFORM}
+    Python v{python_version} on {platform_name}
 
 Version:
-    {VERSION}
-""".format(
-    **globals()
-).splitlines()
+    {version}
+"""
 
 DEFAULTS = """\
 GITZ_ORIGIN = ['origin']

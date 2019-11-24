@@ -33,10 +33,10 @@ class Cast:
         for line in self.lines:
             line[0] *= ratio
 
-    def replace_prompt(self, prompt):
+    def replace_prompt(self):
         original = self.lines[0][2]
         for line in self.lines:
-            line[2] = line[2].replace(original, prompt, 1)
+            line[2] = line[2].replace(original, constants.PROMPT, 1)
 
     def remove_exit(self):
         last = self.lines[-1]

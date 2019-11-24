@@ -1,5 +1,5 @@
-from . import constants
 from . import cast
+from . import constants
 import statistics
 
 ACCEPTED_KEYS = {constants.BACKSPACE, constants.RETURN}
@@ -38,9 +38,9 @@ def print_keystrokes():
         print(round(d, 3))
 
 
-def fake_text(text, prompt, post_delay=0):
+def fake_text(text, post_delay=0):
     index = hash(text) % len(TIMES)
-    entries = [prompt, ''] + list(text) + [constants.RETURN]
+    entries = [constants.PROMPT, ''] + list(text) + [constants.RETURN]
 
     time = 0
     lines = []

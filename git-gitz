@@ -10,9 +10,9 @@ SUMMARY = 'Print information about the gitz git commands'
 COMMANDS = (
     ('commands', 'All the gitz commands'),
     ('defaults', 'Default values: protected branches and remotes'),
-    ('executable_directory', 'The path to the gitz executable directory,'),
+    ('executable_directory', 'The path to the gitz executables,'),
+    ('gitz_directory', 'The path to the gitz Python library,'),
     ('home_page', 'The home page of the gitz project'),
-    ('library_directory', 'The gitz library directory'),
     ('python', 'About the version of Python used'),
     ('version', 'The version number of gitz'),
 )
@@ -100,12 +100,12 @@ def _executable_directory(indent):
     PROGRAM.message(indent + str(config.EXECUTABLE_DIRECTORY))
 
 
+def _gitz_directory(indent):
+    PROGRAM.message(indent + str(config.GITZ_DIRECTORY))
+
+
 def _home_page(indent):
     PROGRAM.message(indent + config.HOME_PAGE)
-
-
-def _library_directory(indent):
-    PROGRAM.message(indent + str(config.LIBRARY_DIRECTORY))
 
 
 def _python(indent):

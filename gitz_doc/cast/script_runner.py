@@ -2,6 +2,8 @@ from gitz.program import run_proc
 from . import constants
 from . import keystrokes
 from . import typing_errors
+import json
+import sys
 import time
 
 MAX_TIME = 1
@@ -10,20 +12,20 @@ EPSILON = 0.001
 TIME_TO_THINK = 2
 TIME_TO_READ_ONE_CHAR = 0.005
 TIME_SCALE = 0.70
+HEADER = {'version': 2, 'width': 80, 'height': 32}
 
 
 class ScriptRunner:
-    def __init__(self, prompt):
+    def __init__(self):
         keystroke_times = keystrokes.all_keystrokes()
         keystroke_times = [TIME_SCALE * k for k in keystroke_times]
         self.keystroke_times = [k for k in keystroke_times if k < MAX_TIME]
-        self.prompt = prompt
 
-    def __call__(self, lines):
-        self.results = []
+    def __call__(self, script):
+        self.results = [constants.HEADER]
         self.start_time = time.time()
-        self._add(self.prompt)
-        for line in lines:
+        self._add(constants.PROMPT)
+        for line in script:
             self._run_one(line)
 
         return self.results
@@ -41,7 +43,7 @@ class ScriptRunner:
         self._run(line.strip())
         chars = sum(len(x[2]) for x in self.results[before + 1:])
 
-        self._add(self.prompt)
+        self._add(constants.PROMPT)
 
         self.start_time -= TIME_TO_THINK + chars * TIME_TO_READ_ONE_CHAR
         self._add('')
@@ -69,14 +71,12 @@ class ScriptRunner:
         self._add(key)
 
 
-if __name__ == '__main__':
-    import json
-    import sys
-
-    header = {'version': 2, 'width': 80, 'height': 32}
-    print(json.dumps(header), file=sys.stdout)
-
-    runner = ScriptRunner('/foo/bar$ ')
-    with open('gitz_doc/cast/scripts/test.sh') as fp:
+def run_script(script, file=sys.stdout):
+    runner = ScriptRunner(constants.PROMPT)
+    with open(script) as fp:
         for line in runner(fp):
-            print(json.dumps(line), file=sys.stdout)
+            print(json.dumps(line), file=file)
+
+
+if __name__ == '__main__':
+    run_script('gitz_doc/cast/scripts/test.sh')

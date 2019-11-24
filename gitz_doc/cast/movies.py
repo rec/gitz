@@ -6,7 +6,6 @@ from . import render
 import tempfile
 
 LAST_MODIFIED = max(f.stat().st_mtime for f in Path(__file__).parent.iterdir())
-PROMPT = '/code/sandbox$ '
 TIME_SCALE = 0.75
 COMBINED_FILE = constants.svg_file('all-gitz')
 WIDTH = 80
@@ -43,8 +42,8 @@ def _one_file(command):
         return '?', None
 
     original = cast.Cast.read(cast_file)
-    original.replace_prompt(PROMPT)
-    result = keystrokes.fake_text('# ' + cast_file.stem, PROMPT)
+    original.replace_prompt(constants.PROMPT)
+    result = keystrokes.fake_text('# ' + cast_file.stem, constants.PROMPT)
     result.merge(original, offset=1)
     result.remove_exit()
     result.scale(TIME_SCALE)
