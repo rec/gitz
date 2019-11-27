@@ -1,3 +1,4 @@
 flake8
 import_all
 pytest
+pytest_xdist
