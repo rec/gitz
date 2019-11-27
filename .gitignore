@@ -105,3 +105,6 @@ venv.bak/
 
 # tags tables
 TAGS
+
+# JetBrains
+.idea/
