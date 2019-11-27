@@ -24,6 +24,10 @@ def cast_file(command):
     return (CAST_DIR / command).with_suffix(CAST_SUFFIX)
 
 
+def generated_cast_file(command):
+    return (GENERATED_CAST_DIR / command).with_suffix(CAST_SUFFIX)
+
+
 def svg_file(command):
     return (SVG_DIR / command).with_suffix(SVG_SUFFIX)
 

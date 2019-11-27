@@ -1,3 +1,7 @@
+"""
+Represents a single asciinema file
+"""
+
 from . import constants
 import json
 
@@ -7,27 +11,33 @@ EXIT = 'exit' + constants.RETURN
 class Cast:
     def __init__(self, lines=None, header=None):
         self.lines = lines or []
-        self.header = header or {'version': 2}
+        self.header = constants.HEADER if header is None else header
 
     @classmethod
-    def read(cls, filename):
+    def read(cls, fp):
+        if isinstance(fp, str):
+            with open(fp) as fp2:
+                return cls.read(fp2)
+
         lines = []
 
-        with open(filename) as fp:
-            for i, line in enumerate(fp):
-                value = json.loads(line)
-                if i:
-                    assert isinstance(value, list)
-                    lines.append(value)
-                else:
-                    assert isinstance(value, dict)
-                    header = value
+        for i, line in enumerate(fp):
+            value = json.loads(line)
+            if i:
+                assert isinstance(value, list)
+                lines.append(value)
+            else:
+                assert isinstance(value, dict)
+                header = value
         return cls(lines, header)
 
-    def write(self, filename):
-        with open(filename, 'w') as fp:
-            for i in (self.header, *self.lines):
-                print(json.dumps(i), file=fp)
+    def write(self, fp):
+        if isinstance(fp, str):
+            with open(fp, 'w') as fp2:
+                return self.write(fp2)
+
+        for i in (self.header, *self.lines):
+            print(json.dumps(i), file=fp)
 
     def scale(self, ratio):
         for line in self.lines:

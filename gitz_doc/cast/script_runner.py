@@ -1,8 +1,8 @@
 from gitz.program import run_proc
+from . import cast
 from . import constants
 from . import keystrokes
 from . import typing_errors
-import json
 import sys
 import time
 
@@ -21,14 +21,14 @@ class ScriptRunner:
         keystroke_times = [TIME_SCALE * k for k in keystroke_times]
         self.keystroke_times = [k for k in keystroke_times if k < MAX_TIME]
 
-    def __call__(self, script):
-        self.results = [constants.HEADER]
+    def run(self, script):
+        self.results = []
         self.start_time = time.time()
         self._add(constants.PROMPT)
         for line in script:
             self._run_one(line)
 
-        return self.results
+        return cast.Cast(self.results)
 
     def _run_one(self, line):
         if line == NEW_PAGE:
@@ -73,9 +73,7 @@ class ScriptRunner:
 
 def run_script(script, file=sys.stdout):
     runner = ScriptRunner(constants.PROMPT)
-    with open(script) as fp:
-        for line in runner(fp):
-            print(json.dumps(line), file=file)
+    runner.run(script).write(file)
 
 
 if __name__ == '__main__':
