@@ -5,6 +5,7 @@ Represents a single asciinema file
 from . import constants
 from gitz.program import safe_writer
 import json
+from pathlib import Path
 
 EXIT = 'exit' + constants.RETURN
 
@@ -16,7 +17,7 @@ class Cast:
 
     @classmethod
     def read(cls, fp):
-        if isinstance(fp, str):
+        if isinstance(fp, (str, Path)):
             with open(fp) as fp2:
                 return cls.read(fp2)
 
@@ -33,7 +34,7 @@ class Cast:
         return cls(lines, header)
 
     def write(self, fp):
-        if isinstance(fp, str):
+        if isinstance(fp, (str, Path)):
             with safe_writer.safe_writer(fp) as fp2:
                 return self.write(fp2)
 
