@@ -27,12 +27,9 @@ def test(f):
     @functools.wraps(f)
     def wrapper(self):
         def main():
-            with _with_tmpdir(), _with_env_variables(**ENV_VARIABLES):
-                GIT.init()
-                make_commit('0')
-                with clone(*DEFAULT_ORIGINS):
-                    with _with_attr(self, 'program', PROGRAM):
-                        f(self)
+            with _clone_context():
+                with _with_attr(self, 'program', PROGRAM):
+                    f(self)
 
         PROGRAM.argv.clear()
         PROGRAM.start({'main': main})
@@ -40,8 +37,29 @@ def test(f):
     return wrapper
 
 
+def sandbox(*args, **kwds):
+    def wrapping(f):
+        @functools.wraps(f)
+        def wrapper(*args, **kwds):
+            with _clone_context():
+                return f(*args, **kwds)
+
+        return wrapper
+
+    return wrapping
+
+
 @contextlib.contextmanager
-def clone(*names):
+def _clone_context():
+    with _with_tmpdir(), _with_env_variables(**ENV_VARIABLES):
+        GIT.init()
+        make_commit('0')
+        with _clone(*DEFAULT_ORIGINS):
+            yield
+
+
+@contextlib.contextmanager
+def _clone(*names):
     clones = []
     with contextlib.ExitStack() as stack:
         for name in names:
