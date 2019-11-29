@@ -71,10 +71,8 @@ class ScriptRunner:
         self._add(key)
 
 
-def run_script(script, file=sys.stdout):
-    runner = ScriptRunner(constants.PROMPT)
-    runner.run(script).write(file)
+run = ScriptRunner().run
 
 
 if __name__ == '__main__':
-    run_script('gitz_doc/cast/scripts/test.sh')
+    run('gitz_doc/cast/scripts/test.sh').write(sys.stdout)
