@@ -2,10 +2,10 @@ from pathlib import Path
 from . import cast
 from . import constants
 from . import keystrokes
+from . import needs_update
 from . import render
 import tempfile
 
-LAST_MODIFIED = max(f.stat().st_mtime for f in Path(__file__).parent.iterdir())
 TIME_SCALE = 0.75
 COMBINED_FILE = constants.svg_file('all-gitz')
 WIDTH = 80
@@ -49,8 +49,8 @@ def _one_file(command):
     result.scale(TIME_SCALE)
 
     svg_file = constants.svg_file(command)
-    if svg_file.exists() and svg_file.stat().st_mtime >= LAST_MODIFIED:
-        return '.', result
+    if needs_update.needs_update(svg_file, cast_file):
+        _write(result, svg_file)
+        return '+', result
 
-    _write(result, svg_file)
-    return '+', result
+    return '.', result
