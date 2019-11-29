@@ -19,6 +19,8 @@ SVG_SUFFIX = '.svg'
 CAST_SUFFIX = '.cast'
 SCRIPT_SUFFIX = '.sh'
 
+HEADER = {'version': 2, 'width': 80, 'height': 32}
+
 
 def cast_file(command):
     return (CAST_DIR / command).with_suffix(CAST_SUFFIX)

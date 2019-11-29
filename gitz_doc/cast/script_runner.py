@@ -12,7 +12,6 @@ EPSILON = 0.001
 TIME_TO_THINK = 2
 TIME_TO_READ_ONE_CHAR = 0.005
 TIME_SCALE = 0.70
-HEADER = {'version': 2, 'width': 80, 'height': 32}
 
 
 class ScriptRunner:
@@ -25,7 +24,7 @@ class ScriptRunner:
         self.results = []
         self.start_time = time.time()
         self._add(constants.PROMPT)
-        for line in script:
+        for line in script.open():
             self._run_one(line)
 
         return cast.Cast(self.results)

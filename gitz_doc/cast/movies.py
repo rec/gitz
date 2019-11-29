@@ -42,8 +42,8 @@ def _one_file(command):
         return '?', None
 
     original = cast.Cast.read(cast_file)
-    original.replace_prompt(constants.PROMPT)
-    result = keystrokes.fake_text('# ' + cast_file.stem, constants.PROMPT)
+    original.replace_prompt()
+    result = keystrokes.fake_text('# ' + cast_file.stem)
     result.merge(original, offset=1)
     result.remove_exit()
     result.scale(TIME_SCALE)
