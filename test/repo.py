@@ -20,7 +20,7 @@ ENV_VARIABLES = {
     'GIT_COMMITTER_EMAIL': EMAIL,
     'GIT_COMMITTER_NAME': NAME,
 }
-DEFAULT_ORIGINS = 'origin', 'upstream'
+DEFAULT_ORIGINS = 'upstream', 'origin'
 
 
 def test(f):
@@ -45,10 +45,15 @@ def clone(*names):
     clones = []
     with contextlib.ExitStack() as stack:
         for name in names:
-            clones.append(stack.enter_context(TemporaryDirectory()))
-            GIT.clone('--mirror', '.', clones[-1])
-            GIT.remote('add', name, 'file://' + clones[-1])
-            functions.fetch(name)
+            clone = stack.enter_context(TemporaryDirectory())
+            clones.append(clone)
+            old_dir = os.getcwd()
+            os.chdir(clone)
+            GIT.init('--bare')
+            os.chdir(old_dir)
+
+            GIT.remote('add', name, 'file://' + clone)
+            GIT.push('--set-upstream', name, functions.branch_name())
 
         yield clones
 

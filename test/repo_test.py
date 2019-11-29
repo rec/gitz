@@ -26,9 +26,7 @@ class RepoTest(unittest.TestCase):
             functions.fetch('bar')
             actual = functions.branches('-r')
             expected = [
-                'bar/master',
                 'bar/working',
-                'foo/master',
                 'foo/working',
                 'origin/master',
                 'upstream/master',
