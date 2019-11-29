@@ -1,0 +1,10 @@
+git-save
+
+git st
+git log --oneline
+git save --all
+git st
+git reset --hard HEAD && git clean -f
+git checkout bugfix
+git branch -D experimental
+git save pop
