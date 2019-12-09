@@ -51,7 +51,11 @@ _HELP_BRANCHES = 'Names of branches to create'
 
 
 def git_new():
-    root.check_clean_workspace()
+    if ARGS.use_head:
+        root.check_git()
+    else:
+        root.check_clean_workspace()
+
     branches = functions.branches()
     remote_branches = functions.remote_branches()
     origin = guess_origin.guess_origin(ARGS.origin)
@@ -78,15 +82,21 @@ def git_new():
             remote_msg = 'remote branches on origin ' + origin
             check(remote_branches[origin], remote_msg)
 
-    reference = '/'.join(reference_branch.reference_branch(remote_branches))
+    if ARGS.use_head:
+        ref = 'HEAD'
+        if set(branches).intersection(ARGS.branches):
+            root.check_clean_workspace()
+    else:
+        ref = '/'.join(reference_branch.reference_branch(remote_branches))
+
     for new_branch in ARGS.branches:
         if new_branch in branches:
             original_id = functions.commit_id(new_branch)
             GIT.checkout(new_branch, '--quiet')
-            GIT.reset('--hard', reference)
+            GIT.reset('--hard', ref)
         else:
             original_id = None
-            GIT.checkout('-b', new_branch, reference)
+            GIT.checkout('-b', new_branch, ref)
 
         GIT.push('-fu', origin, new_branch)
         id = functions.commit_id(new_branch)
@@ -100,12 +110,14 @@ def add_arguments(parser):
     add('-f', '--force', action='store_true', help=_HELP_FORCE)
     add('-F', '--force-protected', action='store_true', help=_HELP_FORCE_PROT)
     add('-o', '--origin', default='', help=_HELP_ORIGIN)
+    add('-u', '--use-head', action='store_true', help=_HELP_FORCE_PROT)
     reference_branch.add_arguments(parser)
 
 
 _HELP_FORCE = 'Force push over existing branches'
 _HELP_FORCE_PROT = 'Force push over existing or protected branches'
 _HELP_ORIGIN = 'Remote origin to push to'
+_HELP_USE_HEAD = 'Use HEAD and not reference branch'
 
 if __name__ == '__main__':
     PROGRAM.start()
