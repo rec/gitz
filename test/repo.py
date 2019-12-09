@@ -27,7 +27,7 @@ def test(f):
     @functools.wraps(f)
     def wrapper(self):
         def main():
-            with _clone_context():
+            with clone_context():
                 with _with_attr(self, 'program', PROGRAM):
                     f(self)
 
@@ -41,7 +41,7 @@ def sandbox(*args, **kwds):
     def wrapping(f):
         @functools.wraps(f)
         def wrapper(*args, **kwds):
-            with _clone_context():
+            with clone_context():
                 return f(*args, **kwds)
 
         return wrapper
@@ -50,7 +50,7 @@ def sandbox(*args, **kwds):
 
 
 @contextlib.contextmanager
-def _clone_context():
+def clone_context():
     with _with_tmpdir(), _with_env_variables(**ENV_VARIABLES):
         GIT.init()
         make_commit('0')

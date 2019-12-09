@@ -55,7 +55,7 @@ class Cast:
         if last[2] == EXIT:
             last[2] = last[2][4:]
 
-    def merge(self, other, offset=0):
+    def update(self, other, offset=0):
         for c in 'width', 'height':
             s = self.header.get(c, 0)
             o = other.header.get(c, 0)

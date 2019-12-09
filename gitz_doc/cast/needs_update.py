@@ -1,15 +1,33 @@
 from pathlib import Path
 
 ROOT = Path(__file__).parent
-LAST_MODIFIED = max(f.stat().st_mtime for f in Path(__file__).parent.iterdir())
 
 
-def needs_update(target, *dependencies):
-    if not all(f.exists() for f in dependencies):
-        return '?'
-    if not target.exists():
-        return '+'
+class Updater:
+    @classmethod
+    def update(cls, commands):
+        results = []
+        for c in commands:
+            symbol, result = cls._update(cls._target(c), cls._source(c))
+            if result:
+                results.append((c, result))
 
-    src = tuple(f for f in ROOT.iterdir() if f.suffix == '.py')
-    newest = max(f.stat().st_mtime for f in src + dependencies)
-    return '+' if target.stat().st_mtime < newest else '.'
+        return results
+
+    @classmethod
+    def _update(cls, target, source):
+        if not source.exists():
+            return '?', None
+
+        new = cls._needs_update(target, source)
+        symbol = '+' if new else '.'
+        method = cls._create if new else cls._existing
+        return symbol, method(target, source)
+
+    @classmethod
+    def _needs_update(cls, target, source):
+        if not target.exists():
+            return True
+        src = tuple(f for f in ROOT.iterdir() if f.suffix == '.py')
+        newest = max(f.stat().st_mtime for f in src + (source,))
+        return target.stat().st_mtime < newest
