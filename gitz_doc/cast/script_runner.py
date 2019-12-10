@@ -9,9 +9,10 @@ import time
 MAX_TIME = 1
 NEW_PAGE = '\f'
 EPSILON = 0.001
-TIME_TO_THINK = 2
+TIME_TO_THINK = 1
+MIN_CHARS = 15
 TIME_TO_READ_ONE_CHAR = 0.005
-TIME_SCALE = 0.70
+TIME_SCALE = 0.65
 
 
 class ScriptRunner:
@@ -44,7 +45,8 @@ class ScriptRunner:
 
         self._add(constants.PROMPT)
 
-        self.start_time -= TIME_TO_THINK + chars * TIME_TO_READ_ONE_CHAR
+        delta = TIME_TO_THINK + (chars - MIN_CHARS) * TIME_TO_READ_ONE_CHAR
+        self.start_time -= delta
         self._add('')
 
     def _run(self, cmd):
