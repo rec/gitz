@@ -1,6 +1,8 @@
 from pathlib import Path
+from . import colors
 
-PROMPT = '/code/sandbox$ '
+PROMPT = '{LIGHT_RED}tom{NONE}@{BLUE}bantam:{GREEN}/code/sandbox{NONE}$ '
+PROMPT = PROMPT.format(**vars(colors))
 
 BACKSPACE = '\x08\x1b[K'
 RETURN = '\r\n'
