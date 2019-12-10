@@ -1,5 +1,6 @@
 from . import constants
 from . import needs_update
+from . import render
 from . import script_runner
 from .cast import Cast
 from test import repo
@@ -9,13 +10,15 @@ COMMITS = 'one', 'two', 'three', 'four', 'five'
 
 
 class GeneratedUpdater(needs_update.Updater):
-    _target = staticmethod(constants.cast_file)
+    _target = staticmethod(constants.generated_svg_file)
     _source = staticmethod(constants.script_file)
 
     @classmethod
     def _create(cls, target, source):
         with repo.clone_context():
-            return script_runner.run(source)
+            cast = script_runner.run(source)
+            render.render(cast, target)
+            return cast
 
     @classmethod
     def _existing(cls, target, source):

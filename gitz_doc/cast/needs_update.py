@@ -1,3 +1,4 @@
+from gitz.program import safe_writer
 from pathlib import Path
 
 ROOT = Path(__file__).parent
@@ -17,7 +18,7 @@ class Updater:
                 print('?', target)
                 continue
 
-            if target.exists():
+            if not target.exists():
                 new = True
             else:
                 src = tuple(f for f in ROOT.iterdir() if f.suffix == '.py')
@@ -26,11 +27,13 @@ class Updater:
 
             if new:
                 symbol = '+'
+                safe_writer.make_parents(target)
                 cast = cls._create(target, source)
             else:
                 symbol = '.'
                 cast = cls._existing(target, source)
 
+            print(symbol, target)
             results.append((symbol, cast))
 
         return results

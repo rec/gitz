@@ -4,11 +4,16 @@ from pathlib import Path
 SUFFIX = '.tmp'
 
 
+def make_parents(file):
+    file.parent.mkdir(parents=True, exist_ok=True)
+
+
 @contextlib.contextmanager
 def safe_writer(filename, suffix=SUFFIX, create_parents=True):
     tempfile = Path(str(filename) + suffix)
     if create_parents:
-        tempfile.parent.mkdir(parents=True, exist_ok=True)
+        make_parents(tempfile)
+
     with tempfile.open('w') as fp:
         try:
             yield fp

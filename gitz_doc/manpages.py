@@ -23,7 +23,6 @@ class Manpage:
         self.version = config.VERSION
 
     def write(self):
-        dirs.MAN.mkdir(exist_ok=True, parents=True)
         manfile = (dirs.MAN / self.command).with_suffix('.1')
         with safe_writer.safe_writer(manfile) as self.fp:
             self._print(HEADER.format(**vars(self)))

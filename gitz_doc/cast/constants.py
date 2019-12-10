@@ -11,6 +11,8 @@ ROOT = FILE.parents[2]
 
 DOC_DIR = ROOT / 'doc'
 SVG_DIR = DOC_DIR / 'movies'
+GENERATED_SVG_DIR = DOC_DIR / 'generated_movies'
+
 CAST_DIR = ROOT / 'cast'
 GENERATED_CAST_DIR = DOC_DIR / 'cast'
 SCRIPT_DIR = ROOT / 'gitz_doc/cast/scripts'
@@ -32,6 +34,10 @@ def generated_cast_file(command):
 
 def svg_file(command):
     return (SVG_DIR / command).with_suffix(SVG_SUFFIX)
+
+
+def generated_svg_file(command):
+    return (GENERATED_SVG_DIR / command).with_suffix(SVG_SUFFIX)
 
 
 def script_file(command):

@@ -1,4 +1,4 @@
-from . import cast
+from .cast import Cast
 from . import constants
 from . import keystrokes
 from . import needs_update
@@ -13,19 +13,19 @@ class MovieUpdater(needs_update.Updater):
 
     @classmethod
     def _create(cls, target, source):
-        result = cls._existing(target, source)
-        render.render(result, target)
-        return result
+        cast = cls._existing(target, source)
+        render.render(cast, target)
+        return cast
 
     @classmethod
     def _existing(cls, target, source):
-        original = cast.Cast.read(source)
+        original = Cast.read(source)
         original.replace_prompt()
-        result = keystrokes.fake_text('# ' + source.stem)
-        result.update(original, offset=1)
-        result.remove_exit()
-        result.scale(TIME_SCALE)
-        return result
+        cast = keystrokes.fake_text('# ' + source.stem)
+        cast.update(original, offset=1)
+        cast.remove_exit()
+        cast.scale(TIME_SCALE)
+        return cast
 
 
 main = MovieUpdater.update
