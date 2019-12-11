@@ -15,9 +15,11 @@ DOC_DIR = ROOT / 'doc'
 SVG_DIR = DOC_DIR / 'recorded_movies'
 GENERATED_SVG_DIR = DOC_DIR / 'generated_movies'
 
-CAST_DIR = ROOT / 'cast'
+
+MOVIES_ROOT = ROOT / 'gitz_doc/movies'
+CAST_DIR = MOVIES_ROOT / 'recorded'
 GENERATED_CAST_DIR = DOC_DIR / 'cast'
-SCRIPT_DIR = ROOT / 'gitz_doc/movies/scripts'
+SCRIPT_DIR = MOVIES_ROOT / 'generated'
 
 SVG_SUFFIX = '.svg'
 CAST_SUFFIX = '.cast'
