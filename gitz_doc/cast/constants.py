@@ -12,7 +12,7 @@ FILE = Path(__file__)
 ROOT = FILE.parents[2]
 
 DOC_DIR = ROOT / 'doc'
-SVG_DIR = DOC_DIR / 'movies'
+SVG_DIR = DOC_DIR / 'recorded_movies'
 GENERATED_SVG_DIR = DOC_DIR / 'generated_movies'
 
 CAST_DIR = ROOT / 'cast'

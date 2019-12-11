@@ -3,18 +3,18 @@ from . import doc_index
 from . import get_command_help
 from . import manpages
 from . import readme
-from .cast import movies
 from .cast import generated_movies
+from .cast import recorded_movies
 from gitz.program import ARGS
 from gitz.program import PROGRAM
 
 SYMBOLS = (
-    ('doc_index', doc_index),
     ('command_pages', command_pages),
+    ('doc_index', doc_index),
     ('generated_movies', generated_movies),
-    ('readme', readme),
     ('manpages', manpages),
-    ('movies', movies),
+    ('readme', readme),
+    ('recorded_movies', recorded_movies),
 )
 
 
