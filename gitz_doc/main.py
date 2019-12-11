@@ -3,8 +3,8 @@ from . import doc_index
 from . import get_command_help
 from . import manpages
 from . import readme
-from .cast import generated_movies
-from .cast import recorded_movies
+from .movies import generated_movies
+from .movies import recorded_movies
 from gitz.program import ARGS
 from gitz.program import PROGRAM
 
