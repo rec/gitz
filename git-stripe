@@ -76,6 +76,10 @@ def git_stripe():
 
 class Stripe:
     def __init__(self):
+        if ARGS.count:
+            if ARGS.delete_all:
+                PROGRAM.exit('git-stripe -D takes no arguments')
+
         self.remote_branches = functions.remote_branches()
 
         self.commit_id, self.count = commit_range.commit_range(
