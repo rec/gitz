@@ -1,13 +1,13 @@
 from .cast import Cast
 from . import constants
 from . import keystrokes
-from . import needs_update
 from . import render
+from . import updater
 
 TIME_SCALE = 0.75
 
 
-class MovieUpdater(needs_update.Updater):
+class MovieUpdater(updater.Updater):
     _target = staticmethod(constants.recorded_svg_file)
     _source = staticmethod(constants.recorded_cast_file)
 
