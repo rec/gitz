@@ -18,6 +18,7 @@ class ScriptedUpdater(updater.Updater):
         with repo.clone_context():
             source = cls._source(command)
             cast = script_runner.run(source)
+            cast.write(constants.scripted_cast_file(command))
             render.render(cast, target)
             return cast
 
