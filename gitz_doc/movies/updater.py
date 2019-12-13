@@ -5,35 +5,31 @@ ROOT = Path(__file__).parent
 
 
 class Updater:
-    # These need to be overridden in the derived class
-    _target = _source = _create = _existing = None
-
     @classmethod
     def update(cls, commands):
         results = []
         for command in commands:
-            target = cls._target(command)
-            source = cls._source(command)
-            if not source.exists():
-                print('?', target)
+            up = cls(command)
+            if not up.source.exists():
+                print('?', up.target)
                 continue
 
-            if not target.exists():
+            if not up.target.exists():
                 new = True
             else:
                 src = tuple(f for f in ROOT.iterdir() if f.suffix == '.py')
-                newest = max(f.stat().st_mtime for f in src + (source,))
-                new = target.stat().st_mtime < newest
+                newest = max(f.stat().st_mtime for f in src + (up.source,))
+                new = up.target.stat().st_mtime < newest
 
             if new:
                 symbol = '+'
-                safe_writer.make_parents(target)
-                cast = cls._create(command, target)
+                safe_writer.make_parents(up.target)
+                cast = up._create()
             else:
                 symbol = '.'
-                cast = cls._existing(command, target)
+                cast = up._existing()
 
-            print(symbol, target)
+            print(symbol, up.target)
             results.append((symbol, cast))
 
         return results

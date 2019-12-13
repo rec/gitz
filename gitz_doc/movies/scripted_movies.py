@@ -10,21 +10,20 @@ COMMITS = 'one', 'two', 'three', 'four', 'five'
 
 
 class ScriptedUpdater(updater.Updater):
-    _target = staticmethod(constants.scripted_svg_file)
-    _source = staticmethod(constants.script_file)
+    def __init__(self, command):
+        self.target = constants.scripted_svg_file(command)
+        self.source = constants.scripted_cast_file(command)
+        self.cast_file = constants.scripted_cast_file(command)
 
-    @classmethod
-    def _create(cls, command, target):
+    def _create(self):
         with repo.clone_context():
-            source = cls._source(command)
-            cast = script_runner.run(source)
-            cast.write(constants.scripted_cast_file(command))
-            render.render(cast, target)
+            cast = script_runner.run(self.source)
+            cast.write(self.cast_file)
+            render.render(cast, self.target)
             return cast
 
-    @classmethod
-    def _existing(cls, command, target):
-        return Cast.read(constants.scripted_cast_file(command))
+    def _existing(self):
+        return Cast.read(self.cast_file)
 
 
 @repo.sandbox()
