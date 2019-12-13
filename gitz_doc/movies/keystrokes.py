@@ -34,6 +34,7 @@ def print_keystrokes():
 
     print(statistics.mean(data), statistics.stdev(data))
     print()
+
     for d in data:
         print(round(d, 3))
 
@@ -44,12 +45,14 @@ def fake_text(text, post_delay=0):
 
     time = 0
     lines = []
+
     for i, e in enumerate(entries):
         lines.append([time, 'o', e])
         time += TIMES[(index + i) % len(TIMES)]
 
     if post_delay:
         lines.append([time + post_delay, 'o', ''])
+
     return cast.Cast(lines)
 
 
