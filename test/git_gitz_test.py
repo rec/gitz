@@ -100,7 +100,6 @@ Commands:
 Defaults:
     GITZ_ORIGIN = ['origin']
     GITZ_PROTECTED_BRANCHES = ['develop', 'master', 'release']
-    GITZ_PROTECTED_REMOTES = ['upstream']
     GITZ_REFERENCE_BRANCHES = ['develop', 'master']
     GITZ_UPSTREAM = ['upstream', 'origin']
 
@@ -123,7 +122,6 @@ Version:
 DEFAULTS = """\
 GITZ_ORIGIN = ['origin']
 GITZ_PROTECTED_BRANCHES = ['develop', 'master', 'release']
-GITZ_PROTECTED_REMOTES = ['upstream']
 GITZ_REFERENCE_BRANCHES = ['develop', 'master']
 GITZ_UPSTREAM = ['upstream', 'origin']
 """.splitlines()

@@ -16,7 +16,6 @@
 [3.512996, "o", "        Split a range of commits into many single-file commits\r\n    git-st:\r\n        Colorful, compact git status\r\n    git-stripe:\r\n        Push a sequence of commit IDs to a remote repository\r\n\r\n    git-update:\r\n        Update branches from a reference branch\r\n    git-when:\r\n        When did each file change (date, commit, message)?\r\n\r\nDefaults:\r\n"]
 [3.513799, "o", "    GITZ_ORIGIN = ['origin']\r\n"]
 [3.514031, "o", "    GITZ_PROTECTED_BRANCHES = ['develop', 'master', 'release']\r\n"]
-[3.514119, "o", "    GITZ_PROTECTED_REMOTES = ['upstream']\r\n"]
 [3.514166, "o", "    GITZ_REFERENCE_BRANCHES = ['develop', 'master']\r\n"]
 [3.51429, "o", "    GITZ_UPSTREAM = ['upstream', 'origin']\r\n\r\n"]
 [3.514373, "o", "Executable directory:\r\n    /code/gitz\r\n\r\nHome page:\r\n    https://github.com/rec/gitz/blob/master/README.rst\r\n\r\nLibrary directory:\r\n    /code/gitz/gitz\r\n\r\nVersion:\r\n    0.9.13\r\n"]
