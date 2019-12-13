@@ -8,6 +8,7 @@ import json
 from pathlib import Path
 
 EXIT = 'exit' + constants.RETURN
+EPSILON = 0.001
 
 
 class Cast:
@@ -32,6 +33,10 @@ class Cast:
                 assert isinstance(value, dict)
                 header = value
         return cls(lines, header)
+
+    def append(self, keys, delta_time):
+        dt = 0 if delta_time < EPSILON else delta_time
+        self.lines.append([dt, 'o', keys])
 
     def write(self, fp):
         if isinstance(fp, (str, Path)):

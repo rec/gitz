@@ -8,7 +8,6 @@ import time
 
 MAX_TIME = 1
 NEW_PAGE = '\f'
-EPSILON = 0.001
 TIME_TO_THINK = 1
 TIME_AT_END = 5
 MIN_CHARS = 15
@@ -23,14 +22,14 @@ class ScriptRunner:
         self.keystroke_times = [k for k in keystroke_times if k < MAX_TIME]
 
     def run(self, script):
-        self.results = []
+        self.cast = cast.Cast()
         self.start_time = time.time()
         self._add(constants.PROMPT)
         for line in script.open():
             self._run_one(line)
 
         self._wait(TIME_AT_END)
-        return cast.Cast(self.results)
+        return self.cast
 
     def _run_one(self, line):
         if line == NEW_PAGE:
@@ -41,9 +40,10 @@ class ScriptRunner:
         for k in typing_errors.with_errors(line):
             self._add_key(constants.RETURN if k == '\n' else k)
 
-        before = len(self.results)
+        lines = self.cast.lines
+        before = len(lines)
         self._run(line.strip())
-        chars = sum(len(x[2]) for x in self.results[before + 1:])
+        chars = sum(len(x[2]) for x in lines[before + 1:])
 
         self._add(constants.PROMPT)
         self._wait(TIME_TO_THINK + (chars - MIN_CHARS) * TIME_TO_READ_ONE_CHAR)
@@ -58,11 +58,8 @@ class ScriptRunner:
         self.start_time -= delta
         self._add('')
 
-    def _add(self, item):
-        dt = time.time() - self.start_time
-        if dt < EPSILON:
-            dt = 0
-        self.results.append([dt, 'o', item])
+    def _add(self, keys):
+        self.cast.append(keys, time.time() - self.start_time)
 
     def _add_line(self, line):
         self._add(line)
