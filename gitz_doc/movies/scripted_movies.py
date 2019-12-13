@@ -9,8 +9,8 @@ ALL = 'all-gitz'
 COMMITS = 'one', 'two', 'three', 'four', 'five'
 
 
-class GeneratedUpdater(updater.Updater):
-    _target = staticmethod(constants.generated_svg_file)
+class ScriptedUpdater(updater.Updater):
+    _target = staticmethod(constants.scripted_svg_file)
     _source = staticmethod(constants.script_file)
 
     @classmethod
@@ -23,15 +23,15 @@ class GeneratedUpdater(updater.Updater):
 
     @classmethod
     def _existing(cls, command, target):
-        return Cast.read(constants.generated_cast_file(command))
+        return Cast.read(constants.scripted_cast_file(command))
 
 
 @repo.sandbox()
 def main(commands):
-    results = GeneratedUpdater.update(commands)
+    results = ScriptedUpdater.update(commands)
     all_casts = Cast()
     for symbol, cast in results:
         all_casts.update(cast)
 
-    all_casts.write(constants.generated_cast_file(ALL))
+    all_casts.write(constants.scripted_cast_file(ALL))
     print('wrote', ALL)

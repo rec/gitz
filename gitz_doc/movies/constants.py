@@ -13,13 +13,13 @@ ROOT = FILE.parents[2]
 
 DOC_DIR = ROOT / 'doc'
 RECORDED_SVG_DIR = DOC_DIR / 'recorded_movies'
-GENERATED_SVG_DIR = DOC_DIR / 'generated_movies'
+SCRIPTED_SVG_DIR = DOC_DIR / 'scripted_movies'
 MOVIES_DIR = DOC_DIR / 'movies'
 
 MOVIES_ROOT = ROOT / 'gitz_doc/movies'
 CAST_DIR = MOVIES_ROOT / 'recorded'
-GENERATED_CAST_DIR = DOC_DIR / 'cast'
-SCRIPT_DIR = MOVIES_ROOT / 'generated'
+SCRIPTED_CAST_DIR = DOC_DIR / 'cast'
+SCRIPT_DIR = MOVIES_ROOT / 'scripted'
 
 SVG_SUFFIX = '.svg'
 CAST_SUFFIX = '.cast'
@@ -32,16 +32,16 @@ def recorded_cast_file(command):
     return (CAST_DIR / command).with_suffix(CAST_SUFFIX)
 
 
-def generated_cast_file(command):
-    return (GENERATED_CAST_DIR / command).with_suffix(CAST_SUFFIX)
+def scripted_cast_file(command):
+    return (SCRIPTED_CAST_DIR / command).with_suffix(CAST_SUFFIX)
 
 
 def recorded_svg_file(command):
     return (RECORDED_SVG_DIR / command).with_suffix(SVG_SUFFIX)
 
 
-def generated_svg_file(command):
-    return (GENERATED_SVG_DIR / command).with_suffix(SVG_SUFFIX)
+def scripted_svg_file(command):
+    return (SCRIPTED_SVG_DIR / command).with_suffix(SVG_SUFFIX)
 
 
 def movies_file(command):
