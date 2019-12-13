@@ -11,9 +11,9 @@ class Updater:
     @classmethod
     def update(cls, commands):
         results = []
-        for c in commands:
-            target = cls._target(c)
-            source = cls._source(c)
+        for command in commands:
+            target = cls._target(command)
+            source = cls._source(command)
             if not source.exists():
                 print('?', target)
                 continue
@@ -28,10 +28,10 @@ class Updater:
             if new:
                 symbol = '+'
                 safe_writer.make_parents(target)
-                cast = cls._create(target, source)
+                cast = cls._create(command, target)
             else:
                 symbol = '.'
-                cast = cls._existing(target, source)
+                cast = cls._existing(command, target)
 
             print(symbol, target)
             results.append((symbol, cast))

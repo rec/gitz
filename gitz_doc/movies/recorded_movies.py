@@ -8,17 +8,18 @@ TIME_SCALE = 0.75
 
 
 class MovieUpdater(needs_update.Updater):
-    _target = staticmethod(constants.svg_file)
-    _source = staticmethod(constants.cast_file)
+    _target = staticmethod(constants.recorded_svg_file)
+    _source = staticmethod(constants.recorded_cast_file)
 
     @classmethod
-    def _create(cls, target, source):
-        cast = cls._existing(target, source)
+    def _create(cls, command, target):
+        cast = cls._existing(command, target)
         render.render(cast, target)
         return cast
 
     @classmethod
-    def _existing(cls, target, source):
+    def _existing(cls, command, target):
+        source = cls._source(command)
         original = Cast.read(source)
         original.replace_prompt()
         cast = keystrokes.fake_text('# ' + source.stem)

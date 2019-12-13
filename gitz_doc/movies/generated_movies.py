@@ -14,15 +14,16 @@ class GeneratedUpdater(needs_update.Updater):
     _source = staticmethod(constants.script_file)
 
     @classmethod
-    def _create(cls, target, source):
+    def _create(cls, command, target):
         with repo.clone_context():
+            source = cls._source(command)
             cast = script_runner.run(source)
             render.render(cast, target)
             return cast
 
     @classmethod
-    def _existing(cls, target, source):
-        return Cast.read(target)
+    def _existing(cls, command, target):
+        return Cast.read(constants.generated_cast_file(command))
 
 
 @repo.sandbox()
