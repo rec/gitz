@@ -10,6 +10,7 @@ MAX_TIME = 1
 NEW_PAGE = '\f'
 EPSILON = 0.001
 TIME_TO_THINK = 1
+TIME_AT_END = 5
 MIN_CHARS = 15
 TIME_TO_READ_ONE_CHAR = 0.005
 TIME_SCALE = 0.65
@@ -28,6 +29,7 @@ class ScriptRunner:
         for line in script.open():
             self._run_one(line)
 
+        self._wait(TIME_AT_END)
         return cast.Cast(self.results)
 
     def _run_one(self, line):
@@ -44,16 +46,17 @@ class ScriptRunner:
         chars = sum(len(x[2]) for x in self.results[before + 1:])
 
         self._add(constants.PROMPT)
-
-        delta = TIME_TO_THINK + (chars - MIN_CHARS) * TIME_TO_READ_ONE_CHAR
-        self.start_time -= delta
-        self._add('')
+        self._wait(TIME_TO_THINK + (chars - MIN_CHARS) * TIME_TO_READ_ONE_CHAR)
 
     def _run(self, cmd):
         try:
             run_proc.run_proc(cmd, self._add_line, self._add_line, shell=True)
         except Exception:
             pass  # Already reported in _add_line
+
+    def _wait(self, delta):
+        self.start_time -= delta
+        self._add('')
 
     def _add(self, item):
         dt = time.time() - self.start_time
