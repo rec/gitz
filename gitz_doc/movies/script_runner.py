@@ -6,20 +6,16 @@ from . import typing_errors
 import sys
 import time
 
-MAX_TIME = 1
 NEW_PAGE = '\f'
 TIME_TO_THINK = 1
 TIME_AT_END = 5
 MIN_CHARS = 15
 TIME_TO_READ_ONE_CHAR = 0.005
-TIME_SCALE = 0.65
 
 
 class ScriptRunner:
     def __init__(self):
-        keystroke_times = keystrokes.all_keystrokes()
-        keystroke_times = [TIME_SCALE * k for k in keystroke_times]
-        self.keystroke_times = [k for k in keystroke_times if k < MAX_TIME]
+        self.keystroke_times = list(keystrokes.filtered_times())
 
     def run(self, script):
         self.cast = cast.Cast()
