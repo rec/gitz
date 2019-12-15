@@ -63,7 +63,7 @@ def git_new():
     new_branches = set(ARGS.branches)
     current = functions.branch_name()
     if current in ARGS.branches:
-        if ARGS.force or ARGS.force_protected:
+        if ARGS.force or ARGS.protected:
             branches = set(functions.branches()).difference(ARGS.branches)
             if not branches:
                 PROGRAM.exit('Cannot overwrite all branches')
@@ -75,7 +75,7 @@ def git_new():
             s = 'branch:' if len(branches) == 1 else 'branches:'
             PROGRAM.exit('Cannot overwrite', name, s, *branches)
 
-    if not ARGS.force_protected:
+    if not ARGS.protected:
         check(ENV.protected_branches(), 'protected')
         if not ARGS.force:
             check(branches, 'local')
@@ -108,14 +108,14 @@ def add_arguments(parser):
     add = parser.add_argument
     add('branches', nargs='+', help=_HELP_BRANCHES)
     add('-f', '--force', action='store_true', help=_HELP_FORCE)
-    add('-F', '--force-protected', action='store_true', help=_HELP_FORCE_PROT)
     add('-o', '--origin', default='', help=_HELP_ORIGIN)
-    add('-u', '--use-head', action='store_true', help=_HELP_FORCE_PROT)
+    add('-p', '--protected', action='store_true', help=_HELP_PROTECTED)
+    add('-u', '--use-head', action='store_true', help=_HELP_USE_HEAD)
     reference_branch.add_arguments(parser)
 
 
 _HELP_FORCE = 'Force push over existing branches'
-_HELP_FORCE_PROT = 'Force push over existing or protected branches'
+_HELP_PROTECTED = 'Force push over existing or protected branches'
 _HELP_ORIGIN = 'Remote origin to push to'
 _HELP_USE_HEAD = 'Use HEAD and not reference branch'
 
