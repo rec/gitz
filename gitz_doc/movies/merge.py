@@ -3,7 +3,7 @@ from gitz.program import safe_writer
 
 
 def main(commands):
-    for c in commands:
+    for c in list(commands) + [constants.ALL_COMMANDS]:
         mfile = constants.movies_file(c)
         mtime = mfile.exists() and mfile.stat().st_mtime or 0
         symbol = '.' if mtime else '?'

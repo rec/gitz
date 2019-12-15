@@ -1,7 +1,7 @@
 from pathlib import Path
 from . import colors
 
-PROMPT = '{LIGHT_RED}tom{NONE}@host {BLUE}:{GREEN}/code/test{NONE}$ '
+PROMPT = '{LIGHT_RED}tom{NONE}@host{BLUE}:{GREEN}/code/test{NONE}$ '
 PROMPT = PROMPT.format(**vars(colors))
 
 BACKSPACE = '\x08\x1b[K'
@@ -24,6 +24,9 @@ SCRIPT_DIR = MOVIES_ROOT / 'scripted'
 SVG_SUFFIX = '.svg'
 CAST_SUFFIX = '.cast'
 SCRIPT_SUFFIX = '.sh'
+
+ALL_COMMANDS = 'all-gitz'
+
 
 HEADER = {'version': 2, 'width': 80, 'height': 32}
 

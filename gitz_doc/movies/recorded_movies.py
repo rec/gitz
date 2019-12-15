@@ -8,6 +8,9 @@ TIME_SCALE = 0.75
 
 
 class MovieUpdater(updater.Updater):
+    ALL_CASTS = constants.recorded_cast_file(constants.ALL_COMMANDS)
+    ALL_SVG = constants.recorded_svg_file(constants.ALL_COMMANDS)
+
     def __init__(self, command):
         self.target = constants.recorded_svg_file(command)
         self.source = constants.recorded_cast_file(command)
