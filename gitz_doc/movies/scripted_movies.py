@@ -1,21 +1,25 @@
 from . import constants
 from . import render
 from . import script_runner
+from .. import worker
 from gitz.program import safe_writer
 from pathlib import Path
 from test import repo
 
 COMMITS = 'one', 'two', 'three', 'four', 'five'
 ROOT = Path(__file__).parent
+PARALLELISM = 5
 
 
-@repo.sandbox()
 def main(commands):
-    for command in commands:
-        print(*_one_command(command))
+    if PARALLELISM:
+        worker.work_on(_one_movie, commands, PARALLELISM, print)
+    else:
+        for command in commands:
+            print(*_one_movie(command))
 
 
-def _one_command(command):
+def _one_movie(command):
     target = constants.command_file(command, 'svg')
     source = constants.command_file(command, 'sh')
     cast_file = constants.command_file(command, 'cast')

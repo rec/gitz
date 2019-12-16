@@ -1,4 +1,4 @@
-import queue
+from queue import Empty
 import threading
 import time
 import multiprocessing as mp
@@ -24,8 +24,8 @@ class Worker(mp.Process):
         pass
 
     def run(self):
-        for command, *args in iter(self.queue.get, None):
-            self.reply(command(*args))
+        for command, arg in iter(self.queue.get, None):
+            self.reply(command(arg))
             self._increment_counter()
 
     def _increment_counter(self):
@@ -55,10 +55,27 @@ class Workers:
         self.queue.put(args)
 
 
-def work_on(function, items, count=DEFAULT_COUNT, reply_queue=None):
+def service_queue(queue, function=print, timeout=0.1):
+    def target():
+        while True:
+            try:
+                value = queue.get(timeout=timeout)
+            except (mp.TimeoutError, Empty):
+                continue
+            function(*value)
+
+    thread = threading.Thread(target=target, daemon=True)
+    thread.start()
+    return thread
+
+
+def work_on(function, items, count=DEFAULT_COUNT, reply=None, timeout=0.1):
+    reply_queue = reply and mp.Queue()
     with Workers(count, reply_queue) as workers:
         for item in items:
-            workers.run(function, *item)
+            workers.run(function, item)
+    if reply:
+        service_queue(reply_queue, reply, timeout)
 
 
 if __name__ == '__main__':
@@ -70,14 +87,4 @@ if __name__ == '__main__':
             time.sleep(random.uniform(0.05, 0.15))
         return x, 'reply'
 
-    reply_queue = mp.Queue()
-
-    def run_reply():
-        while True:
-            try:
-                print(reply_queue.get(timeout=0.01))
-            except (mp.TimeoutError, queue.Empty):
-                continue
-
-    work_on(function, 'abcdefghi', 4, reply_queue)
-    threading.Thread(target=run_reply, daemon=True).start()
+    work_on(function, 'abcdefghi', 4, print)
