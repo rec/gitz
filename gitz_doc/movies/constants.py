@@ -34,3 +34,6 @@ def command_file(command, name):
 
 def recorded_cast_files():
     yield from (f for f in CAST_DIR.iterdir() if f.suffix == '.cast')
+
+
+ALL_COMMANDS_CAST = command_file(ALL_COMMANDS, 'cast')
