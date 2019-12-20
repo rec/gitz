@@ -4,7 +4,7 @@ from . import get_command_help
 from . import manpages
 from . import readme
 
-from .movies import scripted_movies
+from .movies import movies
 from gitz.program import ARGS
 from gitz.program import PROGRAM
 
@@ -13,7 +13,7 @@ SYMBOLS = (
     ('doc_index', doc_index),
     ('manpages', manpages),
     ('readme', readme),
-    ('scripted_movies', scripted_movies),
+    ('movies', movies),
 )
 
 
