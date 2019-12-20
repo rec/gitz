@@ -6,12 +6,10 @@ USAGE
 
 .. code-block:: bash
 
-    git adjust [-h] [-q] [-v] [-m MESSAGE] [-n] [target] [edit]
+    git adjust [-h] [-q] [-v] [-e EDIT] [-m MESSAGE] [-n] [target]
 
 Positional arguments
   ``target``: Target commit that gets amended
-  ``edit``: Edit commit that is used to amend the target.If empty, use the changes in the
-  ``staging``: area.
 
 Optional arguments
   ``-h, --help``: show this help message and exit
@@ -19,6 +17,8 @@ Optional arguments
   ``-q, --quiet``: Suppress all output
 
   ``-v, --verbose``: Report all messages in great detail
+
+  ``-e EDIT, --edit EDIT``: Edit commit that is used to amend the target. If empty, use the changes in the staging area.
 
   ``-m MESSAGE, --message MESSAGE``: If set, use this for the message of the amended commit
 

@@ -32,17 +32,14 @@ Copy one branch to another, both locally and in remote
 branches.  If no source branch is given, the current branch is
 used.
 
-By default, the branches `master` and `develop` and the remote
-`upstream` are protected, which means that they are not allowed
-to be copied over to.
+By default, the branches `master` and `develop`, which means that they are not
+allowed to be copied over to.
 
-Using the --all/-a flag allows protected branches and remotes
-to be copied.
+Using the --all/-a flag allows protected branches to be copied.
 
-It's also possible to override the protected branches or a
-protected remote by setting one of the environment variables
-GITZ_PROTECTED_BRANCHES or GITZ_PROTECTED_REMOTES
-to a list separated by colons, or an empty string for no protection.
+It's also possible to override the protected branches by setting the
+environment variable GITZ_PROTECTED_BRANCHES to a list separated by colons,
+or an empty string for no protection.
 
 DANGER
 ======

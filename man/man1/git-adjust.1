@@ -1,4 +1,4 @@
-.TH GIT-ADJUST 1 "16 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-ADJUST 1 "20 December, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-adjust - Amend any commit, not just the last
@@ -7,7 +7,7 @@ git-adjust - Amend any commit, not just the last
 .sp
 .nf
 .ft C
-git adjust [-h] [-q] [-v] [-m MESSAGE] [-n] [target] [edit]
+git adjust [-h] [-q] [-v] [-e EDIT] [-m MESSAGE] [-n] [target]
 .ft P
 .fi
 
@@ -23,16 +23,14 @@ or with the contents of the staging area.
 
 \fB\-v, \-\-verbose\fP: Report all messages in great detail
 
+\fB\-e EDIT, \-\-edit EDIT\fP: Edit commit that is used to amend the target. If empty, use the changes in the staging area.
+
 \fB\-m MESSAGE, \-\-message MESSAGE\fP: If set, use this for the message of the amended commit
 
 \fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 
 
 \fBtarget\fP: Target commit that gets amended
-
-\fBedit\fP: Edit commit that is used to amend the target.If empty, use the changes in the
-
-\fBstaging\fP: area.
 
 
 .SH DANGER

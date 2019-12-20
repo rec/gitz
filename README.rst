@@ -123,19 +123,18 @@ Dangerous commands that delete, rename or overwrite branches
 `git rename <doc/git rename.rst>`_
   Rename a git branch locally and remotely
 
-By default, the branches ``develop`` and ``master`` and the remote ``upstream``
-are protected - they are not allowed to be copied to, renamed, or deleted.
+By default, the branches ``develop`` and ``master`` are protected -
+they are not allowed to be copied to, renamed, or deleted.
 
 You can configure this in three ways:
 
 - setting the ``--all/-a`` flag ignore protected branches entirely
 
-- setting one of the the environment variables
-  ``GITZ_PROTECTED_BRANCHES`` or ``GITZ_PROTECTED_REMOTES`` overrides these
+- setting the environment variable ``GITZ_PROTECTED_BRANCHES`` overrides these
   defaults
 
-- setting a value for the keys ``PROTECTED_BRANCHES`` or ``PROTECTED_REMOTES``
-  in the file .gitz.json in the top directory of your Git project
+- setting a value for the keys ``PROTECTED_BRANCHES`` in the file
+.gitz.json in the top directory of your Git project has the same effect
 
 Dangerous commands that rewrite history
 =======================================

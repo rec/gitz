@@ -34,13 +34,13 @@ By default it lists everything, or you can select one or more subcommands:
         Default values: protected branches and remotes
 
     executable_directory:
-        The path to the gitz executable directory,
+        The path to the gitz executables,
+
+    gitz_directory:
+        The path to the gitz Python library,
 
     home_page:
         The home page of the gitz project
-
-    library_directory:
-        The gitz library directory
 
     python:
         About the version of Python used
@@ -56,14 +56,14 @@ EXAMPLES
     Prints the list of gitz commands
 
 ``git gitz``
-``git gitz commands defaults executable_directory home_page library_directory python version``
-``git gitz c d e h l p v``
+``git gitz commands defaults executable_directory gitz_directory home_page python version``
+``git gitz c d e g h p v``
     Prints everything:
         * All the gitz commands
         * Default values: protected branches and remotes
-        * The path to the gitz executable directory,
+        * The path to the gitz executables,
+        * The path to the gitz Python library,
         * The home page of the gitz project
-        * The gitz library directory
         * About the version of Python used
         * The version number of gitz
 

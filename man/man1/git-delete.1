@@ -1,4 +1,4 @@
-.TH GIT-DELETE 1 "16 November, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-DELETE 1 "20 December, 2019" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-delete - Delete one or more branches locally and remotely
@@ -17,18 +17,16 @@ Delete each branch specified together with its remote branch.
 
 .sp
 By default, branches named \fBmaster\fP and \fBdevelop\fP are protected,
-which means they cannot be deleted, and the remote \fBupstream\fP is protected,
-which means that no branches on that remote can be deleted.
+which means they cannot be deleted.
 
 .sp
-Using the \-\-all/\-a flag allows protected branches and remotes
-to be deleted.
+Using the \-\-all/\-a flag allows protected branches to be deleted.
 
 .sp
-It's also possible to change which branches or remotes are protected
-by setting the environment variable GITZ_PROTECTED_BRANCHES or
-GITZ_PROTECTED_REMOTES to a list separated by colons, or to an empty
-string to turn off protection entirely.
+It's also possible to change which branches are protected by setting
+the environment variable GITZ_PROTECTED_BRANCHES to a list of
+branches separated by colons, or to an empty string to turn off
+protection entirely.
 
 .SH OPTIONS
 \fB\-h, \-\-help\fP: show this help message and exit
