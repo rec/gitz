@@ -6,7 +6,6 @@ from . import typing_errors
 import sys
 import time
 
-NEW_PAGE = '\f'
 TIME_TO_THINK = 1
 TIME_AT_END = 5
 MIN_CHARS = 15
@@ -20,6 +19,7 @@ class ScriptRunner:
     def run(self, script):
         self.cast = cast.Cast()
         self.start_time = time.time()
+        self._add(constants.CONTROL_L)
         self._add(constants.PROMPT)
         for line in script.open():
             self._run_one(line)
@@ -28,8 +28,10 @@ class ScriptRunner:
         return self.cast
 
     def _run_one(self, line):
-        if line == NEW_PAGE:
-            self._add(constants.CONTROL_L)
+        if not line.strip():
+            self._add(constants.RETURN)
+            self._add(constants.RETURN)
+            self._add(constants.PROMPT)
             return
 
         self.index = hash(line)
