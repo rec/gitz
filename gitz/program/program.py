@@ -5,8 +5,6 @@ import collections
 import sys
 import traceback
 
-_ERROR_PROTECTED_BRANCHES = 'The branches %s are protected'
-
 
 class _Program:
     ALLOW_NO_RUN = True
