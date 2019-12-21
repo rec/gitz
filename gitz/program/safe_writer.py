@@ -9,8 +9,15 @@ def make_parents(file):
 
 
 @contextlib.contextmanager
-def safe_writer(filename, suffix=SUFFIX, create_parents=True):
+def safe_writer(filename, suffix=SUFFIX, create_parents=True, overwrite=True):
+    path = Path(filename)
+    if not overwrite and path.exists():
+        raise ValueError('Cannot overwrite ' + str(path))
+
     tempfile = Path(str(filename) + suffix)
+    if tempfile.exists():
+        raise ValueError('Tepfile %s exists!' % str(tempfile))
+
     if create_parents:
         make_parents(tempfile)
 
