@@ -40,7 +40,9 @@ class ScriptRunner:
 
         lines = self.cast.lines
         before = len(lines)
-        self._run(line.strip())
+        for ln in line.split('&&'):
+            if not self._run(ln.strip()):
+                break
         chars = sum(len(x[2]) for x in lines[before + 1:])
 
         self._add(constants.PROMPT)
@@ -49,8 +51,9 @@ class ScriptRunner:
     def _run(self, cmd):
         try:
             run_proc.run_proc(cmd, self._add_line, self._add_line, shell=True)
+            return True
         except Exception:
-            pass  # Already reported in _add_line
+            return False  # Already reported in _add_line
 
     def _wait(self, delta):
         self.start_time -= delta

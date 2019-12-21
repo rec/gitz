@@ -26,13 +26,11 @@ def _one_movie(command):
     if not source.exists():
         return ('?', target)
 
-    if not target.exists():
-        return '.', target
-
-    src = tuple(f for f in ROOT.iterdir() if f.suffix == '.py')
-    newest = max(f.stat().st_mtime for f in src + (source,))
-    if target.stat().st_mtime >= newest:
-        return '.', target
+    if target.exists():
+        src = tuple(f for f in ROOT.iterdir() if f.suffix == '.py')
+        newest = max(f.stat().st_mtime for f in src + (source,))
+        if target.stat().st_mtime >= newest:
+            return '.', target
 
     safe_writer.make_parents(target)
     with repo.clone_context():
