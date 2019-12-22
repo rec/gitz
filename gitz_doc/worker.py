@@ -50,9 +50,20 @@ class Workers:
     def __exit__(self, type, value, traceback):
         for w in self.workers:
             self.queue.put(None)
+        self.join()
 
     def run(self, *args):
         self.queue.put(args)
+
+    def join(self, timeout=None):
+        workers = set(self.workers)
+        while workers:
+            removed = set()
+            for w in workers:
+                w.join(timeout)
+                if w.exitcode is not None:
+                    removed.add(w)
+            workers.difference_update(removed)
 
 
 def service_queue(queue, function=print, timeout=0.1):
@@ -74,6 +85,7 @@ def work_on(function, items, count=DEFAULT_COUNT, reply=None, timeout=0.1):
     with Workers(count, reply_queue) as workers:
         for item in items:
             workers.run(function, item)
+
     if reply:
         service_queue(reply_queue, reply, timeout)
 
