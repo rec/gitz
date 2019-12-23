@@ -1,5 +1,4 @@
-from gitz import config
-from gitz.program import RUN
+from gitz.program import run_proc
 
 NONE = '(none)'
 INDENT = 4
@@ -10,7 +9,9 @@ def get_one(command):
     full_usage = False
     help = {'COMMAND': command}
     section = NONE
-    for line in RUN(command, '-h', info=True):
+    lines = []
+    run_proc.run_proc((command, '-h'), lines.append, lines.append)
+    for line in lines:
         if full_usage:
             help.setdefault(section, []).append(line)
 
@@ -39,5 +40,5 @@ def get_one(command):
     return help
 
 
-def get_command_help():
-    return {c: get_one(c) for c in config.COMMANDS}
+def get_command_help(commands):
+    return {c: get_one(c) for c in commands}

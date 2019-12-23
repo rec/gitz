@@ -6,6 +6,7 @@ from . import readme
 
 from .movies import all_movies
 from .movies import movies
+from gitz import config
 from gitz.program import ARGS
 from gitz.program import PROGRAM
 
@@ -24,7 +25,7 @@ def add_arguments(parser):
 
 
 def main():
-    help = get_command_help.get_command_help()
+    help = get_command_help.get_command_help(config.COMMANDS)
     sections = ARGS.sections
     for s, module in SYMBOLS:
         if not sections or any(s.startswith(i) for i in sections):
