@@ -1,8 +1,6 @@
 # git-infer: Commit with an automatically generated message
 
-touch one.txt
-git add one.txt
-
+touch one.txt && git add one.txt
 git infer
 
 echo one > one.txt

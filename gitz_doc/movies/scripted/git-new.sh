@@ -5,9 +5,7 @@ git new one two
 git branch -a
 
 # Change HEAD
-touch one.txt
-git add one.txt
-git infer
+touch one.txt && git add one.txt && git infer
 
 git new three
 git log --oneline

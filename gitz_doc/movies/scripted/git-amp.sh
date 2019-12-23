@@ -1,9 +1,8 @@
 # git-amp: AMend and force Push!
 
-touch 1.txt
-git add 1.txt
-git commit -am "Add 2.txt"
-git push
+touch 1.txt && git add 1.txt
+git commit -am "Add 2.txt" && git push
+
 git log --oneline
 # oops!
 
