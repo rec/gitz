@@ -3,7 +3,7 @@ from . import screenshot
 from gitz.program import safe_writer
 
 README = 'README.rst'
-LINK = '`{0} <doc/{0}.rst>`_'
+LINK = '`git {0} <doc/git-{0}.rst>`_'
 SAFE = 'safe'
 
 
@@ -22,11 +22,13 @@ def readme(fp, command_help):
         for j, sections in enumerate(command_help[danger]):
             if j:
                 print(file=fp)
-            command = sections['COMMAND'].replace('git-', 'git ')
+            git, command = sections['COMMAND'].split('-', maxsplit=1)
+            assert git == 'git'
             print(LINK.format(command), file=fp)
-            for hc in sections[command]:
+            cmd = 'git ' + command
+            for hc in sections[cmd]:
                 print('  ' + hc, file=fp)
-            screenshot.screenshot(fp, command)
+            screenshot.screenshot(fp, cmd)
 
         if danger in POST:
             print(file=fp)

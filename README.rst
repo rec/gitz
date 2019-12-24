@@ -83,30 +83,30 @@ Safe commands
 
 Informational commands that don't change your repository
 
-`git gitz <doc/git gitz.rst>`_
+`git gitz <doc/git-gitz.rst>`_
   Print information about the gitz git commands
 
-`git infer <doc/git infer.rst>`_
+`git infer <doc/git-infer.rst>`_
   Commit changes with an automatically generated message
   
   (from https://github.com/moondewio/git-infer)
 
-`git multi-pick <doc/git multi-pick.rst>`_
+`git multi-pick <doc/git-multi-pick.rst>`_
   Cherry-pick multiple commits, with an optional squash
 
-`git new <doc/git new.rst>`_
+`git new <doc/git-new.rst>`_
   Create and push new branches
 
-`git rotate <doc/git rotate.rst>`_
+`git rotate <doc/git-rotate.rst>`_
   Rotate through branches in a Git repository
 
-`git st <doc/git st.rst>`_
+`git st <doc/git-st.rst>`_
   Colorful, compact git status
 
-`git stripe <doc/git stripe.rst>`_
+`git stripe <doc/git-stripe.rst>`_
   Push a sequence of commit IDs to a remote repository
 
-`git when <doc/git when.rst>`_
+`git when <doc/git-when.rst>`_
   When did each file change (date, commit, message), or
   
   Dotfiles are ignored by default
@@ -114,13 +114,13 @@ Informational commands that don't change your repository
 Dangerous commands that delete, rename or overwrite branches
 ============================================================
 
-`git copy <doc/git copy.rst>`_
+`git copy <doc/git-copy.rst>`_
   Copy a git branch locally and remotely
 
-`git delete <doc/git delete.rst>`_
+`git delete <doc/git-delete.rst>`_
   Delete one or more branches locally and remotely
 
-`git rename <doc/git rename.rst>`_
+`git rename <doc/git-rename.rst>`_
   Rename a git branch locally and remotely
 
 By default, the branches ``develop`` and ``master`` are protected -
@@ -144,22 +144,22 @@ Slice, dice, shuffle and split your commits.
 These commands are not intended for use on a shared or production branch, but
 can significantly speed up rapid development on private branches.
 
-`git adjust <doc/git adjust.rst>`_
+`git adjust <doc/git-adjust.rst>`_
   Amend any commit, not just the last
 
-`git amp <doc/git amp.rst>`_
+`git amp <doc/git-amp.rst>`_
   AMend the last commit message and force-Push, somewhat safely
 
-`git save <doc/git save.rst>`_
+`git save <doc/git-save.rst>`_
   Save and restore state of the git repository
 
-`git shuffle <doc/git shuffle.rst>`_
+`git shuffle <doc/git-shuffle.rst>`_
   Reorder and delete commits in the current branch
 
-`git split <doc/git split.rst>`_
+`git split <doc/git-split.rst>`_
   Split a range of commits into many single-file commits
 
-`git update <doc/git update.rst>`_
+`git update <doc/git-update.rst>`_
   Update branches from a reference branch
 
 Dangerous commands that are janky
@@ -169,5 +169,5 @@ Dangerous commands that are janky
 simple cases, and I don't see a good path to making it do complicated
 things in a sane way.
 
-`git for-each <doc/git for-each.rst>`_
+`git for-each <doc/git-for-each.rst>`_
   Perform a command for each branch or directory
