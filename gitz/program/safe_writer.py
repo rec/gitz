@@ -16,7 +16,7 @@ def safe_writer(filename, suffix=SUFFIX, create_parents=True, overwrite=True):
 
     tempfile = Path(str(filename) + suffix)
     if tempfile.exists():
-        raise ValueError('Tepfile %s exists!' % str(tempfile))
+        raise ValueError('Tempfile %s exists!' % str(tempfile))
 
     if create_parents:
         make_parents(tempfile)
@@ -26,7 +26,7 @@ def safe_writer(filename, suffix=SUFFIX, create_parents=True, overwrite=True):
             yield fp
         except Exception:
             try:
-                tempfile.remove()
+                tempfile.unlink()
             except Exception:
                 pass
             raise
