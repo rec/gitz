@@ -56,6 +56,13 @@ nearly all projects this will be correct, or this can be specified at the
 command line, per project, or through environment variables - see ``git gitz``
 for more details.
 
+MOVIE
+=====
+
+.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-new.svg?sanitize=true
+    :align: center
+    :alt: git-new.svg
+
 EXAMPLES
 ========
 

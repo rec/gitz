@@ -42,6 +42,13 @@ DANGER
 
 Deletes remote branches!
 
+MOVIE
+=====
+
+.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-delete.svg?sanitize=true
+    :align: center
+    :alt: git-delete.svg
+
 EXAMPLES
 ========
 

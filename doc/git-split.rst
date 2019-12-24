@@ -31,6 +31,13 @@ DANGER
 
 Rewrites history!
 
+MOVIE
+=====
+
+.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-split.svg?sanitize=true
+    :align: center
+    :alt: git-split.svg
+
 EXAMPLES
 ========
 

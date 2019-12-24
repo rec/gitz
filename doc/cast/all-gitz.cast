@@ -1,4 +1,4 @@
-{"version": 2, "width": 80, "height": 32}
+{"version": 2, "width": 100, "height": 40}
 [0, "o", "\u001b[H\u001b[2J"]
 [0, "o", "\u001b[1;31mtom\u001b[0m@host\u001b[0;34m:\u001b[0;32m/code/test\u001b[0m$ "]
 [0.005606651306152344, "o", "#"]

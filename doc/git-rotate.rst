@@ -34,6 +34,13 @@ and ``git-rotate -N`` rotates N branches backward.
 
 Useful for quickly browsing each branch in a repository one at a time.
 
+MOVIE
+=====
+
+.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-rotate.svg?sanitize=true
+    :align: center
+    :alt: git-rotate.svg
+
 EXAMPLES
 ========
 

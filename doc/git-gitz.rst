@@ -48,6 +48,13 @@ By default it lists everything, or you can select one or more subcommands:
     version:
         The version number of gitz
 
+MOVIE
+=====
+
+.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-gitz.svg?sanitize=true
+    :align: center
+    :alt: git-gitz.svg
+
 EXAMPLES
 ========
 

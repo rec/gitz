@@ -13,3 +13,10 @@ USAGE
        -a    Include all tracked files
        -A    Include all files, even untracked ones
        -h    Show this help message
+
+MOVIE
+=====
+
+.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-infer.svg?sanitize=true
+    :align: center
+    :alt: git-infer.svg

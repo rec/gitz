@@ -47,6 +47,13 @@ DANGER
 
 Rewrites history!
 
+MOVIE
+=====
+
+.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-shuffle.svg?sanitize=true
+    :align: center
+    :alt: git-shuffle.svg
+
 EXAMPLES
 ========
 

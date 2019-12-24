@@ -46,6 +46,13 @@ DANGER
 
 Changes remote branches!
 
+MOVIE
+=====
+
+.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-rename.svg?sanitize=true
+    :align: center
+    :alt: git-rename.svg
+
 EXAMPLES
 ========
 

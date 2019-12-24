@@ -44,6 +44,13 @@ Useful to bring these commits to the attention of your continuous integration
 if it has missed some of your commit IDs because you rebased or pushed a
 sequences of commits too fast.
 
+MOVIE
+=====
+
+.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-stripe.svg?sanitize=true
+    :align: center
+    :alt: git-stripe.svg
+
 EXAMPLES
 ========
 

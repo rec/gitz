@@ -15,3 +15,10 @@ One-line status for each file with lines added and removed.
 
 This version written by https://github.com/PlatyPew/,
 original version by https://www.reddit.com/user/ex1c)
+
+MOVIE
+=====
+
+.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-st.svg?sanitize=true
+    :align: center
+    :alt: git-st.svg

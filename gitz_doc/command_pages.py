@@ -1,4 +1,5 @@
 from . import dirs
+from .movies import constants
 
 _HOME_LINK = '`Gitz home page <https://github.com/rec/gitz/>`_'
 SECTIONS = (
@@ -8,6 +9,7 @@ SECTIONS = (
     'Optional arguments',
     'DESCRIPTION',
     'DANGER',
+    'MOVIE',
     'EXAMPLES',
 )
 
@@ -30,7 +32,7 @@ class Writer:
 
         for section_name in SECTIONS:
             lines = self.sections.get(section_name)
-            if lines:
+            if lines or section_name == 'MOVIE':
                 name = '_' + section_name.split()[0].lower()
                 method = getattr(self, name, self._default)
                 method(section_name, lines)
@@ -74,6 +76,15 @@ class Writer:
             word, *rest = (i for i in o.strip().split('  ') if i)
             self._argument(word.strip(), ' '.join(rest).strip())
 
+    def _movie(self, name, lines):
+        cmd = self.command.replace('git ', 'git-')
+        image_file = constants.command_file(cmd, 'svg')
+        if not image_file.exists():
+            return
+        self._print()
+        self._header(name)
+        self._print(_IMAGE_SECTION.format(command=cmd))
+
     def _examples(self, name, lines):
         self._print()
         self._header(name)
@@ -108,3 +119,9 @@ class Writer:
 _FULL_USAGE = 'USAGE'
 _POSITIONAL = 'Positional arguments'
 _OPTIONAL = 'Optional arguments'
+_IMAGE_SECTION = """\
+.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/\
+{command}.svg?sanitize=true
+    :align: center
+    :alt: {command}.svg\
+"""
