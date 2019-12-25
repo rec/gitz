@@ -29,9 +29,6 @@ class ScriptRunner:
 
     def _run_one(self, line):
         if not line.strip():
-            self._add(constants.RETURN)
-            self._add(constants.RETURN)
-            self._add(constants.PROMPT)
             return
 
         self.index = hash(line)
@@ -45,6 +42,7 @@ class ScriptRunner:
                 break
         chars = sum(len(x[2]) for x in lines[before + 1:])
 
+        self._add(constants.RETURN)
         self._add(constants.PROMPT)
         self._wait(TIME_TO_THINK + (chars - MIN_CHARS) * TIME_TO_READ_ONE_CHAR)
 
