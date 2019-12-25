@@ -1,4 +1,4 @@
-python -m gitz_doc.main $@
+python -m gitz_doc $@
 
 if [ "" ] ; then
     for i in git-*; do
