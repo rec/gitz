@@ -6,8 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git stripe [-h] [-q] [-v] [-c] [-D] [-d] [-o OFFSET] [-p PREFIX] [-r REMOTES] [-n]
-                  [count] [commit_id]
+    git stripe [-h] [-q] [-v] [-c] [-D] [-d] [-o OFFSET] [-p PREFIX] [-r REMOTES] [-n] [count] [commit_id]
 
 Positional arguments
   ``count``: The number of striped branches to be created: default is 1
