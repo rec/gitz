@@ -7,7 +7,16 @@ LINK = '`git {0} <doc/git-{0}.rst>`_'
 SAFE = 'safe'
 
 
-def readme(fp, command_help):
+def main(commands):
+    with safe_writer.safe_writer(README) as fp:
+        for line in open(README):
+            if line.startswith('Safe commands'):
+                _readme(fp, _sort_by_danger(commands))
+                break
+            fp.write(line)
+
+
+def _readme(fp, command_help):
     for i, (danger, message) in enumerate(MESSAGES.items()):
         if i:
             print(file=fp)
@@ -35,7 +44,7 @@ def readme(fp, command_help):
             print(POST[danger], file=fp)
 
 
-def sort_by_danger(commands):
+def _sort_by_danger(commands):
     command_help = {}
     for command, data in commands.items():
         data = get_command_help.get_one(command)
@@ -50,16 +59,6 @@ def sort_by_danger(commands):
         else:
             command_help.setdefault(SAFE, []).append(data)
     return command_help
-
-
-def main(commands):
-    with safe_writer.safe_writer(README) as fp:
-        for line in open(README):
-            if not line.startswith('Safe commands'):
-                fp.write(line)
-            else:
-                readme(fp, sort_by_danger(commands))
-                break
 
 
 MESSAGES = {
