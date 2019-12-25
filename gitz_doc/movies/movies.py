@@ -12,11 +12,7 @@ PARALLELISM = 5
 
 
 def main(commands):
-    if PARALLELISM:
-        worker.work_on(_one_movie, commands, PARALLELISM, print)
-    else:
-        for command in commands:
-            print(*_one_movie(command))
+    worker.work_on(_one_movie, commands, PARALLELISM)
 
 
 def _one_movie(command):
@@ -24,13 +20,13 @@ def _one_movie(command):
     source = constants.command_file(command, 'sh')
     cast_file = constants.command_file(command, 'cast')
     if not source.exists():
-        return ('?', target)
+        return print('?', target)
 
     if target.exists():
         src = tuple(f for f in ROOT.iterdir() if f.suffix == '.py')
         newest = max(f.stat().st_mtime for f in src + (source,))
         if target.stat().st_mtime >= newest:
-            return '.', target
+            return print('.', target)
 
     safe_writer.make_parents(target)
     with repo.clone_context():
@@ -38,4 +34,4 @@ def _one_movie(command):
         cast.write(cast_file)
         render.render(cast, target)
 
-    return '+', target
+    return print('+', target)

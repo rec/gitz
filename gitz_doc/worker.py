@@ -3,7 +3,7 @@ import threading
 import time
 import multiprocessing as mp
 
-DEFAULT_COUNT = 4
+PARALLELISM = 4
 
 """
 Distribute tasks amongst workers
@@ -35,12 +35,12 @@ class Worker(mp.Process):
 
 
 class Workers:
-    def __init__(self, count=DEFAULT_COUNT, reply_queue=None):
+    def __init__(self, parallelism=PARALLELISM, reply_queue=None):
         self.queue = mp.Queue()
         self.counter = mp.Value('i')
         self.reply_queue = reply_queue
         args = self.queue, self.counter, self.reply_queue
-        self.workers = [Worker(*args) for i in range(count)]
+        self.workers = [Worker(*args) for i in range(parallelism)]
 
     def __enter__(self):
         for w in self.workers:
@@ -80,9 +80,16 @@ def service_queue(queue, function=print, timeout=0.1):
     return thread
 
 
-def work_on(function, items, count=DEFAULT_COUNT, reply=None, timeout=0.1):
+def work_on(function, items, parallelism=PARALLELISM, reply=None, timeout=0.1):
+    if parallelism <= 1:
+        for item in items:
+            result = function(item)
+            reply and reply(result)
+        return
+
     reply_queue = reply and mp.Queue()
-    with Workers(count, reply_queue) as workers:
+
+    with Workers(parallelism, reply_queue) as workers:
         for item in items:
             workers.run(function, item)
 
