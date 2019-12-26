@@ -40,9 +40,10 @@ class ScriptRunner:
         for ln in line.split('&&'):
             if not self._run(ln.strip()):
                 break
-        chars = sum(len(x[2]) for x in lines[before + 1:])
+        chars = sum(len(x[2]) for x in lines[before + 1 :])
 
-        self._add(constants.RETURN)
+        if not line.strip().startswith('#'):
+            self._add(constants.RETURN)
         self._add(constants.PROMPT)
         self._wait(TIME_TO_THINK + (chars - MIN_CHARS) * TIME_TO_READ_ONE_CHAR)
 

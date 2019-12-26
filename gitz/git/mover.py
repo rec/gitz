@@ -73,8 +73,8 @@ class Mover:
                 PROGRAM.exit(_ERROR_TARGET_EXISTS % self.target)
 
     def _move_local(self):
-        in_source = (self.starting_branch == self.source)
-        in_target = (self.starting_branch == self.target)
+        in_source = self.starting_branch == self.source
+        in_target = self.starting_branch == self.target
 
         if in_source or in_target:
             root.check_clean_workspace()
@@ -96,7 +96,9 @@ class Mover:
 
     def _move_remote(self):
         arguments = functions.force_flags() + [
-            '--set-upstream', self.origin, self.target
+            '--set-upstream',
+            self.origin,
+            self.target,
         ]
         GIT.push(*arguments)
 
