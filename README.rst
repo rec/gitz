@@ -77,8 +77,8 @@ When to use gitz
 The movie
 -----------
 
-.. figure:: https://asciinema.org/a/iXVr4mFBV13Mt3py9NRGLUvW6.png
-    :target: https://asciinema.org/a/iXVr4mFBV13Mt3py9NRGLUvW6
+.. figure:: https://asciinema.org/a/xXmvTBLn4LWunNXsDuZ64bppp.png
+    :target: https://asciinema.org/a/xXmvTBLn4LWunNXsDuZ64bppp
     :align: center
     :alt: The whole gitz movie
 
