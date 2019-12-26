@@ -81,6 +81,8 @@ The movie
     :target: https://asciinema.org/a/xXmvTBLn4LWunNXsDuZ64bppp
     :align: center
     :alt: The whole gitz movie
+    :width: 430
+    :height: 402
 
 The gitz commands
 -----------------
