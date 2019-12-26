@@ -41,7 +41,8 @@ class GitNewTest(unittest.TestCase):
         repo.make_commit('1')
         repo.write_file('1', '2')
         GIT.new('one', '-vu')
-        self.assertEqual(open('1').read(), '2')
+        with open('1') as fp:
+            self.assertEqual(fp.read(), '2')
         actual = GIT.log('--oneline', 'origin/one')
         expected = ['a03c0f8 1', 'c0d1dbb 0']
         self.assertEqual(actual, expected)
