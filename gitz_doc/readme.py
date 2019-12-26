@@ -1,22 +1,35 @@
 from . import get_command_help
 from . import screenshot
+from .movies import upload
 from gitz.program import safe_writer
 
 README = 'README.rst'
 LINK = '`git {0} <doc/git-{0}.rst>`_'
 SAFE = 'safe'
+IMAGE_TAG = '.. figure::'
+TARGET_TAG = '    :target:'
+TAIL_TAG = 'Safe commands'
 
 
 def main(commands):
     with safe_writer.safe_writer(README) as fp:
+        all_movie_url = upload.all_movie_url()
+
         for line in open(README):
-            if line.startswith('Safe commands'):
-                _readme(fp, _sort_by_danger(commands))
-                break
-            fp.write(line)
+            ls = line.strip()
+            if ls.startswith(TAIL_TAG):
+                _tail(fp, _sort_by_danger(commands))
+                return  # Everything after this tag is ignored.
+
+            if ls.startswith(IMAGE_TAG):
+                fp.write('%s %s.png\n' % (IMAGE_TAG, all_movie_url))
+            elif ls.startswith(TARGET_TAG.strip()):
+                fp.write('%s %s\n' % (TARGET_TAG, all_movie_url))
+            else:
+                fp.write(line)
 
 
-def _readme(fp, command_help):
+def _tail(fp, command_help):
     for i, (danger, message) in enumerate(MESSAGES.items()):
         if i:
             print(file=fp)

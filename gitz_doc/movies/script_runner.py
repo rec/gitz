@@ -48,7 +48,7 @@ class ScriptRunner:
 
     def _run(self, cmd):
         try:
-            run_proc.run_proc(cmd, self._add_line, self._add_line, shell=True)
+            run_proc.run_proc(cmd, self._add_line, shell=True)
             return True
         except Exception:
             return False  # Already reported in _add_line

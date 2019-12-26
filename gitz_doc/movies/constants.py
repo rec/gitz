@@ -37,3 +37,4 @@ def recorded_cast_files():
 
 
 ALL_COMMANDS_CAST = command_file(ALL_COMMANDS, 'cast')
+ALL_COMMANDS_JSON = ALL_COMMANDS_CAST.with_suffix('.json')

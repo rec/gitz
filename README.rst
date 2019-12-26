@@ -74,6 +74,14 @@ When to use gitz
    - ``git stripe`` pushes branches with a sequence of commits
      to a remote where CI can find and test them
 
+The movie
+-----------
+
+.. figure:: https://asciinema.org/a/iXVr4mFBV13Mt3py9NRGLUvW6.png
+    :target: https://asciinema.org/a/iXVr4mFBV13Mt3py9NRGLUvW6
+    :align: center
+    :alt: The whole gitz movie
+
 The gitz commands
 -----------------
 
@@ -88,7 +96,7 @@ Informational commands that don't change your repository
 
 `git infer <doc/git-infer.rst>`_
   Commit changes with an automatically generated message
-  
+
   (from https://github.com/moondewio/git-infer)
 
 `git multi-pick <doc/git-multi-pick.rst>`_
@@ -108,7 +116,7 @@ Informational commands that don't change your repository
 
 `git when <doc/git-when.rst>`_
   When did each file change (date, commit, message), or
-  
+
   Dotfiles are ignored by default
 
 Dangerous commands that delete, rename or overwrite branches

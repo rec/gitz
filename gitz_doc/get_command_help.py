@@ -9,8 +9,7 @@ def get_one(command):
     full_usage = False
     help = {'COMMAND': command}
     section = NONE
-    lines = []
-    run_proc.run_proc((command, '-h'), lines.append, lines.append)
+    lines = run_proc.run_proc((command, '-h'))
     for line in lines:
         if full_usage:
             help.setdefault(section, []).append(line)

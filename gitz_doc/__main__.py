@@ -14,9 +14,9 @@ SYMBOLS = (
     ('command_pages', command_pages),
     ('doc_index', doc_index),
     ('manpages', manpages),
-    ('readme', readme),
     ('movies', movies),
     ('all_movies', all_movies),
+    ('readme', readme),
 )
 
 
