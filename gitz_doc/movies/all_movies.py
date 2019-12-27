@@ -1,11 +1,33 @@
 from .cast import Cast
 from . import constants
 
+ORDERED_COMMANDS = (
+    'git-new',
+    'git-when',
+    'git-st',
+    'git-adjust',
+    'git-amp',
+    'git-copy',
+    'git-delete',
+    'git-infer',
+    'git-rename',
+    'git-for-each',
+    'git-gitz',
+    'git-multi-pick',
+    'git-rotate',
+    'git-save',
+    'git-shuffle',
+    'git-split',
+    'git-stripe',
+    'git-update',
+)
+
 
 def main(commands):
-    all_casts = Cast()
+    assert set(ORDERED_COMMANDS) == set(commands)
 
-    for command in commands:
+    all_casts = Cast()
+    for command in ORDERED_COMMANDS:
         cast_file = constants.command_file(command, 'cast')
         if cast_file.exists():
             cast = Cast.read(cast_file)

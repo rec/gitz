@@ -77,8 +77,8 @@ When to use gitz
 The movie
 -----------
 
-.. figure:: https://asciinema.org/a/xXmvTBLn4LWunNXsDuZ64bppp.png
-    :target: https://asciinema.org/a/xXmvTBLn4LWunNXsDuZ64bppp
+.. figure:: https://asciinema.org/a/nzkmseSSRJUXYsqwrtIDfrMHr.png
+    :target: https://asciinema.org/a/nzkmseSSRJUXYsqwrtIDfrMHr
     :align: center
     :alt: The whole gitz movie
     :width: 430
@@ -98,7 +98,7 @@ Informational commands that don't change your repository
 
 `git infer <doc/git-infer.rst>`_
   Commit changes with an automatically generated message
-
+  
   (from https://github.com/moondewio/git-infer)
 
 `git multi-pick <doc/git-multi-pick.rst>`_
@@ -118,7 +118,7 @@ Informational commands that don't change your repository
 
 `git when <doc/git-when.rst>`_
   When did each file change (date, commit, message), or
-
+  
   Dotfiles are ignored by default
 
 Dangerous commands that delete, rename or overwrite branches
