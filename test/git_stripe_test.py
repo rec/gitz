@@ -40,6 +40,17 @@ class GitStripeTest(unittest.TestCase):
         ]
         self.assertEqual(actual, expected)
 
+    @repo.test
+    def test_prefix(self):
+        repo.make_commit('1')
+        GIT.push('-u', 'origin', 'master')
+        GIT.stripe('-v', '--prefix', 'test')
+        actual = functions.branches('-r')
+        expected = ['origin/_gitz_test_0', 'origin/master', 'upstream/master']
+        self.assertEqual(actual, expected)
+        GIT.stripe('-vD')
+        expected = ['origin/master', 'upstream/master']
+
     def _setup(self):
         repo.make_commit('1')
         repo.make_commit('2')

@@ -51,20 +51,21 @@ git stripe -D
 git stripe --prefix=MINE
 git stripe -p MINE
     Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
-    _MINE_0, _MINE_1, _MINE_2
+    _gitz_MINE_0, _gitz_MINE_1, _gitz_MINE_2
 
 git stripe 2 --prefix=MINE
 git stripe 2 -p=MINE
-    Pushes HEAD~ and HEAD~2 into their own branches named _MINE_0
-    and _MINE_1
+    Pushes HEAD~ and HEAD~2 into their own branches named _gitz_MINE_0
+    and _gitz_MINE_1
 
 git stripe 2 --prefix=MINE --offset
 git stripe 2 -p MINE -o10
-    Pushes HEAD~ and HEAD~2 into their own branches named _MINE_10
-    and _MINE_11
+    Pushes HEAD~ and HEAD~2 into their own branches named _gitz_MINE_10
+    and _gitz_MINE_11
 """
 
-PREFIX = '_gitz_stripe_'
+PREFIX_PREFIX = '_gitz_'
+PREFIX = 'stripe'
 BAD_BRANCH_CHARS = frozenset('~^: ')
 _STRIPE_FMT = '{self.commit_id}~{i_offset}:refs/heads/{branch}'
 
@@ -89,11 +90,14 @@ class Stripe:
         if BAD_BRANCH_CHARS.intersection(ARGS.prefix):
             PROGRAM.exit(_ERROR_BRANCH_NAME, ARGS.prefix)
 
-        self.prefix = ARGS.prefix
-        if not self.prefix.startswith('_'):
-            self.prefix = '_' + self.prefix
-        if not self.prefix.endswith('_'):
-            self.prefix += '_'
+        p = ARGS.prefix
+        if not p.startswith(PREFIX_PREFIX):
+            while p.startswith('_'):
+                p = p[1:]
+            p = PREFIX_PREFIX + p
+        if not p.endswith('_'):
+            p += '_'
+        self.prefix = p
 
         self.remotes = list(self._remotes())
         self.indexes = range(ARGS.offset, ARGS.offset + self.count)
@@ -158,11 +162,11 @@ class Stripe:
 
     def _delete_all(self):
         for remote in self.remotes:
-            for branch in self.remote_branches[remote]:
-                if branch.startswith(self.prefix):
-                    rbranch = '%s/%s' % (remote, branch)
+            for b in self.remote_branches[remote]:
+                if b.startswith(PREFIX_PREFIX) and b.endswith('_'):
+                    rbranch = '%s/%s' % (remote, b)
                     cid = functions.commit_id(rbranch, True)
-                    GIT.push(remote, ':refs/heads/' + branch)
+                    GIT.push(remote, ':refs/heads/' + b)
                     PROGRAM.log.message('- %s@%s' % (rbranch, cid))
 
 
