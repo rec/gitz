@@ -18,7 +18,7 @@ class GitGitzTest(unittest.TestCase):
         indent_commands = '\n'.join(indent_commands)
         home_page = config.HOME_PAGE
         executable_directory = str(config.EXECUTABLE_DIRECTORY)
-        gitz_directory = str(config.GITZ_DIRECTORY)
+        gitz_directory = str(config.LIBRARY_DIRECTORY)
         version = config.VERSION
         python_version = platform.python_version()
         platform_name = platform.platform()
@@ -66,7 +66,9 @@ class GitGitzTest(unittest.TestCase):
     @repo.test
     def test_gitz_directory(self):
         for d in 'g', 'gitz', 'gitz_directory':
-            self.assertEqual(GIT.gitz(d, '-v'), [str(config.GITZ_DIRECTORY)])
+            self.assertEqual(
+                GIT.gitz(d, '-v'), [str(config.LIBRARY_DIRECTORY)]
+            )
 
     @repo.test
     def test_defaults(self):

@@ -101,7 +101,7 @@ def _executable_directory(indent):
 
 
 def _gitz_directory(indent):
-    PROGRAM.message(indent + str(config.GITZ_DIRECTORY))
+    PROGRAM.message(indent + str(config.LIBRARY_DIRECTORY))
 
 
 def _home_page(indent):
