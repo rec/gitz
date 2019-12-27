@@ -4,7 +4,14 @@ from ..program import PROGRAM
 from . import GIT
 
 
-def delete(branches):
+def delete_remote_branch(remote, branch):
+    rbranch = '%s/%s' % (remote, branch)
+    cid, cmsg = functions.commit_message(rbranch)
+    GIT.push(remote, ':refs/heads/' + branch)
+    PROGRAM.message('- %s@%s: %s' % (rbranch, cid, cmsg))
+
+
+def delete_all(branches):
     """Delete locally and upstream"""
     if not branches:
         PROGRAM.message('No branches specified')
@@ -48,20 +55,16 @@ def delete(branches):
         except Exception:
             upstream = origin
         if upstream and b in remote_branches[upstream]:
-            branch_name = '%s/%s' % (upstream, b)
-            cid = functions.commit_id(branch_name)
-            GIT.push(upstream, '--delete', b)
-            PROGRAM.message('  %s: %s' % (cid, branch_name))
+            delete_remote_branch(upstream, b)
             deleted_count += 1
 
     local_branches = [b for b in branches if b not in unknown]
 
     if local_branches:
-        locals_cid = functions.commit_ids(local_branches)
-
-        GIT.branch('-D', *local_branches)
-        for branch, cid in zip(local_branches, locals_cid):
-            PROGRAM.message('  %s: %s' % (cid, branch))
+        for branch in local_branches:
+            cid, cmsg = functions.commit_message(branch)
+            PROGRAM.message('- %s@%s: %s' % (branch, cid, cmsg))
             deleted_count += 1
+        GIT.branch('-D', *local_branches)
 
     return deleted_count

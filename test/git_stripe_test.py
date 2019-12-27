@@ -14,6 +14,23 @@ class GitStripeTest(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     @repo.test
+    def test_delete(self):
+        self._setup()
+        GIT.stripe('-d', '-v')
+        actual = functions.branches('-r')
+        expected = [
+            'origin/_gitz_stripe_1',
+            'origin/_gitz_stripe_2',
+            'origin/master',
+            'upstream/master',
+        ]
+        self.assertEqual(actual, expected)
+        GIT.stripe('3', '-d', '-v')
+        actual = functions.branches('-r')
+        expected = ['origin/master', 'upstream/master']
+        self.assertEqual(actual, expected)
+
+    @repo.test
     def test_error(self):
         self._setup()
         with self.assertRaises(ValueError):

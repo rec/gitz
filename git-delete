@@ -55,7 +55,7 @@ def git_delete():
         else:
             GIT.checkout(min(remaining_branches))
 
-    deleted = delete.delete(ARGS.target)
+    deleted = delete.delete_all(ARGS.target)
     if deleted:
         s = '' if deleted == 1 else 'es'
         PROGRAM.message('git-delete: %d branch%s deleted' % (deleted, s))

@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
+from gitz.git import GIT
 from gitz.git import commit_range
+from gitz.git import delete
 from gitz.git import functions
-from gitz.git import root
 from gitz.git import guess_origin
+from gitz.git import root
 from gitz.program import ARGS
 from gitz.program import PROGRAM
-from gitz.git import GIT
 
 SUMMARY = 'Push a sequence of commit IDs to a remote repository'
 
@@ -152,22 +153,15 @@ class Stripe:
     def _delete(self):
         for i in self.indexes:
             branch = '%s%d' % (self.prefix, i)
-            refspec = ':refs/heads/' + branch
             for remote in self.remotes:
                 if branch in self.remote_branches[remote]:
-                    rbranch = '%s/%s' % (remote, branch)
-                    cid, cmsg = functions.commit_message(rbranch)
-                    GIT.push(remote, refspec)
-                    PROGRAM.message('- %s@%s: %s' % (rbranch, cid, cmsg))
+                    delete.delete_remote_branch(remote, branch)
 
     def _delete_all(self):
         for remote in self.remotes:
-            for b in self.remote_branches[remote]:
-                if b.startswith(PREFIX_PREFIX) and b.endswith('_'):
-                    rbranch = '%s/%s' % (remote, b)
-                    cid = functions.commit_id(rbranch, True)
-                    GIT.push(remote, ':refs/heads/' + b)
-                    PROGRAM.log.message('- %s@%s' % (rbranch, cid))
+            for branch in self.remote_branches[remote]:
+                if branch.startswith(PREFIX_PREFIX) and branch.endswith('_'):
+                    delete.delete_remote_branch(remote, branch)
 
 
 def add_arguments(parser):
