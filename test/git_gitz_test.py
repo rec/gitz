@@ -12,7 +12,7 @@ class GitGitzTest(unittest.TestCase):
     maxDiff = 100000
 
     @repo.test
-    def test_all_XXX(self):
+    def test_all(self):
         # See #170
         indent_commands = (('    ' if c else '') + c for c in COMMANDS)
         indent_commands = '\n'.join(indent_commands)
