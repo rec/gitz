@@ -20,12 +20,12 @@ class GitSplitTest(unittest.TestCase):
         GIT.split('HEAD~~~', '-v')
         actual = GIT.log('--oneline')
         expected = [
-            '78923d2 [split] Renamed 0 -> 6',
-            'ed73fa3 [split] Added 5',
-            '2605324 [split] Added 4',
-            '96e0ea3 [split] Added 3',
-            '3c32b33 [split] Added 2',
-            '5bb18ae [split] Added 1',
+            '3a5be12 [split] Rename 0 -> 6',
+            '32f71be [split] Add 5',
+            '1268e55 [split] Add 4',
+            'ecd3a2d [split] Add 3',
+            'b2366e2 [split] Add 2',
+            'd084861 [split] Add 1',
             'c0d1dbb 0',
         ]
         self.assertEqual(actual, expected)
@@ -37,9 +37,9 @@ class GitSplitTest(unittest.TestCase):
         GIT.split('-v')
         actual = GIT.log('--oneline', '-10')
         expected = [
-            'a804db6 [split] Added 5',
-            '125a73b [split] Added 4',
-            'f92b5f4 [split] Added 3',
+            '30d81e9 [split] Add 5',
+            '915d6ff [split] Add 4',
+            '1144293 [split] Add 3',
             '57c4c87 1_2',
             'c0d1dbb 0',
         ]
@@ -56,9 +56,9 @@ class GitSplitTest(unittest.TestCase):
         GIT.split('-v')
         actual = GIT.log('--oneline', '-10')
         expected = [
-            '05ecff4 [split] Renamed 1 -> 5',
-            'e6b7f89 [split] Added 3',
-            '21f80f5 [split] Deleted 0',
+            '8af7046 [split] Rename 1 -> 5',
+            'df1744a [split] Add 3',
+            'ad0dbfb [split] Delete 0',
             '043df1f 2',
             'a03c0f8 1',
             'c0d1dbb 0',
