@@ -109,7 +109,7 @@ def add_arguments(parser):
     add('branches', nargs='+', help=_HELP_BRANCHES)
     add('-f', '--force', action='store_true', help=_HELP_FORCE)
     add('-o', '--origin', default='', help=_HELP_ORIGIN)
-    add('-p', '--protected', action='store_true', help=_HELP_PROTECTED)
+    add('--protected', action='store_true', help=_HELP_PROTECTED)
     add('-u', '--use-head', action='store_true', help=_HELP_USE_HEAD)
     reference_branch.add_arguments(parser)
 

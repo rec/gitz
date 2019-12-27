@@ -11,6 +11,6 @@ git copy master monster
 git copy -f master monster
 
 # develop is a "protected branch" (defaults are master:develop), so you
-# need the -p option to overwrite it.
+# need the --protected option to overwrite it.
 git copy master develop
-git copy -p master develop
+git copy --protected master develop

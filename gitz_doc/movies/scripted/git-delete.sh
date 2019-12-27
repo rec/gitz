@@ -6,10 +6,10 @@ git branch -a
 git delete one two
 git branch -a
 
-# You need the -p option to overwrite protected branches
-git new -p develop
+# You need the --protected flag to overwrite protected branches
+git new --protected develop
 git branch -a
 
 git delete develop
-git delete -p develop
+git delete --protected develop
 git branch -a
