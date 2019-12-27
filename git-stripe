@@ -19,52 +19,6 @@ if it has missed some of your commit IDs because you rebased or pushed a
 sequences of commits too fast.
 """
 
-EXAMPLES = """
-git stripe
-    Pushes HEAD~ into its own branch named _gitz_stripe_0
-
-git stripe 3
-    Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
-    _gitz_stripe_0, _gitz_stripe_1 and _gitz_stripe_2
-
-git stripe --offset=5
-git stripe -o5
-    Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
-    _gitz_stripe_5, _gitz_stripe_6 and _gitz_stripe_7
-
-git stripe 2 HEAD~3
-git stripe HEAD~3 2
-    Pushes HEAD~3 and HEAD~4 into two branches named _gitz_stripe_0
-    and  _gitz_stripe_1
-
-git stripe 3 --delete
-git stripe 3 -d
-    Delete any branches named _gitz_stripe_0, _gitz_stripe_1
-    aor _gitz_stripe_2
-
-    git stripe -d does not fail if some or all of the branches
-    to be deleted are missing
-
-git stripe --delete-all
-git stripe -D
-    Delete any remote branches starting with _gitz_stripe_
-
-git stripe --prefix=MINE
-git stripe -p MINE
-    Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
-    _gitz_MINE_0, _gitz_MINE_1, _gitz_MINE_2
-
-git stripe 2 --prefix=MINE
-git stripe 2 -p=MINE
-    Pushes HEAD~ and HEAD~2 into their own branches named _gitz_MINE_0
-    and _gitz_MINE_1
-
-git stripe 2 --prefix=MINE --offset
-git stripe 2 -p MINE -o10
-    Pushes HEAD~ and HEAD~2 into their own branches named _gitz_MINE_10
-    and _gitz_MINE_11
-"""
-
 PREFIX_PREFIX = '_gitz_'
 PREFIX = 'stripe'
 BAD_BRANCH_CHARS = frozenset('~^: ')
@@ -192,6 +146,52 @@ _HELP_REMOTE = (
     'One or more remote remotes to push to, separated by colon. '
     '  "." means the local repo, "^" means the upstream repo'
 )
+
+EXAMPLES = """
+git stripe
+    Pushes HEAD~ into its own branch named _gitz_stripe_0
+
+git stripe 3
+    Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
+    _gitz_stripe_0, _gitz_stripe_1 and _gitz_stripe_2
+
+git stripe --offset=5
+git stripe -o5
+    Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
+    _gitz_stripe_5, _gitz_stripe_6 and _gitz_stripe_7
+
+git stripe 2 HEAD~3
+git stripe HEAD~3 2
+    Pushes HEAD~3 and HEAD~4 into two branches named _gitz_stripe_0
+    and  _gitz_stripe_1
+
+git stripe 3 --delete
+git stripe 3 -d
+    Delete any branches named _gitz_stripe_0, _gitz_stripe_1
+    or _gitz_stripe_2
+
+    git stripe -d does not fail if some or all of the branches
+    to be deleted are missing
+
+git stripe --delete-all
+git stripe -D
+    Delete any remote branches starting with _gitz_stripe_
+
+git stripe --prefix=MINE
+git stripe -p MINE
+    Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
+    _gitz_MINE_0, _gitz_MINE_1, _gitz_MINE_2
+
+git stripe 2 --prefix=MINE
+git stripe 2 -p=MINE
+    Pushes HEAD~ and HEAD~2 into their own branches named _gitz_MINE_0
+    and _gitz_MINE_1
+
+git stripe 2 --prefix=MINE --offset
+git stripe 2 -p MINE -o10
+    Pushes HEAD~ and HEAD~2 into their own branches named _gitz_MINE_10
+    and _gitz_MINE_11
+"""
 
 if __name__ == '__main__':
     PROGRAM.start()
