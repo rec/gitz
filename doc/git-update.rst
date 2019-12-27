@@ -40,6 +40,13 @@ DANGER
 
 Rewrites history!
 
+MOVIE
+=====
+
+.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-update.svg?sanitize=true
+    :align: center
+    :alt: git-update.svg
+
 EXAMPLES
 ========
 

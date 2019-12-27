@@ -30,6 +30,13 @@ Cherry pick each commit one after another.
 If there is a -s/--squash argument, squash the commits down into one,
 using the argument to -s/--squash as the commit message.
 
+MOVIE
+=====
+
+.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-multi-pick.svg?sanitize=true
+    :align: center
+    :alt: git-multi-pick.svg
+
 EXAMPLES
 ========
 

@@ -13,9 +13,6 @@ gitz commands
 `git-delete <git-delete.rst>`_
   Delete one or more branches locally and remotely
 
-`git-for-each <git-for-each.rst>`_
-  Perform a command for each branch or directory
-
 `git-gitz <git-gitz.rst>`_
   Print information about the gitz git commands
 
@@ -36,9 +33,6 @@ gitz commands
 `git-rotate <git-rotate.rst>`_
   Rotate through branches in a Git repository
 
-`git-save <git-save.rst>`_
-  Save and restore state of the git repository
-
 `git-shuffle <git-shuffle.rst>`_
   Reorder and delete commits in the current branch
 
@@ -55,9 +49,9 @@ gitz commands
   Update branches from a reference branch
 
 `git-when <git-when.rst>`_
-  When did each file change (date, commit, message), or
+  For each file, show the most recent commit that changed it.
   
-  Dotfiles are ignored by default
+  Dotfiles are ignored by default.
 
 `Gitz home page <https://github.com/rec/gitz/>`_
 ================================================

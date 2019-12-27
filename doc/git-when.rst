@@ -1,8 +1,8 @@
-``git when``: When did each file change (date, commit, message), or
--------------------------------------------------------------------
+``git when``: For each file, show the most recent commit that changed it.
+-------------------------------------------------------------------------
 
 
-Dotfiles are ignored by default
+Dotfiles are ignored by default.
 USAGE
 =====
 

@@ -77,8 +77,8 @@ When to use gitz
 The movie
 -----------
 
-.. figure:: https://asciinema.org/a/nzkmseSSRJUXYsqwrtIDfrMHr.png
-    :target: https://asciinema.org/a/nzkmseSSRJUXYsqwrtIDfrMHr
+.. figure:: https://asciinema.org/a/liIQMyCUtKhKrdGtCZJ8RCpj4.png
+    :target: https://asciinema.org/a/liIQMyCUtKhKrdGtCZJ8RCpj4
     :align: center
     :alt: The whole gitz movie
     :width: 430
@@ -117,9 +117,9 @@ Informational commands that don't change your repository
   Push a sequence of commit IDs to a remote repository
 
 `git when <doc/git-when.rst>`_
-  When did each file change (date, commit, message), or
+  For each file, show the most recent commit that changed it.
   
-  Dotfiles are ignored by default
+  Dotfiles are ignored by default.
 
 Dangerous commands that delete, rename or overwrite branches
 ============================================================
@@ -160,9 +160,6 @@ can significantly speed up rapid development on private branches.
 `git amp <doc/git-amp.rst>`_
   AMend the last commit message and force-Push, somewhat safely
 
-`git save <doc/git-save.rst>`_
-  Save and restore state of the git repository
-
 `git shuffle <doc/git-shuffle.rst>`_
   Reorder and delete commits in the current branch
 
@@ -179,5 +176,3 @@ Dangerous commands that are janky
 simple cases, and I don't see a good path to making it do complicated
 things in a sane way.
 
-`git for-each <doc/git-for-each.rst>`_
-  Perform a command for each branch or directory
