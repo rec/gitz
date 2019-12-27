@@ -41,7 +41,7 @@ def _tail(fp, command_help):
             print(PRE[danger], file=fp)
             print(file=fp)
 
-        for j, sections in enumerate(command_help[danger]):
+        for j, sections in enumerate(command_help.get(danger) or ()):
             if j:
                 print(file=fp)
             git, command = sections['COMMAND'].split('-', maxsplit=1)

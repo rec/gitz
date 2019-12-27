@@ -24,12 +24,12 @@ ORDERED_COMMANDS = (
 
 
 def main(commands):
-    assert set(ORDERED_COMMANDS) == set(commands)
-
     all_casts = Cast()
     for command in ORDERED_COMMANDS:
         cast_file = constants.command_file(command, 'cast')
-        if cast_file.exists():
+        if command not in commands:
+            print('Skipping', cast_file)
+        elif cast_file.exists():
             cast = Cast.read(cast_file)
             all_casts.update(cast)
 
