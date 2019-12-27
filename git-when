@@ -7,9 +7,9 @@
 usage() {
     cat <<EOF
 git when:
-    When did each file change (date, commit, message), or
+    For each file, show the most recent commit that changed it.
 
-    Dotfiles are ignored by default
+    Dotfiles are ignored by default.
 
 USAGE
     git when [-a] [item [..item]]
