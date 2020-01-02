@@ -36,9 +36,9 @@ class GitShuffleTest(unittest.TestCase):
 
     @repo.test
     def test_squash(self):
-        self._test_files('-s="0 1 3 4 6"')
+        self._test_files('-s="0 2 3 4 6"')
         actual = GIT.log('--oneline')
-        expected = ['a60e28d "0 1 3 4 6"', 'a03c0f8 1', 'c0d1dbb 0']
+        expected = ['7193ea4 "0 2 3 4 6"', 'a03c0f8 1', 'c0d1dbb 0']
         self.assertEqual(actual, expected)
 
     @repo.test
@@ -50,6 +50,12 @@ class GitShuffleTest(unittest.TestCase):
 
     def _test_files(self, *args):
         repo.make_seven_commits(self)
-        GIT.shuffle('_c_ab_', '-v', *args)
+        GIT.shuffle('ebdg', '-v', *args)
         files = [i for i in os.listdir() if not i.startswith('.')]
         self.assertEqual(sorted(files), ['0', '1', '3', '4', '6'])
+
+
+# 6543210
+# abcdefg
+# ebdg
+# 2530

@@ -28,12 +28,8 @@ git multi-pick d2dfe0c a2833bc --squash='Squashed commit!'
 def git_multi_pick():
     root.check_clean_workspace()
     commit_ids = functions.commit_ids(ARGS.commit_ids)
-    commits = combine.combine(commit_ids, ARGS.squash)
-
-    if commits:
-        PROGRAM.message('Cherry-picked:')
-        for id, msg in functions.commit_messages(len(commits)):
-            PROGRAM.message('+ %s: %s' % (id, msg))
+    for args in combine.combine(commit_ids, ARGS.squash):
+        PROGRAM.message(*args)
 
 
 def add_arguments(parser):
