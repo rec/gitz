@@ -1,4 +1,4 @@
-.TH GIT-SHUFFLE 1 "26 December, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-SHUFFLE 1 "03 January, 2020" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-shuffle - Reorder and delete commits in the current branch
@@ -16,23 +16,10 @@ git shuffle [-h] [-q] [-v] [-s [SQUASH]] [-n] shuffle
 Shuffles the commits in the current branch, perhaps deleting some.
 
 .sp
-The single argument is a pattern where underscores mean commits to be
-deleted, and alphabetic characters mean commits to be shuffled.
-
-.sp
 For example, \fBgit shuffle ba\fP switches the first and second most
 recent commits, \fBgit shuffle cba\fP swaps the first and third
 commits, \fBgit shuffle cab\fP pops the third commit to be the most
 recent, top commit on the branch.
-
-.sp
-\fBgit shuffle _ba\fP deletes the most recent commit and then swaps
-the next two; and \fBgit shuffle _a_b_c\fP deletes the most recent, the
-third most recent and the fifth most recent commit from the branch.
-
-.sp
-If omitted, the default pattern is \fBba\fP.  Only the order of the
-letters matter so \fBcba\fP, \fBZYX\fP and \fBzma\fP mean the same thing.
 
 .SH OPTIONS
 \fB\-h, \-\-help\fP: show this help message and exit
@@ -54,11 +41,9 @@ Rewrites history!
 
 .SH EXAMPLES
 .TP
+.B \fB git shuffle 10 \fP
+.TP
 .B \fB git shuffle ba \fP
-.TP
-.B \fB git shuffle YX \fP
-.TP
-.B \fB git shuffle 21 \fP
 Switches the first and second most recent commits
 
 .sp
@@ -67,29 +52,33 @@ Switches the first and second most recent commits
 .TP
 .B \fB git shuffle abc \fP
 .TP
-.B \fB git shuffle 12 \fP
+.B \fB git shuffle 01 \fP
+.TP
+.B \fB git shuffle 012 \fP
 Do nothing
 
 .sp
 .TP
-.B \fB git shuffle 312 \fP
-.TP
 .B \fB git shuffle cab \fP
 .TP
-.B \fB git shuffle zxy \fP
+.B \fB git shuffle 201 \fP
 Cycles the three most recent commits so the third one is first
 
 .sp
 .TP
-.B \fB git shuffle __cba_ \fP
+.B \fB git shuffle edcg \fP
+.TP
+.B \fB git shuffle 5437 \fP
 Deletes the most recent two commeits, reverses the next three, and
 deletes the sixth.
 
 .sp
 .TP
-.B \fB git shuffle __cba_ \-s 'My message' \fP
+.B \fB git shuffle edcg \-s 'My message' \fP
 .TP
-.B \fB git shuffle __cba_ \-\-squash='My message' \fP
+.B \fB git shuffle edcg \-\-squash='My message' \fP
+.TP
+.B \fB git shuffle 5437 \-s "My message" \fP
 Same as the previous command, but squashes the three commits into
 one with the commit message 'My message'
 

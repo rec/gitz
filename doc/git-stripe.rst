@@ -6,12 +6,11 @@ USAGE
 
 .. code-block:: bash
 
-    git stripe [-h] [-q] [-v] [-c] [-D] [-d] [-o OFFSET] [-p PREFIX] [-r REMOTES] [-n]
-                  [count] [commit_id]
+    git stripe [-h] [-q] [-v] [-c COUNT] [-d] [-o OFFSET] [-r REMOTES] [-s] [-n]
+                  [commits [commits ...]]
 
 Positional arguments
-  ``count``: The number of striped branches to be created: default is 1
-  ``commit_id``: Branch/commit ID of the first stripe (or HEAD~ if none)
+  ``commits``: Branch/commit IDs to be striped (defaults to HEAD~)
 
 Optional arguments
   ``-h, --help``: show this help message and exit
@@ -20,17 +19,15 @@ Optional arguments
 
   ``-v, --verbose``: Report all messages in great detail
 
-  ``-c, --careful``: Do not force push over existing stripes
+  ``-c COUNT, --count COUNT``: The number of striped branches to be created
 
-  ``-D, --delete-all``: Delete all striped branches
-
-  ``-d, --delete``: Delete the striped branches for this request
+  ``-d, --delete``: Delete all striped branches
 
   ``-o OFFSET, --offset OFFSET``: Offset to start numbering stripes
 
-  ``-p PREFIX, --prefix PREFIX``: Base name for stripe branches (_gitz_stripe_ if none)
-
   ``-r REMOTES, --remotes REMOTES``: One or more remote remotes to push to, separated by colon. "." means the local repo, "^" means the upstream repo
+
+  ``-s, --safe``: Do not force push over existing stripes
 
   ``-n, --no-run``: If set, commands will be printed but not executed
 
@@ -57,7 +54,8 @@ EXAMPLES
 ``git stripe``
     Pushes HEAD~ into its own branch named _gitz_stripe_0
 
-``git stripe 3``
+``git stripe --count=3``
+``git stripe -c3``
     Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
     _gitz_stripe_0, _gitz_stripe_1 and _gitz_stripe_2
 
@@ -71,29 +69,6 @@ EXAMPLES
     Pushes HEAD~3 and HEAD~4 into two branches named _gitz_stripe_0
     and  _gitz_stripe_1
 
-``git stripe 3 --delete``
-``git stripe 3 -d``
-    Delete any branches named _gitz_stripe_0, _gitz_stripe_1
-    aor _gitz_stripe_2
-
-    git stripe -d does not fail if some or all of the branches
-    to be deleted are missing
-
 ``git stripe --delete-all``
 ``git stripe -D``
-    Delete any remote branches starting with _gitz_stripe_
-
-``git stripe --prefix=MINE``
-``git stripe -p MINE``
-    Pushes HEAD~, HEAD~2 and HEAD~3 into their own branches named
-    _MINE_0, _MINE_1, _MINE_2
-
-``git stripe 2 --prefix=MINE``
-``git stripe 2 -p=MINE``
-    Pushes HEAD~ and HEAD~2 into their own branches named _MINE_0
-    and _MINE_1
-
-``git stripe 2 --prefix=MINE --offset``
-``git stripe 2 -p MINE -o10``
-    Pushes HEAD~ and HEAD~2 into their own branches named _MINE_10
-    and _MINE_11
+    Delete all stripes

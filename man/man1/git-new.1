@@ -1,4 +1,4 @@
-.TH GIT-NEW 1 "26 December, 2019" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-NEW 1 "03 January, 2020" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-new - Create and push new branches
@@ -7,7 +7,7 @@ git-new - Create and push new branches
 .sp
 .nf
 .ft C
-git new [-h] [-q] [-v] [-f] [-o ORIGIN] [-p] [-u] [-r REFERENCE_BRANCH] [-n] branches [branches ...]
+git new [-h] [-q] [-v] [-f] [-o ORIGIN] [--protected] [-u] [-r REFERENCE_BRANCH]
 .ft P
 .fi
 
@@ -53,7 +53,7 @@ for more details.
 
 \fB\-o ORIGIN, \-\-origin ORIGIN\fP: Remote origin to push to
 
-\fB\-p, \-\-protected\fP: Force push over existing or protected branches
+\fB\-\-protected\fP: Force push over existing or protected branches
 
 \fB\-u, \-\-use\-head\fP: Use HEAD and not reference branch
 

@@ -42,10 +42,10 @@ EXAMPLES
 ========
 
 ``git split``
-    Splits the staging area if it's not empty, otherwise HEAD
+    Split the staging area if it's not empty, otherwise HEAD
 
 ``git split HEAD``
-    Splits the squash of the staging area and HEAD
+    Split the squash of the staging area and HEAD
 
 ``git split HEAD~``
-    Splits the squash of the staging area, HEAD and HEAD~
+    Split the squash of the staging area, HEAD and HEAD~
