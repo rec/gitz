@@ -78,7 +78,6 @@ MESSAGES = {
     'safe': 'Safe commands',
     'branch': 'Dangerous commands that delete, rename or overwrite branches',
     'history': 'Dangerous commands that rewrite history',
-    'janky': 'Dangerous commands that are janky',
 }
 
 
@@ -89,10 +88,6 @@ Slice, dice, shuffle and split your commits.
 
 These commands are not intended for use on a shared or production branch, but
 can significantly speed up rapid development on private branches.""",
-    'janky': """\
-``git-all`` is something I use all the time, but it only works in
-simple cases, and I don't see a good path to making it do complicated
-things in a sane way.""",
 }
 
 POST = {
