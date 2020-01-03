@@ -1,16 +1,16 @@
 🗜 gitz - git commands for rapid development 🗜
 ------------------------------------------------------
 
-This is a collection of seventeen git utilities, the majority of which
-are aimed at people doing rapid development using Git.
+This is a collection of seventeen git utilities aimed at people doing rapid
+development using Git.
 
 Gitz is for two types of users - quality-obsessed individuals who relentlessly
 manicure their pull requests until every byte is in the right place; and
 ultra-rapid developers who want to generate large features quickly while taking
 advantage of continuous integration.
 
-Most of them only exist here, one comes from other git repos, one came
-from a chat on Reddit and I don't know where one of them came from
+Most of these utilities only exist here, one came from a chat on Reddit and
+I don't know where one of them came from.
 
 Four of them are written in Bash, the rest use Python 3.  They have been tested
 on Mac OS/X (Darwin) and on Ubuntu, and will likely work on any Unix-like
@@ -19,22 +19,19 @@ operating system.
 How to install
 ==============
 
-Using `pip <https://pypi.org/project/pip/>`_:
+Use `pip <https://pypi.org/project/pip/>`_:
 
 .. code-block:: bash
 
     pip3 install gitz
 
-Otherwise, download and uncompress
-`this directory <https://github.com/rec/gitz/archive/master.tar.gz>`_,
-then put that downloaded directory's path into the ``PATH``
-environment variable.
 
 Getting help
 ============
 
-Below there's a summary of each command, and a link to a manual page.
-Or from the terminal, use ``-h`` flag like this: ``git new -h``.
+This page contains a summary and a link to a manual page for each command.  From
+the terminal, use ``-h`` flag like this: ``git new -h`` or use ``man`` like
+this: ``man git-new``.
 
 
 When to use gitz
@@ -43,39 +40,44 @@ When to use gitz
 1. At the start of a session
 
    - ``git new`` safely creates fresh branches from upstream
-   - ``git update`` for each branch, rebases from upstream and pushes
+
+   - ``git update`` for each branch, rebases from upstream and force-pushes
 
 2. During development
 
    - ``git st`` is a more compact and prettier ``git status``
-   - ``git ls`` shows you when documents were last changed
+
+   - ``git when`` shows you when documents were last changed
 
 3. During rapid development
 
-   - ``git amp`` amends and force-pushes the message of the last commit -
+   - ``git amp`` AMends the message of the last commit and force-Pushes -
      great for minor spelling mistakes
+
    - ``git infer`` commits files with an automatically generated message -
      great for committing tiny changes for later rebasing down
 
-4. While cleaning commits for release
+4. While cleaning up a branch for review
 
-   - ``git shuffle`` shuffles and removes commits in the current branch
+   - ``git shuffle`` shuffles, squashes or removes commits in the current branch
+
    - ``git split`` split one or more commits, perhaps with the staging area,
      into many small individual commits, one per file
 
-5. During branch maintenance
+5. During repository maintenance
 
    - ``git rotate`` rotates through all branches
-   - ``git copy``, ``git delete``,  and ``git rename`` work both remotely and
-     locally
+
+   - ``git copy``, ``git delete``,  and ``git rename`` work on both local
+     and upstream branches
 
 6. Working with continuous integration
 
-   - ``git stripe`` pushes branches with a sequence of commits
-     to a remote where CI can find and test them
+   - ``git stripe`` pushes a sequence of commits to individual remote branches
+     where CI can find and test them
 
 The movie
------------
+==========
 
 .. figure:: https://asciinema.org/a/liIQMyCUtKhKrdGtCZJ8RCpj4.png
     :target: https://asciinema.org/a/liIQMyCUtKhKrdGtCZJ8RCpj4
@@ -98,7 +100,7 @@ Informational commands that don't change your repository
 
 `git infer <doc/git-infer.rst>`_
   Commit changes with an automatically generated message
-  
+
   (from https://github.com/moondewio/git-infer)
 
 `git multi-pick <doc/git-multi-pick.rst>`_
@@ -118,7 +120,7 @@ Informational commands that don't change your repository
 
 `git when <doc/git-when.rst>`_
   For each file, show the most recent commit that changed it.
-  
+
   Dotfiles are ignored by default.
 
 Dangerous commands that delete, rename or overwrite branches
@@ -168,11 +170,3 @@ can significantly speed up rapid development on private branches.
 
 `git update <doc/git-update.rst>`_
   Update branches from a reference branch
-
-Dangerous commands that are janky
-=================================
-
-``git-all`` is something I use all the time, but it only works in
-simple cases, and I don't see a good path to making it do complicated
-things in a sane way.
-
