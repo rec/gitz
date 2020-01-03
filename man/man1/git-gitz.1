@@ -31,12 +31,12 @@ By default it lists everything, or you can select one or more subcommands:
         The path to the gitz executables,
 
 .sp
-    gitz_directory:
-        The path to the gitz Python library,
-
-.sp
     home_page:
         The home page of the gitz project
+
+.sp
+    library_directory:
+        The path to the gitz Python library,
 
 .sp
     python:
@@ -70,15 +70,15 @@ Prints the list of gitz commands
 .TP
 .B \fB git gitz \fP
 .TP
-.B \fB git gitz commands defaults executable_directory gitz_directory home_page python version \fP
+.B \fB git gitz commands defaults executable_directory home_page library_directory python version \fP
 .TP
-.B \fB git gitz c d e g h p v \fP
+.B \fB git gitz c d e h l p v \fP
 Prints everything:
 * All the gitz commands
 * Default values: protected branches and remotes
 * The path to the gitz executables,
-* The path to the gitz Python library,
 * The home page of the gitz project
+* The path to the gitz Python library,
 * About the version of Python used
 * The version number of gitz
 

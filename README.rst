@@ -79,8 +79,8 @@ When to use gitz
 The movie
 ==========
 
-.. figure:: https://asciinema.org/a/wnBlr70SSMe0hV84BLhU88ZhB.png
-    :target: https://asciinema.org/a/wnBlr70SSMe0hV84BLhU88ZhB
+.. figure:: None.png
+    :target: None
     :align: center
     :alt: The whole gitz movie
     :width: 430

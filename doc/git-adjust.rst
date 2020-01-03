@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git adjust [-h] [-q] [-v] [-e EDIT] [-m MESSAGE] [-n] [target]
+    git adjust [-h] [-q] [-v] [-a APPLY] [-m MESSAGE] [-n] [target]
 
 Positional arguments
   ``target``: Target commit that gets amended
@@ -18,7 +18,7 @@ Optional arguments
 
   ``-v, --verbose``: Report all messages in great detail
 
-  ``-e EDIT, --edit EDIT``: Edit commit that is used to amend the target. If empty, use the changes in the staging area.
+  ``-a APPLY, --apply APPLY``: Apply commit that is used to amend the target. If empty, use the changes in the staging area.
 
   ``-m MESSAGE, --message MESSAGE``: If set, use this for the message of the amended commit
 
@@ -52,12 +52,16 @@ EXAMPLES
 
 ``git adjust HEAD~``
     Amends HEAD~ with the contents of the staging area and
-    then cherry-picks HEAD on top of it
+    then cherry-picks HEAD back on top of it
 
 ``git adjust HEAD~3``
-    Amends HEAD~3 with the contents of the staging area and then
-    cherry-picks HEAD~2, HEAD~ and HEAD on top of it
+    Amends HEAD~3 with the contents of the staging area, then
+    cherry-picks HEAD~2, HEAD~ and HEAD back again on top of it
 
-``git adjust HEAD~3 HEAD~``
+``git adjust -m "Some message" HEAD~3``
+    Amends HEAD~3 with the contents of the staging area and the commit
+    message "Some message", then cherry-picks HEAD~2, HEAD~ and HEAD on top
+
+``git adjust --apply=HEAD~ HEAD~3``
     Amends HEAD~3 with HEAD~ and then cherry-picks HEAD~2 and HEAD
     on top of it

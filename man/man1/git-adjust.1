@@ -7,7 +7,7 @@ git-adjust - Amend any commit, not just the last
 .sp
 .nf
 .ft C
-git adjust [-h] [-q] [-v] [-e EDIT] [-m MESSAGE] [-n] [target]
+git adjust [-h] [-q] [-v] [-a APPLY] [-m MESSAGE] [-n] [target]
 .ft P
 .fi
 
@@ -23,7 +23,7 @@ or with the contents of the staging area.
 
 \fB\-v, \-\-verbose\fP: Report all messages in great detail
 
-\fB\-e EDIT, \-\-edit EDIT\fP: Edit commit that is used to amend the target. If empty, use the changes in the staging area.
+\fB\-a APPLY, \-\-apply APPLY\fP: Apply commit that is used to amend the target. If empty, use the changes in the staging area.
 
 \fB\-m MESSAGE, \-\-message MESSAGE\fP: If set, use this for the message of the amended commit
 
@@ -48,17 +48,23 @@ Equivalent to \fBgit commit \-\-amend \-\-no\-edit\fP
 .TP
 .B \fB git adjust HEAD~ \fP
 Amends HEAD~ with the contents of the staging area and
-then cherry\-picks HEAD on top of it
+then cherry\-picks HEAD back on top of it
 
 .sp
 .TP
 .B \fB git adjust HEAD~3 \fP
-Amends HEAD~3 with the contents of the staging area and then
-cherry\-picks HEAD~2, HEAD~ and HEAD on top of it
+Amends HEAD~3 with the contents of the staging area, then
+cherry\-picks HEAD~2, HEAD~ and HEAD back again on top of it
 
 .sp
 .TP
-.B \fB git adjust HEAD~3 HEAD~ \fP
+.B \fB git adjust \-m "Some message" HEAD~3 \fP
+Amends HEAD~3 with the contents of the staging area and the commit
+message "Some message", then cherry\-picks HEAD~2, HEAD~ and HEAD on top
+
+.sp
+.TP
+.B \fB git adjust \-\-apply=HEAD~ HEAD~3 \fP
 Amends HEAD~3 with HEAD~ and then cherry\-picks HEAD~2 and HEAD
 on top of it
 

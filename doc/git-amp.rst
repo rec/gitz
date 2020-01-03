@@ -21,7 +21,7 @@ rewrite the previous commit immediately.
 
 git amp rewrites history and should only be used on private branches.
 
-For your protection, 'git amp' will fail with a message if there are
+For your protection, git amp will fail with a message if there are
 any changes in your workspace which would get accidentally mixed into
 the previous commit.
 
