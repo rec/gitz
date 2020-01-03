@@ -130,7 +130,7 @@ _ERROR_BAD_NAME = '%s: neither branch nor git repository'
 _ERROR_MISSING_COMMAND = 'No command found'
 
 _HELP_ALL = 'Visit non-git directories'
-_HELP_FAIL = 'Fail immediately if any git-all command fails'
+_HELP_FAIL = 'Fail immediately if any git-for-each command fails'
 _HELP_INDENT = 'Number of columns to indent output of commands'
 _HELP_NAME = 'Names of branches or directories to iterate over'
 
