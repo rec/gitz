@@ -14,5 +14,5 @@ git st
 
 git log --oneline
 
-git add test_read.py
-git adjust HEAD~~ test_read.py
+git add read_test.py
+git adjust HEAD~~ read_test.py

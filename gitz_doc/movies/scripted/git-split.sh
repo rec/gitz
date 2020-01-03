@@ -8,9 +8,7 @@ git commit -m BEGIN
 echo ONE > one.txt
 git rm two.txt
 git mv three.txt four.txt
-touch five.txt
-git add five.txt
-touch six.txt
+touch five.txt six.txt && git add five.txt
 
 git split
 git log --oneline

@@ -6,8 +6,9 @@ touch two.txt && git add two.txt && git commit -m two
 touch three.txt && git add three.txt && git commit -m three
 touch four.txt && git add four.txt && git commit -m four
 
-git stripe 3
+git stripe
 git branch -a
-
-git stripe 3 -d
+git stripe --count 3
+git branch -a
+git stripe -d
 git branch -a
