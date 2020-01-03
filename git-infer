@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -Eeuo pipefail
+set -uo pipefail
 
 usage() {
     cat <<EOF
@@ -16,6 +16,7 @@ USAGE
        -h    Show this help message
 EOF
 }
+
 
 while getopts ":aAh" opt; do
   case $opt in
@@ -151,6 +152,7 @@ END {
   }
 }
 ' <<< "$STATUS")
+
 
 if [ -z "${COMMIT_MSG}" ]
 then
