@@ -11,8 +11,8 @@ COMMANDS = (
     ('commands', 'All the gitz commands'),
     ('defaults', 'Default values: protected branches and remotes'),
     ('executable_directory', 'The path to the gitz executables,'),
-    ('gitz_directory', 'The path to the gitz Python library,'),
     ('home_page', 'The home page of the gitz project'),
+    ('library_directory', 'The path to the gitz Python library,'),
     ('python', 'About the version of Python used'),
     ('version', 'The version number of gitz'),
 )
@@ -100,7 +100,7 @@ def _executable_directory(indent):
     PROGRAM.message(indent + str(config.EXECUTABLE_DIRECTORY))
 
 
-def _gitz_directory(indent):
+def _library_directory(indent):
     PROGRAM.message(indent + str(config.LIBRARY_DIRECTORY))
 
 

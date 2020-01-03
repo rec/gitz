@@ -18,7 +18,7 @@ class GitGitzTest(unittest.TestCase):
         indent_commands = '\n'.join(indent_commands)
         home_page = config.HOME_PAGE
         executable_directory = str(config.EXECUTABLE_DIRECTORY)
-        gitz_directory = str(config.LIBRARY_DIRECTORY)
+        library_directory = str(config.LIBRARY_DIRECTORY)
         version = config.VERSION
         python_version = platform.python_version()
         platform_name = platform.platform()
@@ -64,8 +64,8 @@ class GitGitzTest(unittest.TestCase):
         self.assertTrue((Path(result) / 'git-gitz').exists())
 
     @repo.test
-    def test_gitz_directory(self):
-        for d in 'g', 'gitz', 'gitz_directory':
+    def test_library_directory(self):
+        for d in 'l', 'libr', 'library_directory':
             self.assertEqual(
                 GIT.gitz(d, '-v'), [str(config.LIBRARY_DIRECTORY)]
             )
@@ -108,11 +108,11 @@ Defaults:
 Executable directory:
     {executable_directory}
 
-Gitz directory:
-    {gitz_directory}
-
 Home page:
     {home_page}
+
+Library directory:
+    {library_directory}
 
 Python:
     Python v{python_version} on {platform_name}
