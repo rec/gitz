@@ -19,20 +19,20 @@ class RepoTest(unittest.TestCase):
         self.assertEqual('393ad1c', repo.make_commit('two.txt'))
         GIT.checkout('-b', 'working')
 
-        with repo._clone('foo', 'bar'):
-            expected = ['bar', 'foo', 'origin', 'upstream']
-            self.assertEqual(sorted(GIT.remote()), expected)
-            functions.fetch('foo')
-            functions.fetch('bar')
-            actual = functions.branches('-r')
-            expected = [
-                'bar/working',
-                'foo/working',
-                'origin/master',
-                'upstream/master',
-            ]
-            self.assertEqual(actual, expected)
-            self.assertEqual('efc4ce6', repo.make_commit('three.txt'))
-            GIT.push('foo', 'HEAD:working')
-            self.assertEqual(functions.commit_id('bar/working'), '393ad1c')
-            self.assertEqual(functions.commit_id('foo/working'), 'efc4ce6')
+        repo.add_remotes(['foo', 'bar'])
+        expected = ['bar', 'foo', 'origin', 'upstream']
+        self.assertEqual(sorted(GIT.remote()), expected)
+        functions.fetch('foo')
+        functions.fetch('bar')
+        actual = functions.branches('-r')
+        expected = [
+            'bar/working',
+            'foo/working',
+            'origin/master',
+            'upstream/master',
+        ]
+        self.assertEqual(actual, expected)
+        self.assertEqual('efc4ce6', repo.make_commit('three.txt'))
+        GIT.push('foo', 'HEAD:working')
+        self.assertEqual(functions.commit_id('bar/working'), '393ad1c')
+        self.assertEqual(functions.commit_id('foo/working'), 'efc4ce6')

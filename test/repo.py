@@ -21,15 +21,15 @@ ENV_VARIABLES = {
     'GIT_COMMITTER_NAME': NAME,
 }
 DEFAULT_ORIGINS = 'upstream', 'origin'
+BASE = '_master'
 
 
 def test(f):
     @functools.wraps(f)
     def wrapper(self):
         def main():
-            with clone_context():
-                with _with_attr(self, 'program', PROGRAM):
-                    f(self)
+            with _with_repo('0'):
+                f(self)
 
         PROGRAM.argv.clear()
         PROGRAM.start({'main': main})
@@ -37,43 +37,28 @@ def test(f):
     return wrapper
 
 
-def sandbox(*args, **kwds):
-    def wrapping(f):
-        @functools.wraps(f)
-        def wrapper(*args, **kwds):
-            with clone_context():
-                return f(*args, **kwds)
+def init_repo(root, name, *args):
+    old_dir = os.getcwd()
 
-        return wrapper
-
-    return wrapping
-
-
-@contextlib.contextmanager
-def clone_context():
-    with _with_tmpdir(), _with_env_variables(**ENV_VARIABLES):
-        GIT.init()
-        make_commit('0')
-        with _clone(*DEFAULT_ORIGINS):
-            yield
+    try:
+        repo = os.path.join(root, name)
+        os.mkdir(repo)
+        os.chdir(repo)
+        GIT.init(*args)
+        return repo
+    finally:
+        os.chdir(old_dir)
 
 
-@contextlib.contextmanager
-def _clone(*names):
-    clones = []
-    with contextlib.ExitStack() as stack:
-        for name in names:
-            clone = stack.enter_context(TemporaryDirectory())
-            clones.append(clone)
-            old_dir = os.getcwd()
-            os.chdir(clone)
-            GIT.init('--bare')
-            os.chdir(old_dir)
+def add_remotes(remotes):
+    root = os.path.dirname(os.getcwd())
+    branch = functions.branch_name()
+    for remote in remotes:
+        clone = init_repo(root, remote, '--bare')
+        GIT.remote('add', remote, 'file://' + clone)
+        GIT.push(remote, branch)
 
-            GIT.remote('add', name, 'file://' + clone)
-            GIT.push('--set-upstream', name, functions.branch_name())
-
-        yield clones
+    GIT.branch('-u', '%s/%s' % (remotes[-1], branch))
 
 
 def write_file(name, contents):
@@ -138,6 +123,16 @@ def make_seven_commits(testcase):
 
 
 @contextlib.contextmanager
+def _with_repo(*names, **kwds):
+    with _with_tmpdir(), _with_env_variables(**ENV_VARIABLES):
+        base = init_repo(os.getcwd(), BASE)
+        os.chdir(base)
+        make_commit(*names, **kwds)
+        add_remotes(DEFAULT_ORIGINS)
+        yield
+
+
+@contextlib.contextmanager
 def _with_tmpdir():
     with TemporaryDirectory() as td:
         original_dir = os.getcwd()
@@ -160,17 +155,3 @@ def _with_env_variables(**variables):
                 del os.environ[f]
             else:
                 os.environ[f] = original_env[f]
-
-
-@contextlib.contextmanager
-def _with_attr(item, attr, value):
-    none = object()
-    original_value = getattr(item, attr, none)
-    setattr(item, attr, value)
-    try:
-        yield item
-    finally:
-        if original_value is none:
-            delattr(item, attr)
-        else:
-            setattr(item, attr, original_value)
