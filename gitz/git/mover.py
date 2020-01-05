@@ -1,28 +1,23 @@
+from . import GIT
 from . import functions
 from . import root
-from . import guess_origin
-from ..program import ENV
 from ..program import ARGS
+from ..program import ENV
 from ..program import PROGRAM
-from . import GIT
 
-COPY, RENAME = 'copy', 'rename'
+ACTIONS = {
+    'copy': ('copi', 'over'),
+    'rename': ('renam', 'from or two'),
+}
 
 
 class Mover:
     """Moves things around, either with rename or copy"""
 
     def __init__(self, action):
-        assert action in (RENAME, COPY)
-
         self.action = action
-        if action == COPY:
-            self.word_root = 'copi'
-            self.direction = 'over'
-        else:
-            self.word_root = 'renam'
-            self.direction = 'from or to'
-
+        self.is_rename = (action == 'rename')
+        self.word_root, self.direction = ACTIONS[action]
         self.Action = self.action.capitalize()
         self.Word_root = self.word_root.capitalize()
 
@@ -43,34 +38,44 @@ class Mover:
         else:
             self.source, self.target = self.starting_branch, source
 
-        if self.source == self.target:
-            PROGRAM.exit('Source and target must be different')
+        try:
+            self.origin = functions.upstream_remote(self.source)
+        except Exception:
+            self.origin = None
 
         self._check_branches()
         self._move_local()
-        self._move_remote()
+        if self.origin:
+            self._move_remote()
 
     def _check_branches(self):
+        if self.source == self.target:
+            PROGRAM.exit('Source and target must be different')
+
         branches = functions.branches()
         if self.source not in branches:
             PROGRAM.exit(_ERROR_LOCAL_REPO % self.source)
-
-        self.origin = guess_origin.guess_origin(branch=self.source)
 
         if not ARGS.protected:
             p = ENV.protected_branches()
             if self.target in p:
                 PROGRAM.exit(_ERROR_PROTECTED % (self.action, self.target))
-            if self.action == RENAME and self.source in p:
+            if self.is_rename and self.source in p:
                 PROGRAM.exit(_ERROR_PROTECTED % (self.action, self.source))
 
-        if not ARGS.force:
-            if self.target in branches:
-                PROGRAM.exit(_ERROR_TARGET_EXISTS % self.target)
-            GIT.fetch(self.origin, info=True)
-            ubranches = functions.remote_branches(False)[self.origin]
-            if self.target in ubranches:
-                PROGRAM.exit(_ERROR_TARGET_EXISTS % self.target)
+        if ARGS.force:
+            return
+
+        if self.target in branches:
+            PROGRAM.exit(_ERROR_TARGET_EXISTS % self.target)
+
+        if not self.origin:
+            return
+
+        GIT.fetch(self.origin, info=True)
+        ubranches = functions.remote_branches(False)[self.origin]
+        if self.target in ubranches:
+            PROGRAM.exit(_ERROR_TARGET_EXISTS % self.target)
 
     def _move_local(self):
         in_source = self.starting_branch == self.source
@@ -80,10 +85,13 @@ class Mover:
             root.check_clean_workspace()
 
         flag = '-C' if ARGS.force else '-c'
+
         if in_target:
             GIT.checkout(self.source)
+
         GIT.branch(flag, self.source, self.target)
-        if self.action == RENAME:
+
+        if self.is_rename:
             if in_source:
                 GIT.checkout(self.target)
             GIT.branch('-D', self.source)
@@ -95,14 +103,10 @@ class Mover:
         PROGRAM.message(msg.format(self, cid))
 
     def _move_remote(self):
-        arguments = functions.force_flags() + [
-            '--set-upstream',
-            self.origin,
-            self.target,
-        ]
-        GIT.push(*arguments)
-
-        if self.action == RENAME:
+        rs = 'refs/remotes/{origin}/{source}:refs/heads/{target}'
+        refspec = rs.format(**vars(self))
+        GIT.push(self.origin, refspec, *functions.force_flags())
+        if self.is_rename:
             GIT.push(self.origin, ':' + self.source)
 
         target = '%s/%s' % (self.origin, self.target)
