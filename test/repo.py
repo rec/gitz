@@ -27,14 +27,18 @@ BASE = '_master'
 def test(f):
     @functools.wraps(f)
     def wrapper(self):
-        def main():
-            with _with_repo('0'):
-                f(self)
-
-        PROGRAM.argv.clear()
-        PROGRAM.start({'main': main})
+        run_in_program(lambda: f(self))
 
     return wrapper
+
+
+def run_in_program(callback):
+    def main():
+        with _with_repo():
+            callback()
+
+    PROGRAM.argv.clear()
+    PROGRAM.start({'main': main})
 
 
 def init_repo(root, name, *args):
@@ -123,12 +127,9 @@ def make_seven_commits(testcase):
 
 
 @contextlib.contextmanager
-def _with_repo(*names, **kwds):
+def _with_repo():
     with _with_tmpdir(), _with_env_variables(**ENV_VARIABLES):
-        base = init_repo(os.getcwd(), BASE)
-        os.chdir(base)
-        make_commit(*names, **kwds)
-        add_remotes(DEFAULT_ORIGINS)
+        make_repo_and_remotes()
         yield
 
 
@@ -155,3 +156,14 @@ def _with_env_variables(**variables):
                 del os.environ[f]
             else:
                 os.environ[f] = original_env[f]
+
+
+def make_repo_and_remotes():
+    base = init_repo(os.getcwd(), BASE)
+    os.chdir(base)
+    make_commit('0')
+    add_remotes(DEFAULT_ORIGINS)
+
+
+if __name__ == '__main__':
+    run_in_program(make_repo_and_remotes)
