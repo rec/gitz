@@ -40,12 +40,16 @@ DANGER = 'Rewrites history!'
 
 def git_adjust():
     root.cd_root()
-
-    if root.is_workspace_dirty():
-        if ARGS.commit:
-            PROGRAM.exit(_ERROR_COMMIT)
+    if ARGS.commit:
+        if ARGS.all_files or ARGS.all_tracked:
+            PROGRAM.exit(_ERROR_ALL)
+        root.check_clean_workspace()
     else:
-        if not ARGS.commit:
+        if ARGS.all_files:
+            GIT.add('.')
+        elif ARGS.all_tracked:
+            GIT.add('-u')
+        if not root.is_workspace_dirty():
             PROGRAM.exit(_ERROR_NO_COMMIT)
 
     functions.check_is_ancestor(ARGS.target)
@@ -59,6 +63,7 @@ def git_adjust():
     if ARGS.commit:
         commit_id = functions.commit_id(ARGS.commit)
     else:
+
         GIT.commit('-m', '[adjust]')
         commit_id = functions.commit_id()
 
@@ -82,18 +87,24 @@ def git_adjust():
 
 
 def add_arguments(parser):
-    parser.add_argument('target', nargs='?', default='HEAD', help=_HELP_TARGET)
-    parser.add_argument('-c', '--commit', default='', help=_HELP_COMMIT)
-    parser.add_argument('-m', '--message', help=_HELP_MESSAGE)
+    add = parser.add_argument
+    add('target', nargs='?', default='HEAD', help=_HELP_TARGET)
+    add('-A', '--all-files', action='store_true', help=_HELP_ALL)
+    add('-a', '--all-tracked', action='store_true', help=_HELP_ALL_TRACKED)
+    add('-c', '--commit', default='', help=_HELP_COMMIT)
+    add('-m', '--message', help=_HELP_MESSAGE)
 
 
 _HELP_COMMIT = """\
 Commit that is used to amend the target. \
 If empty, use the changes in the staging area.\
 """
+_HELP_ALL_TRACKED = 'Use all staged and tracked files'
+_HELP_ALL = 'Use all files, even untracked ones'
 _HELP_MESSAGE = 'If set, use this for the message of the amended commit'
 _HELP_TARGET = 'Target commit that gets amended'
 
+_ERROR_ALL = 'Only one of -a, -A and --commit may be used'
 _ERROR_COMMIT = 'Staging area not empty, but --commit is set'
 _ERROR_NO_COMMIT = 'Staging area is empty but --commit is not set'
 
