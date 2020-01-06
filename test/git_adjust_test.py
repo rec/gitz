@@ -28,9 +28,9 @@ class GitAdjustTest(unittest.TestCase):
         self.assertEqual(['5', '7'], _files_in_commit('HEAD~'))
 
     @repo.test
-    def test_edit(self):
+    def test_commit(self):
         repo.make_seven_commits(self)
-        GIT.adjust('HEAD~3', '-a', 'HEAD~', '-v')
+        GIT.adjust('HEAD~3', '--commit=HEAD~', '-v')
         actual = GIT.log('--oneline')[:4]
         expected = ['18f631a 7', '6c901a6 5', '9375333 4', '9ab30c5 3']
         self.assertEqual(expected, actual)
@@ -42,7 +42,7 @@ class GitAdjustTest(unittest.TestCase):
     @repo.test
     def test_message(self):
         repo.make_seven_commits(self)
-        GIT.adjust('HEAD~3', '-a', 'HEAD~', '-m', '4 and 6', '-v')
+        GIT.adjust('HEAD~3', '--commit=HEAD~', '-m', '4 and 6', '-v')
         actual = GIT.log('--oneline')[:4]
         expected = ['d43e4a8 7', 'e38207c 5', 'ac920db 4 and 6', '9ab30c5 3']
         self.assertEqual(expected, actual)

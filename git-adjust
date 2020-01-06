@@ -30,7 +30,7 @@ git adjust -m "Some message" HEAD~3
     Amends HEAD~3 with the contents of the staging area and the commit
     message "Some message", then cherry-picks HEAD~2, HEAD~ and HEAD on top
 
-git adjust --apply=HEAD~ HEAD~3
+git adjust HEAD~3 --commit=HEAD~
     Amends HEAD~3 with HEAD~ and then cherry-picks HEAD~2 and HEAD
     on top of it
 """
@@ -42,11 +42,11 @@ def git_adjust():
     root.cd_root()
 
     if root.is_workspace_dirty():
-        if ARGS.apply:
-            PROGRAM.exit(_ERROR_APPLY)
+        if ARGS.commit:
+            PROGRAM.exit(_ERROR_COMMIT)
     else:
-        if not ARGS.apply:
-            PROGRAM.exit(_ERROR_NO_APPLY)
+        if not ARGS.commit:
+            PROGRAM.exit(_ERROR_NO_COMMIT)
 
     functions.check_is_ancestor(ARGS.target)
     target_id = functions.commit_id(ARGS.target)
@@ -56,14 +56,14 @@ def git_adjust():
     while ids[-1] != target_id:
         ids.append(functions.commit_id(ids[-1] + '~'))
 
-    if ARGS.apply:
-        apply_id = functions.commit_id(ARGS.apply)
+    if ARGS.commit:
+        commit_id = functions.commit_id(ARGS.commit)
     else:
         GIT.commit('-m', '[adjust]')
-        apply_id = functions.commit_id()
+        commit_id = functions.commit_id()
 
     GIT.reset('--hard', target_id)
-    GIT.cherry_pick(apply_id)
+    GIT.cherry_pick(commit_id)
     GIT.reset('--soft', target_id)
     if ARGS.message:
         GIT.commit('--amend', '-m', ARGS.message)
@@ -71,7 +71,7 @@ def git_adjust():
         GIT.commit('--amend', '--no-edit')
 
     for id in reversed(ids):
-        if id == apply_id:
+        if id == commit_id:
             continue
         if id == target_id:
             symbol = '!'
@@ -83,19 +83,19 @@ def git_adjust():
 
 def add_arguments(parser):
     parser.add_argument('target', nargs='?', default='HEAD', help=_HELP_TARGET)
-    parser.add_argument('-a', '--apply', default='', help=_HELP_APPLY)
+    parser.add_argument('-c', '--commit', default='', help=_HELP_COMMIT)
     parser.add_argument('-m', '--message', help=_HELP_MESSAGE)
 
 
-_HELP_APPLY = """\
-Apply commit that is used to amend the target. \
+_HELP_COMMIT = """\
+Commit that is used to amend the target. \
 If empty, use the changes in the staging area.\
 """
 _HELP_MESSAGE = 'If set, use this for the message of the amended commit'
 _HELP_TARGET = 'Target commit that gets amended'
 
-_ERROR_APPLY = 'Staging area not empty, but --apply is set'
-_ERROR_NO_APPLY = 'Staging area is empty but --apply is not set'
+_ERROR_COMMIT = 'Staging area not empty, but --commit is set'
+_ERROR_NO_COMMIT = 'Staging area is empty but --commit is not set'
 
 if __name__ == '__main__':
     PROGRAM.start()
