@@ -29,7 +29,7 @@ def _one_movie(command):
             return print('.', target)
 
     safe_writer.make_parents(target)
-    with repo.clone_context():
+    with repo.repo_context():
         cast = script_runner.run(source)
         cast.write(cast_file)
         render.render(cast, target)

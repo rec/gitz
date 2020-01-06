@@ -34,7 +34,7 @@ def test(f):
 
 def run_in_program(callback):
     def main():
-        with _with_repo():
+        with repo_context():
             callback()
 
     PROGRAM.argv.clear()
@@ -127,7 +127,7 @@ def make_seven_commits(testcase):
 
 
 @contextlib.contextmanager
-def _with_repo():
+def repo_context():
     with _with_tmpdir(), _with_env_variables(**ENV_VARIABLES):
         make_repo_and_remotes()
         yield
