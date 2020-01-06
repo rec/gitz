@@ -8,9 +8,9 @@ class ShuffleTest(unittest.TestCase):
         self.assertEqual(combine.shuffle('ab'), [])
         self.assertEqual(combine.shuffle('abc'), [])
 
-        self.assertEqual(combine.shuffle('a', False), [0, 1])
-        self.assertEqual(combine.shuffle('ab', False), [0, 1, 2])
-        self.assertEqual(combine.shuffle('abc', False), [0, 1, 2, 3])
+        self.assertEqual(combine.shuffle('a', True), [0, 1])
+        self.assertEqual(combine.shuffle('ab', True), [0, 1, 2])
+        self.assertEqual(combine.shuffle('abc', True), [0, 1, 2, 3])
 
     def test_swap(self):
         self.assertEqual(combine.shuffle('ba'), [1, 0, 2])

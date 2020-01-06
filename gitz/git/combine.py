@@ -28,7 +28,7 @@ def combine(commits, squash):
         yield '+', commit_id, msg
 
 
-def shuffle(shuffle, prune=True):
+def shuffle(shuffle, squash=None):
     if len(shuffle) != len(set(shuffle)):
         raise ValueError('"%s" has repeating symbols' % shuffle)
 
@@ -47,12 +47,13 @@ def shuffle(shuffle, prune=True):
     result = [ord(i) - ord(base) for i in shuffle]
     result.append(max(result) + 1)
 
-    while prune and result:
-        previous = -1 if len(result) < 2 else result[-2]
-        if result[-1] - previous == 1:
-            result.pop()
-        else:
-            break
+    if squash is None:
+        while result:
+            previous = -1 if len(result) < 2 else result[-2]
+            if result[-1] - previous == 1:
+                result.pop()
+            else:
+                break
 
     return result
 

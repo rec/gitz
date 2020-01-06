@@ -58,8 +58,8 @@ def git_shuffle():
             return True
 
     root.check_clean_workspace()
-    use_squash = ARGS.squash is not None
-    shuffle = combine.shuffle(ARGS.shuffle, use_squash)
+    shuffle = combine.shuffle(ARGS.shuffle, ARGS.squash)
+
     if not shuffle:
         PROGRAM.message('No change')
         return
@@ -85,7 +85,7 @@ def add_arguments(parser):
     combine.add_arguments(parser)
 
 
-_HELP_SHUFFLE = 'Pattern string to shuffle (defaults to "ba")'
+_HELP_SHUFFLE = 'Pattern string to shuffle'
 
 if __name__ == '__main__':
     PROGRAM.start()
