@@ -27,7 +27,7 @@ git log --oneline
 # Back to normal
 
 # Delete and shuffle
-git shuffle _ba
+git shuffle cb
 git log --oneline
 
 git shuffle abcd -s "A new commit"
