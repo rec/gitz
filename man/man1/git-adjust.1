@@ -1,4 +1,4 @@
-.TH GIT-ADJUST 1 "03 January, 2020" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-ADJUST 1 "06 January, 2020" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-adjust - Amend any commit, not just the last
@@ -7,7 +7,7 @@ git-adjust - Amend any commit, not just the last
 .sp
 .nf
 .ft C
-git adjust [-h] [-q] [-v] [-a APPLY] [-m MESSAGE] [-n] [target]
+git adjust [-h] [-q] [-v] [-A] [-a] [-c COMMIT] [-m MESSAGE] [-n] [target]
 .ft P
 .fi
 
@@ -23,7 +23,11 @@ or with the contents of the staging area.
 
 \fB\-v, \-\-verbose\fP: Report all messages in great detail
 
-\fB\-a APPLY, \-\-apply APPLY\fP: Apply commit that is used to amend the target. If empty, use the changes in the staging area.
+\fB\-A, \-\-all\-files\fP: Use all files, even untracked ones
+
+\fB\-a, \-\-all\-tracked\fP: Use all staged and tracked files
+
+\fB\-c COMMIT, \-\-commit COMMIT\fP: Commit that is used to amend the target. If empty, use the changes in the staging area.
 
 \fB\-m MESSAGE, \-\-message MESSAGE\fP: If set, use this for the message of the amended commit
 
@@ -64,7 +68,7 @@ message "Some message", then cherry\-picks HEAD~2, HEAD~ and HEAD on top
 
 .sp
 .TP
-.B \fB git adjust \-\-apply=HEAD~ HEAD~3 \fP
+.B \fB git adjust HEAD~3 \-\-commit=HEAD~ \fP
 Amends HEAD~3 with HEAD~ and then cherry\-picks HEAD~2 and HEAD
 on top of it
 

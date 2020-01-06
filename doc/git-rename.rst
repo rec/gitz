@@ -33,7 +33,7 @@ branches.  If no source branch is given, the current branch is
 used.
 
 By default, the branches `master` and `develop`, which means that they are not
-allowed to be renamed from or to to.
+allowed to be renamed from or two to.
 
 Using the --all/-a flag allows protected branches to be renamed.
 

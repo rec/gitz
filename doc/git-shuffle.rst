@@ -9,7 +9,7 @@ USAGE
     git shuffle [-h] [-q] [-v] [-s [SQUASH]] [-n] shuffle
 
 Positional arguments
-  ``shuffle``: Pattern string to shuffle (defaults to "ba")
+  ``shuffle``: Pattern string to shuffle
 
 Optional arguments
   ``-h, --help``: show this help message and exit
