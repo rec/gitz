@@ -21,6 +21,7 @@ def all_movie_url():
     ALL_COMMANDS_JSON.write_text(json.dumps([sha, url]))
     webbrowser.open(url, new=0, autoraise=True)
     print(MESSAGE.format(url=url))
+    return url
 
 
 COMMAND = 'asciinema', 'upload', str(ALL_COMMANDS_CAST)
