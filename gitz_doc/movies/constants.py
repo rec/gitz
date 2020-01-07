@@ -1,7 +1,7 @@
 from pathlib import Path
 from . import colors
 
-PROMPT = '{RED}host{BLUE}:{GREEN}/code/test{NONE}$ '
+PROMPT = '▶ {RED}host{BLUE}:{GREEN}/code/test{NONE}$ '
 PROMPT = PROMPT.format(**vars(colors))
 
 BACKSPACE = '\x08\x1b[K'
