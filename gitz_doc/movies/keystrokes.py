@@ -10,9 +10,6 @@ TIMES = (
     + [0.384, 0.175, 0.05, 0.136, 0.296, 0.225, 0.295]
 )
 
-MAX_TIME = 0.15  # 0.8
-TIME_SCALE = 0.07  # 0.65
-
 
 def keystroke_times(lines):
     last_time = None
@@ -34,8 +31,8 @@ def all_keystrokes():
 
 def filtered_times():
     for t in all_keystrokes():
-        t *= TIME_SCALE
-        if t <= MAX_TIME:
+        t *= constants.KEYSTROKE_TIME_SCALE
+        if t <= constants.MAX_KEYSTROKE_TIME:
             yield t
 
 

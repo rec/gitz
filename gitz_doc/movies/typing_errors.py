@@ -1,10 +1,8 @@
 from . import constants
 import random
 
-ERROR_RATE = 0.023
 
-
-def with_errors(line, error_rate=ERROR_RATE):
+def with_errors(line, error_rate=constants.TYPING_ERROR_RATE):
     random.seed(hash(line))
 
     for k in line:

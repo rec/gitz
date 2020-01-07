@@ -1,7 +1,7 @@
 from pathlib import Path
 from . import colors
 
-PROMPT = '▶ {RED}host{BLUE}:{GREEN}/code/test{NONE}$ '
+PROMPT = '▶ {BLUE}tom{RED}:{GREEN}/code/test{NONE}$ '
 PROMPT = PROMPT.format(**vars(colors))
 
 BACKSPACE = '\x08\x1b[K'
@@ -25,6 +25,13 @@ FILES = {
 ALL_COMMANDS = 'all-gitz'
 
 HEADER = {'version': 2, 'width': 100, 'height': 40}
+
+MAX_KEYSTROKE_TIME = 0.6
+KEYSTROKE_TIME_SCALE = 0.55
+TIME_TO_THINK = 1
+TIME_AT_END = 5
+TIME_TO_READ_ONE_CHAR = 0.005
+TYPING_ERROR_RATE = 0.06
 
 
 def command_file(command, name):
