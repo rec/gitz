@@ -6,11 +6,6 @@ from . import typing_errors
 import sys
 import time
 
-TIME_TO_THINK = 1
-TIME_AT_END = 5
-MIN_CHARS = 15
-TIME_TO_READ_ONE_CHAR = 0.005
-
 
 class ScriptRunner:
     def __init__(self):
@@ -21,13 +16,15 @@ class ScriptRunner:
         self.start_time = time.time()
         self._add(constants.CONTROL_L)
         self._add(constants.PROMPT)
-        for line in script.open():
-            self._run_one(line)
+        self.lines = [i for i in script.open() if i.strip()]
 
-        self._wait(TIME_AT_END)
+        for i, line in enumerate(self.lines):
+            self._run_one(i, line)
+
+        self._wait(constants.TIME_AT_END)
         return self.cast
 
-    def _run_one(self, line):
+    def _run_one(self, i, line):
         if not line.strip():
             return
 
@@ -42,10 +39,13 @@ class ScriptRunner:
                 break
         chars = sum(len(x[2]) for x in lines[before + 1 :])
 
-        if not line.strip().startswith('#'):
+        if not (i < len(self.lines) - 1
+                and line.strip().startswith('#')
+                and self.lines[i + 1].strip().startswith('#')):
             self._add(constants.RETURN)
         self._add(constants.PROMPT)
-        self._wait(TIME_TO_THINK + (chars - MIN_CHARS) * TIME_TO_READ_ONE_CHAR)
+        t = constants.TIME_TO_THINK + chars * constants.TIME_TO_READ_ONE_CHAR
+        self._wait(t)
 
     def _run(self, cmd):
         try:
