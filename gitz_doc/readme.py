@@ -24,7 +24,8 @@ def main(commands):
             if ls.startswith(IMAGE_TAG):
                 fp.write('%s %s.png\n' % (IMAGE_TAG, all_movie_url))
             elif ls.startswith(TARGET_TAG.strip()):
-                fp.write('%s %s\n' % (TARGET_TAG, all_movie_url))
+                _, query = ls.split('?')
+                fp.write('%s %s?%s\n' % (TARGET_TAG, all_movie_url, query))
             else:
                 fp.write(line)
 

@@ -5,7 +5,7 @@ from termtosvg import term
 from pathlib import Path
 import tempfile
 
-TEMPLATE = 'base16_default_dark'
+TEMPLATE = 'solarized_light'
 
 
 def render(cast, svg_file):
