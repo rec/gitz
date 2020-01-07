@@ -5,7 +5,7 @@ touch main.py read.py read_test.py write.py write_test.py
 
 git add read.py && git commit -m Read
 
-git add *write.py && git commit -m Write
+git add write*.py && git commit -m Write
 
 git add main.py && git commit -m Main
 
@@ -13,6 +13,4 @@ git st
 # oops!
 
 git log --oneline
-
-git add read_test.py
-git adjust HEAD~~ read_test.py
+git adjust -A HEAD~~
