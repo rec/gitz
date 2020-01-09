@@ -92,7 +92,7 @@ class Mover:
         GIT.branch(flag, self.source, self.target)
 
         if self.is_rename:
-            if in_source:
+            if in_source or in_target:
                 GIT.checkout(self.target)
             GIT.branch('-D', self.source)
 
@@ -110,6 +110,7 @@ class Mover:
             GIT.push(self.origin, ':' + self.source)
 
         target = '%s/%s' % (self.origin, self.target)
+        GIT.branch('-u', target, self.target)
         msg = '{0.Word_root}ed {0.origin}/{0.source} -> {1} [{2}]'
         cid = functions.commit_id(target)
         PROGRAM.message(msg.format(self, target, cid))

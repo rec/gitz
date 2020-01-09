@@ -4,12 +4,12 @@ git new one two
 git branch -a
 git rename one won
 git branch -a
-git rename won two
 
-# Force push over an existing branch
+# You need force-push/-f to copy over an existing branch
+git rename won two
 git rename -f won two
 
-# develop is a "protected branch" (defaults are master:develop), so you
-# need the --protected option to overwrite it.
+# develop is a "protected branch" (default protected branches are
+# master:develop), so you need the --protected option to overwrite it.
 git rename two develop
 git rename --protected two develop
