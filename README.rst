@@ -51,15 +51,12 @@ When to use gitz
 
 3. During rapid development
 
-   - ``git amp`` AMends the message of the last commit and force-Pushes -
-     great for minor spelling mistakes
-
    - ``git infer`` commits files with an automatically generated message -
      great for committing tiny changes for later rebasing down
 
 4. While cleaning up a branch for review
 
-   - ``git shuffle`` shuffles, squashes or removes commits in the current branch
+   - ``git permute`` permutes, squashes or removes commits in the current branch
 
    - ``git split`` split one or more commits, perhaps with the staging area,
      into many small individual commits, one per file
@@ -100,7 +97,7 @@ Informational commands that don't change your repository
 
 `git infer <doc/git-infer.rst>`_
   Commit changes with an automatically generated message
-  
+
   (from https://github.com/moondewio/git-infer)
 
 `git multi-pick <doc/git-multi-pick.rst>`_
@@ -120,7 +117,7 @@ Informational commands that don't change your repository
 
 `git when <doc/git-when.rst>`_
   For each file, show the most recent commit that changed it.
-  
+
   Dotfiles are ignored by default.
 
 Dangerous commands that delete, rename or overwrite branches
@@ -151,7 +148,7 @@ You can configure this in three ways:
 Dangerous commands that rewrite history
 =======================================
 
-Slice, dice, shuffle and split your commits.
+Slice, dice, permute and split your commits.
 
 These commands are not intended for use on a shared or production branch, but
 can significantly speed up rapid development on private branches.
@@ -159,10 +156,7 @@ can significantly speed up rapid development on private branches.
 `git adjust <doc/git-adjust.rst>`_
   Amend any commit, not just the last
 
-`git amp <doc/git-amp.rst>`_
-  AMend the last commit message and force-Push, somewhat safely
-
-`git shuffle <doc/git-shuffle.rst>`_
+`git permute <doc/git-permute.rst>`_
   Reorder and delete commits in the current branch
 
 `git split <doc/git-split.rst>`_

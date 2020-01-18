@@ -28,23 +28,23 @@ def combine(commits, squash):
         yield '+', commit_id, msg
 
 
-def shuffle(shuffle, squash=None):
-    if len(shuffle) != len(set(shuffle)):
-        raise ValueError('"%s" has repeating symbols' % shuffle)
+def permutation(perm, squash=None):
+    if len(perm) != len(set(perm)):
+        raise ValueError('"%s" has repeating symbols' % perm)
 
-    if shuffle.isnumeric():
+    if perm.isnumeric():
         base = '0'
 
-    elif not shuffle.isalpha():
-        raise ValueError('Shuffle must be alphabetic')
+    elif not perm.isalpha():
+        raise ValueError('Perm must be alphabetic')
 
-    elif not shuffle.islower():
-        raise ValueError('Shuffle must be lowercase')
+    elif not perm.islower():
+        raise ValueError('Perm must be lowercase')
 
     else:
         base = 'a'
 
-    result = [ord(i) - ord(base) for i in shuffle]
+    result = [ord(i) - ord(base) for i in perm]
     result.append(max(result) + 1)
 
     if squash is None:
