@@ -1,6 +1,5 @@
 SUMMARIES = {
     'git-adjust': 'Amend any commit, not just the last',
-    'git-amp': 'AMend the last commit message and force-Push, somewhat safely',
     'git-copy': 'Copy a git branch locally and remotely',
     'git-delete': 'Delete one or more branches locally and remotely',
     'git-gitz': 'Print information about the gitz git commands',
