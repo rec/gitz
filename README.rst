@@ -76,8 +76,8 @@ When to use gitz
 The movie
 ==========
 
-.. figure:: https://asciinema.org/a/oZ22Kj0XmY36rBu5XdMvgfa6K.png
-    :target: https://asciinema.org/a/oZ22Kj0XmY36rBu5XdMvgfa6K?autoplay=1&theme=solarized-light&loop=1
+.. figure:: https://asciinema.org/a/TngJSV31o4RGHPmKzn40xv0QT.png
+    :target: https://asciinema.org/a/TngJSV31o4RGHPmKzn40xv0QT?autoplay=1&theme=solarized-light&loop=1
     :align: center
     :alt: The whole gitz movie
     :width: 430
@@ -97,7 +97,7 @@ Informational commands that don't change your repository
 
 `git infer <doc/git-infer.rst>`_
   Commit changes with an automatically generated message
-
+  
   (from https://github.com/moondewio/git-infer)
 
 `git multi-pick <doc/git-multi-pick.rst>`_
@@ -117,7 +117,7 @@ Informational commands that don't change your repository
 
 `git when <doc/git-when.rst>`_
   For each file, show the most recent commit that changed it.
-
+  
   Dotfiles are ignored by default.
 
 Dangerous commands that delete, rename or overwrite branches
@@ -148,7 +148,7 @@ You can configure this in three ways:
 Dangerous commands that rewrite history
 =======================================
 
-Slice, dice, permute and split your commits.
+Slice, dice, shuffle and split your commits.
 
 These commands are not intended for use on a shared or production branch, but
 can significantly speed up rapid development on private branches.

@@ -6,8 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git stripe [-h] [-q] [-v] [-c COUNT] [-d] [-o OFFSET] [-r REMOTES] [-s] [-n]
-                  [commits [commits ...]]
+    git stripe [-h] [-q] [-v] [-c COUNT] [-d] [-o OFFSET] [-r REMOTES] [-s] [-n] [commits [commits ...]]
 
 Positional arguments
   ``commits``: Branch/commit IDs to be striped (defaults to HEAD~)

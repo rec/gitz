@@ -1,24 +1,24 @@
-.TH GIT-SHUFFLE 1 "09 January, 2020" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-PERMUTE 1 "18 January, 2020" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
-git-shuffle - Reorder and delete commits in the current branch
+git-permute - Reorder and delete commits in the current branch
 
 .SH SYNOPSIS
 .sp
 .nf
 .ft C
-git shuffle [-h] [-q] [-v] [-s [SQUASH]] [-n] shuffle
+git permute [-h] [-q] [-v] [-s [SQUASH]] [-n] permutation
 .ft P
 .fi
 
 
 .SH DESCRIPTION
-Shuffles the commits in the current branch, perhaps deleting some.
+Permutes the commits in the current branch, perhaps deleting some.
 
 .sp
-For example, \fBgit shuffle ba\fP switches the first and second most
-recent commits, \fBgit shuffle cba\fP swaps the first and third
-commits, \fBgit shuffle cab\fP pops the third commit to be the most
+For example, \fBgit permute ba\fP switches the first and second most
+recent commits, \fBgit permute cba\fP swaps the first and third
+commits, \fBgit permute cab\fP pops the third commit to be the most
 recent, top commit on the branch.
 
 .SH OPTIONS
@@ -33,7 +33,9 @@ recent, top commit on the branch.
 \fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 
 
-\fBshuffle\fP: Pattern string to shuffle
+\fBpermutation\fP: 
+
+\fBPattern\fP: string to permute
 
 
 .SH DANGER
@@ -41,44 +43,44 @@ Rewrites history!
 
 .SH EXAMPLES
 .TP
-.B \fB git shuffle 10 \fP
+.B \fB git permute 10 \fP
 .TP
-.B \fB git shuffle ba \fP
+.B \fB git permute ba \fP
 Switches the first and second most recent commits
 
 .sp
 .TP
-.B \fB git shuffle ab \fP
+.B \fB git permute ab \fP
 .TP
-.B \fB git shuffle abc \fP
+.B \fB git permute abc \fP
 .TP
-.B \fB git shuffle 01 \fP
+.B \fB git permute 01 \fP
 .TP
-.B \fB git shuffle 012 \fP
+.B \fB git permute 012 \fP
 Do nothing
 
 .sp
 .TP
-.B \fB git shuffle cab \fP
+.B \fB git permute cab \fP
 .TP
-.B \fB git shuffle 201 \fP
+.B \fB git permute 201 \fP
 Cycles the three most recent commits so the third one is first
 
 .sp
 .TP
-.B \fB git shuffle edcg \fP
+.B \fB git permute edcg \fP
 .TP
-.B \fB git shuffle 5437 \fP
+.B \fB git permute 5437 \fP
 Deletes the most recent two commeits, reverses the next three, and
 deletes the sixth.
 
 .sp
 .TP
-.B \fB git shuffle edcg \-s 'My message' \fP
+.B \fB git permute edcg \-s 'My message' \fP
 .TP
-.B \fB git shuffle edcg \-\-squash='My message' \fP
+.B \fB git permute edcg \-\-squash='My message' \fP
 .TP
-.B \fB git shuffle 5437 \-s "My message" \fP
+.B \fB git permute 5437 \-s "My message" \fP
 Same as the previous command, but squashes the three commits into
 one with the commit message 'My message'
 

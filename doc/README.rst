@@ -4,9 +4,6 @@ gitz commands
 `git-adjust <git-adjust.rst>`_
   Amend any commit, not just the last
 
-`git-amp <git-amp.rst>`_
-  AMend the last commit message and force-Push, somewhat safely
-
 `git-copy <git-copy.rst>`_
   Copy a git branch locally and remotely
 
@@ -27,14 +24,14 @@ gitz commands
 `git-new <git-new.rst>`_
   Create and push new branches
 
+`git-permute <git-permute.rst>`_
+  Reorder and delete commits in the current branch
+
 `git-rename <git-rename.rst>`_
   Rename a git branch locally and remotely
 
 `git-rotate <git-rotate.rst>`_
   Rotate through branches in a Git repository
-
-`git-shuffle <git-shuffle.rst>`_
-  Reorder and delete commits in the current branch
 
 `git-split <git-split.rst>`_
   Split a range of commits into many single-file commits
