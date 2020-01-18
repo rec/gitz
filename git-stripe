@@ -37,6 +37,10 @@ class Stripe:
             self._delete()
             return
 
+        if ARGS.list:
+            self._list()
+            return
+
         self._check_overwrite()
         commits = functions.commit_ids(ARGS.commits or ['HEAD~'])
         for i, commit in enumerate(commits):
@@ -89,6 +93,14 @@ class Stripe:
                 if branch.startswith(PREFIX):
                     delete.delete_remote_branch(remote, branch)
 
+    def _list(self):
+        for remote in self.remotes:
+            for branch in self.remote_branches[remote]:
+                if branch.startswith(PREFIX):
+                    rbranch = '%s/%s' % (remote, branch)
+                    id, msg = functions.commit_message(rbranch)
+                    PROGRAM.log.message('%s@%s: %s' % (branch, id, msg))
+
 
 def add_arguments(parser):
     add = parser.add_argument
@@ -96,6 +108,7 @@ def add_arguments(parser):
     add('commits', nargs='*', help=_HELP_COMMITS)
     add('-c', '--count', default=1, type=int, help=_HELP_COUNT)
     add('-d', '--delete', action='store_true', help=_HELP_DELETE)
+    add('-l', '--list', action='store_true', help=_HELP_LIST)
     add('-o', '--offset', default=0, type=int, help=_HELP_OFFSET)
     add('-r', '--remotes', default='^', help=_HELP_REMOTE)
     add('-s', '--safe', action='store_true', help=_HELP_SAFE)
@@ -108,6 +121,7 @@ _ERROR_DELETE_COUNT = 'git stripe -d ignores --count/-c'
 _HELP_COMMITS = 'Branch/commit IDs to be striped (defaults to HEAD~)'
 _HELP_COUNT = 'The number of striped branches to be created'
 _HELP_DELETE = 'Delete all striped branches'
+_HELP_LIST = 'List all remote stripes'
 _HELP_OFFSET = 'Offset to start numbering stripes'
 _HELP_REMOTE = (
     'One or more remote remotes to push to, separated by colon. '
