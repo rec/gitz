@@ -9,19 +9,18 @@ _SUBPROCESS_KWDS = {
 
 
 def run_proc(cmd, out=None, err=None, **kwds):
-    """Run a subprocess with error and output callbacks"""
+    """Run a subprocess with separate error and output callbacks"""
     out = [] if out is None else out
     err = err or out
     kwds = dict(_SUBPROCESS_KWDS, **kwds)
     if kwds.get('shell'):
         if not isinstance(cmd, str):
             cmd = ' '.join(cmd)
+
     elif isinstance(cmd, str):
         cmd = shlex.split(cmd)
 
     def run(fp, callback):
-        if not callable(callback):
-            callback = callback.append
         line = fp.readline()
         if not line:
             return False
@@ -33,7 +32,10 @@ def run_proc(cmd, out=None, err=None, **kwds):
         return True
 
     with subprocess.Popen(cmd, **kwds) as p:
-        while run(p.stdout, out) or run(p.stderr, err) or (p.poll() is None):
+        o = out if callable(out) else out.append
+        e = err if callable(err) else err.append
+
+        while run(p.stdout, o) or run(p.stderr, e) or p.poll() is None:
             pass
 
     if p.returncode:
