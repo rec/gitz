@@ -1,4 +1,4 @@
-.TH GIT-STRIPE 1 "18 January, 2020" "Gitz 0.9.13" "Gitz Manual"
+.TH GIT-STRIPE 1 "19 January, 2020" "Gitz 0.9.13" "Gitz Manual"
 
 .SH NAME
 git-stripe - Push a sequence of commit IDs to a remote repository
@@ -7,7 +7,7 @@ git-stripe - Push a sequence of commit IDs to a remote repository
 .sp
 .nf
 .ft C
-git stripe [-h] [-q] [-v] [-c COUNT] [-d] [-o OFFSET] [-r REMOTES] [-s] [-n] [commits [commits ...]]
+git stripe [-h] [-q] [-v] [-c COUNT] [-d] [-l] [-o OFFSET] [-r REMOTES] [-s] [-n] [commits [commits ...]]
 .ft P
 .fi
 
@@ -31,6 +31,8 @@ sequences of commits too fast.
 \fB\-c COUNT, \-\-count COUNT\fP: The number of striped branches to be created
 
 \fB\-d, \-\-delete\fP: Delete all striped branches
+
+\fB\-l, \-\-list\fP: List all remote stripes
 
 \fB\-o OFFSET, \-\-offset OFFSET\fP: Offset to start numbering stripes
 

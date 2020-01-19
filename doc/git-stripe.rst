@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git stripe [-h] [-q] [-v] [-c COUNT] [-d] [-o OFFSET] [-r REMOTES] [-s] [-n] [commits [commits ...]]
+    git stripe [-h] [-q] [-v] [-c COUNT] [-d] [-l] [-o OFFSET] [-r REMOTES] [-s] [-n] [commits [commits ...]]
 
 Positional arguments
   ``commits``: Branch/commit IDs to be striped (defaults to HEAD~)
@@ -21,6 +21,8 @@ Optional arguments
   ``-c COUNT, --count COUNT``: The number of striped branches to be created
 
   ``-d, --delete``: Delete all striped branches
+
+  ``-l, --list``: List all remote stripes
 
   ``-o OFFSET, --offset OFFSET``: Offset to start numbering stripes
 

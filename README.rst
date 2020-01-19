@@ -76,8 +76,8 @@ When to use gitz
 The movie
 ==========
 
-.. figure:: https://asciinema.org/a/TngJSV31o4RGHPmKzn40xv0QT.png
-    :target: https://asciinema.org/a/TngJSV31o4RGHPmKzn40xv0QT?autoplay=1&theme=solarized-light&loop=1
+.. figure:: https://asciinema.org/a/McnRqYSxdlfdJdjyG1Rm9x5uU.png
+    :target: https://asciinema.org/a/McnRqYSxdlfdJdjyG1Rm9x5uU?autoplay=1&theme=solarized-light&loop=1
     :align: center
     :alt: The whole gitz movie
     :width: 430
