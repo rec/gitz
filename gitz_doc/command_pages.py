@@ -1,5 +1,6 @@
 from . import dirs
 from .movies import constants
+from gitz.git import functions
 
 _HOME_LINK = '`Gitz home page <https://github.com/rec/gitz/>`_'
 SECTIONS = (
@@ -12,6 +13,10 @@ SECTIONS = (
     'MOVIE',
     'EXAMPLES',
 )
+
+# If USE_BRANCH_NAME is True, the current branchname is
+# used for svg files, otherwise master is always used.
+USE_BRANCH_NAME = False
 
 
 def main(commands):
@@ -83,7 +88,8 @@ class Writer:
             return
         self._print()
         self._header(name)
-        self._print(_IMAGE_SECTION.format(command=cmd))
+        branch = functions.branch_name()
+        self._print(_IMAGE_SECTION.format(command=cmd, branch=branch))
 
     def _examples(self, name, lines):
         self._print()
@@ -120,7 +126,7 @@ _FULL_USAGE = 'USAGE'
 _POSITIONAL = 'Positional arguments'
 _OPTIONAL = 'Optional arguments'
 _IMAGE_SECTION = """\
-.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/\
+.. figure:: https://raw.githubusercontent.com/rec/gitz/{branch}/doc/movies/\
 {command}.svg?sanitize=true
     :align: center
     :alt: {command}.svg\
