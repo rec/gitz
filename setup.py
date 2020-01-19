@@ -12,6 +12,7 @@ if __name__ == '__main__':
         url='https://github.com/rec/gitz',
         description='🗜 gitz - tiny useful git commands, some dangerous 🗜',
         long_description=open(str('README.rst')).read(),
+        long_description_content_type='text/rst',
         license='MIT',
         classifiers=[
             'Development Status :: 4 - Beta',

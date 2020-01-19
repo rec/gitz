@@ -104,5 +104,5 @@ You can configure this in three ways:
   defaults
 
 - setting a value for the keys ``PROTECTED_BRANCHES`` in the file
-.gitz.json in the top directory of your Git project has the same effect"""
+  .gitz.json in the top directory of your Git project has the same effect"""
 }
