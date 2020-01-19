@@ -1,3 +1,6 @@
+## v0.9.15 - 2020-01-19
+- Fix RST errors found pushing to PYPI
+
 ## v0.9.14 - 2020-01-19
 - Asciinema movies for each command!
 - Removed a boring command (git-amp
