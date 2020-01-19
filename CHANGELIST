@@ -1,0 +1,7 @@
+## v0.9.14 - 2020-01-19
+- Asciinema movies for each command!
+- Removed a boring command (git-amp
+- New "experimental" mode for commands means they aren't distributed
+- Marked git-for-each and git-save experimental
+- Renamed git-shuffle to less-random-sounding git-permute
+- Numerous other tweaks and changes to code and documentation
