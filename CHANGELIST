@@ -1,3 +1,6 @@
+## v0.9.16 - 2020-02-25
+- Bring repo.py into gitz hierarchy (for backer)
+
 ## v0.9.15 - 2020-01-19
 - Fix RST errors found pushing to PYPI
 
