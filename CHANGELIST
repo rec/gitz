@@ -1,3 +1,6 @@
+## v0.9.17 - 2020-01-19
+- Fix setup.py error found pushing to PYPI
+
 ## v0.9.16 - 2020-02-25
 - Bring repo.py into gitz hierarchy (for backer)
 
