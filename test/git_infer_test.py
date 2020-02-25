@@ -1,4 +1,4 @@
-from . import repo
+from gitz.git import repo
 from gitz.git import GIT
 import os
 import unittest

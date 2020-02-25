@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from . import repo
+from gitz.git import repo
 from gitz import config
 from gitz.git import GIT
 from gitz.program import summaries

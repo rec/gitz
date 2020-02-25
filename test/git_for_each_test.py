@@ -1,4 +1,4 @@
-from . import repo
+from gitz.git import repo
 from gitz.git import functions
 from gitz.git import GIT
 from pathlib import Path
