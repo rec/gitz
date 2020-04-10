@@ -4,7 +4,7 @@ from . import script_runner
 from .. import worker
 from gitz.program import safe_writer
 from pathlib import Path
-from test import repo
+from gitz.git import repo
 
 COMMITS = 'one', 'two', 'three', 'four', 'five'
 ROOT = Path(__file__).parent
