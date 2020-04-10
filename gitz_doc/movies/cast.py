@@ -3,8 +3,8 @@ Represents a single asciinema file
 """
 
 from . import constants
-from gitz.program import safe_writer
 import json
+import safer
 from pathlib import Path
 
 EXIT = 'exit' + constants.RETURN
@@ -40,7 +40,7 @@ class Cast:
 
     def write(self, fp):
         if isinstance(fp, (str, Path)):
-            with safe_writer.safe_writer(fp) as fp2:
+            with safer.writer(fp) as fp2:
                 return self.write(fp2)
 
         for i in (self.header, *self.lines):

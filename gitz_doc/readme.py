@@ -1,7 +1,7 @@
 from . import get_command_help
 from . import screenshot
 from .movies import upload
-from gitz.program import safe_writer
+import safer
 
 README = 'README.rst'
 LINK = '`git {0} <doc/git-{0}.rst>`_'
@@ -12,7 +12,7 @@ TAIL_TAG = 'Safe commands'
 
 
 def main(commands):
-    with safe_writer.safe_writer(README) as fp:
+    with safer.writer(README) as fp:
         all_movie_url = upload.all_movie_url()
 
         for line in open(README):

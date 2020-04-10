@@ -2,7 +2,6 @@ from . import constants
 from . import render
 from . import script_runner
 from .. import worker
-from gitz.program import safe_writer
 from pathlib import Path
 from gitz.git import repo
 
@@ -28,7 +27,7 @@ def _one_movie(command):
         if target.stat().st_mtime >= newest:
             return print('.', target)
 
-    safe_writer.make_parents(target)
+    target.parent.mkdir(parents=True, exist_ok=True)
     with repo.repo_context():
         cast = script_runner.run(source)
         cast.write(cast_file)

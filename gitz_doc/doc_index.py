@@ -1,4 +1,4 @@
-from gitz.program import safe_writer
+import safer
 
 README = 'doc/README.rst'
 LINK = '`{0} <{0}.rst>`_'
@@ -6,7 +6,7 @@ HOME_LINK = '`Gitz home page <https://github.com/rec/gitz/>`_'
 
 
 def main(commands):
-    with safe_writer.safe_writer(README) as fp:
+    with safer.writer(README) as fp:
         print('gitz commands', file=fp)
         print('-------------', file=fp)
 

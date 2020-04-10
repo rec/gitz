@@ -1,8 +1,8 @@
 from . import clean_manpage
 from . import dirs
 from gitz import config
-from gitz.program import safe_writer
 import datetime
+import safer
 
 
 def main(commands):
@@ -24,7 +24,7 @@ class Manpage:
 
     def write(self):
         manfile = (dirs.MAN / self.command).with_suffix('.1')
-        with safe_writer.safe_writer(manfile) as self.fp:
+        with safer.writer(manfile) as self.fp:
             self._print(HEADER.format(**vars(self)))
             for field in FIELDS:
                 if field in self.sections:
