@@ -4,11 +4,15 @@ from gitz.git import GIT
 import unittest
 
 
+def stripe(*parts):
+    GIT.stripe('-v', *' '.join(parts).split())
+
+
 class GitStripeTest(unittest.TestCase):
     @repo.test
     def test_stripe(self):
         self._setup()
-        GIT.stripe('-d', '-v')
+        stripe('--delete')
         actual = functions.branches('-r')
         expected = ['origin/master', 'upstream/master']
         self.assertEqual(actual, expected)
@@ -17,9 +21,9 @@ class GitStripeTest(unittest.TestCase):
     def test_error(self):
         self._setup()
         with self.assertRaises(ValueError):
-            GIT.stripe('-d', 'foo', '-v')
+            stripe('--delete foo')
         with self.assertRaises(ValueError):
-            GIT.stripe('-d', '-c2', '-v')
+            stripe('--delete --count=2')
 
     @repo.test
     def test_range_setting(self):
@@ -30,7 +34,7 @@ class GitStripeTest(unittest.TestCase):
         repo.make_commit('5')
 
         GIT.push('-u', 'origin', 'master')
-        GIT.stripe(two, four, '-v')
+        stripe(two, four)
 
         actual = functions.branches('-r')
         expected = [
@@ -42,11 +46,11 @@ class GitStripeTest(unittest.TestCase):
         self.assertEqual(actual, expected)
 
     @repo.test
-    def test_offset(self):
+    def test_offset_and_safe(self):
         repo.make_commit('1')
         repo.make_commit('2')
         GIT.push('-u', 'origin', 'master')
-        GIT.stripe('-v', '-o3', '-c2')
+        stripe('--count=2 --offset=3')
         actual = functions.branches('-r')
         expected = [
             'origin/_gitz_stripe_3',
@@ -55,8 +59,18 @@ class GitStripeTest(unittest.TestCase):
             'upstream/master',
         ]
         self.assertEqual(actual, expected)
-        GIT.stripe('-vd')
-        expected = ['origin/master', 'upstream/master']
+
+        stripe('--count=2 --safe')
+        actual = functions.branches('-r')
+        expected = [
+            'origin/_gitz_stripe_3',
+            'origin/_gitz_stripe_4',
+            'origin/_gitz_stripe_5',
+            'origin/_gitz_stripe_6',
+            'origin/master',
+            'upstream/master',
+        ]
+        self.assertEqual(actual, expected)
 
     def _setup(self):
         repo.make_commit('1')
@@ -65,7 +79,7 @@ class GitStripeTest(unittest.TestCase):
         repo.make_commit('4')
 
         GIT.push('-u', 'origin', 'master')
-        GIT.stripe('-c3', '-v')
+        stripe('--count=3')
 
         actual = functions.branches('-r')
         expected = [

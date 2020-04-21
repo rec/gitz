@@ -33,6 +33,9 @@ class Stripe:
         self.remotes = list(self._remotes())
 
     def stripe(self):
+        if ARGS.delete + ARGS.list + ARGS.safe > 1:
+            raise ValueError(_ERROR_ARGS_INCONSISTENT)
+
         if ARGS.delete:
             self._delete()
             return
@@ -41,14 +44,14 @@ class Stripe:
             self._list()
             return
 
-        self._check_overwrite()
+        self.safe_offset = self._safe_offet() if ARGS.safe else 0
         commits = functions.commit_ids(ARGS.commits or ['HEAD~'])
         for i, commit in enumerate(commits):
             for j in range(ARGS.count):
                 self._create_one(i, j, commit)
 
     def _create_one(self, i, j, commit):
-        index = ARGS.offset + ARGS.count * i + j
+        index = self.safe_offset + ARGS.offset + ARGS.count * i + j
         branch = '%s%d' % (PREFIX, index)
         refspec = '%s~%d:refs/heads/%s' % (commit, j, branch)
 
@@ -61,16 +64,15 @@ class Stripe:
 
         PROGRAM.log.message('+ %s@%s: %s' % (striped, id, msg))
 
-    def _check_overwrite(self):
-        if ARGS.safe:
-            branches = {PREFIX + str(i) for i in self.indexes}
-            remote_branches = set()
-            for remote in self.remotes:
-                remote_branches.update(self.remote_branches[remote])
+    def _safe_offet(self):
+        branches = set()
+        for r in self.remotes:
+            branches.update(self.remote_branches[r])
 
-            existing = sorted(branches.intersection(remote_branches))
-            if existing:
-                PROGRAM.exit('Cannot overwrite existing', *existing)
+        stripes = [b for b in branches if b.startswith(PREFIX)]
+        stripes = [s[len(PREFIX) :] for s in stripes]
+        stripes = [int(s) for s in stripes if s.isnumeric()]
+        return max(stripes) + 1 if stripes else 0
 
     def _remotes(self):
         for remote in ARGS.remotes.split(':'):
@@ -114,6 +116,8 @@ def add_arguments(parser):
     add('-s', '--safe', action='store_true', help=_HELP_SAFE)
 
 
+_ERROR_ARGS_INCONSISTENT = """\
+At most one of --delete, --list, or --safe may be set"""
 _ERROR_BRANCH_NAME = 'Illegal character in branch name'
 _ERROR_DELETE_ARGS = 'git stripe -d takes no arguments'
 _ERROR_DELETE_COUNT = 'git stripe -d ignores --count/-c'
@@ -127,7 +131,9 @@ _HELP_REMOTE = (
     'One or more remote remotes to push to, separated by colon. '
     '  "." means the local repo, "^" means the upstream repo'
 )
-_HELP_SAFE = 'Do not force push over existing stripes'
+_HELP_SAFE = (
+    'Do not push over existing stripes: find an unused range of indices'
+)
 
 EXAMPLES = """
 git stripe
