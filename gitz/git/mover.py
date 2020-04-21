@@ -178,6 +178,7 @@ _ERROR_TARGET_EXISTS = 'Branch %s already exists'
 
 
 BOOLEAN_FLAGS = {
-    '--protected': '{0.Action} all, even protected remotes or branches',
+    '--protected': """{0.Action} all, even protected remotes or branches \
+(use -protected to override)""",
     '--force': 'Force {0.action} over existing branches',
 }
