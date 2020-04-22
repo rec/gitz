@@ -9,9 +9,10 @@ def combine(commits, squash):
     symbol = '+' if squash is None else 's'
 
     def extract(lines):
-        match = COMMIT_MSG_RE.match(lines[0])
-        if match:
-            return match.groups()
+        for line in lines:
+            match = COMMIT_MSG_RE.match(line)
+            if match:
+                return match.groups()
         raise ValueError('Do not understand commit message' + lines[0])
 
     top = None
