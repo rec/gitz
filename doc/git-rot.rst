@@ -1,12 +1,12 @@
-``git rotate``: Rotate through branches in a Git repository
------------------------------------------------------------
+``git rot``: Rotate through branches in a Git repository
+--------------------------------------------------------
 
 USAGE
 =====
 
 .. code-block:: bash
 
-    git rotate [-h] [-q] [-v] [-n] [steps]
+    git rot [-h] [-q] [-v] [-n] [steps]
 
 Positional arguments
   ``steps``: Number of steps to rotate (positive or negative)
@@ -37,9 +37,9 @@ Useful for quickly browsing each branch in a repository one at a time.
 MOVIE
 =====
 
-.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-rotate.svg?sanitize=true
+.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-rot.svg?sanitize=true
     :align: center
-    :alt: git-rotate.svg
+    :alt: git-rot.svg
 
 EXAMPLES
 ========

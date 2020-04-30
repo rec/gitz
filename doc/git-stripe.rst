@@ -6,7 +6,8 @@ USAGE
 
 .. code-block:: bash
 
-    git stripe [-h] [-q] [-v] [-c COUNT] [-d] [-l] [-o OFFSET] [-r REMOTES] [-s] [-n] [commits [commits ...]]
+    git stripe [-h] [-q] [-v] [-c COUNT] [-d] [-l] [-o OFFSET] [-r REMOTES] [-s] [-n]
+                  [commits [commits ...]]
 
 Positional arguments
   ``commits``: Branch/commit IDs to be striped (defaults to HEAD~)
@@ -28,7 +29,7 @@ Optional arguments
 
   ``-r REMOTES, --remotes REMOTES``: One or more remote remotes to push to, separated by colon. "." means the local repo, "^" means the upstream repo
 
-  ``-s, --safe``: Do not force push over existing stripes
+  ``-s, --safe``: Do not push over existing stripes: find an unused range of indices
 
   ``-n, --no-run``: If set, commands will be printed but not executed
 

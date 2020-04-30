@@ -19,7 +19,7 @@ Optional arguments
 
   ``-v, --verbose``: Report all messages in great detail
 
-  ``-p, --protected``: Copy all, even protected remotes or branches
+  ``-p, --protected``: Copy all, even protected remotes or branches (use -protected to override)
 
   ``-f, --force``: Force copy over existing branches
 

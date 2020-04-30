@@ -30,7 +30,7 @@ gitz commands
 `git-rename <git-rename.rst>`_
   Rename a git branch locally and remotely
 
-`git-rotate <git-rotate.rst>`_
+`git-rot <git-rot.rst>`_
   Rotate through branches in a Git repository
 
 `git-split <git-split.rst>`_

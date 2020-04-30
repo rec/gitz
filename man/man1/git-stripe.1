@@ -1,4 +1,4 @@
-.TH GIT-STRIPE 1 "10 April, 2020" "Gitz 0.9.17" "Gitz Manual"
+.TH GIT-STRIPE 1 "30 April, 2020" "Gitz 0.9.17" "Gitz Manual"
 
 .SH NAME
 git-stripe - Push a sequence of commit IDs to a remote repository
@@ -7,7 +7,7 @@ git-stripe - Push a sequence of commit IDs to a remote repository
 .sp
 .nf
 .ft C
-git stripe [-h] [-q] [-v] [-c COUNT] [-d] [-l] [-o OFFSET] [-r REMOTES] [-s] [-n] [commits [commits ...]]
+git stripe [-h] [-q] [-v] [-c COUNT] [-d] [-l] [-o OFFSET] [-r REMOTES] [-s] [-n]
 .ft P
 .fi
 
@@ -38,7 +38,7 @@ sequences of commits too fast.
 
 \fB\-r REMOTES, \-\-remotes REMOTES\fP: One or more remote remotes to push to, separated by colon. "." means the local repo, "^" means the upstream repo
 
-\fB\-s, \-\-safe\fP: Do not force push over existing stripes
+\fB\-s, \-\-safe\fP: Do not push over existing stripes: find an unused range of indices
 
 \fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 

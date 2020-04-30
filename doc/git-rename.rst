@@ -19,7 +19,7 @@ Optional arguments
 
   ``-v, --verbose``: Report all messages in great detail
 
-  ``-p, --protected``: Rename all, even protected remotes or branches
+  ``-p, --protected``: Rename all, even protected remotes or branches (use -protected to override)
 
   ``-f, --force``: Force rename over existing branches
 
