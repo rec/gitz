@@ -39,7 +39,7 @@ git rotate -2
 """
 
 
-def git_rotate():
+def git_rot():
     root.check_clean_workspace()
 
     if ARGS.steps == '-':

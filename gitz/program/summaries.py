@@ -8,7 +8,7 @@ SUMMARIES = {
     'git-new': 'Create and push new branches',
     'git-permute': 'Reorder and delete commits in the current branch',
     'git-rename': 'Rename a git branch locally and remotely',
-    'git-rotate': 'Rotate through branches in a Git repository',
+    'git-rot': 'Rotate through branches in a Git repository',
     'git-split': 'Split a range of commits into many single-file commits',
     'git-st': 'Colorful, compact git status',
     'git-stripe': 'Push a sequence of commit IDs to a remote repository',

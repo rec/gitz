@@ -4,7 +4,7 @@ from gitz.git import GIT
 import unittest
 
 
-class GitRotateTest(unittest.TestCase):
+class GitRotTest(unittest.TestCase):
     @repo.test
     def test_change(self):
         GIT.checkout('-b', 'A')
@@ -17,23 +17,23 @@ class GitRotateTest(unittest.TestCase):
         repo.make_commit('3')
         self.assertEqual(functions.branch_name(), 'C')
 
-        GIT.rotate('0', '-v')
+        GIT.rot('0', '-v')
         self.assertEqual(functions.branch_name(), 'C')
 
-        GIT.rotate('-v')
+        GIT.rot('-v')
         self.assertEqual(functions.branch_name(), 'master')
 
-        GIT.rotate('-v')
+        GIT.rot('-v')
         self.assertEqual(functions.branch_name(), 'A')
 
-        GIT.rotate('2', '-v')
+        GIT.rot('2', '-v')
         self.assertEqual(functions.branch_name(), 'C')
 
-        GIT.rotate('-1', '-v')
+        GIT.rot('-1', '-v')
         self.assertEqual(functions.branch_name(), 'B')
 
-        GIT.rotate('-', '-v')
+        GIT.rot('-', '-v')
         self.assertEqual(functions.branch_name(), 'A')
 
-        GIT.rotate('-2', '-v')
+        GIT.rot('-2', '-v')
         self.assertEqual(functions.branch_name(), 'C')
