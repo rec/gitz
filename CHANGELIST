@@ -1,3 +1,9 @@
+## v0.9.18 - 2020-05-01
+- Extract safe_writer to safer
+- Fix git-stripe --safe
+- Fix #209
+- Rename git-rotate to git-rot
+
 ## v0.9.17 - 2020-01-19
 - Fix setup.py error found pushing to PYPI
 
