@@ -1,4 +1,4 @@
 flake8
-import_all
+impall
 pytest
 pytest_xdist

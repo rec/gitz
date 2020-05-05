@@ -1,8 +1,9 @@
 from gitz import config
-import setuptools
 
 
 if __name__ == '__main__':
+    import setuptools
+
     manfiles = ['man/man1/%s.1' % i for i in config.COMMANDS]
     setuptools.setup(
         name='gitz',
