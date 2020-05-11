@@ -15,7 +15,7 @@ def get_one(command):
             help.setdefault(section, []).append(line)
 
         elif not line or line.startswith(' '):
-            for i in range(INDENT):
+            for _ in range(INDENT):
                 if line.startswith(' '):
                     line = line[1:]
             help.setdefault(section, []).append(line)

@@ -9,7 +9,7 @@ _REPLACEMENTS = {
 
 
 def print_help(program, context, parser):
-    if not ('-h' in program.argv or '--h' in program.argv):
+    if '-h' not in program.argv and '--h' not in program.argv:
         return
 
     usage = parser.format_help()

@@ -48,7 +48,7 @@ class Workers:
         return self
 
     def __exit__(self, type, value, traceback):
-        for w in self.workers:
+        for _ in self.workers:
             self.queue.put(None)
         self.join()
 
