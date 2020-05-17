@@ -1,7 +1,7 @@
 from queue import Empty
+import multiprocessing as mp
 import threading
 import time
-import multiprocessing as mp
 
 PARALLELISM = 4
 

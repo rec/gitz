@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from . import functions
-from ..program import ENV
 from ..program import ARGS
+from ..program import ENV
 from ..program import PROGRAM
 
 

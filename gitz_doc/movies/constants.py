@@ -1,5 +1,5 @@
-from pathlib import Path
 from . import colors
+from pathlib import Path
 
 PROMPT = '▶ {BLUE}tom{RED}:{GREEN}/code/test{NONE}$ '
 PROMPT = PROMPT.format(**vars(colors))

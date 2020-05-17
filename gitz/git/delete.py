@@ -1,7 +1,7 @@
-from . import guess_origin
-from . import functions
-from ..program import PROGRAM
 from . import GIT
+from . import functions
+from . import guess_origin
+from ..program import PROGRAM
 
 
 def delete_remote_branch(remote, branch):

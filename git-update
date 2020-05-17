@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-from gitz.git import functions
-from gitz.git import root
-from gitz.git import reference_branch
-from gitz.program import ENV
-from gitz.program import ARGS
-from gitz.program import PROGRAM
 from gitz.git import GIT
+from gitz.git import functions
+from gitz.git import reference_branch
+from gitz.git import root
+from gitz.program import ARGS
+from gitz.program import ENV
+from gitz.program import PROGRAM
 
 SUMMARY = 'Update branches from a reference branch'
 

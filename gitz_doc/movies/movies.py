@@ -2,8 +2,8 @@ from . import constants
 from . import render
 from . import script_runner
 from .. import worker
-from pathlib import Path
 from gitz.git import repo
+from pathlib import Path
 
 COMMITS = 'one', 'two', 'three', 'four', 'five'
 ROOT = Path(__file__).parent

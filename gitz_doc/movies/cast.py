@@ -3,9 +3,9 @@ Represents a single asciinema file
 """
 
 from . import constants
+from pathlib import Path
 import json
 import safer
-from pathlib import Path
 
 EXIT = 'exit' + constants.RETURN
 EPSILON = 0.001

@@ -1,9 +1,9 @@
+
 from . import command_pages
 from . import doc_index
 from . import get_command_help
 from . import manpages
 from . import readme
-
 from .movies import all_movies
 from .movies import movies
 from gitz import config

@@ -1,5 +1,5 @@
-from ..program import ENV
 from . import functions
+from ..program import ENV
 
 
 def guess_origin(origin=None, branch=None):

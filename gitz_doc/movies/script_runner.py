@@ -1,8 +1,8 @@
-from gitz.program import run_proc
 from . import cast
 from . import constants
 from . import keystrokes
 from . import typing_errors
+from gitz.program import run_proc
 import sys
 import time
 

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 from gitz import config
+from gitz.program import PROGRAM
 from gitz.program import env
 from gitz.program import summaries
-from gitz.program import PROGRAM
 import platform
 
 SUMMARY = 'Print information about the gitz git commands'

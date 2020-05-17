@@ -1,5 +1,5 @@
-from ..program import PROGRAM
 from . import GIT
+from ..program import PROGRAM
 from pathlib import Path
 import functools
 import os

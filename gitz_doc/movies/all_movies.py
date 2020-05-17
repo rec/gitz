@@ -1,5 +1,5 @@
-from .cast import Cast
 from . import constants
+from .cast import Cast
 
 ORDERED_COMMANDS = (
     'git-new',

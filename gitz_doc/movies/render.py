@@ -1,8 +1,8 @@
-from termtosvg import asciicast
+from pathlib import Path
 from termtosvg import anim
+from termtosvg import asciicast
 from termtosvg import config
 from termtosvg import term
-from pathlib import Path
 import tempfile
 
 TEMPLATE = 'solarized_light'
