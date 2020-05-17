@@ -39,9 +39,11 @@ class ScriptRunner:
                 break
         chars = sum(len(x[2]) for x in lines[before + 1 :])
 
-        if not (i < len(self.lines) - 1
-                and line.strip().startswith('#')
-                and self.lines[i + 1].strip().startswith('#')):
+        if not (
+            i < len(self.lines) - 1
+            and line.strip().startswith('#')
+            and self.lines[i + 1].strip().startswith('#')
+        ):
             self._add(constants.RETURN)
         self._add(constants.PROMPT)
         t = constants.TIME_TO_THINK + chars * constants.TIME_TO_READ_ONE_CHAR

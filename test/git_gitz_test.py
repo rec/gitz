@@ -1,4 +1,3 @@
-
 from gitz import config
 from gitz.git import GIT
 from gitz.git import repo

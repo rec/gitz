@@ -5,10 +5,7 @@ from ..program import ARGS
 from ..program import ENV
 from ..program import PROGRAM
 
-ACTIONS = {
-    'copy': ('copi', 'over'),
-    'rename': ('renam', 'from or two'),
-}
+ACTIONS = {'copy': ('copi', 'over'), 'rename': ('renam', 'from or two')}
 
 
 class Mover:
@@ -16,7 +13,7 @@ class Mover:
 
     def __init__(self, action):
         self.action = action
-        self.is_rename = (action == 'rename')
+        self.is_rename = action == 'rename'
         self.word_root, self.direction = ACTIONS[action]
         self.Action = self.action.capitalize()
         self.Word_root = self.word_root.capitalize()

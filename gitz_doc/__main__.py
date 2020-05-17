@@ -1,4 +1,3 @@
-
 from . import command_pages
 from . import doc_index
 from . import get_command_help
