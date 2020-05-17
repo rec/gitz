@@ -1,17 +1,15 @@
 language: python
 
 python:
-- '3.4'
-- '3.5'
 - '3.6'
 
-# matrix:
-#   include:
-#     - python: 3.7
-#       dist: xenial
+matrix:
+  include:
+    - python: 3.7
+      dist: xenial
 
 install:
-- pip install -r test/test_requirements.txt
+- pip install -r test_requirements.txt
 
 script:
 - source scripts/run_tests.sh
