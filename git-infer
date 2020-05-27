@@ -39,7 +39,7 @@ COMMIT_MSG=$(awk '
 BEGIN {
   updatedCount = 0;
   addedCount = 0;
-  deletedCount = 0;
+  removedCount = 0;
   renamedCount = 0;
 }
 $1 == "M" {
@@ -51,8 +51,8 @@ $1 == "A" || $1 == "??" {
   addedCount += 1
 }
 $1 == "D" {
-  deleted[deletedCount] = substr($0, 4);
-  deletedCount += 1
+  removed[removedCount] = substr($0, 4);
+  removedCount += 1
 }
 $1 == "R" {
   renamed[renamedCount] = substr($0, 4);
@@ -77,13 +77,13 @@ END {
     addedMsg = "Add " addedMsg
   }
 
-  if (deletedCount > 0) {
-    deletedMsg = "";
-    for (i = 0; i + 1 < deletedCount; i++) {
-      deletedMsg = deletedMsg deleted[i] ", "
+  if (removedCount > 0) {
+    removedMsg = "";
+    for (i = 0; i + 1 < removedCount; i++) {
+      removedMsg = removedMsg removed[i] ", "
     };
-    deletedMsg = deletedMsg deleted[deletedCount - 1]
-    deletedMsg = "Delete " deletedMsg
+    removedMsg = removedMsg removed[removedCount - 1]
+    removedMsg = "Remove " removedMsg
   }
 
   if (renamedCount > 0) {
@@ -105,7 +105,7 @@ END {
     changesCount += 1
   }
 
-  if (deletedCount > 0) {
+  if (removedCount > 0) {
     changesCount += 1
   }
 
@@ -124,8 +124,8 @@ END {
       print addedMsg
     }
 
-    if (deletedCount > 0) {
-      print deletedMsg
+    if (removedCount > 0) {
+      print removedMsg
     }
 
     if (renamedCount > 0) {
@@ -142,8 +142,8 @@ END {
       print addedMsg
     }
 
-    if (deletedCount > 0) {
-      print deletedMsg
+    if (removedCount > 0) {
+      print removedMsg
     }
 
     if (renamedCount > 0) {
@@ -156,7 +156,7 @@ END {
 
 if [ -z "${COMMIT_MSG}" ]
 then
-  echo "git infer: Nothing added, updated, deleted or renamed"
+  echo "git infer: Nothing added, updated, removed or renamed"
   exit 1
 fi
 

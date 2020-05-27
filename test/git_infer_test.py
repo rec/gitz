@@ -41,7 +41,7 @@ class GitInferTest(unittest.TestCase):
         os.remove('0')
         actual = GIT.infer('-av')
         expected = [
-            '[master 3897048] Delete 0',
+            '[master 1d56dde] Remove 0',
             ' 1 file changed, 1 deletion(-)',
             ' delete mode 100644 0',
         ]
