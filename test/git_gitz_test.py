@@ -100,8 +100,8 @@ Commands:
 
 Defaults:
     GITZ_ORIGIN = ['origin']
-    GITZ_PROTECTED_BRANCHES = ['develop', 'master', 'release']
-    GITZ_REFERENCE_BRANCHES = ['develop', 'master']
+    GITZ_PROTECTED_BRANCHES = ['develop', 'main', 'master']
+    GITZ_REFERENCE_BRANCHES = ['develop', 'main', 'master']
     GITZ_UPSTREAM = ['upstream', 'origin']
 
 Executable directory:
@@ -122,7 +122,7 @@ Version:
 
 DEFAULTS = """\
 GITZ_ORIGIN = ['origin']
-GITZ_PROTECTED_BRANCHES = ['develop', 'master', 'release']
-GITZ_REFERENCE_BRANCHES = ['develop', 'master']
+GITZ_PROTECTED_BRANCHES = ['develop', 'main', 'master']
+GITZ_REFERENCE_BRANCHES = ['develop', 'main', 'master']
 GITZ_UPSTREAM = ['upstream', 'origin']
 """.splitlines()

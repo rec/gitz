@@ -20,9 +20,11 @@ where you can start working and pushing immediately
 - Fails leaving the workspace unchanged if there are uncommitted changes
 
 - Fails if any branch already exists locally or remotely, unless -f/--force
+  is given.
 
-- Fetches the *reference branch* - a branch on the upstream or origin repo that
-  is the main branch for development - likely upstream/master or origin/master
+- Fetches the *reference branch* only - a branch on the upstream or origin repo
+  that is the main branch for development - likely upstream/main or origin/main
+  or upstream/master or origin/master
 
 - Create new branches locally from that reference branch commit ID
 
@@ -42,9 +44,9 @@ git new foo --origin=remote_1
 git new foo -o remote_1
     Create a new branch foo from the reference branch and push to remote_1
 
-git new one two three --reference-branch=some-remote/master
-git new one two three -r some-remote/master
-    Create three new branches from the remote branch some-remote/master
+git new one two three --reference-branch=some-remote/main
+git new one two three -r some-remote/main
+    Create three new branches from the remote branch some-remote/main
 """
 
 _HELP_BRANCHES = 'Names of branches to create'
@@ -57,7 +59,7 @@ def git_new():
         root.check_clean_workspace()
 
     branches = functions.branches()
-    remote_branches = functions.remote_branches()
+    remote_branches = functions.remote_branches(False)
     origin = guess_origin.guess_origin(ARGS.origin)
 
     new_branches = set(ARGS.branches)
@@ -88,6 +90,7 @@ def git_new():
             root.check_clean_workspace()
     else:
         ref = '/'.join(reference_branch.reference_branch(remote_branches))
+        GIT.fetch(*(ref.split('/', maxsplit=1)))
 
     for new_branch in ARGS.branches:
         if new_branch in branches:
