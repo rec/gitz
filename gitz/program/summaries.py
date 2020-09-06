@@ -3,6 +3,7 @@ SUMMARIES = {
     'git-copy': 'Copy a git branch locally and remotely',
     'git-delete': 'Delete one or more branches locally and remotely',
     'git-gitz': 'Print information about the gitz git commands',
+    'git-go': 'Go to a specific location in the current repo',
     'git-infer': 'Commit changes with an auto-generated message',
     'git-multi-pick': 'Cherry-pick multiple commits, with an optional squash',
     'git-new': 'Create and push new branches',

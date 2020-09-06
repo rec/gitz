@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+
+from gitz.git import GIT
+from gitz.git import functions
+from gitz.git import root
+from gitz.program import ARGS
+from gitz.program import PROGRAM
+from pathlib import Path
+import webbrowser
+
+SUMMARY = 'Go to a specific location in the current repo'
+
+HELP = """
+
+* top
+* issues
+* commits
+
+"""
+
+EXAMPLES = """
+"""
+
+# https://travis-ci.com/github/rec/gitz
+URLS = {
+    'github.com': {
+        'commits': 'https://{host}/{user}/{project}/commits/{branch}',
+        'directory': 'https://{host}/{user}/{project}/tree/{branch}/{path}',
+        'issues': 'https://{host}/{user}/{project}/issues',
+        'project': 'https://{host}/{user}/{project}/tree/{branch}',
+        'releases': 'https://{host}/{user}/{project}/releases',
+        'travis': 'https://travis-ci.com/{host_name}/{user}/{project}',
+    }
+}
+
+
+def git_go():
+    origin = GIT.config('--get', 'remote.origin.url')[0]
+    for prefix in 'git@', 'https://':
+        if origin.startswith(prefix):
+            origin = origin[len(prefix) :]
+        host, user, project_git = origin.replace(':', '/').split('/')
+        host_name, *_ = host.split('.')
+        project, g = project_git.split('.')
+        assert g == 'git'
+
+    urls = URLS[host]
+    cmds = {c for c in urls if c.startswith(ARGS.cmd)}
+    if not cmds:
+        PROGRAM.error('Do not understand command', ARGS.cmd)
+    cmd = cmds.pop()
+    if cmds:
+        PROGRAM.error('Ambiguous command', ARGS.cmd)
+
+    url = urls[cmd]
+    if '{branch}' in url:
+        branch = functions.branch_name()
+    if '{path}' in url:
+        path = Path().absolute().relative_to(root.root())
+
+    url = url.format(**locals())
+    print('Opening url', url)
+    webbrowser.open(url, new=0, autoraise=True)
+
+
+def add_arguments(parser):
+    parser.add_argument('cmd', nargs='?', default='commits', help=_HELP_CMD)
+
+
+_HELP_CMD = 'Command to execute - choose from ' + ' '.join(URLS['github.com'])
+
+if __name__ == '__main__':
+    PROGRAM.start()
