@@ -1,3 +1,13 @@
+## v0.10.0 - 20/09/06
+
+* Rename VERSION to __version__
+* New git-go
+* Replace delete with remove in git-infer
+* Add safer to text_requirements.txt
+* Sort imports with simp
+* Refactored by Sourcery
+* New test_import_all.py
+
 ## v0.9.18 - 2020-05-01
 - Extract safe_writer to safer
 - Fix git-stripe --safe
