@@ -18,7 +18,7 @@ class GitGitzTest(unittest.TestCase):
         home_page = config.HOME_PAGE
         executable_directory = str(config.EXECUTABLE_DIRECTORY)
         library_directory = str(config.LIBRARY_DIRECTORY)
-        version = config.VERSION
+        version = config.__version__
         python_version = platform.python_version()
         platform_name = platform.platform()
         commands = list(_commands())
@@ -43,7 +43,7 @@ class GitGitzTest(unittest.TestCase):
     @repo.test
     def test_version(self):
         for v in 'v', 've', 'version':
-            self.assertEqual(GIT.gitz(v, '-v'), [config.VERSION])
+            self.assertEqual(GIT.gitz(v, '-v'), [config.__version__])
 
     @repo.test
     def test_commands(self):
