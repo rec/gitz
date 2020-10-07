@@ -1,3 +1,8 @@
+## v0.11.0 - 20/10/07
+
+* Make git-infer work in any subdirectory
+* Add git-go new_releases
+
 ## v0.10.0 - 20/09/06
 
 * Rename VERSION to __version__
