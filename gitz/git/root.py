@@ -5,6 +5,7 @@ import functools
 import os
 
 
+# See https://stackoverflow.com/questions/957928
 def root(p='.'):
     p = Path(p).absolute()
     while not (p / '.git' / 'config').exists():
