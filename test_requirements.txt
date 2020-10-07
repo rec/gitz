@@ -4,3 +4,4 @@ impall
 pytest
 pytest_xdist
 safer
+versy
