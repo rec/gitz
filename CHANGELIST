@@ -1,3 +1,7 @@
+## v0.11.2 - 20/10/07
+
+* Enable Python 3.9
+
 ## v0.11.1 - 20/10/07
 
 * Add man/man1/git-go.1
