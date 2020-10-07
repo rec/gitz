@@ -28,6 +28,7 @@ URLS = {
         'directory': 'https://{host}/{user}/{project}/tree/{branch}/{path}',
         'issues': 'https://{host}/{user}/{project}/issues',
         'project': 'https://{host}/{user}/{project}/tree/{branch}',
+        'new_releases': 'https://{host}/{user}/{project}/releases/new',
         'releases': 'https://{host}/{user}/{project}/releases',
         'travis': 'https://travis-ci.com/{host_name}/{user}/{project}',
     }
