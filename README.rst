@@ -76,8 +76,8 @@ When to use gitz
 The movie
 ==========
 
-.. figure:: https://asciinema.org/a/McnRqYSxdlfdJdjyG1Rm9x5uU.png
-    :target: https://asciinema.org/a/McnRqYSxdlfdJdjyG1Rm9x5uU?autoplay=1&theme=solarized-light&loop=1
+.. figure:: https://asciinema.org/a/XwakAaMsMzKg4hIAJa18iiNac.png
+    :target: https://asciinema.org/a/XwakAaMsMzKg4hIAJa18iiNac?autoplay=1&theme=solarized-light&loop=1
     :align: center
     :alt: The whole gitz movie
     :width: 430
@@ -95,9 +95,12 @@ Informational commands that don't change your repository
 `git gitz <doc/git-gitz.rst>`_
   Print information about the gitz git commands
 
+`git go <doc/git-go.rst>`_
+  Go to a specific location in the current repo
+
 `git infer <doc/git-infer.rst>`_
   Commit changes with an automatically generated message
-
+  
   (from https://github.com/moondewio/git-infer)
 
 `git multi-pick <doc/git-multi-pick.rst>`_
@@ -106,7 +109,7 @@ Informational commands that don't change your repository
 `git new <doc/git-new.rst>`_
   Create and push new branches
 
-`git rotate <doc/git-rotate.rst>`_
+`git rot <doc/git-rot.rst>`_
   Rotate through branches in a Git repository
 
 `git st <doc/git-st.rst>`_
@@ -117,7 +120,7 @@ Informational commands that don't change your repository
 
 `git when <doc/git-when.rst>`_
   For each file, show the most recent commit that changed it.
-
+  
   Dotfiles are ignored by default.
 
 Dangerous commands that delete, rename or overwrite branches

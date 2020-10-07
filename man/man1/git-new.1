@@ -1,4 +1,4 @@
-.TH GIT-NEW 1 "30 April, 2020" "Gitz 0.9.17" "Gitz Manual"
+.TH GIT-NEW 1 "07 October, 2020" "Gitz 0.11.0" "Gitz Manual"
 
 .SH NAME
 git-new - Create and push new branches
@@ -25,10 +25,12 @@ where you can start working and pushing immediately
 
 .sp
 \- Fails if any branch already exists locally or remotely, unless \-f/\-\-force
+  is given.
 
 .sp
-\- Fetches the *reference branch* \- a branch on the upstream or origin repo that
-  is the main branch for development \- likely upstream/master or origin/master
+\- Fetches the *reference branch* only \- a branch on the upstream or origin repo
+  that is the main branch for development \- likely upstream/main or origin/main
+  or upstream/master or origin/master
 
 .sp
 \- Create new branches locally from that reference branch commit ID
@@ -79,8 +81,8 @@ Create a new branch foo from the reference branch and push to remote_1
 
 .sp
 .TP
-.B \fB git new one two three \-\-reference\-branch=some\-remote/master \fP
+.B \fB git new one two three \-\-reference\-branch=some\-remote/main \fP
 .TP
-.B \fB git new one two three \-r some\-remote/master \fP
-Create three new branches from the remote branch some\-remote/master
+.B \fB git new one two three \-r some\-remote/main \fP
+Create three new branches from the remote branch some\-remote/main
 
