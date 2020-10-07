@@ -32,8 +32,8 @@ Copy one branch to another, both locally and in remote
 branches.  If no source branch is given, the current branch is
 used.
 
-By default, the branches `master` and `develop`, which means that they are not
-allowed to be copied over to.
+By default, the branches `main`, `master` and `develop`, which means that they
+are not allowed to be copied over to.
 
 Using the --all/-a flag allows protected branches to be copied.
 

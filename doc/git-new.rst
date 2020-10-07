@@ -43,9 +43,11 @@ where you can start working and pushing immediately
 - Fails leaving the workspace unchanged if there are uncommitted changes
 
 - Fails if any branch already exists locally or remotely, unless -f/--force
+  is given.
 
-- Fetches the *reference branch* - a branch on the upstream or origin repo that
-  is the main branch for development - likely upstream/master or origin/master
+- Fetches the *reference branch* only - a branch on the upstream or origin repo
+  that is the main branch for development - likely upstream/main or origin/main
+  or upstream/master or origin/master
 
 - Create new branches locally from that reference branch commit ID
 
@@ -73,6 +75,6 @@ EXAMPLES
 ``git new foo -o remote_1``
     Create a new branch foo from the reference branch and push to remote_1
 
-``git new one two three --reference-branch=some-remote/master``
-``git new one two three -r some-remote/master``
-    Create three new branches from the remote branch some-remote/master
+``git new one two three --reference-branch=some-remote/main``
+``git new one two three -r some-remote/main``
+    Create three new branches from the remote branch some-remote/main

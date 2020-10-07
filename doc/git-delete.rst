@@ -27,7 +27,7 @@ DESCRIPTION
 
 Delete each branch specified together with its remote branch.
 
-By default, branches named `master` and `develop` are protected,
+By default, branches named `main`, `master` and `develop` are protected,
 which means they cannot be deleted.
 
 Using the --all/-a flag allows protected branches to be deleted.

@@ -20,7 +20,7 @@ class Manpage:
         self.COMMAND = command.upper()
         self.description = sections[command.replace('-', ' ', 1)][0]
         self.usage = sections['USAGE'][0]
-        self.version = config.VERSION
+        self.version = config.__version__
 
     def write(self):
         manfile = (dirs.MAN / self.command).with_suffix('.1')

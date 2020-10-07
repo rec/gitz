@@ -1,13 +1,19 @@
 from gitz import config
 
 
+def _version():
+    with open('gitz/config.py') as fp:
+        line = next(i for i in fp if i.startswith('__version__'))
+        return line.strip().split()[-1].strip("'")
+
+
 if __name__ == '__main__':
     import setuptools
 
     manfiles = ['man/man1/%s.1' % i for i in config.COMMANDS]
     setuptools.setup(
         name='gitz',
-        version=config.VERSION,
+        version=_version(),
         author='Tom Ritchford',
         author_email='tom@swirly.com',
         url='https://github.com/rec/gitz',

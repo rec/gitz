@@ -13,6 +13,9 @@ gitz commands
 `git-gitz <git-gitz.rst>`_
   Print information about the gitz git commands
 
+`git-go <git-go.rst>`_
+  Go to a specific location in the current repo
+
 `git-infer <git-infer.rst>`_
   Commit changes with an automatically generated message
   

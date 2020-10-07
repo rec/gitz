@@ -32,8 +32,8 @@ Rename one branch to another, both locally and in remote
 branches.  If no source branch is given, the current branch is
 used.
 
-By default, the branches `master` and `develop`, which means that they are not
-allowed to be renamed from or two to.
+By default, the branches `main`, `master` and `develop`, which means that they
+are not allowed to be renamed from or two to.
 
 Using the --all/-a flag allows protected branches to be renamed.
 
