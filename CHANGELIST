@@ -1,3 +1,7 @@
+## v0.11.1 - 20/10/07
+
+* Add man/man1/git-go.1
+
 ## v0.11.0 - 20/10/07
 
 * Make git-infer work in any subdirectory
