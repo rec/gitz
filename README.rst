@@ -96,7 +96,7 @@ Informational commands that don't change your repository
   Print information about the gitz git commands
 
 `git go <doc/git-go.rst>`_
-  Go to a specific location in the current repo
+  Open a browser page for the current repo
 
 `git infer <doc/git-infer.rst>`_
   Commit changes with an automatically generated message
