@@ -8,17 +8,34 @@ from gitz.program import PROGRAM
 from pathlib import Path
 import webbrowser
 
-SUMMARY = 'Go to a specific location in the current repo'
+SUMMARY = 'Open a browser page for the current repo'
 
 HELP = """
+Usage:
 
-* top
-* issues
-* commits
+  ``git go [<location>]``
 
+where <location> is one or more letters from:
+
+* commits: the list of commits for the current branch (the default)
+
+* directory: the subdirectory in the current branch
+
+* issues: the issues page
+
+* project: the root directory for the project
+
+* new_releases: a form to create new releases
+
+* releases: a list of existing releases
+
+* travis: the Travis page for that repo
 """
 
 EXAMPLES = """
+
+git go
+
 """
 
 # https://travis-ci.com/github/rec/gitz
@@ -48,10 +65,10 @@ def git_go():
     urls = URLS[host]
     cmds = {c for c in urls if c.startswith(ARGS.cmd)}
     if not cmds:
-        PROGRAM.error('Do not understand command', ARGS.cmd)
+        PROGRAM.exit('Do not understand command', ARGS.cmd)
     cmd = cmds.pop()
     if cmds:
-        PROGRAM.error('Ambiguous command', ARGS.cmd)
+        PROGRAM.exit('Ambiguous command', ARGS.cmd)
 
     url = urls[cmd]
     if '{branch}' in url:
