@@ -1,3 +1,9 @@
+## v0.11.4 - 21/04/02
+
+* Tweak documentation
+* Remove junk from reference_branch.py
+* Remove support for Python 3.5
+
 ## v0.11.3 - 20/11/07
 
 * Fix and document git-go
