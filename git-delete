@@ -17,12 +17,15 @@ Delete each branch specified together with its remote branch.
 By default, branches named `main`, `master` and `develop` are protected,
 which means they cannot be deleted.
 
-Using the --all/-a flag allows protected branches to be deleted.
+Using the --protected/-p flag allows protected branches to be deleted.
 
 It's also possible to change which branches are protected by setting
 the environment variable GITZ_PROTECTED_BRANCHES to a list of
 branches separated by colons, or to an empty string to turn off
 protection entirely.
+
+The special branch name `.` means the current branch.
+
 """
 
 EXAMPLES = """
@@ -37,12 +40,14 @@ def git_delete():
     branch = functions.branch_name()
     branches = functions.branches()
 
-    remaining_branches = set(branches).difference(ARGS.target)
+    target = [branch if b == '.' else b for b in ARGS.target]
+
+    remaining_branches = set(branches).difference(target)
     if not remaining_branches:
         PROGRAM.exit('This would delete all the branches')
 
     if not ARGS.protected:
-        protected = set(ENV.protected_branches()).intersection(ARGS.target)
+        protected = set(ENV.protected_branches()).intersection(target)
         if protected:
             PROGRAM.exit('Protected:', *protected)
 
@@ -55,7 +60,7 @@ def git_delete():
         else:
             GIT.checkout(min(remaining_branches))
 
-    deleted = delete.delete_all(ARGS.target)
+    deleted = delete.delete_all(target)
     if deleted:
         s = '' if deleted == 1 else 'es'
         PROGRAM.message('git-delete: %d branch%s deleted' % (deleted, s))
