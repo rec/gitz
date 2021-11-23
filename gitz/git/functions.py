@@ -88,8 +88,12 @@ def check_is_ancestor(parent, child='HEAD'):
 def upstream_remote(branch=None):
     # https://stackoverflow.com/a/9753364/43839
     upstream = 'rev-parse --abbrev-ref --symbolic-full-name %s@{u}'
+
     cmd = (upstream % (branch or '')).split()
-    lines = GIT(*cmd, info=True)
+    try:
+        lines = GIT(*cmd, info=True)
+    except ValueError:
+        return  # No upstream remote
     return lines[0].split('/', maxsplit=1)[0]
 
 

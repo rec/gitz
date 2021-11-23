@@ -75,7 +75,13 @@ def git_permute():
             print('-', *id_msgs[i])
 
     GIT.reset('--hard', base)
-    for args in combine.combine(perm_ids, ARGS.squash):
+    results = []
+    for symbol, commit_id, msg in combine.combine(perm_ids, ARGS.squash):
+        print(f'{symbol}{commit_id}', end=' ', flush=True)
+        results.append((symbol, commit_id, msg))
+
+    PROGRAM.message()
+    for args in reversed(results):
         PROGRAM.message(*args)
 
 

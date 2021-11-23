@@ -29,6 +29,8 @@ git update foo bar
     Only updates branches foo and bar
 """
 
+CHECK_PROTECTED = False
+
 
 def git_update():
     root.check_clean_workspace()
@@ -41,17 +43,18 @@ def git_update():
     if PROGRAM.error_if(missing, 'Missing'):
         PROGRAM.exit()
 
-    protected_branches = ENV.protected_branches()
-    protected = set(ARGS.branches).intersection(protected_branches)
-    if PROGRAM.error_if(protected, 'Protected'):
-        PROGRAM.exit()
-
     branches = ARGS.branches or local_branches
-    branches = [b for b in branches if b not in protected_branches]
+    if CHECK_PROTECTED:
+        protected_branches = ENV.protected_branches()
+        protected = set(ARGS.branches).intersection(protected_branches)
+        if PROGRAM.error_if(protected, 'Protected'):
+            PROGRAM.exit()
 
-    if not branches:
-        PROGRAM.message('No branches to update')
-        return
+        branches = [b for b in branches if b not in protected_branches]
+
+        if not branches:
+            PROGRAM.message('No branches to update')
+            return
 
     starting_branch = functions.branch_name()
     failed = False
@@ -85,28 +88,29 @@ def _update(branch, ref_branch, fetched):
         raise
 
     new_cid = functions.commit_id()
-    upstream = functions.upstream_remote()
-    if upstream not in fetched:
-        functions.fetch(upstream)
-        fetched.add(upstream)
-
-    ubranch = '%s/%s' % (upstream, branch)
-    upstream_cid = functions.commit_id(ubranch)
-
     if new_cid == cid:
         PROGRAM.message('.', branch)
     else:
         PROGRAM.message('* %s..%s %s' % (cid, new_cid, branch))
 
-    if upstream_cid == new_cid:
-        PROGRAM.message('.', ubranch)
-    else:
-        GIT.push('--force-with-lease')
-        PROGRAM.message('* %s..%s %s' % (upstream_cid, new_cid, ubranch))
+    upstream = functions.upstream_remote()
+    if upstream:
+        if upstream not in fetched:
+            functions.fetch(upstream)
+            fetched.add(upstream)
+
+        ubranch = '%s/%s' % (upstream, branch)
+        upstream_cid = functions.commit_id(ubranch)
+
+        if upstream_cid == new_cid:
+            PROGRAM.message('.', ubranch)
+        else:
+            GIT.push('--force-with-lease')
+            PROGRAM.message('* %s..%s %s' % (upstream_cid, new_cid, ubranch))
 
 
 def add_arguments(parser):
-    parser.add_argument('branches', nargs='?', default='', help=_HELP_BRANCHES)
+    parser.add_argument('branches', nargs='*', default='', help=_HELP_BRANCHES)
     parser.add_argument('-f', '--force', action='store_true', help=_HELP_FORCE)
     reference_branch.add_arguments(parser)
 
