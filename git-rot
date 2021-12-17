@@ -17,6 +17,12 @@ and ``git-rotate -N`` rotates N branches backward.
 ``git-rotate`` on its own rotates one branch forward, and
 ``git-rotate -`` rotates one branch backward.
 
+If N is a string, ``git-rotate <prefix>`` rotates through all branches
+starting with that string.
+
+``git-rotate ma`` will rotate through all branches starting with ma
+
+
 Useful for quickly browsing each branch in a repository one at a time.
 """
 
@@ -42,29 +48,46 @@ git rotate -2
 def git_rot():
     root.check_clean_workspace()
 
-    if ARGS.steps == '-':
-        steps = -1
-    elif ARGS.steps == '+':
-        steps = 1
-    else:
-        try:
-            steps = int(ARGS.steps)
-        except ValueError:
-            PROGRAM.exit('steps must be an integer, not', ARGS.steps)
+    rotate = ARGS.rotate
+    if rotate == '-':
+        rotate = -1
+    elif rotate == '+':
+        rotate = 1
+
+    try:
+        rotate = int(rotate)
+    except ValueError:
+        pass
 
     branches = functions.branches()
-    pos = branches.index(functions.branch_name()) + steps
-    branch = branches[pos % len(branches)]
+    index = branches.index(functions.branch_name())
+
+    def offset(i):
+        return branches[(index + i) % len(branches)]
+
+    if isinstance(rotate, int):
+        branch = offset(rotate)
+
+    else:
+        for i in range(1, 1 + len(branches)):
+            branch = offset(i)
+            if branch.startswith(rotate):
+                break
+        else:
+            PROGRAM.exit('No branches starting with', rotate)
 
     for line in GIT.checkout(branch, merged=True):
         PROGRAM.message(line)
 
 
 def add_arguments(parser):
-    parser.add_argument('steps', nargs='?', default='1', help=_HELP_STEPS)
+    parser.add_argument('rotate', nargs='?', default='1', help=_HELP_ROTATE)
 
 
-_HELP_STEPS = 'Number of steps to rotate (positive or negative)'
+_HELP_ROTATE = """
+Number of steps to rotate (positive or negative), or a string prefix
+to match.
+"""
 
 if __name__ == '__main__':
     PROGRAM.start()
