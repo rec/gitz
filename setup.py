@@ -10,6 +10,10 @@ def _version():
 if __name__ == '__main__':
     import setuptools
 
+    with open('README.rst', 'rb') as fp:
+        desc = fp.read()
+    desc = desc.decode('utf-8')  # For Python 3.6
+
     manfiles = ['man/man1/%s.1' % i for i in config.COMMANDS]
     setuptools.setup(
         name='gitz',
@@ -18,7 +22,7 @@ if __name__ == '__main__':
         author_email='tom@swirly.com',
         url='https://github.com/rec/gitz',
         description='🗜 gitz - tiny useful git commands, some dangerous 🗜',
-        long_description=open(str('README.rst')).read(),
+        long_description=desc,
         long_description_content_type='text/x-rst',
         license='MIT',
         classifiers=[
