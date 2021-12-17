@@ -86,7 +86,8 @@ def git_go():
 
 def _get_remote(name):
     origin = GIT.config('--get', f'remote.{name}.url')
-    if not (origin := origin and origin[0]):
+    origin = origin and origin[0]
+    if not origin:
         return
 
     prefix = next(p for p in ('git@', 'https://') if origin.startswith(p))
