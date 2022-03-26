@@ -39,11 +39,15 @@ def git_update():
     # The current directory might not be there in a different branch! (#115)
 
     local_branches = functions.branches()
-    missing = set(ARGS.branches).difference(local_branches)
+    branches = ARGS.branches or local_branches
+    if '.' in branches:
+        current = functions.branch_name()
+        branches = [current if b == '.' else b for b in branches]
+
+    missing = set(branches).difference(local_branches)
     if PROGRAM.error_if(missing, 'Missing'):
         PROGRAM.exit()
 
-    branches = ARGS.branches or local_branches
     if CHECK_PROTECTED:
         protected_branches = ENV.protected_branches()
         protected = set(ARGS.branches).intersection(protected_branches)
