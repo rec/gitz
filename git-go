@@ -17,6 +17,8 @@ Usage:
 
 where <location> is one or more letters from:
 
+* between: open *all* commits between HEAD and main or master
+
 * commits: the list of commits for the current branch (the default)
 
 * directory: the subdirectory in the current branch
@@ -41,21 +43,27 @@ git go
 """
 
 # https://travis-ci.com/github/rec/gitz
-URLS = {
-    'github.com': {
-        'commits': 'https://{host}/{user}/{project}/commits/{branch}',
-        'directory': 'https://{host}/{user}/{project}/tree/{branch}/{path}',
-        'issues': 'https://{host}/{user}/{project}/issues',
-        'new_releases': 'https://{host}/{user}/{project}/releases/new',
-        'pulls': (
-            'https://{host}/{up}/{project}/'
-            'compare/main...{user}:{branch}?expand=1'
-        ),
-        'releases': 'https://{host}/{user}/{project}/releases',
-        'source': 'https://{host}/{user}/{project}/tree/{branch}',
-        'travis': 'https://travis-ci.com/{host_name}/{user}/{project}',
-    }
+
+GITHUB = {
+    'between': 'https://{host}/{user}/{project}/commits/{branch}',
+    'commits': 'https://{host}/{user}/{project}/commits/{branch}',
+    'directory': 'https://{host}/{user}/{project}/tree/{branch}/{path}',
+    'issues': 'https://{host}/{user}/{project}/issues',
+    'new_releases': 'https://{host}/{user}/{project}/releases/new',
+    'pulls': (
+        'https://{host}/{up}/{project}/compare/main...{user}:{branch}?expand=1'
+    ),
+    'releases': 'https://{host}/{user}/{project}/releases',
+    'source': 'https://{host}/{user}/{project}/tree/{branch}',
+    'travis': 'https://travis-ci.com/{host_name}/{user}/{project}',
 }
+
+URLS = {'github.com': GITHUB}
+
+
+def open_url(url, new=0):
+    webbrowser.open(url, new=new, autoraise=True)
+
 
 
 def git_go():
@@ -80,8 +88,39 @@ def git_go():
         up = upstream and upstream[2] or user
 
     url = url.format(**locals())
-    print('Opening url', url)
-    webbrowser.open(url, new=0, autoraise=True)
+    if cmd == 'between':
+        _between(url)
+    else:
+        print('Opening url', url)
+        open_url(url)
+
+
+def _between(url):
+    commit_ids = _commits()
+    if not commit_ids:
+        PROGRAM.exit('No commit IDs found')
+
+    root, _ = url.rsplit('/', maxsplit=1)
+    assert root.endswith('commits')
+    root = root[:-1]
+
+    open_url(url, new=1)
+    for u in (f'{root}/{c}' for c in commit_ids):
+        open_url(u)
+
+
+def _commits():
+    for branch in 'main', 'master':
+        try:
+            r = GIT.rev_list('--ancestry-path', f'{branch}..HEAD')
+        except Exception:
+            pass
+        else:
+            if r:
+                s = (len(r) != 1) * 's'
+                print(f'Opening {len(r)} commit{s} {branch}..HEAD')
+            return r
+    return []
 
 
 def _get_remote(name):
