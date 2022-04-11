@@ -71,7 +71,8 @@ def git_split():
         try:
             GIT.add(*filenames_split)
             pre = ARGS.prefix
-            msg = '%s %s %s' % (pre, mode_name, filenames)
+            pre += bool(pre) * ' '
+            msg = '%s%s %s' % (pre, mode_name, filenames)
             GIT.commit('-m', msg)
             PROGRAM.message('+', functions.commit_id() + ':', msg)
             commit_count += 1
@@ -89,7 +90,7 @@ def git_split():
 
 def add_arguments(parser):
     parser.add_argument('commit', nargs='?', default='', help=_HELP_COMMIT)
-    parser.add_argument('-p', '--prefix', default='[split]', help=_HELP_PREFIX)
+    parser.add_argument('-p', '--prefix', default='', help=_HELP_PREFIX)
 
 
 NAMES = 'Add', 'Delete', 'Modify', 'Rename'
