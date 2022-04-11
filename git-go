@@ -105,7 +105,7 @@ def _between(url):
     root = root[:-1]
 
     open_url(url, new=1)
-    for u in (f'{root}/{c}' for c in commit_ids):
+    for u in (f'{root}/{c}' for c in reversed(commit_ids)):
         open_url(u)
 
 
