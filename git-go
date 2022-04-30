@@ -20,7 +20,7 @@ where <location> is one or more letters from:
 
 * directory: the subdirectory in the current branch
 
-* file : open a specific file's source
+* files : open the source for specific files
 
 * history: open *multiple* historical versions of a file
 
@@ -47,9 +47,9 @@ GITHUB = {
     'between': 'https://{host}/{user}/{project}/commits/{branch}',
     'commits': 'https://{host}/{user}/{project}/commits/{branch}',
     'directory': 'https://{host}/{user}/{project}/tree/{branch}{path}',
-    'file': 'https://{host}/{user}/{project}/blob/{branch}{path}/{file}',
+    'files': 'https://{host}/{user}/{project}/blob/{branch}{path}/{{file}}',
     'history': (
-        'https://{host}/{user}/{project}/blob/{{commit_id}}{path}/{file}'
+        'https://{host}/{user}/{project}/blob/{{commit_id}}{path}/{{file}}'
     ),
     'issues': 'https://{host}/{user}/{project}/issues',
     'new_releases': 'https://{host}/{user}/{project}/releases/new',
@@ -84,12 +84,13 @@ def git_go():
     if '{branch}' in url:
         branch = functions.branch_name()
 
-    if '{file}' in url:
-        file = ARGS.file
-        if not file:
+    if '{{file}}' in url:
+        if not ARGS.files:
             PROGRAM.exit('`file` argument must be set')
-        if not Path(file).exists():
-            PROGRAM.exit(f'File {file} does not exist')
+
+        bad_files = [f for f in ARGS.files if not Path(f).exists()]
+        if bad_files:
+            PROGRAM.exit('Cannot find', *bad_files)
 
     if '{path}' in url:
         path = str(Path().absolute().relative_to(root.root()))
@@ -106,6 +107,9 @@ def git_go():
 
     elif cmd == 'history':
         _history(url)
+
+    elif cmd == 'files':
+        _files(url)
 
     else:
         print('Opening url', url)
@@ -126,33 +130,36 @@ def _between(url):
         open_url(f'{root}/{c}')
 
 
+def _files(url):
+    for file in ARGS.files:
+        open_url(url.format(file=file))
+
+
 def _history(url):
     def git_log_ids(*args):
         commits = GIT.log('--oneline', *args)
         return [c.split()[0] for c in commits if c]
 
-    args = (f'-{ARGS.count}',) if ARGS.count else ()
-    history_ids = git_log_ids(*args, '--follow', '--', ARGS.file)
-    _commits_message(history_ids, f'for {ARGS.file}')
+    for file in ARGS.files:
+        args = (f'-{ARGS.count}',) if ARGS.count else ()
+        history_ids = git_log_ids(*args, '--follow', '--', file)
+        _commits_message(history_ids, f'for {file}')
 
-    if not history_ids:
-        PROGRAM.exit(f'No commits for {ARGS.file=}')
+        if not history_ids:
+            PROGRAM.exit(f'No commits for {file=}')
 
-    if ARGS.count:
-         history_ids = history_ids[:ARGS.count]
+        if ARGS.count:
+             history_ids = history_ids[:ARGS.count]
 
-    hie = history_ids[-1]
-    all_ids = git_log_ids(f'{hie}..HEAD') + [hie]
-    id_to_index = {id: i for i, id in enumerate(all_ids)}
+        hie = history_ids[-1]
+        all_ids = git_log_ids(f'{hie}..HEAD') + [hie]
+        id_to_index = {id: i for i, id in enumerate(all_ids)}
 
-    for commit_id in reversed(history_ids):
-        index = id_to_index[commit_id]
-        name = f'HEAD@{index}' if index else 'HEAD'
-        PROGRAM.log.message(f'Opening {commit_id} ({name})')
-        if not index:
-            commit_id = functions.branch_name()
-
-        open_url(url.format(commit_id=commit_id))
+        for commit_id in reversed(history_ids):
+            index = id_to_index[commit_id]
+            name = f'HEAD@{index}' if index else 'HEAD'
+            PROGRAM.log.message(f'Opening {commit_id} ({name})')
+            open_url(url.format(**locals()))
 
 
 def _commits_message(r, message):
@@ -190,7 +197,7 @@ def _get_remote(name):
 
 def add_arguments(parser):
     parser.add_argument('cmd', nargs='?', default='commits', help=_HELP_CMD)
-    parser.add_argument('file', nargs='?', default=None, help=_HELP_FILE)
+    parser.add_argument('files', nargs='*', default=(), help=_HELP_FILE)
     parser.add_argument('--count', '-c', type=int, default=8, help=_HELP_COUNT)
 
 
