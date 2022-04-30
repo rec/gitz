@@ -8,6 +8,12 @@ _SUBPROCESS_KWDS = {
 }
 
 
+class RunProcError(ValueError):
+    pass
+
+
+
+
 def run_proc(cmd, out=None, err=None, **kwds):
     """Run a subprocess with separate error and output callbacks"""
     out = [] if out is None else out
@@ -39,6 +45,6 @@ def run_proc(cmd, out=None, err=None, **kwds):
             pass
 
     if p.returncode:
-        raise ValueError('Command "%s" failed' % ' '.join(cmd))
+        raise RunProcError('Command "%s" failed' % ' '.join(cmd))
 
     return out

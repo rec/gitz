@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-from gitz.git import GIT
-from gitz.git import functions
-from gitz.git import reference_branch
-from gitz.git import root
-from gitz.program import ARGS
-from gitz.program import ENV
-from gitz.program import PROGRAM
+
+from gitz.git import GIT, functions, reference_branch, root
+from gitz.program import ARGS, ENV, PROGRAM
+from gitz.program.run_proc import RunProcError
+import traceback
 
 SUMMARY = 'Update branches from a reference branch'
 
@@ -61,7 +59,7 @@ def git_update():
             return
 
     starting_branch = functions.branch_name()
-    failed = False
+    failed = []
 
     ref_branch = reference_branch.reference_branch()
     fetched = set()
@@ -69,17 +67,18 @@ def git_update():
     for branch in branches:
         try:
             _update(branch, ref_branch, fetched)
-        except Exception:
-            PROGRAM.error('?', branch)
-            import traceback
-
-            traceback.print_exc()
-            failed = True
+        except Exception as e:
+            if ARGS.verbose or not isinstance(e, RunProcError):
+                PROGRAM.error('?', branch)
+                traceback.print_exc()
+            else:
+                PROGRAM.message('?', branch)
+            failed.append(branch)
 
     GIT.checkout(starting_branch)
 
     if failed:
-        PROGRAM.exit()
+        PROGRAM.exit('Failed to update:', *failed)
 
 
 def _update(branch, ref_branch, fetched):
