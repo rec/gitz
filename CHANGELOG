@@ -1,55 +1,71 @@
+## v1.1.0 - 22/04/30
+
+  * Rename CHANGELIST -> CHANGELOG
+  * Better error reporting in git-update
+  * Handle . better in git-open
+  * Allow multiple files in git-go files, history
+  * Add `git go history` and `file`
+
 ## v0.11.4 - 21/04/02
 
-* Tweak documentation
-* Remove junk from reference_branch.py
-* Remove support for Python 3.5
+  * Tweak documentation
+  * Remove junk from reference_branch.py
+  * Remove support for Python 3.5
 
 ## v0.11.3 - 20/11/07
 
-* Fix and document git-go
+  * Fix and document git-go
 
 ## v0.11.2 - 20/10/07
 
-* Enable Python 3.9
+  * Enable Python 3.9
 
 ## v0.11.1 - 20/10/07
 
-* Add man/man1/git-go.1
+  * Add man/man1/git-go.1
 
 ## v0.11.0 - 20/10/07
 
-* Make git-infer work in any subdirectory
-* Add git-go new_releases
+  * Make git-infer work in any subdirectory
+  * Add git-go new_releases
 
 ## v0.10.0 - 20/09/06
 
-* Rename VERSION to __version__
-* New git-go
-* Replace delete with remove in git-infer
-* Add safer to text_requirements.txt
-* Sort imports with simp
-* Refactored by Sourcery
-* New test_import_all.py
+  * Rename VERSION to __version__
+  * New git-go
+  * Replace delete with remove in git-infer
+  * Add safer to text_requirements.txt
+  * Sort imports with simp
+  * Refactored by Sourcery
+  * New test_import_all.py
 
 ## v0.9.18 - 2020-05-01
-- Extract safe_writer to safer
-- Fix git-stripe --safe
-- Fix #209
-- Rename git-rotate to git-rot
+  * Extract safe_writer to safer
+  * Fix git-stripe --safe
+  * Fix #209
+  * Rename git-rotate to git-rot
 
 ## v0.9.17 - 2020-01-19
-- Fix setup.py error found pushing to PYPI
+  * Fix setup.py error found pushing to PYPI
 
 ## v0.9.16 - 2020-02-25
-- Bring repo.py into gitz hierarchy (for backer)
+  * Bring repo.py into gitz hierarchy (for backer)
 
 ## v0.9.15 - 2020-01-19
-- Fix RST errors found pushing to PYPI
+  * Fix RST errors found pushing to PYPI
 
 ## v0.9.14 - 2020-01-19
-- Asciinema movies for each command!
-- Removed a boring command (git-amp
-- New "experimental" mode for commands means they aren't distributed
-- Marked git-for-each and git-save experimental
-- Renamed git-shuffle to less-random-sounding git-permute
-- Numerous other tweaks and changes to code and documentation
+  * Asciinema movies for each command!
+  * Removed a boring command (git-amp
+  * New "experimental" mode for commands means they aren't distributed
+  * Marked git-for-each and git-save experimental
+  * Renamed git-shuffle to less-random-sounding git-permute
+  * Numerous other tweaks and changes to code and documentation
+
+## v1.1.0 - 22/04/30
+
+  * Rename CHANGELIST -> CHANGELOG
+  * Better error reporting in git-update
+  * Handle . better in git-open
+  * Allow multiple files in git-go files, history
+  * Add `git go history` and `file`
