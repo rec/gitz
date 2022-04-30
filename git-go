@@ -177,7 +177,7 @@ def _history(url):
         _commits_message(history_ids, f'for {file}')
 
         if not history_ids:
-            PROGRAM.exit(f'No commits for {file=}')
+            PROGRAM.exit(f'No commits for {file}')
 
         if ARGS.count:
              history_ids = history_ids[:ARGS.count]
