@@ -72,12 +72,20 @@ def open_url(url, new=0):
 def git_go():
     host, host_name, user, project = _get_remote('origin')
     urls = URLS[host]
-    cmds = {c for c in urls if c.startswith(ARGS.cmd)}
-    if not cmds:
-        PROGRAM.exit('Do not understand command', ARGS.cmd)
-    cmd = cmds.pop()
+
+    cmd = ARGS.cmd
+    cmds = {c for c in urls if c.startswith(cmd)}
     if cmds:
-        PROGRAM.exit('Ambiguous command', ARGS.cmd)
+        cmd = cmds.pop()
+        if cmds:
+            PROGRAM.exit('Ambiguous command', ARGS.cmd, 'from', cmd, *cmds)
+
+    elif Path(cmd).exists():
+        ARGS.files = cmd, *ARGS.files
+        cmd = 'files'
+
+    else:
+        PROGRAM.exit('Command', cmd, 'is neither a command nor a file')
 
     url = urls[cmd]
 
@@ -103,17 +111,19 @@ def git_go():
     url = url.format(**locals())
 
     if cmd == 'between':
-        _between(url)
+        urls = _between(url)
 
     elif cmd == 'history':
-        _history(url)
+        urls = _history(url)
 
     elif cmd == 'files':
-        _files(url)
+        urls = _files(url)
 
     else:
-        print('Opening url', url)
-        open_url(url)
+        urls = [url]
+
+    for u in urls:
+        open_url(u)
 
 
 def _between(url):
@@ -126,19 +136,40 @@ def _between(url):
     root = root[:-1]
 
     open_url(url, new=1)
-    for c in reversed(commit_ids):
-        open_url(f'{root}/{c}')
+    for i, c in enumerate(reversed(commit_ids)):
+        PROGRAM.log.message('Opening', u)
+        index = len(commit_ids) - i - 1
+        name = f'HEAD@{index}' if index else 'HEAD'
+        yield f'{root}/{c}'
 
 
 def _files(url):
     for file in ARGS.files:
-        open_url(url.format(file=file))
+        u = url.format(file=file)
+
+        # Special case for opening '.' at the root!  :-)
+        # We get https://github.com/rec/engora-search/blob/wsgi/
+        # but we want https://github.com/rec/engora-search/tree/wsgi
+
+        parts = u.split('/')
+        if parts[-1] == '.':
+            parts.pop()
+            # https, b, host, user, project, blob, branch: 7
+            if len(parts) == 7:
+                parts[5] = 'tree'
+            u = '/'.join(parts)
+
+        print('Opening', u)
+        yield u
 
 
 def _history(url):
     def git_log_ids(*args):
         commits = GIT.log('--oneline', *args)
         return [c.split()[0] for c in commits if c]
+
+    if '.' in ARGS.files:
+        PROGRAM.exit('Cannot take history of .')
 
     for file in ARGS.files:
         args = (f'-{ARGS.count}',) if ARGS.count else ()
@@ -159,13 +190,13 @@ def _history(url):
             index = id_to_index[commit_id]
             name = f'HEAD@{index}' if index else 'HEAD'
             PROGRAM.log.message(f'Opening {commit_id} ({name})')
-            open_url(url.format(**locals()))
+            yield url.format(**locals())
 
 
 def _commits_message(r, message):
     if r:
         s = (len(r) != 1) * 's'
-        print(f'Opening {len(r)} commit{s} {message}')
+        PROGRAM.log.message(f'Opening {len(r)} commit{s} {message}')
     return r
 
 
