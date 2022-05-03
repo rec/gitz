@@ -137,10 +137,11 @@ def _between(url):
 
     open_url(url, new=1)
     for i, c in enumerate(reversed(commit_ids)):
-        PROGRAM.log.message('Opening', u)
         index = len(commit_ids) - i - 1
         name = f'HEAD@{index}' if index else 'HEAD'
-        yield f'{root}/{c}'
+
+        yield (u := f'{root}/{c}')
+        PROGRAM.log.message('Opening', u)
 
 
 def _files(url):
