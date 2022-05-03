@@ -140,7 +140,8 @@ def _between(url):
         index = len(commit_ids) - i - 1
         name = f'HEAD@{index}' if index else 'HEAD'
 
-        yield (u := f'{root}/{c}')
+        u = f'{root}/{c}'
+        yield u
         PROGRAM.log.message('Opening', u)
 
 
