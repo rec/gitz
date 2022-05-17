@@ -1,12 +1,7 @@
 #!/usr/bin/env python3
-from gitz.git import GIT
-from gitz.git import functions
-from gitz.git import guess_origin
-from gitz.git import reference_branch
-from gitz.git import root
-from gitz.program import ARGS
-from gitz.program import ENV
-from gitz.program import PROGRAM
+
+from gitz.git import GIT, functions, guess_origin, reference_branch, root
+from gitz.program import ARGS, ENV, PROGRAM
 
 SUMMARY = 'Create and push new branches'
 
@@ -84,6 +79,12 @@ def git_new():
             remote_msg = 'remote branches on origin ' + origin
             check(remote_branches[origin], remote_msg)
 
+    if ARGS.cherry_pick:
+        try:
+            cp = functions.commit_id(ARGS.cherry_pick)
+        except Exception:
+            PROGRAM.exit('Cannot understand --cherry-pick', ARGS.cherry_pick)
+
     if ARGS.use_head:
         ref = 'HEAD'
         if set(branches).intersection(ARGS.branches):
@@ -101,6 +102,9 @@ def git_new():
             original_id = None
             GIT.checkout('-b', new_branch, ref)
 
+        if ARGS.cherry_pick:
+            GIT.cherry_pick(cp)
+
         GIT.push('-fu', origin, new_branch)
         id = functions.commit_id(new_branch)
         fmt = '+ {0}..{1} {2} -> {3}/{2}'
@@ -110,9 +114,10 @@ def git_new():
 def add_arguments(parser):
     add = parser.add_argument
     add('branches', nargs='+', help=_HELP_BRANCHES)
+    add('-c', '--cherry-pick', default='', help=_HELP_FORCE)
     add('-f', '--force', action='store_true', help=_HELP_FORCE)
     add('-o', '--origin', default='', help=_HELP_ORIGIN)
-    add('--protected', action='store_true', help=_HELP_PROTECTED)
+    add('-P', '--protected', action='store_true', help=_HELP_PROTECTED)
     add('-u', '--use-head', action='store_true', help=_HELP_USE_HEAD)
     reference_branch.add_arguments(parser)
 
