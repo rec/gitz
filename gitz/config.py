@@ -1,7 +1,7 @@
 from pathlib import Path
 import sys
 
-__version__ = '1.1.3'
+__version__ = '1.2.0'
 HOME_PAGE = 'https://github.com/rec/gitz/blob/master/README.rst'
 
 # In development and when running tests, LIBRARY_DIRECTORY and
