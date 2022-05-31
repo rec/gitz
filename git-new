@@ -57,6 +57,8 @@ def git_new():
     remote_branches = functions.remote_branches(False)
     origin = guess_origin.guess_origin(ARGS.origin)
 
+    assert origin is not None
+
     new_branches = set(ARGS.branches)
     current = functions.branch_name()
     if current in ARGS.branches:

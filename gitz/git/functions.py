@@ -1,6 +1,5 @@
 from . import GIT
-from ..program import ARGS
-from ..program import PROGRAM
+from ..program import ARGS, PROGRAM
 
 COMMIT_ID_LENGTH = 7
 
@@ -22,7 +21,7 @@ def commit_id(name='HEAD', short=True):
 
 def commit_ids(names, short=True):
     names = (_to_name(n) for n in names)
-    ids = GIT.rev_parse(*names, info=True)
+    ids = GIT.rev_parse(*names, info=True, verify=True)
     return [i[:COMMIT_ID_LENGTH] for i in ids] if short else ids
 
 
