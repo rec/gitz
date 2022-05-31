@@ -1,3 +1,7 @@
+## v1.2.1 - 22/05/31
+
+* Fix a crashing bug in git-new
+
 ## v1.2.0 - 22/05/17
 
 * Add --cherry-pick to git-new
