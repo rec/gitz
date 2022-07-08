@@ -1,3 +1,7 @@
+## v1.2.2 - 22/07/08
+
+* Fix a crashing bug in git-stripe
+
 ## v1.2.1 - 22/05/31
 
 * Fix a crashing bug in git-new
