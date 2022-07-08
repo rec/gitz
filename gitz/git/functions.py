@@ -21,7 +21,7 @@ def commit_id(name='HEAD', short=True):
 
 def commit_ids(names, short=True):
     names = (_to_name(n) for n in names)
-    ids = GIT.rev_parse(*names, info=True, verify=True)
+    ids = GIT.rev_parse(*names, info=True)
     return [i[:COMMIT_ID_LENGTH] for i in ids] if short else ids
 
 
