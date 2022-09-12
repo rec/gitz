@@ -26,11 +26,12 @@ if __name__ == '__main__':
         long_description_content_type='text/x-rst',
         license='MIT',
         classifiers=[
-            'Development Status :: 4 - Beta',
+            'Development Status :: 5 - Production/Stable',
             'Programming Language :: Python :: 3.6',
             'Programming Language :: Python :: 3.7',
             'Programming Language :: Python :: 3.8',
             'Programming Language :: Python :: 3.9',
+            'Programming Language :: Python :: 3.10',
             'Intended Audience :: Developers',
             'License :: OSI Approved :: MIT License',
             'Topic :: Utilities',

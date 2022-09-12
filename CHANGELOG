@@ -1,3 +1,7 @@
+## v1.3.0 - 22/09/12
+
+* git-new --duplicate/-d patches a remote branch in
+
 ## v1.2.2 - 22/07/08
 
 * Fix a crashing bug in git-stripe
