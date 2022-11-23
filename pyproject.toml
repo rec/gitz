@@ -2,3 +2,25 @@
 line-length = 79
 skip-string-normalization = true
 target-version = ['py37']
+
+[tool.poetry]
+name = "gitz"
+version = "1.3.0"
+description = "🗜 gitz - tiny useful git commands, some dangerous 🗜"
+authors = ["Tom Ritchford <tom@swirly.com>"]
+readme = "README.rst"
+
+[tool.poetry.dependencies]
+python = "^3.7"
+
+[tool.poetry.group.dev.dependencies]
+black = "^22.10.0"
+flake8 = "^5.0.4"
+impall = "^1.1.1"
+pytest = "^7.2.0"
+pytest-xdist = "^3.0.2"
+safer = "^4.4.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

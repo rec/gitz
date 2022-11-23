@@ -1,7 +1,0 @@
-black
-flake8
-impall
-pytest
-pytest_xdist
-safer
-versy
