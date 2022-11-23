@@ -108,3 +108,7 @@ TAGS
 
 # JetBrains
 .idea/
+
+# direnv
+.direnv/
+.envrc
