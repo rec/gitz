@@ -20,6 +20,8 @@ impall = "^1.1.1"
 pytest = "^7.2.0"
 pytest-xdist = "^3.0.2"
 safer = "^4.4.1"
+termtosvg = "^1.1.0"
+asciinema = "^2.2.0"
 
 [build-system]
 requires = ["poetry-core"]
