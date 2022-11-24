@@ -16,6 +16,6 @@ Optional arguments
 MOVIE
 =====
 
-.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-when.svg?sanitize=true
+.. figure:: https://raw.githubusercontent.com/rec/gitz/git-add-improvements/doc/movies/git-when.svg?sanitize=true
     :align: center
     :alt: git-when.svg

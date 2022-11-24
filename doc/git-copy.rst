@@ -49,7 +49,7 @@ Changes remote branches!
 MOVIE
 =====
 
-.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-copy.svg?sanitize=true
+.. figure:: https://raw.githubusercontent.com/rec/gitz/git-add-improvements/doc/movies/git-copy.svg?sanitize=true
     :align: center
     :alt: git-copy.svg
 

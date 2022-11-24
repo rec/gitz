@@ -6,10 +6,10 @@ USAGE
 
 .. code-block:: bash
 
-    git rot [-h] [-q] [-v] [-n] [steps]
+    git rot [-h] [-q] [-v] [-n] [rotate]
 
 Positional arguments
-  ``steps``: Number of steps to rotate (positive or negative)
+  ``rotate``: Number of steps to rotate (positive or negative), or a string prefix to match.
 
 Optional arguments
   ``-h, --help``: show this help message and exit
@@ -32,12 +32,18 @@ and ``git-rotate -N`` rotates N branches backward.
 ``git-rotate`` on its own rotates one branch forward, and
 ``git-rotate -`` rotates one branch backward.
 
+If N is a string, ``git-rotate <prefix>`` rotates through all branches
+starting with that string.
+
+``git-rotate ma`` will rotate through all branches starting with ma
+
+
 Useful for quickly browsing each branch in a repository one at a time.
 
 MOVIE
 =====
 
-.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-rot.svg?sanitize=true
+.. figure:: https://raw.githubusercontent.com/rec/gitz/git-add-improvements/doc/movies/git-rot.svg?sanitize=true
     :align: center
     :alt: git-rot.svg
 

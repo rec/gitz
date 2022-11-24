@@ -17,6 +17,6 @@ USAGE
 MOVIE
 =====
 
-.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-infer.svg?sanitize=true
+.. figure:: https://raw.githubusercontent.com/rec/gitz/git-add-improvements/doc/movies/git-infer.svg?sanitize=true
     :align: center
     :alt: git-infer.svg

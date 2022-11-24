@@ -51,7 +51,7 @@ By default it lists everything, or you can select one or more subcommands:
 MOVIE
 =====
 
-.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-gitz.svg?sanitize=true
+.. figure:: https://raw.githubusercontent.com/rec/gitz/git-add-improvements/doc/movies/git-gitz.svg?sanitize=true
     :align: center
     :alt: git-gitz.svg
 

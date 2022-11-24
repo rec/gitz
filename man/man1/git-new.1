@@ -1,4 +1,4 @@
-.TH GIT-NEW 1 "07 November, 2020" "Gitz 0.11.2" "Gitz Manual"
+.TH GIT-NEW 1 "24 November, 2022" "Gitz 1.3.0" "Gitz Manual"
 
 .SH NAME
 git-new - Create and push new branches
@@ -7,7 +7,7 @@ git-new - Create and push new branches
 .sp
 .nf
 .ft C
-git new [-h] [-q] [-v] [-f] [-o ORIGIN] [--protected] [-u] [-r REFERENCE_BRANCH] [-n]
+git new [-h] [-q] [-v] [-c CHERRY_PICK] [-d] [-o ORIGIN] [-s] [-u] [-r REFERENCE_BRANCH] [-n]
 .ft P
 .fi
 
@@ -24,8 +24,7 @@ where you can start working and pushing immediately
 \- Fails leaving the workspace unchanged if there are uncommitted changes
 
 .sp
-\- Fails if any branch already exists locally or remotely, unless \-f/\-\-force
-  is given.
+\- Fails if any of the new branches already exists locally or remotely
 
 .sp
 \- Fetches the *reference branch* only \- a branch on the upstream or origin repo
@@ -37,6 +36,22 @@ where you can start working and pushing immediately
 
 .sp
 \- Pushes them to the remote origin with \-\-set\-upstream
+
+.sp
+USEFUL FLAGS
+
+.sp
+\fBgit new \-\-reference/\-r <branch\-or\-commit>\fP uses a commit ID
+to populate the new branches that isn't the default reference branch
+
+.sp
+\fBgit new \-\-use\-head/\-u\fP uses the current commit ID to populate the new
+branches and not the reference commit
+
+.sp
+\fBgit new \-\-duplicate/\-d <remote>/<branch>\fP duplicates the name
+and contents of a remote branch in your local repo, super useful for code
+reviewing.
 
 .sp
 gitz can guess what the reference branch and remote origin are, and for
@@ -51,11 +66,13 @@ for more details.
 
 \fB\-v, \-\-verbose\fP: Report all messages in great detail
 
-\fB\-f, \-\-force\fP: Force push over existing branches
+\fB\-c CHERRY_PICK, \-\-cherry\-pick CHERRY_PICK\fP: Name a commit to cherry pick into the new branch
+
+\fB\-d, \-\-duplicate\fP: Duplicate a branch in a remote repo into this repo
 
 \fB\-o ORIGIN, \-\-origin ORIGIN\fP: Remote origin to push to
 
-\fB\-\-protected\fP: Force push over existing or protected branches
+\fB\-s, \-\-stash\fP: Stash existing changes before creating then unstash
 
 \fB\-u, \-\-use\-head\fP: Use HEAD and not reference branch
 

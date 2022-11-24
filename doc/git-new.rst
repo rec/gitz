@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git new [-h] [-q] [-v] [-f] [-o ORIGIN] [--protected] [-u] [-r REFERENCE_BRANCH] [-n]
+    git new [-h] [-q] [-v] [-c CHERRY_PICK] [-d] [-o ORIGIN] [-s] [-u] [-r REFERENCE_BRANCH] [-n]
                branches [branches ...]
 
 Positional arguments
@@ -19,11 +19,13 @@ Optional arguments
 
   ``-v, --verbose``: Report all messages in great detail
 
-  ``-f, --force``: Force push over existing branches
+  ``-c CHERRY_PICK, --cherry-pick CHERRY_PICK``: Name a commit to cherry pick into the new branch
+
+  ``-d, --duplicate``: Duplicate a branch in a remote repo into this repo
 
   ``-o ORIGIN, --origin ORIGIN``: Remote origin to push to
 
-  ``--protected``: Force push over existing or protected branches
+  ``-s, --stash``: Stash existing changes before creating then unstash
 
   ``-u, --use-head``: Use HEAD and not reference branch
 
@@ -42,8 +44,7 @@ where you can start working and pushing immediately
 
 - Fails leaving the workspace unchanged if there are uncommitted changes
 
-- Fails if any branch already exists locally or remotely, unless -f/--force
-  is given.
+- Fails if any of the new branches already exists locally or remotely
 
 - Fetches the *reference branch* only - a branch on the upstream or origin repo
   that is the main branch for development - likely upstream/main or origin/main
@@ -53,6 +54,18 @@ where you can start working and pushing immediately
 
 - Pushes them to the remote origin with --set-upstream
 
+USEFUL FLAGS
+
+``git new --reference/-r <branch-or-commit>`` uses a commit ID
+to populate the new branches that isn't the default reference branch
+
+``git new --use-head/-u`` uses the current commit ID to populate the new
+branches and not the reference commit
+
+``git new --duplicate/-d <remote>/<branch>`` duplicates the name
+and contents of a remote branch in your local repo, super useful for code
+reviewing.
+
 gitz can guess what the reference branch and remote origin are, and for
 nearly all projects this will be correct, or this can be specified at the
 command line, per project, or through environment variables - see ``git gitz``
@@ -61,7 +74,7 @@ for more details.
 MOVIE
 =====
 
-.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-new.svg?sanitize=true
+.. figure:: https://raw.githubusercontent.com/rec/gitz/git-add-improvements/doc/movies/git-new.svg?sanitize=true
     :align: center
     :alt: git-new.svg
 

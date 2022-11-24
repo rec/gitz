@@ -1,4 +1,4 @@
-.TH GIT-ROT 1 "07 November, 2020" "Gitz 0.11.2" "Gitz Manual"
+.TH GIT-ROT 1 "24 November, 2022" "Gitz 1.3.0" "Gitz Manual"
 
 .SH NAME
 git-rot - Rotate through branches in a Git repository
@@ -7,7 +7,7 @@ git-rot - Rotate through branches in a Git repository
 .sp
 .nf
 .ft C
-git rot [-h] [-q] [-v] [-n] [steps]
+git rot [-h] [-q] [-v] [-n] [rotate]
 .ft P
 .fi
 
@@ -25,6 +25,15 @@ and \fBgit\-rotate \-N\fP rotates N branches backward.
 \fBgit\-rotate \-\fP rotates one branch backward.
 
 .sp
+If N is a string, \fBgit\-rotate <prefix>\fP rotates through all branches
+starting with that string.
+
+.sp
+\fBgit\-rotate ma\fP will rotate through all branches starting with ma
+
+.sp
+
+.sp
 Useful for quickly browsing each branch in a repository one at a time.
 
 .SH OPTIONS
@@ -37,7 +46,7 @@ Useful for quickly browsing each branch in a repository one at a time.
 \fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 
 
-\fBsteps\fP: Number of steps to rotate (positive or negative)
+\fBrotate\fP: Number of steps to rotate (positive or negative), or a string prefix to match.
 
 
 .SH EXAMPLES
