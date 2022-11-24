@@ -33,7 +33,7 @@ using the argument to -s/--squash as the commit message.
 MOVIE
 =====
 
-.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-multi-pick.svg?sanitize=true
+.. figure:: https://raw.githubusercontent.com/rec/gitz/git-add-improvements/doc/movies/git-multi-pick.svg?sanitize=true
     :align: center
     :alt: git-multi-pick.svg
 

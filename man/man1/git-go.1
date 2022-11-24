@@ -1,4 +1,4 @@
-.TH GIT-GO 1 "07 November, 2020" "Gitz 0.11.2" "Gitz Manual"
+.TH GIT-GO 1 "24 November, 2022" "Gitz 1.3.0" "Gitz Manual"
 
 .SH NAME
 git-go - Open a browser page for the current repo
@@ -7,7 +7,7 @@ git-go - Open a browser page for the current repo
 .sp
 .nf
 .ft C
-git go [-h] [-q] [-v] [-n] [cmd]
+git go [-h] [-q] [-v] [--count COUNT] [-n] [cmd] [files [files ...]]
 .ft P
 .fi
 
@@ -22,22 +22,34 @@ Usage:
 where <location> is one or more letters from:
 
 .sp
+* between: open *all* commits between HEAD and main or master
+
+.sp
 * commits: the list of commits for the current branch (the default)
 
 .sp
 * directory: the subdirectory in the current branch
 
 .sp
-* issues: the issues page
+* files : open the source for specific files
 
 .sp
-* project: the root directory for the project
+* history: open *multiple* historical versions of a file
+
+.sp
+* issues: the issues page
 
 .sp
 * new_releases: a form to create new releases
 
 .sp
+* pull: open the form for a pull request
+
+.sp
 * releases: a list of existing releases
+
+.sp
+* source: the root directory for the branch
 
 .sp
 * travis: the Travis page for that repo
@@ -49,12 +61,16 @@ where <location> is one or more letters from:
 
 \fB\-v, \-\-verbose\fP: Report all messages in great detail
 
+\fB\-\-count COUNT, \-c COUNT\fP: Count of versions to display, 0 means all (for \fBgit open history\fP)
+
 \fB\-n, \-\-no\-run\fP: If set, commands will be printed but not executed
 
 
-\fBcmd\fP: Command to execute \- choose from commits directory issues project new_releases
+\fBcmd\fP: Command to execute \- choose from between commits directory files history issues
 
-\fBreleases\fP: travis
+\fBnew_releases\fP: pulls releases source travis
+
+\fBfiles\fP: Zero or more files (for \fBgit open file\fP or \fBhistory\fP)
 
 
 .SH EXAMPLES

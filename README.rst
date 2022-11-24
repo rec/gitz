@@ -105,7 +105,7 @@ Informational commands that don't change your repository
 
 `git infer <doc/git-infer.rst>`_
   Commit changes with an automatically generated message
-
+  
   (from https://github.com/moondewio/git-infer)
 
 `git multi-pick <doc/git-multi-pick.rst>`_
@@ -125,7 +125,7 @@ Informational commands that don't change your repository
 
 `git when <doc/git-when.rst>`_
   For each file, show the most recent commit that changed it.
-
+  
   Dotfiles are ignored by default.
 
 Dangerous commands that delete, rename or overwrite branches

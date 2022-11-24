@@ -30,12 +30,14 @@ Delete each branch specified together with its remote branch.
 By default, branches named `main`, `master` and `develop` are protected,
 which means they cannot be deleted.
 
-Using the --all/-a flag allows protected branches to be deleted.
+Using the --protected/-p flag allows protected branches to be deleted.
 
 It's also possible to change which branches are protected by setting
 the environment variable GITZ_PROTECTED_BRANCHES to a list of
 branches separated by colons, or to an empty string to turn off
 protection entirely.
+
+The special branch name `.` means the current branch.
 
 DANGER
 ======
@@ -45,7 +47,7 @@ Deletes remote branches!
 MOVIE
 =====
 
-.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-delete.svg?sanitize=true
+.. figure:: https://raw.githubusercontent.com/rec/gitz/git-add-improvements/doc/movies/git-delete.svg?sanitize=true
     :align: center
     :alt: git-delete.svg
 

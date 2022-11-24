@@ -6,7 +6,7 @@ USAGE
 
 .. code-block:: bash
 
-    git update [-h] [-q] [-v] [-f] [-r REFERENCE_BRANCH] [-n] [branches]
+    git update [-h] [-q] [-v] [-f] [-r REFERENCE_BRANCH] [-n] [branches [branches ...]]
 
 Positional arguments
   ``branches``: A list of branches to update - default is all branches
@@ -43,7 +43,7 @@ Rewrites history!
 MOVIE
 =====
 
-.. figure:: https://raw.githubusercontent.com/rec/gitz/master/doc/movies/git-update.svg?sanitize=true
+.. figure:: https://raw.githubusercontent.com/rec/gitz/git-add-improvements/doc/movies/git-update.svg?sanitize=true
     :align: center
     :alt: git-update.svg
 
