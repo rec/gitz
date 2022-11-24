@@ -105,7 +105,11 @@ def git_go():
         path = '' if path == '.' else '/' + path
 
     if '{up}' in url:
-        upstream = _get_remote('upstream')
+        try:
+            upstream = _get_remote('upstream')
+        except Exception:
+            upstream = _get_remote('origin')
+
         up = upstream and upstream[2] or user
 
     url = url.format(**locals())
