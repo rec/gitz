@@ -73,7 +73,9 @@ def git_new():
         ARGS.reference_branch = ARGS.branches[0]
         _, _, ARGS.branches[0] = ARGS.reference_branch.partition('/')
         if not ARGS.branches[0]:
-            PROGRAM.exit('--duplicate requires a branch with a slash')
+            _, _, ARGS.branches[0] = ARGS.reference_branch.partition(':')
+            if not ARGS.branches[0]:
+                PROGRAM.exit('--duplicate requires a branch with a slash')
 
     branches = functions.branches()
     remote_branches = functions.remote_branches()
