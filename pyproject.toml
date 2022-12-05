@@ -13,6 +13,26 @@ readme = "README.rst"
 [tool.poetry.dependencies]
 python = "^3.7"
 
+[tool.poetry.scripts]
+git-adjust = {reference="git-adjust", type="file"}
+git-copy = {reference="git-copy", type="file"}
+git-delete = {reference="git-delete", type="file"}
+git-for-each = {reference="git-for-each", type="file"}
+git-gitz = {reference="git-gitz", type="file"}
+git-go = {reference="git-go", type="file"}
+git-infer = {reference="git-infer", type="file"}
+git-multi-pick = {reference="git-multi-pick", type="file"}
+git-new = {reference="git-new", type="file"}
+git-permute = {reference="git-permute", type="file"}
+git-rename = {reference="git-rename", type="file"}
+git-rot = {reference="git-rot", type="file"}
+git-save = {reference="git-save", type="file"}
+git-split = {reference="git-split", type="file"}
+git-st = {reference="git-st", type="file"}
+git-stripe = {reference="git-stripe", type="file"}
+git-update = {reference="git-update", type="file"}
+git-when = {reference="git-when", type="file"}
+
 [tool.poetry.group.dev.dependencies]
 black = "^22.10.0"
 flake8 = "^5.0.4"
