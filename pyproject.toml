@@ -6,7 +6,7 @@ target-version = ['py37']
 [tool.poetry]
 name = "gitz"
 version = "1.4.1"
-description = "🗜 gitz - tiny useful git commands, some dangerous 🗜"
+description = "🗜 Tiny useful git commands, some dangerous 🗜"
 authors = ["Tom Ritchford <tom@swirly.com>"]
 readme = "README.rst"
 
