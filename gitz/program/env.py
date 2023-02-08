@@ -7,7 +7,7 @@ CONFIG_FILE = '.gitz.json'
 
 class Env:
     DEFAULTS = {
-        'PROTECTED_BRANCHES': 'develop:main:master',
+        'PROTECTED_BRANCHES': 'develop:main:master:gh-pages',
         'REFERENCE_BRANCHES': 'develop:main:master',
         'ORIGIN': 'origin',
         'UPSTREAM': 'upstream:origin',

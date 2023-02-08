@@ -54,9 +54,14 @@ def git_update():
 
         branches = [b for b in branches if b not in protected_branches]
 
-        if not branches:
-            PROGRAM.message('No branches to update')
-            return
+    try:
+        branches.remove('gh-pages')
+    except ValueError:
+        pass
+
+    if not branches:
+        PROGRAM.message('No branches to update')
+        return
 
     starting_branch = functions.branch_name()
     failed = []
