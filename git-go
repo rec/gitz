@@ -226,8 +226,8 @@ def _get_remote(name):
     origin = origin[len(prefix) :]
     host, user, project_git = origin.replace(':', '/').split('/')
     host_name, *_ = host.split('.')
-    project, g = project_git.split('.')
-    assert g == 'git'
+    project, g = project_git.rsplit('.', maxsplit=1)
+    assert g == 'git', g
 
     return host, host_name, user, project
 
