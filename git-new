@@ -71,11 +71,18 @@ def git_new():
         if len(ARGS.branches) > 1:
             PROGRAM.exit('Cannot --duplicate multiple branches')
         ARGS.reference_branch = ARGS.branches[0]
-        _, _, ARGS.branches[0] = ARGS.reference_branch.partition('/')
-        if not ARGS.branches[0]:
-            _, _, ARGS.branches[0] = ARGS.reference_branch.partition(':')
+
+        remote, _, rest = ARGS.reference_branch.partition(':')
+        if rest:
+            ARGS.branches[0] = rest
+            ARGS.reference_branch = f'{remote}/{rest}'
+
+        else:
+            _, _, ARGS.branches[0] = ARGS.reference_branch.partition('/')
             if not ARGS.branches[0]:
-                PROGRAM.exit('--duplicate requires a branch with a slash')
+                _, _, ARGS.branches[0] = ARGS.reference_branch.partition(':')
+                if not ARGS.branches[0]:
+                    PROGRAM.exit('--duplicate requires a branch with a slash')
 
     branches = functions.branches()
     remote_branches = functions.remote_branches()

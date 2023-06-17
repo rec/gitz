@@ -66,8 +66,9 @@ def remote_branches(must_fetch=True):
 
     result = {}
     for rb in branches('-r'):
-        remote, branch = rb.split('/', maxsplit=1)
-        result.setdefault(remote, []).append(branch)
+        remote, *branch = rb.split('/', maxsplit=1)
+        if branch:
+            result.setdefault(remote, []).append(branch[0])
     return result
 
 
