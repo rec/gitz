@@ -123,6 +123,9 @@ def git_go():
     elif cmd == 'files':
         urls = _files(url)
 
+    elif cmd == 'issues':
+        urls = ['/'.join((url, *ARGS.files))]
+
     else:
         urls = [url]
 
