@@ -12,6 +12,7 @@ readme = "README.rst"
 
 [tool.poetry.dependencies]
 python = ">=3.8"
+coverage = "^7.3.2"
 
 [tool.poetry.scripts]
 git-adjust = {reference="git-adjust", type="file"}
