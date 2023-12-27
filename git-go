@@ -36,7 +36,7 @@ where <location> is one or more letters from:
 
 * source: the root directory for the branch
 
-* travis: the Travis page for that repo
+* top: open the topmost commit in the current branch as a diff
 """
 
 EXAMPLES = """
@@ -61,7 +61,7 @@ GITHUB = {
     ),
     'releases': 'https://{host}/{user}/{project}/releases',
     'source': 'https://{host}/{user}/{project}/tree/{branch}',
-    'travis': 'https://travis-ci.com/{host_name}/{user}/{project}',
+    'top': 'https://{host}/{user}/{project}/commit/{{commit_id}}',
 }
 
 
@@ -131,6 +131,9 @@ def git_go():
 
     elif cmd == 'milestone':
         urls = ['/'.join((url + 's' * (not ARGS.files), *ARGS.files))]
+
+    elif cmd == 'top':
+        urls = _top(url)
 
     else:
         urls = [url]
@@ -206,6 +209,10 @@ def _history(url):
             name = f'HEAD@{index}' if index else 'HEAD'
             PROGRAM.log.message(f'Opening {commit_id} ({name})')
             yield url.format(**locals())
+
+
+def _top(url):
+    yield url.format(commit_id=_commits()[0])
 
 
 def _commits_message(r, message):
