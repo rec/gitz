@@ -9,6 +9,8 @@ version = "1.7.0"
 description = "🗜 Tiny useful git commands, some dangerous 🗜"
 authors = ["Tom Ritchford <tom@swirly.com>"]
 readme = "README.rst"
+repository = "https://github.com/rec/gitz"
+homepage = "https://github.com/rec/gitz"
 
 [tool.poetry.dependencies]
 python = ">=3.8"
