@@ -32,7 +32,7 @@ git-update = {reference="git-update", type="file"}
 git-when = {reference="git-when", type="file"}
 
 [tool.poetry.group.dev.dependencies]
-black = "^22.10.0"
+black = ">=22.10,<25.0"
 flake8 = "^5.0.4"
 impall = "^1.1.1"
 pytest = "^7.2.0"
