@@ -48,7 +48,7 @@ Branch foo:
   44dac6b one.txt
   c0d1dbb 0
 
-Branch master:
+Branch main:
   44dac6b one.txt
   c0d1dbb 0
 """

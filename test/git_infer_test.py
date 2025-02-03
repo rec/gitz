@@ -17,7 +17,7 @@ class GitInferTest(unittest.TestCase):
             GIT.infer()
         actual = GIT.infer('-av')
         expected = [
-            '[master 72515ed] Modify 0',
+            '[main 72515ed] Modify 0',
             ' 1 file changed, 1 insertion(+), 1 deletion(-)',
         ]
         self.assertEqual(actual, expected)
@@ -29,7 +29,7 @@ class GitInferTest(unittest.TestCase):
         GIT.add('1')
         actual = GIT.infer()
         expected = [
-            '[master 0ae685e] Add 1',
+            '[main 0ae685e] Add 1',
             ' 1 file changed, 1 insertion(+)',
             ' create mode 100644 1',
         ]
@@ -41,7 +41,7 @@ class GitInferTest(unittest.TestCase):
         os.remove('0')
         actual = GIT.infer('-av')
         expected = [
-            '[master 1d56dde] Remove 0',
+            '[main 1d56dde] Remove 0',
             ' 1 file changed, 1 deletion(-)',
             ' delete mode 100644 0',
         ]
@@ -52,7 +52,7 @@ class GitInferTest(unittest.TestCase):
         GIT.mv('0', '1')
         actual = GIT.infer('-v')
         expected = [
-            '[master e147e06] Rename 0 -> 1',
+            '[main e147e06] Rename 0 -> 1',
             ' 1 file changed, 0 insertions(+), 0 deletions(-)',
             ' rename 0 => 1 (100%)',
         ]
@@ -74,7 +74,7 @@ class GitInferTest(unittest.TestCase):
 
         actual = GIT.infer('-v')
         expected = [
-            '[master e80d1bc] Several changes',
+            '[main e80d1bc] Several changes',
             ' 3 files changed, 2 insertions(+), 1 deletion(-)',
             ' rename 0 => 3 (100%)',
             ' create mode 100644 4',

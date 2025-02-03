@@ -9,12 +9,12 @@ class GitUpdateTest(unittest.TestCase):
         first = repo.make_one_commit('file.txt', ORIGINAL, 'original')
         self.assertEqual(first, '28da9aa')
 
-        second = repo.make_one_commit('file.txt', DELTA3, 'master!')
+        second = repo.make_one_commit('file.txt', DELTA3, 'main!')
         self.assertEqual(second, 'd1b2fc8')
 
-        GIT.push('--set-upstream', 'upstream', 'master')
+        GIT.push('--set-upstream', 'upstream', 'main')
         GIT.reset('--hard', 'HEAD~')
-        GIT.push('--set-upstream', 'origin', 'master')
+        GIT.push('--set-upstream', 'origin', 'main')
 
         # No conflicts
         GIT.new('one')
@@ -36,7 +36,7 @@ class GitUpdateTest(unittest.TestCase):
         GIT.new('four')
         repo.make_one_commit('file.txt', 'four', 'four')
 
-        GIT.checkout('master')
+        GIT.checkout('main')
         GIT.update('-v')
 
         lines = [first + ' original', 'c0d1dbb 0']
@@ -46,12 +46,12 @@ class GitUpdateTest(unittest.TestCase):
             expected = list(items) + lines
             self.assertEqual(expected, actual)
 
-        test('master')
-        test('origin/master')
+        test('main')
+        test('origin/main')
 
-        lines.insert(0, second + ' master!')
+        lines.insert(0, second + ' main!')
 
-        test('upstream/master')
+        test('upstream/main')
 
         test('one', '2b7979a one')
         test('origin/one', '2b7979a one')

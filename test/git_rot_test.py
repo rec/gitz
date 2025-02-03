@@ -21,7 +21,7 @@ class GitRotTest(unittest.TestCase):
         self.assertEqual(functions.branch_name(), 'C')
 
         GIT.rot('-v')
-        self.assertEqual(functions.branch_name(), 'master')
+        self.assertEqual(functions.branch_name(), 'main')
 
         GIT.rot('-v')
         self.assertEqual(functions.branch_name(), 'A')

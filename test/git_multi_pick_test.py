@@ -26,7 +26,7 @@ class GitMultiPickTest(unittest.TestCase):
         five = repo.make_commit('5')
         repo.make_commit('6')
 
-        GIT.checkout('master')
+        GIT.checkout('main')
         GIT.multi_pick('-v', three, five, *args)
         files = sorted(i for i in os.listdir() if not i.startswith('.'))
         self.assertEqual(files, ['0', '3', '5'])

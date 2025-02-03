@@ -17,14 +17,14 @@ class GitDeleteTest(unittest.TestCase):
 
         actual = functions.branches('-r')
         expected = [
-            'origin/master',
+            'origin/main',
             'origin/one',
             'origin/two',
-            'upstream/master',
+            'upstream/main',
         ]
         self.assertEqual(actual, expected)
 
         GIT.delete('one', 'two', '-v')
         actual = functions.branches('-r')
-        expected = ['origin/master', 'upstream/master']
+        expected = ['origin/main', 'upstream/main']
         self.assertEqual(actual, expected)

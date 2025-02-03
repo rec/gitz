@@ -28,8 +28,8 @@ class RepoTest(unittest.TestCase):
         expected = [
             'bar/working',
             'foo/working',
-            'origin/master',
-            'upstream/master',
+            'origin/main',
+            'upstream/main',
         ]
         self.assertEqual(actual, expected)
         self.assertEqual('efc4ce6', repo.make_commit('three.txt'))
