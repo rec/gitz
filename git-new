@@ -85,8 +85,12 @@ def git_new():
                     PROGRAM.exit('--duplicate requires a branch with a slash')
 
     branches = functions.branches()
-    remote_branches = functions.remote_branches()
-    origin = guess_origin.guess_origin(ARGS.origin)
+    remote_branches = functions.remote_branches(must_fetch=False)
+    if ARGS.origin:
+        origin = guess_origin.guess_origin(ARGS.origin)
+    else:
+        origin = 'origin'
+
     origin_branches = remote_branches[origin]
     overwrites = (set(branches) | set(origin)) & set(ARGS.branches)
     if overwrites:
@@ -135,6 +139,7 @@ def add_arguments(parser):
     add('-c', '--cherry-pick', default='', help=_HELP_CHERRY_PICK)
     add('-d', '--duplicate', action='store_true', help=_HELP_DUPLICATE)
     add('-o', '--origin', default='', help=_HELP_ORIGIN)
+    # add('-r', '--raw', action='store_true', help=_HELP_RAW)
     add('-s', '--stash', action='store_true', help=_HELP_STASH)
     add('-u', '--use-head', action='store_true', help=_HELP_USE_HEAD)
     reference_branch.add_arguments(parser)
@@ -143,6 +148,7 @@ def add_arguments(parser):
 _HELP_CHERRY_PICK = 'Name a commit to cherry pick into the new branch'
 _HELP_ORIGIN = 'Remote origin to push to'
 _HELP_DUPLICATE = 'Duplicate a branch in a remote repo into this repo'
+# _HELP_RAW = 'Do not guess any branches, just use origin/main'
 _HELP_STASH = 'Stash existing changes before creating then unstash'
 _HELP_USE_HEAD = 'Use HEAD and not reference branch'
 
