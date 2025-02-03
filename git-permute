@@ -5,6 +5,7 @@ from gitz.git import functions
 from gitz.git import root
 from gitz.program import ARGS
 from gitz.program import PROGRAM
+from typing import Iterator
 
 SUMMARY = 'Reorder and delete commits in the current branch'
 
@@ -45,7 +46,38 @@ git permute edcg --squash='My message'
 git permute 5437 -s "My message"
     Same as the previous command, but squashes the three commits into
     one with the commit message 'My message'
+
+NEW:
+
+git permute a+b  Same as old style git permute ab -s, using commit message of b
+git permute a-b Like git permute -s but uses commit message of a
+git permute a+b-c  Uses commit message of b
+git permute a-b+c. Uses commit message of a; or, illegal?
+
 """
+
+def segments(s: str) -> Iterator[str]:
+    stack = ""
+    for i in s:
+        if i not in "+-" and stack and stack[-1] not in "+-":
+            yield stack
+            stack = ""
+        stack += i
+    if stack:
+        yield stack
+
+
+def segment_to_commits(segment: str) -> str:
+    "a+b-c+d"
+    assert len(segment) % 2 == 1, segment
+    segment += "-"
+    name, sign = zip(*(segment[i:i + 2] for i in range(0, len(segment), 2)))
+    return "".join(name), sign.index("-")
+
+
+def segments_to_commits(s):
+    for seg in segments(s):
+        yield segment_to_commits(seg)
 
 
 def git_permute():
