@@ -30,34 +30,28 @@ def combine(commits, squash: Union[None, str]):
         yield '+', commit_id, msg
 
 
-def permutation(perm, squash=None):
+def permutation(perm):
     if len(perm) != len(set(perm)):
         raise ValueError('"%s" has repeating symbols' % perm)
 
-    if perm.isnumeric():
-        base = '0'
-
-    elif not perm.isalpha():
+    if not perm.isalpha():
         raise ValueError('Perm must be alphabetic')
 
-    elif not perm.islower():
+    if not perm.islower():
         raise ValueError('Perm must be lowercase')
 
-    else:
-        base = 'a'
-
-    result = [ord(i) - ord(base) for i in perm]
+    result = [ord(i) - ord('a') for i in perm]
     result.append(max(result) + 1)
-
-    if squash is None:
-        while result:
-            previous = -1 if len(result) < 2 else result[-2]
-            if result[-1] - previous == 1:
-                result.pop()
-            else:
-                break
-
     return result
+
+
+def clear_unchanged(perm):
+    while perm:
+        previous = -1 if len(perm) < 2 else perm[-2]
+        if perm[-1] - previous == 1:
+            perm.pop()
+        else:
+            break
 
 
 def add_arguments(parser):

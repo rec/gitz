@@ -21,5 +21,8 @@ def segment_to_commits(segment: str) -> str:
 
 
 def segments_to_commits(s):
-    for seg in segments(s):
-        yield segment_to_commits(seg)
+    yield from (segment_to_commits(seg) for seg in segments(s))
+
+
+def commit_segments(s):
+    return [i[0] for i in segments_to_commits(s)]

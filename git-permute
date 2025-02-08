@@ -1,10 +1,6 @@
 #!/usr/bin/env python3
-from gitz.git import GIT
-from gitz.git import combine
-from gitz.git import functions
-from gitz.git import root
-from gitz.program import ARGS
-from gitz.program import PROGRAM
+from gitz.git import GIT, combine, functions, root, ARGS, PROGRAM
+from gitz.git.commit_segments import commit_segments
 from typing import Iterator
 
 SUMMARY = 'Reorder and delete commits in the current branch'
@@ -50,7 +46,7 @@ git permute 5437 -s "My message"
 NEW:
 
 git permute a+b  Same as old style git permute ab -s, using commit message of b
-git permute a-b Like git permute -s but uses commit message of a
+git permute a-b Like git permute -s but uses commit message of a  # TODO:
 git permute a+b-c  Uses commit message of b
 git permute a-b+c. Uses commit message of a; or, illegal?
 
@@ -66,7 +62,15 @@ def git_permute():
             return True
 
     root.check_clean_workspace()
+
+    commits = commit_segments(ARGS.permutation)
+    if ARGS.squash and len(commits) > 1:
+        PROGRAM.error("-s doesn't work with new a+b notation")
+
+
     perm = combine.permutation(ARGS.permutation, ARGS.squash)
+    if not ARGS.squash and len(commits) == 1:
+        combine.clear_unchanged(perm)
 
     if not perm:
         PROGRAM.message('No change')
