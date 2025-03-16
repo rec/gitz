@@ -18,8 +18,9 @@ operating system.
 
 How to install
 ==============
+There are two steps for this:
 
-Use `pip <https://pypi.org/project/pip/>`_:
+1. Use `pip <https://pypi.org/project/pip/>`_:
 
 .. code-block:: bash
 
@@ -27,7 +28,8 @@ Use `pip <https://pypi.org/project/pip/>`_:
 
 Or simply download
 `this directory <https://github.com/rec/gitz/zipball/master/>`_
-and make sure it's in your shell's ``PATH`` - gitz has no
+
+2. Make sure the path to your pip installation of Gitz or the downloaded directory is in your shell's ``PATH`` - gitz has no
 external dependencies.
 
 
