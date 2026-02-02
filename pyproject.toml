@@ -23,14 +23,16 @@ Repository = "https://github.com/rec/gitz"
 
 [dependency-groups]
 dev = [
-    "black>=22.10,<25.0",
-    "flake8>=5.0.4,<6",
     "impall>=1.1.1,<2",
     "pytest>=7.2.0,<8",
     "pytest-xdist>=3.0.2,<4",
     "safer>=4.4.1,<5",
     "termtosvg>=1.1.0,<2",
     "asciinema>=2.2.0,<3",
+    "coverage>=7.4.1",
+    "pyupgrade>=3.21.2",
+    "ruff>=0.14.14",
+    "ty>=0.0.14",
 ]
 
 [tool.uv]
@@ -38,6 +40,14 @@ dev = [
 [tool.uv.build-backend]
 module-root = ""
 
+
+[tool.coverage]
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+skip_covered = true
+exclude_lines = ["pragma: no cover", "if False:", "if __name__ == .__main__.:", "raise NotImplementedError"]
 [build-system]
 requires = ["uv_build>=0.9.0,<0.10.0"]
 build-backend = "uv_build"
