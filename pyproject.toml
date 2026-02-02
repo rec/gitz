@@ -5,16 +5,7 @@ description = "🗜 Tiny useful git commands, some dangerous 🗜"
 authors = [{ name = "Tom Ritchford", email = "tom@swirly.com" }]
 requires-python = ">=3.10"
 readme = "README.rst"
-classifiers = [
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.8",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-    "Programming Language :: Python :: 3.13",
-    "Programming Language :: Python :: 3.14",
-]
+classifiers = ["Programming Language :: Python :: 3", "Programming Language :: Python :: 3.10", "Programming Language :: Python :: 3.11", "Programming Language :: Python :: 3.12", "Programming Language :: Python :: 3.13", "Programming Language :: Python :: 3.14"]
 dependencies = ["coverage>=7.3.2,<8"]
 
 [project.urls]
@@ -53,5 +44,3 @@ requires = ["uv_build>=0.9.0,<0.10.0"]
 build-backend = "uv_build"
 
 
-[tool.mypy]
-strict = true
