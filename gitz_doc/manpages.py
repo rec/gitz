@@ -80,8 +80,7 @@ class Manpage:
 
     def _argument(self, word, rest):
         self._print(
-            r'%s%s%s: %s'
-            % (clean_manpage.START, word, clean_manpage.END, rest)
+            r'%s%s%s: %s' % (clean_manpage.START, word, clean_manpage.END, rest)
         )
         self._print()
 

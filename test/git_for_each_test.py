@@ -33,9 +33,7 @@ Directory {0}/data/bar:
 
 Directory {0}/data/foo:
   three.txt
-""".format(
-    str(Path(__file__).parent)
-)
+""".format(str(Path(__file__).parent))
 
 _BRANCHES = """\
 Branch bar:

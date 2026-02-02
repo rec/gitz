@@ -39,6 +39,9 @@ branch = true
 [tool.coverage.report]
 skip_covered = true
 exclude_lines = ["pragma: no cover", "if False:", "if __name__ == .__main__.:", "raise NotImplementedError"]
+
+[tool.ruff.format]
+quote-style = "single"
 [build-system]
 requires = ["uv_build>=0.9.0,<0.10.0"]
 build-backend = "uv_build"

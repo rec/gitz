@@ -30,7 +30,7 @@ ERRORS = {
     'm': 'nhjk, ',
     'n': 'bghjm ',
     'o': 'oikl;p',
-    'p': 'ol;\'[-',
+    'p': "ol;'[-",
     'q': 'wa',
     'r': 'edfgt',
     's': 'aqwedcxz',

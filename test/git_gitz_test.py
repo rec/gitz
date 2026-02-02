@@ -55,9 +55,7 @@ class GitGitzTest(unittest.TestCase):
 
     @repo.test
     def test_executable_directory(self):
-        result = {
-            GIT.gitz(d, '-v')[0] for d in ('e', 'exec', 'executable_directory')
-        }
+        result = {GIT.gitz(d, '-v')[0] for d in ('e', 'exec', 'executable_directory')}
         self.assertEqual(len(result), 1)
         result = next(iter(result))
         self.assertTrue((Path(result) / 'git-gitz').exists())
@@ -65,9 +63,7 @@ class GitGitzTest(unittest.TestCase):
     @repo.test
     def test_library_directory(self):
         for d in 'l', 'libr', 'library_directory':
-            self.assertEqual(
-                GIT.gitz(d, '-v'), [str(config.LIBRARY_DIRECTORY)]
-            )
+            self.assertEqual(GIT.gitz(d, '-v'), [str(config.LIBRARY_DIRECTORY)])
 
     @repo.test
     def test_defaults(self):

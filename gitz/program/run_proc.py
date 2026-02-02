@@ -12,8 +12,6 @@ class RunProcError(ValueError):
     pass
 
 
-
-
 def run_proc(cmd, out=None, err=None, **kwds):
     """Run a subprocess with separate error and output callbacks"""
     out = [] if out is None else out

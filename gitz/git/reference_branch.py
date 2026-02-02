@@ -14,9 +14,7 @@ def reference_branch(remote_branches=None):
 
         branch = rest[0]
         if branch not in remote_branches[remote]:
-            PROGRAM.exit(
-                'Unknown reference branch', branch, 'in remote', remote
-            )
+            PROGRAM.exit('Unknown reference branch', branch, 'in remote', remote)
         return remote, branch
 
     branches = [remote] if remote else ENV.reference_branches()

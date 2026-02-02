@@ -83,7 +83,7 @@ MESSAGES = {
 
 
 PRE = {
-    'safe': 'Informational commands that don\'t change your repository',
+    'safe': "Informational commands that don't change your repository",
     'history': """\
 Slice, dice, shuffle and split your commits.
 
