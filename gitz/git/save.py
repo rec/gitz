@@ -1,9 +1,8 @@
-from . import GIT
-from . import functions
-from . import root
-from pathlib import Path
 import datetime
 import os
+from pathlib import Path
+
+from . import GIT, functions, root
 
 NONE, STAGED, CHANGED, UNTRACKED = 'none', 'staged', 'changed', 'untracked'
 PREFIX = '_gitz_'
@@ -16,7 +15,7 @@ def save(untracked=False, stash=True):
 
     def commit(flag, name):
         try:
-            GIT.commit(flag, '%s%s: %s' % (PREFIX, name, timestamp))
+            GIT.commit(flag, '{}{}: {}'.format(PREFIX, name, timestamp))
         except Exception:
             pass
 

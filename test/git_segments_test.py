@@ -1,5 +1,6 @@
-from gitz.git.commit_segments import segments_to_commits
 import unittest
+
+from gitz.git.commit_segments import segments_to_commits
 
 
 class GitSegmentsTest(unittest.TestCase):

@@ -1,6 +1,7 @@
+import unittest
+
 from gitz.git import repo
 from gitz.program import runner
-import unittest
 
 
 class RunnerTest(unittest.TestCase):

@@ -1,5 +1,6 @@
-from . import run_proc
 import functools
+
+from . import run_proc
 
 OUT = '>'
 ERR = '!'

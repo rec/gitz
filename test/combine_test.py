@@ -1,5 +1,6 @@
-from gitz.git import combine
 import unittest
+
+from gitz.git import combine
 
 
 class ShuffleTest(unittest.TestCase):

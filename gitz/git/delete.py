@@ -1,14 +1,12 @@
-from . import GIT
-from . import functions
-from . import guess_origin
 from ..program import PROGRAM
+from . import GIT, functions, guess_origin
 
 
 def delete_remote_branch(remote, branch):
-    rbranch = '%s/%s' % (remote, branch)
+    rbranch = '{}/{}'.format(remote, branch)
     cid, cmsg = functions.commit_message(rbranch)
     GIT.push(remote, ':refs/heads/' + branch)
-    PROGRAM.message('- %s@%s: %s' % (rbranch, cid, cmsg))
+    PROGRAM.message('- {}@{}: {}'.format(rbranch, cid, cmsg))
 
 
 def delete_all(branches):
@@ -63,7 +61,7 @@ def delete_all(branches):
     if local_branches:
         for branch in local_branches:
             cid, cmsg = functions.commit_message(branch)
-            PROGRAM.message('- %s@%s: %s' % (branch, cid, cmsg))
+            PROGRAM.message('- {}@{}: {}'.format(branch, cid, cmsg))
             deleted_count += 1
         GIT.branch('-D', *local_branches)
 

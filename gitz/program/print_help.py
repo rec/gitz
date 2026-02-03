@@ -25,7 +25,7 @@ def print_help(program, context, parser):
         fmt[f] = value
 
     if fmt['danger']:
-        fmt['danger'] = 'DANGER\n%s%s\n\n' % (INDENT, fmt['danger'])
+        fmt['danger'] = 'DANGER\n{}{}\n\n'.format(INDENT, fmt['danger'])
 
     if fmt['summary'] and fmt['examples']:
         print(HELP.format(**fmt))

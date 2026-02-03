@@ -1,11 +1,12 @@
-from . import GIT
 import re
 from typing import Union
+
+from . import GIT
 
 COMMIT_MSG_RE = re.compile(r'\[.* ([0-9a-z]+)\] (.*)')
 
 
-def combine(commits, squash: Union[None, str]):
+def combine(commits, squash: None | str):
     # Yields a stream of commit id, message
     symbol = '+' if squash is None else 's'
 

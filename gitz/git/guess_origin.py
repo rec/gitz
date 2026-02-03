@@ -1,5 +1,5 @@
-from . import functions
 from ..program import ENV
+from . import functions
 
 
 def guess_origin(origin=None, branch=None):
@@ -16,4 +16,4 @@ def guess_origin(origin=None, branch=None):
         rb = functions.remote_branches(False)
         return next(o for o in ENV.origin() if o in rb)
     except Exception:
-        raise ValueError('Cannot determine origin')
+        raise ValueError('Cannot determine origin') from None

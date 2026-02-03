@@ -1,6 +1,6 @@
-from . import log
-from . import print_help
 import argparse
+
+from . import log, print_help
 
 _NO_RUN_HELP = 'If set, commands will be printed but not executed'
 

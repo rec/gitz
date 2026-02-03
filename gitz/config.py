@@ -1,5 +1,5 @@
-from pathlib import Path
 import sys
+from pathlib import Path
 
 HOME_PAGE = 'https://github.com/rec/gitz/blob/master/README.rst'
 

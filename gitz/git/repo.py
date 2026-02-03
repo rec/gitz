@@ -1,10 +1,10 @@
-from . import GIT
-from . import functions
-from ..program import PROGRAM
-from tempfile import TemporaryDirectory
 import contextlib
 import functools
 import os
+from tempfile import TemporaryDirectory
+
+from ..program import PROGRAM
+from . import GIT, functions
 
 # Generate deterministic commit IDs using fixed data.  See
 # https://blog.thoughtram.io/git/2014/11/18/the-anatomy-of-a-git-commit.html

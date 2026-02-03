@@ -1,10 +1,10 @@
-from gitz import config
-from gitz.git import GIT
-from gitz.git import repo
-from gitz.program import summaries
-from pathlib import Path
 import platform
 import unittest
+from pathlib import Path
+
+from gitz import config
+from gitz.git import GIT, repo
+from gitz.program import summaries
 
 
 class GitGitzTest(unittest.TestCase):

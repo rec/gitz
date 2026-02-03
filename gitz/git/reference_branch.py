@@ -1,7 +1,5 @@
+from ..program import ARGS, ENV, PROGRAM
 from . import functions
-from ..program import ARGS
-from ..program import ENV
-from ..program import PROGRAM
 
 
 def reference_branch(remote_branches=None):

@@ -1,5 +1,6 @@
-from gitz_doc import clean_manpage
 import unittest
+
+from gitz_doc import clean_manpage
 
 
 class CleanManpageTest(unittest.TestCase):

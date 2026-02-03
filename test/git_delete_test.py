@@ -1,7 +1,6 @@
-from gitz.git import GIT
-from gitz.git import functions
-from gitz.git import repo
 import unittest
+
+from gitz.git import GIT, functions, repo
 
 
 class GitDeleteTest(unittest.TestCase):

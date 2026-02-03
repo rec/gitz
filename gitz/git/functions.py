@@ -1,5 +1,5 @@
-from . import GIT
 from ..program import ARGS, PROGRAM
+from . import GIT
 
 COMMIT_ID_LENGTH = 7
 
@@ -10,7 +10,7 @@ def _to_name(name, base='HEAD'):
     if name.startswith('~'):
         return base + name
     if name.isnumeric() and len(name) < COMMIT_ID_LENGTH:
-        return '%s~%s' % (base, name)
+        return '{}~{}'.format(base, name)
     return name
 
 

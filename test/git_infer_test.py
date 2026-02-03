@@ -1,7 +1,7 @@
-from gitz.git import GIT
-from gitz.git import repo
 import os
 import unittest
+
+from gitz.git import GIT, repo
 
 
 class GitInferTest(unittest.TestCase):

@@ -1,9 +1,5 @@
-from . import GIT
-from . import functions
-from . import root
-from ..program import ARGS
-from ..program import ENV
-from ..program import PROGRAM
+from ..program import ARGS, ENV, PROGRAM
+from . import GIT, functions, root
 
 ACTIONS = {'copy': ('copi', 'over'), 'rename': ('renam', 'from or two')}
 
@@ -106,7 +102,7 @@ class Mover:
         if self.is_rename:
             GIT.push(self.origin, ':' + self.source)
 
-        target = '%s/%s' % (self.origin, self.target)
+        target = '{}/{}'.format(self.origin, self.target)
         GIT.branch('-u', target, self.target)
         msg = '{0.Word_root}ed {0.origin}/{0.source} -> {1} [{2}]'
         cid = functions.commit_id(target)

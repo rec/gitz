@@ -1,9 +1,9 @@
-from . import parser
-from . import runner
-from pathlib import Path
 import collections
 import sys
 import traceback
+from pathlib import Path
+
+from . import parser, runner
 
 
 class _Program:
@@ -37,7 +37,7 @@ class _Program:
                 self.log.error(*line)
 
             self.log.verbose(traceback.format_exc(), file=sys.stderr)
-            self.exit('%s: %s' % (e.__class__.__name__, e))
+            self.exit('{}: {}'.format(e.__class__.__name__, e))
 
     def exit(self, *messages):
         if messages:
