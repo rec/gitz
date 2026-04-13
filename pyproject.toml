@@ -15,7 +15,7 @@ Repository = "https://github.com/rec/gitz"
 [dependency-groups]
 dev = [
     "impall>=1.1.1,<2",
-    "pytest>=7.2.0,<8",
+    "pytest>=7.2.0,<10",
     "pytest-xdist>=3.0.2,<4",
     "safer>=4.4.1,<5",
     "termtosvg>=1.1.0,<2",
